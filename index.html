@@ -566,6 +566,90 @@
     font-family: 'Space Mono', monospace;
   }
 
+  /* ── PHOTO SLIDESHOW ── */
+  .slideshow-section {
+    padding-top: 80px;
+    background: var(--bg2);
+    text-align: center;
+  }
+  .slideshow-header {
+    padding: 56px 48px 32px;
+  }
+  .slideshow-container {
+    position: relative;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    background: #000;
+    overflow: hidden;
+  }
+  .slideshow-track {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
+  }
+  .slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity .7s ease;
+  }
+  .slide.active { opacity: 1; }
+  .slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+  .slide-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background: rgba(4,4,10,.75);
+    border: 1px solid rgba(255,255,255,.15);
+    color: var(--gold);
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    cursor: pointer;
+    transition: background .2s, border-color .2s;
+    padding: 0;
+    line-height: 1;
+  }
+  .slide-btn:hover { background: rgba(212,168,67,.2); border-color: var(--gold); }
+  .slide-prev { left: 16px; }
+  .slide-next { right: 16px; }
+  .slide-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px 0 56px;
+    flex-wrap: wrap;
+  }
+  .slide-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.2);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: background .2s, transform .2s;
+  }
+  .slide-dot.active { background: var(--gold); transform: scale(1.45); }
+  .slideshow-empty {
+    display: none;
+    padding: 60px 48px;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--dim);
+    letter-spacing: .1em;
+  }
+
   /* ── SCROLLBAR ── */
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
@@ -971,6 +1055,21 @@
   </ul>
 </nav>
 
+<!-- PHOTO SLIDESHOW -->
+<section class="slideshow-section" id="screenshots">
+  <div class="slideshow-header">
+    <p class="section-tag">📸 App Screenshots</p>
+    <h2 style="font-size:clamp(36px,5vw,64px);">See It<br>Up Close</h2>
+  </div>
+  <div class="slideshow-container" id="slideshowContainer">
+    <div class="slideshow-track" id="slideshowTrack"></div>
+    <button class="slide-btn slide-prev" id="slidePrev" aria-label="Previous" style="display:none;">&#8249;</button>
+    <button class="slide-btn slide-next" id="slideNext" aria-label="Next" style="display:none;">&#8250;</button>
+  </div>
+  <div class="slide-dots" id="slideDots"></div>
+  <div class="slideshow-empty" id="slideshowEmpty">No screenshots available yet.</div>
+</section>
+
 <!-- HERO -->
 <section class="hero" style="padding:0;max-width:none;">
   <div class="hero-bg"></div>
@@ -1050,12 +1149,12 @@
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.616 5.043c.097.054.197.147.288.198a4.46 4.46 0 0 1 1.247 1.029c.832-.063 1.7-.054 2.51.21a3.83 3.83 0 0 0-1.61-.806 3.49 3.49 0 0 1 1.838-.183 3.92 3.92 0 0 0-2.13-.726c-.652-.014-1.3.13-1.901.408-.07.04-.179.054-.242-.13zM23.5 9.752a18.9 18.9 0 0 0-1.45-2.92 8.16 8.16 0 0 0-1.04-1.36 9.96 9.96 0 0 0-2.31-1.83l-.04-.18c.1-.18.21-.3.32-.34.51-.18.61-.45.32-.71-.39-.34-1.4-.53-2.61-.45-.34.02-.65.07-.93.14-.87-.55-1.84-.94-2.86-1.12-.4-.07-.81-.1-1.22-.1-1.94 0-3.85.66-5.42 1.93C5.05 3.87 4.43 4.45 3.95 5.13a13.8 13.8 0 0 0-2.18 4.71 12.43 12.43 0 0 0-.34 1.97c-.07.83-.1 1.65 0 2.48.06.69.18 1.4.4 2.06a11.9 11.9 0 0 0 2.55 4.31c1.17 1.21 2.55 2.13 4.06 2.71a13 13 0 0 0 2.79.66c.93.13 1.88.18 2.81.06 1.5-.18 2.95-.7 4.21-1.55a11.79 11.79 0 0 0 4.91-7.5c.27-1.46.27-3 .04-4.46-.16-.5-.3-.95-.5-1.4z"/></svg>
           <span class="compat-icon-name">Firefox</span>
         </span>
-        <span class="compat-icon compat-icon-more" title="Any app that publishes to Windows Media Controls">
+        <span class="compat-icon compat-icon-more" title="Any app running on your PC — select it by process in Local mode">
           <span class="compat-more-dots">+</span>
           <span class="compat-icon-name">more</span>
         </span>
       </div>
-      <p class="compat-rest-note">Anything that publishes to Windows Media Controls works through the <strong>Now Playing</strong> source &mdash; no setup, no auth.</p>
+      <p class="compat-rest-note">Select any running audio app in <strong>Local</strong> mode&rsquo;s per-process picker &mdash; or capture a mic, audio interface, or virtual cable for DJs and hardware instruments.</p>
     </div>
 
   </div>
@@ -1281,10 +1380,10 @@
       <p class="source-desc">Connect to VLC&rsquo;s web interface for transport &mdash; play, pause, skip, shuffle on/off &mdash; with album art and synced lyrics. No library browse.</p>
     </div>
     <div class="source-card" style="--c:var(--ice);">
-      <span class="tier-pill tier-basic">● Basic</span>
-      <span class="source-icon">🎙️</span>
-      <div class="source-name">Now Playing</div>
-      <p class="source-desc">Reads whatever app is currently playing music on Windows &mdash; Spotify desktop, YouTube Music, Apple Music, browser tabs, anything that publishes to Windows Media Controls. Transport works (subject to what each source app supports). No browse, no shuffle, no album art.</p>
+      <span class="tier-pill tier-basic">● Audio capture</span>
+      <span class="source-icon">🎚️</span>
+      <div class="source-name">Local</div>
+      <p class="source-desc">Two capture modes in one. <strong>Per-process:</strong> scan running audio apps and lock on to any one &mdash; Spotify, Chrome, a game, a DAW, all isolated. <strong>Device input:</strong> capture a mic, line-in, audio interface, or virtual cable (VB-Cable, Voicemeeter) for DJs, synths, and live instruments. No metadata or transport controls.</p>
     </div>
   </div>
 </section>
@@ -1334,7 +1433,7 @@
 <div class="download-section" id="download">
   <div class="download-title">Get IKANDY</div>
   <p class="download-sub">Windows 10/11 · No Subscription</p>
-  <a href="https://github.com/IKANDYapp/IKANDY/releases/latest/download/IKANDY.Setup.exe" class="btn-primary pulse" style="display:inline-flex;font-size:22px;padding:20px 56px;position:relative;">
+  <a href="https://github.com/ikandyapp/ikandyapp.github.io/releases/latest/download/IKANDY.Setup.exe" class="btn-primary pulse" style="display:inline-flex;font-size:22px;padding:20px 56px;position:relative;">
     ↓ &nbsp;Download for Windows
   </a>
   <div style="margin-top:20px;position:relative;">
@@ -1350,7 +1449,7 @@
     <a href="guide.html" style="font-family:'Space Mono',monospace;font-size:11px;color:var(--dim);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;transition:color .2s;" onmouseover="this.style.color='#d4a843'" onmouseout="this.style.color=''">
       📖 User Guide
     </a>
-    <a href="https://github.com/IKANDYapp/IKANDY" target="_blank" style="font-family:'Space Mono',monospace;font-size:11px;color:var(--dim);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;transition:color .2s;" onmouseover="this.style.color='#d4a843'" onmouseout="this.style.color=''">
+    <a href="https://github.com/ikandyapp/ikandyapp.github.io" target="_blank" style="font-family:'Space Mono',monospace;font-size:11px;color:var(--dim);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;transition:color .2s;" onmouseover="this.style.color='#d4a843'" onmouseout="this.style.color=''">
       ↗ View on GitHub
     </a>
     <a href="https://buymeacoffee.com/IKANDY" target="_blank" style="font-family:'Space Mono',monospace;font-size:11px;color:var(--dim);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;transition:color .2s;" onmouseover="this.style.color='#d4a843'" onmouseout="this.style.color=''">
@@ -1364,14 +1463,98 @@
   <div class="footer-logo">IKANDY <span class="beta-badge" style="font-size:8px;vertical-align:5px;">BETA</span></div>
   <ul class="footer-links">
     <li><a href="guide.html">User Guide</a></li>
-    <li><a href="https://github.com/IKANDYapp/IKANDY" target="_blank">GitHub</a></li>
-    <li><a href="https://github.com/IKANDYapp/IKANDY/releases" target="_blank">Releases</a></li>
+    <li><a href="https://github.com/ikandyapp/ikandyapp.github.io" target="_blank">GitHub</a></li>
+    <li><a href="https://github.com/ikandyapp/ikandyapp.github.io/releases" target="_blank">Releases</a></li>
     <li><a href="https://buymeacoffee.com/IKANDY" target="_blank">Support</a></li>
   </ul>
   <div class="footer-copy">© 2026 Felix Bag of Tricks · IKANDY.app</div>
 </footer>
-<footer style="text-align:center;padding:20px;color:#666;font-size:11px;">
-    © 2026 Kevin Gavert
+<footer style="text-align:center; padding:20px; opacity:0.7;">
+  © 2026 IKANDY — Developed by support@ikandy.app
+  <a href="mailto:support@ikandy.app">Contact</a>
 </footer>
+<script>
+(async function () {
+  const REPO = 'ikandyapp/ikandyapp.github.io';
+  const FOLDER = 'websitephotos';
+  const IMG_RE = /\.(jpe?g|png|gif|webp|avif)$/i;
+
+  const track   = document.getElementById('slideshowTrack');
+  const dotsEl  = document.getElementById('slideDots');
+  const prevBtn = document.getElementById('slidePrev');
+  const nextBtn = document.getElementById('slideNext');
+  const emptyEl = document.getElementById('slideshowEmpty');
+
+  let images  = [];
+  let current = 0;
+  let timer   = null;
+
+  try {
+    const res = await fetch(
+      'https://api.github.com/repos/' + REPO + '/contents/' + FOLDER,
+      { headers: { Accept: 'application/vnd.github+json' } }
+    );
+    if (!res.ok) throw new Error(res.status);
+    const files = await res.json();
+    images = files.filter(f => f.type === 'file' && IMG_RE.test(f.name));
+  } catch (err) {
+    console.warn('Slideshow: failed to load photos from GitHub API', err);
+  }
+
+  if (!images.length) {
+    emptyEl.style.display = 'block';
+    document.getElementById('slideshowContainer').style.display = 'none';
+    return;
+  }
+
+  images.forEach(function (img, i) {
+    var slide = document.createElement('div');
+    slide.className = 'slide' + (i === 0 ? ' active' : '');
+    var el = document.createElement('img');
+    el.src = img.download_url;
+    el.alt = img.name;
+    el.loading = i === 0 ? 'eager' : 'lazy';
+    slide.appendChild(el);
+    track.appendChild(slide);
+
+    var dot = document.createElement('button');
+    dot.className = 'slide-dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', 'Go to screenshot ' + (i + 1));
+    dot.addEventListener('click', function () { goTo(i); });
+    dotsEl.appendChild(dot);
+  });
+
+  prevBtn.style.display = '';
+  nextBtn.style.display = '';
+
+  function goTo(n) {
+    track.children[current].classList.remove('active');
+    dotsEl.children[current].classList.remove('active');
+    current = (n + images.length) % images.length;
+    track.children[current].classList.add('active');
+    dotsEl.children[current].classList.add('active');
+    resetTimer();
+  }
+
+  function resetTimer() {
+    clearInterval(timer);
+    timer = setInterval(function () { goTo(current + 1); }, 5000);
+  }
+
+  prevBtn.addEventListener('click', function () { goTo(current - 1); });
+  nextBtn.addEventListener('click', function () { goTo(current + 1); });
+
+  var container = document.getElementById('slideshowContainer');
+  container.addEventListener('mouseenter', function () { clearInterval(timer); });
+  container.addEventListener('mouseleave', resetTimer);
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft')  goTo(current - 1);
+    if (e.key === 'ArrowRight') goTo(current + 1);
+  });
+
+  resetTimer();
+})();
+</script>
 </body>
 </html>
