@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IKANDY — Visual Music</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #d4a843;
+    --neon: #ff2d8a;
+    --green: #1db954;
+    --ice: #5bc8f5;
+    --bg: #04040a;
+    --bg2: #08080f;
+    --txt: #e8e8e8;
+    --dim: rgba(255,255,255,.45);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--txt);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: .4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 48px;
+    background: rgba(0,0,0,.45);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,.06);
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: .15em;
+    color: var(--gold);
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--dim);
+    text-decoration: none;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  .beta-badge {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 3px 7px;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .15em;
+    color: var(--gold);
+    background: rgba(212,168,67,.08);
+    border: 1px solid rgba(212,168,67,.4);
+    border-radius: 3px;
+    vertical-align: 4px;
+    cursor: help;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    height: 100vh;
+    min-height: 600px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    padding: 0 48px 80px;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,.5) 0%, transparent 30%);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url("assets/screenshot.png");
+    background-size: cover;
+    background-position: center 30%;
+    transform: scale(1.05);
+    animation: slow-zoom 20s ease-in-out infinite alternate;
+  }
+
+  @keyframes slow-zoom {
+    from { transform: scale(1.05) translate(0,0); }
+    to   { transform: scale(1.12) translate(-1%, 1%); }
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(4,4,10,.3) 0%,
+      rgba(4,4,10,.1) 40%,
+      rgba(4,4,10,.8) 75%,
+      rgba(4,4,10,1)  100%
+    );
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 700px;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 16px;
+    opacity: 0;
+    animation: fade-up .8s .2s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(72px, 12vw, 140px);
+    line-height: .9;
+    letter-spacing: .04em;
+    background: linear-gradient(135deg, #fff 0%, var(--gold) 50%, var(--neon) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    opacity: 0;
+    animation: fade-up .8s .4s forwards;
+  }
+
+  .hero-sub {
+    font-size: 18px;
+    color: var(--dim);
+    margin: 20px 0 36px;
+    line-height: 1.6;
+    font-weight: 300;
+    opacity: 0;
+    animation: fade-up .8s .6s forwards;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fade-up .8s .8s forwards;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 36px;
+    background: var(--gold);
+    color: #000;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: .1em;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all .2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-primary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,.2));
+    opacity: 0;
+    transition: opacity .2s;
+  }
+
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(212,168,67,.4); }
+  .btn-primary:hover::after { opacity: 1; }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 36px;
+    border: 1px solid rgba(255,255,255,.2);
+    color: var(--txt);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: .1em;
+    text-decoration: none;
+    transition: all .2s;
+    background: rgba(255,255,255,.04);
+    backdrop-filter: blur(8px);
+  }
+  .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    display: flex;
+    gap: 0;
+    border-top: 1px solid rgba(255,255,255,.08);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    overflow-x: auto;
+  }
+
+  .stat {
+    flex: 1;
+    min-width: 160px;
+    padding: 32px 40px;
+    border-right: 1px solid rgba(255,255,255,.08);
+    text-align: center;
+  }
+  .stat:last-child { border-right: none; }
+
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    color: var(--gold);
+    letter-spacing: .05em;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin-top: 6px;
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* ── SECTION ── */
+  section {
+    padding: 120px 48px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--neon);
+    margin-bottom: 16px;
+  }
+
+  h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 6vw, 80px);
+    letter-spacing: .04em;
+    line-height: 1;
+    margin-bottom: 24px;
+  }
+
+  .lead {
+    font-size: 18px;
+    color: var(--dim);
+    line-height: 1.7;
+    max-width: 600px;
+    font-weight: 300;
+  }
+
+  /* ── SCREENSHOT FEATURE ── */
+  .feature-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    padding: 120px 48px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .feature-split.reverse { direction: rtl; }
+  .feature-split.reverse > * { direction: ltr; }
+
+  .feature-img {
+    position: relative;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .feature-img img {
+    width: 100%;
+    display: block;
+    border-radius: 2px;
+  }
+
+  .feature-img::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 3px;
+    background: linear-gradient(135deg, var(--gold), var(--neon), var(--ice));
+    z-index: -1;
+    opacity: .6;
+  }
+
+  .feature-img::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 60%, rgba(4,4,10,.8));
+    pointer-events: none;
+  }
+
+  .glow-img {
+    box-shadow:
+      0 0 60px rgba(212,168,67,.15),
+      0 0 120px rgba(255,45,138,.1);
+  }
+
+  /* ── FX GRID ── */
+  .fx-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+    margin-top: 48px;
+  }
+
+  .fx-card {
+    padding: 24px 20px;
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.02);
+    position: relative;
+    overflow: hidden;
+    transition: all .25s;
+    cursor: default;
+  }
+
+  .fx-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--c, var(--gold));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .3s;
+  }
+
+  .fx-card:hover { border-color: rgba(255,255,255,.2); background: rgba(255,255,255,.05); transform: translateY(-2px); }
+  .fx-card:hover::before { transform: scaleX(1); }
+
+  .fx-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: .08em;
+    color: var(--c, var(--gold));
+  }
+
+  .fx-desc {
+    font-size: 12px;
+    color: var(--dim);
+    margin-top: 6px;
+    line-height: 1.5;
+  }
+
+  /* ── SOURCES ── */
+  .sources-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2px;
+    margin-top: 48px;
+    background: rgba(255,255,255,.06);
+  }
+
+  .source-card {
+    background: var(--bg);
+    padding: 48px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .source-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--c);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .4s;
+  }
+
+  .source-card:hover::after { transform: scaleX(1); }
+
+  .source-icon {
+    font-size: 36px;
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .tier-pill {
+    display: inline-block;
+    padding: 4px 9px;
+    margin-bottom: 18px;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    border-radius: 2px;
+    border: 1px solid;
+  }
+  .tier-pill.tier-full  { color: var(--green); border-color: rgba(29,185,84,.45); background: rgba(29,185,84,.08); }
+  .tier-pill.tier-std   { color: #ff6b35;     border-color: rgba(255,107,53,.45); background: rgba(255,107,53,.08); }
+  .tier-pill.tier-basic { color: var(--ice);  border-color: rgba(91,200,245,.45); background: rgba(91,200,245,.08); }
+
+  .source-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    letter-spacing: .08em;
+    color: var(--c);
+    margin-bottom: 12px;
+  }
+
+  .source-desc {
+    font-size: 14px;
+    color: var(--dim);
+    line-height: 1.6;
+  }
+
+  /* ── DOWNLOAD SECTION ── */
+  .download-section {
+    background: linear-gradient(135deg, rgba(212,168,67,.08) 0%, rgba(255,45,138,.06) 100%);
+    border-top: 1px solid rgba(212,168,67,.2);
+    border-bottom: 1px solid rgba(212,168,67,.2);
+    padding: 120px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .download-section::before {
+    content: 'IKANDY';
+    position: absolute;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 30vw;
+    color: rgba(212,168,67,.03);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    pointer-events: none;
+    white-space: nowrap;
+  }
+
+  .download-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 8vw, 100px);
+    letter-spacing: .06em;
+    line-height: 1;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, var(--gold), #fff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+  }
+
+  .download-sub {
+    font-size: 16px;
+    color: var(--dim);
+    margin-bottom: 48px;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: .05em;
+    position: relative;
+  }
+
+  .download-note {
+    margin-top: 20px;
+    font-size: 12px;
+    color: rgba(255,255,255,.3);
+    font-family: 'Space Mono', monospace;
+  }
+
+  .download-note a { color: rgba(255,255,255,.4); }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255,255,255,.06);
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: .15em;
+    color: var(--gold);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+  }
+
+  .footer-links a {
+    font-size: 12px;
+    color: var(--dim);
+    text-decoration: none;
+    font-family: 'Space Mono', monospace;
+    transition: color .2s;
+  }
+  .footer-links a:hover { color: var(--gold); }
+
+  .footer-copy {
+    font-size: 11px;
+    color: rgba(255,255,255,.2);
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--gold); }
+
+  /* ── VIDEO SECTION ── */
+  .video-section {
+    padding: 120px 48px 100px;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+  }
+
+  .video-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 30% 20%, rgba(212,168,67,.06), transparent 50%),
+      radial-gradient(ellipse at 70% 80%, rgba(255,45,138,.05), transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .video-section .section-tag,
+  .video-section h2,
+  .video-section .lead {
+    position: relative;
+  }
+
+  .video-section .lead {
+    margin: 0 auto;
+  }
+
+  .video-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 1100px;
+    margin: 56px auto 0;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    box-shadow:
+      0 0 60px rgba(212,168,67,.18),
+      0 0 120px rgba(255,45,138,.1);
+  }
+
+  .video-wrap::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(135deg, var(--gold), var(--neon), var(--ice));
+    z-index: -1;
+    opacity: .6;
+  }
+
+  .video-wrap iframe {
+    width: 100%;
+    height: 100%;
+    display: block;
+    border: 0;
+    background: #000;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .hero { padding: 0 24px 60px; }
+    .feature-split { grid-template-columns: 1fr; gap: 40px; padding: 60px 24px; }
+    .feature-split.reverse { direction: ltr; }
+    .sources-grid { grid-template-columns: 1fr; }
+    section { padding: 80px 24px; }
+    footer { padding: 32px 24px; flex-direction: column; text-align: center; }
+    .stats-bar { flex-wrap: wrap; }
+    .stat { min-width: 50%; }
+  }
+
+  /* ── PULSE ANIMATION on download ── */
+  @keyframes pulse-ring {
+    0%   { box-shadow: 0 0 0 0 rgba(212,168,67,.4); }
+    70%  { box-shadow: 0 0 0 16px rgba(212,168,67,0); }
+    100% { box-shadow: 0 0 0 0 rgba(212,168,67,0); }
+  }
+  .btn-primary.pulse { animation: pulse-ring 2s infinite; }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+    gap: 24px;
+    margin-top: 56px;
+  }
+
+  .quote-card {
+    position: relative;
+    padding: 56px 48px 40px;
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.02);
+    overflow: hidden;
+    transition: border-color .25s, background .25s;
+  }
+
+  .quote-card:hover {
+    border-color: rgba(212,168,67,.3);
+    background: rgba(255,255,255,.04);
+  }
+
+  .quote-card::before {
+    content: '"';
+    position: absolute;
+    top: -30px;
+    left: 24px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 180px;
+    line-height: 1;
+    color: var(--gold);
+    opacity: .35;
+    pointer-events: none;
+  }
+
+  .quote-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(20px, 2.4vw, 28px);
+    line-height: 1.45;
+    font-weight: 300;
+    color: var(--txt);
+    letter-spacing: .005em;
+    position: relative;
+  }
+
+  .quote-attr {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,.06);
+  }
+
+  .quote-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: .12em;
+    color: var(--gold);
+  }
+
+  .quote-source {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+
+  .quote-source::before {
+    content: '·';
+    margin-right: 14px;
+    color: rgba(255,255,255,.2);
+  }
+
+  /* ── THEME DOT ROW ── */
+  .theme-dots {
+    display: flex;
+    gap: 10px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .dot {
+    width: 28px; height: 28px; border-radius: 50%;
+    border: 2px solid rgba(255,255,255,.1);
+    transition: transform .2s, border-color .2s;
+    cursor: default;
+  }
+  .dot:hover { transform: scale(1.25); border-color: rgba(255,255,255,.4); }
+
+  /* ── PLAIN-LANGUAGE EXPLAINER ── */
+  .explainer {
+    padding: 64px 48px;
+    background: linear-gradient(135deg, rgba(212,168,67,.06) 0%, rgba(91,200,245,.05) 100%);
+    border-top: 1px solid rgba(255,255,255,.08);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    text-align: center;
+  }
+  .explainer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .explainer-line {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 16px 24px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(16px, 2vw, 22px);
+    color: var(--txt);
+    font-weight: 300;
+    line-height: 1.4;
+  }
+  .explainer-step strong {
+    color: var(--gold);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3em;
+    letter-spacing: .08em;
+    margin-right: 6px;
+  }
+  .explainer-arrow {
+    color: rgba(212,168,67,.5);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4em;
+  }
+  .explainer-blurb {
+    margin-top: 28px;
+    font-size: 14px;
+    color: var(--dim);
+    line-height: 1.7;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  @media (max-width: 700px) {
+    .explainer { padding: 48px 24px; }
+    .explainer-arrow { display: none; }
+    .explainer-line { flex-direction: column; gap: 14px; }
+  }
+
+  /* ── COMPATIBILITY STRIP ── */
+  .compat-strip {
+    padding: 56px 48px 64px;
+    background:
+      linear-gradient(180deg, rgba(4,4,10,.0) 0%, rgba(4,4,10,.6) 100%),
+      radial-gradient(ellipse at 30% 0%, rgba(0,120,215,.10), transparent 60%),
+      radial-gradient(ellipse at 70% 100%, rgba(212,168,67,.05), transparent 60%);
+    border-top: 1px solid rgba(255,255,255,.06);
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    position: relative;
+  }
+  .compat-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: auto 1px 1fr;
+    align-items: center;
+    gap: 48px;
+  }
+
+  /* "Built for Windows" badge */
+  .compat-windows {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-shrink: 0;
+  }
+  .compat-win-mark {
+    width: 36px; height: 36px;
+    fill: #0078D7;
+  }
+  .compat-windows-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: .12em;
+    color: var(--txt);
+    line-height: 1;
+  }
+  .compat-windows-sub {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .15em;
+    color: var(--dim);
+    text-transform: uppercase;
+    margin-top: 5px;
+  }
+
+  /* Vertical divider on desktop, horizontal on mobile */
+  .compat-inner::before {
+    content: '';
+    grid-column: 2;
+    grid-row: 1;
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(180deg, transparent, rgba(255,255,255,.15), transparent);
+  }
+
+  /* Tier wrapper */
+  .compat-tier {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .compat-tier-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .2em;
+    color: var(--dim);
+    text-transform: uppercase;
+  }
+  .compat-tier-advanced .compat-tier-label::before {
+    content: '●';
+    color: var(--green);
+    margin-right: 6px;
+    text-shadow: 0 0 6px var(--green);
+  }
+  .compat-tier-rest .compat-tier-label::before {
+    content: '●';
+    color: var(--ice);
+    margin-right: 6px;
+  }
+
+  /* Icon row */
+  .compat-icons {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    flex-wrap: wrap;
+  }
+  .compat-icon {
+    --c: var(--txt);
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    color: var(--c);
+    cursor: help;
+    opacity: .85;
+    transition: opacity .2s, transform .2s;
+  }
+  .compat-icon:hover { opacity: 1; transform: translateY(-2px); }
+  .compat-icon svg {
+    fill: currentColor;
+    display: block;
+  }
+  .compat-icon-name {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: .12em;
+    color: var(--dim);
+    text-transform: uppercase;
+  }
+
+  /* Big icons for advanced tier */
+  .compat-icons-lg .compat-icon svg { width: 38px; height: 38px; }
+  .compat-icons-lg .compat-icon-name { font-size: 10px; }
+
+  /* Small icons for everything-else tier */
+  .compat-icons-sm .compat-icon svg { width: 22px; height: 22px; }
+  .compat-icons-sm { gap: 18px; }
+
+  .compat-icon-more .compat-more-dots {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px; height: 22px;
+    border: 1px dashed rgba(255,255,255,.3);
+    border-radius: 50%;
+    color: var(--dim);
+    font-size: 14px;
+    font-weight: 300;
+  }
+
+  .compat-rest-note {
+    font-size: 12px;
+    color: var(--dim);
+    line-height: 1.6;
+    margin-top: 6px;
+    max-width: 600px;
+  }
+  .compat-rest-note strong { color: var(--ice); font-weight: 500; }
+
+  @media (max-width: 900px) {
+    .compat-strip { padding: 40px 24px 48px; }
+    .compat-inner {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+    .compat-inner::before {
+      grid-column: 1;
+      grid-row: 2;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.15), transparent);
+    }
+    .compat-windows { justify-content: center; }
+    .compat-icons { justify-content: center; gap: 18px; }
+    .compat-icons-sm { gap: 14px; }
+    .compat-tier-label { text-align: center; }
+    .compat-rest-note { text-align: center; margin-left: auto; margin-right: auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">IKANDY <span class="beta-badge" title="IKANDY is in beta. Code-signing certificate is in verification — Windows may show a SmartScreen warning on first launch until that completes.">BETA</span></a>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#watch">Watch</a></li>
+    <li><a href="#fx">FX</a></li>
+    <li><a href="#scenes">Scenes</a></li>
+    <li><a href="#sources">Sources</a></li>
+    <li><a href="guide.html">Guide</a></li>
+    <li><a href="#download">Download</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" style="padding:0;max-width:none;">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content" style="padding: 0 48px 80px;">
+    <div class="hero-eyebrow">🎵 Visual Music for Windows</div>
+    <h1 class="hero-title">IKANDY</h1>
+    <p class="hero-sub">Play any song in any app. IKANDY turns the music into a moving picture &mdash; colors, light and shapes that dance with every beat. Like a music video, but for whatever you&rsquo;re already listening to.</p>
+    <div class="hero-cta">
+      <a href="#download" class="btn-primary pulse">
+        ↓ Download Free
+      </a>
+      <a href="#watch" class="btn-secondary">▶ Watch Demo</a>
+    </div>
+  </div>
+</section>
+
+<!-- COMPATIBILITY STRIP -->
+<section class="compat-strip">
+  <div class="compat-inner">
+
+    <!-- Windows badge -->
+    <div class="compat-windows">
+      <svg class="compat-win-mark" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/>
+      </svg>
+      <div class="compat-windows-text">
+        <div class="compat-windows-title">Built for Windows</div>
+        <div class="compat-windows-sub">10 / 11 &middot; Free &middot; Open source</div>
+      </div>
+    </div>
+
+    <!-- Advanced tier -->
+    <div class="compat-tier compat-tier-advanced">
+      <div class="compat-tier-label">Advanced features with</div>
+      <div class="compat-icons compat-icons-lg">
+        <span class="compat-icon" data-brand="Spotify" title="Spotify &mdash; full integration: playlists, search, shuffle modes, transport, art, lyrics" style="--c:#1DB954;">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.42 1.56-.299.421-1.02.599-1.56.3z"/></svg>
+          <span class="compat-icon-name">Spotify</span>
+        </span>
+        <span class="compat-icon" data-brand="foobar2000" title="foobar2000 &mdash; full integration: playlist browse, search, all shuffle modes, transport, art, lyrics" style="--c:#9b72cf;">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v3H3zm0 6.5h18v3H3zm0 6.5h18v3H3z" opacity=".0"/><text x="12" y="16" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="9" font-weight="600" fill="currentColor" letter-spacing="0.5">foobar</text><text x="12" y="22" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="6" fill="currentColor" letter-spacing="1">2000</text></svg>
+          <span class="compat-icon-name">foobar2000</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- Everything else tier -->
+    <div class="compat-tier compat-tier-rest">
+      <div class="compat-tier-label">Plus anything else playing on your PC</div>
+      <div class="compat-icons compat-icons-sm">
+        <span class="compat-icon" title="YouTube &amp; YouTube Music" style="--c:#FF0000;">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          <span class="compat-icon-name">YouTube</span>
+        </span>
+        <span class="compat-icon" title="Apple Music" style="--c:#FA243C;">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.997 6.124c0-.738-.065-1.47-.24-2.19-.317-1.31-1.062-2.31-2.18-3.043C21.003.517 20.373.285 19.7.164c-.517-.093-1.038-.135-1.564-.15-.04-.003-.083-.01-.124-.013H5.988c-.152.01-.303.017-.455.026C4.786.07 4.043.15 3.32.398 2.024.842 1.044 1.6.46 2.846c-.36.766-.495 1.578-.502 2.41V18.74c.026.272.05.547.082.82.107.928.421 1.797.94 2.585.715 1.082 1.69 1.798 2.86 2.196.642.218 1.298.31 1.967.34h12.06c.276-.024.55-.046.825-.075.788-.084 1.55-.275 2.244-.69 1.39-.83 2.302-2.064 2.7-3.74.087-.378.135-.764.158-1.15.005-.054.013-.107.02-.16zm-7.022 7.572c-.296 1.255-1.243 2.135-2.566 2.43-.484.108-.97.158-1.46.158-.484 0-.97-.05-1.453-.158-1.323-.295-2.27-1.175-2.566-2.43-.135-.575-.158-1.166-.07-1.749.094-.616.358-1.15.756-1.604.49-.557 1.114-.875 1.847-.946.345-.034.69-.034 1.034 0 .344.034.683.099 1.013.196.073.022.142.054.207.097.115.077.18.187.18.323v6.69c0 .2-.062.366-.193.494-.13.128-.298.19-.504.19h-.013c-.205 0-.373-.062-.504-.19-.13-.128-.193-.295-.193-.494v-3.99c-.155.076-.32.13-.498.157-.49.075-.965.027-1.42-.137-.567-.205-.97-.59-1.207-1.157-.236-.566-.29-1.16-.165-1.78.13-.66.444-1.213.946-1.658.5-.444 1.097-.708 1.79-.79.354-.04.708-.04 1.063 0 .354.04.7.118 1.04.232.235.078.467.17.694.276.114.054.218.123.314.205.137.117.207.27.207.46v6.79c0 .2-.062.366-.193.494-.13.128-.298.19-.504.19h-.013zM12 0C5.376 0 0 5.376 0 12s5.376 12 12 12 12-5.376 12-12S18.624 0 12 0z" opacity=".0"/><path d="M19.05 6.473c-.038.014-.083.02-.13.02-.197 0-.353-.156-.353-.353V4.06c0-.196.156-.352.353-.352.197 0 .353.156.353.352V6.14c0 .142-.084.265-.223.333zM5.96 16.27c0 1.323 1.072 2.395 2.395 2.395s2.395-1.072 2.395-2.395-1.072-2.395-2.395-2.395-2.395 1.072-2.395 2.395zm10.91-1.66c0 1.323 1.072 2.395 2.395 2.395s2.394-1.072 2.394-2.395-1.073-2.395-2.395-2.395-2.394 1.072-2.394 2.395zM10.75 14.61V5.4c0-.273.197-.51.467-.555l9-1.5c.34-.057.66.205.66.555v8.165c0 .273-.197.51-.467.555l-9 1.5c-.34.057-.66-.205-.66-.555z"/></svg>
+          <span class="compat-icon-name">Apple Music</span>
+        </span>
+        <span class="compat-icon" title="Tidal" style="--c:#FFFFFF;">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.012 3.992L8.008 7.996 4.004 3.992 0 7.996l4.004 4.004L8.008 7.996l4.004 4.008 4.004-4.008-4.004-4.004zm0 8.008l-4.004 4.004 4.004 4.004 4.004-4.004-4.004-4.004zm4.004-4.004L20.02 3.992l4.004 4.004-4.004 4.004z"/></svg>
+          <span class="compat-icon-name">Tidal</span>
+        </span>
+        <span class="compat-icon" title="VLC" style="--c:#FF8800;">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.295 0l-1.642 4.054h4.694L12.705 0zm-3.273 7.643L4 17.757h16L15.978 7.643h-2.81l.701 1.737h-3.738l.701-1.737zM3 19v3.071A1.93 1.93 0 0 0 4.929 24H19.07A1.93 1.93 0 0 0 21 22.071V19z"/></svg>
+          <span class="compat-icon-name">VLC</span>
+        </span>
+        <span class="compat-icon" title="Chrome / browser tabs" style="--c:#4285F4;">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C8.21 0 4.831 1.757 2.632 4.501l3.953 6.848A5.454 5.454 0 0 1 12 6.545h10.691A12 12 0 0 0 12 0zM1.931 5.47A11.943 11.943 0 0 0 0 12c0 6.012 4.42 10.991 10.189 11.864l3.953-6.847a5.45 5.45 0 0 1-6.865-2.29zm13.342 2.166a5.446 5.446 0 0 1 1.45 7.09l.002.001h-.002l-5.344 9.257c.206.01.413.016.621.016 6.627 0 12-5.373 12-12 0-1.54-.29-3.011-.818-4.364zM12 16.364a4.364 4.364 0 1 1 0-8.728 4.364 4.364 0 0 1 0 8.728Z"/></svg>
+          <span class="compat-icon-name">Chrome</span>
+        </span>
+        <span class="compat-icon" title="Microsoft Edge" style="--c:#0078D7;">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.86 17.86q.14 0 .25.12.1.13.1.25.13.25-1.5 1.86-1.6 1.6-4.46 1.6t-4.95-1.71q-2.1-1.7-2.99-3.79-1.74 3.99-1.74 5.99 0 .25.12.61.13.36.13.61 0 .61-.36.61-.5 0-1.74-1.62-1.24-1.62-1.86-3.61-.61-2-.61-3.86 0-2.86 1.12-5.36 1.13-2.5 3.13-4.46 1.99-1.99 4.6-3.11Q9.86 0 13 0q4.86 0 7.97 2.86 3.11 2.86 3.11 7.07 0 4.21-3.27 7.07-3.26 2.86-7.86 2.86-2 0-3.5-.75-1.5-.74-2.5-2.21.5 1.86 1.99 3.07 1.5 1.21 3.71 1.21 1.61 0 2.86-.43 1.24-.43 1.74-.86.5-.43.86-.43z"/></svg>
+          <span class="compat-icon-name">Edge</span>
+        </span>
+        <span class="compat-icon" title="Firefox (with media.hardwaremediakeys.enabled flag)" style="--c:#FF7139;">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.616 5.043c.097.054.197.147.288.198a4.46 4.46 0 0 1 1.247 1.029c.832-.063 1.7-.054 2.51.21a3.83 3.83 0 0 0-1.61-.806 3.49 3.49 0 0 1 1.838-.183 3.92 3.92 0 0 0-2.13-.726c-.652-.014-1.3.13-1.901.408-.07.04-.179.054-.242-.13zM23.5 9.752a18.9 18.9 0 0 0-1.45-2.92 8.16 8.16 0 0 0-1.04-1.36 9.96 9.96 0 0 0-2.31-1.83l-.04-.18c.1-.18.21-.3.32-.34.51-.18.61-.45.32-.71-.39-.34-1.4-.53-2.61-.45-.34.02-.65.07-.93.14-.87-.55-1.84-.94-2.86-1.12-.4-.07-.81-.1-1.22-.1-1.94 0-3.85.66-5.42 1.93C5.05 3.87 4.43 4.45 3.95 5.13a13.8 13.8 0 0 0-2.18 4.71 12.43 12.43 0 0 0-.34 1.97c-.07.83-.1 1.65 0 2.48.06.69.18 1.4.4 2.06a11.9 11.9 0 0 0 2.55 4.31c1.17 1.21 2.55 2.13 4.06 2.71a13 13 0 0 0 2.79.66c.93.13 1.88.18 2.81.06 1.5-.18 2.95-.7 4.21-1.55a11.79 11.79 0 0 0 4.91-7.5c.27-1.46.27-3 .04-4.46-.16-.5-.3-.95-.5-1.4z"/></svg>
+          <span class="compat-icon-name">Firefox</span>
+        </span>
+        <span class="compat-icon compat-icon-more" title="Any app that publishes to Windows Media Controls">
+          <span class="compat-more-dots">+</span>
+          <span class="compat-icon-name">more</span>
+        </span>
+      </div>
+      <p class="compat-rest-note">Anything that publishes to Windows Media Controls works through the <strong>Now Playing</strong> source &mdash; no setup, no auth.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- WHAT IS IT — plain-language explainer -->
+<section class="explainer">
+  <div class="explainer-inner">
+    <p class="explainer-line">
+      <span class="explainer-step"><strong>1.</strong> Open Spotify, YouTube, or any other music app.</span>
+      <span class="explainer-arrow">→</span>
+      <span class="explainer-step"><strong>2.</strong> Open IKANDY and pick how it should listen.</span>
+      <span class="explainer-arrow">→</span>
+      <span class="explainer-step"><strong>3.</strong> Hit play. Watch your screen come alive.</span>
+    </p>
+    <p class="explainer-blurb">No editing. No syncing. IKANDY listens to the music you&rsquo;re already playing and paints it across your screen in real time &mdash; 350+ classic MilkDrop visuals, custom audio-reactive scenes, and cinematic FX overlays. Free, offline, no subscription.</p>
+  </div>
+</section>
+
+<!-- WATCH / VIDEO -->
+<section class="video-section" id="watch">
+  <p class="section-tag">▶ Watch The Demo</p>
+  <h2>See It<br>In Action</h2>
+  <p class="lead">A walkthrough of what IKANDY actually does — visuals, scenes, FX, lyrics, all in motion.</p>
+  <div class="video-wrap">
+    <iframe
+      src="https://www.youtube-nocookie.com/embed/5algfY8vwv8?rel=0"
+      title="IKANDY Demo"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      referrerpolicy="strict-origin-when-cross-origin"
+      allowfullscreen
+      loading="lazy">
+    </iframe>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat">
+    <div class="stat-num">350+</div>
+    <div class="stat-label">MilkDrop Presets</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">5</div>
+    <div class="stat-label">Custom Scenes</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">12</div>
+    <div class="stat-label">GLSL FX Shaders</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">4</div>
+    <div class="stat-label">Audio Sources</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">6</div>
+    <div class="stat-label">Colour Themes</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">100%</div>
+    <div class="stat-label">Free</div>
+  </div>
+</div>
+
+<!-- FEATURE: VISUALIZER -->
+<div class="feature-split" id="features">
+  <div class="feature-img">
+    <img src="assets/screenshot.png" alt="IKANDY visualizer rendering Frosty The Snowman with vibrant chrome MilkDrop preset" class="glow-img">
+  </div>
+  <div class="feature-text">
+    <p class="section-tag">01 — Visualizer</p>
+    <h2>500+ Presets.<br>Zero Lag.</h2>
+    <p class="lead">Powered by Butterchurn — the WebGL port of Winamp's legendary MilkDrop engine. Every preset reacts to your music in real time. Auto-cycle switches them per track automatically.</p>
+    <div style="margin-top:32px;display:flex;flex-direction:column;gap:12px;">
+      <div style="display:flex;gap:12px;align-items:center;">
+        <span style="color:var(--gold);font-family:'Space Mono',monospace;font-size:12px;">→</span>
+        <span style="font-size:14px;color:var(--dim);">Browse all presets with live previews in Grid, List, or Large mode</span>
+      </div>
+      <div style="display:flex;gap:12px;align-items:center;">
+        <span style="color:var(--gold);font-family:'Space Mono',monospace;font-size:12px;">→</span>
+        <span style="font-size:14px;color:var(--dim);">Auto-cycle with adjustable interval and blend time</span>
+      </div>
+      <div style="display:flex;gap:12px;align-items:center;">
+        <span style="color:var(--gold);font-family:'Space Mono',monospace;font-size:12px;">→</span>
+        <span style="font-size:14px;color:var(--dim);">Bass-reactive vignette, grain, and scanline overlays</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURE: SIDEBAR -->
+<div class="feature-split" style="background:rgba(255,255,255,.01);padding-top:80px;padding-bottom:80px;grid-template-columns:1fr;">
+  <div class="feature-text">
+    <p class="section-tag">02 — Control Panel</p>
+    <h2>Everything.<br>One Panel.</h2>
+    <p class="lead">Speed, Reactivity, Smoothness, FX strength — all in a clean collapsible sidebar. Pick your theme from 6 accent colours. Upload a background image or cycle a whole folder.</p>
+    <div class="theme-dots" style="margin-top:28px;">
+      <div class="dot" style="background:#d4a843;" title="Gold"></div>
+      <div class="dot" style="background:#ff2d8a;" title="Neon"></div>
+      <div class="dot" style="background:#4caf7d;" title="Forest"></div>
+      <div class="dot" style="background:#9b72cf;" title="Dusk"></div>
+      <div class="dot" style="background:#5bc8f5;" title="Ice"></div>
+      <div class="dot" style="background:#e8e8e8;" title="White"></div>
+    </div>
+  </div>
+  <div class="feature-img">
+    <img src="assets/console-bar.png" alt="IKANDY console bar — Now Playing, Playback, Visualiser, Utility and Settings zones" class="glow-img">
+  </div>
+</div>
+
+<!-- FX SHADERS -->
+<section id="fx" style="max-width:1200px;">
+  <p class="section-tag">03 — FX Shaders</p>
+  <h2>12 Real-Time<br>GLSL Shaders</h2>
+  <p class="lead">Layer cinematic FX over your background image. Adjust strength on the fly. Combine with grain and scanlines for maximum vibe.</p>
+
+  <div class="fx-grid">
+    <div class="fx-card" style="--c:#5bc8f5;">
+      <div class="fx-name">Rain</div>
+      <div class="fx-desc">Animated raindrops rippling across the image</div>
+    </div>
+    <div class="fx-card" style="--c:#333;">
+      <div class="fx-name">Ink</div>
+      <div class="fx-desc">Bleeding ink absorption effect</div>
+    </div>
+    <div class="fx-card" style="--c:#ff6b35;">
+      <div class="fx-name">VHS</div>
+      <div class="fx-desc">Warped tape glitch and chromatic shift</div>
+    </div>
+    <div class="fx-card" style="--c:#aaa;">
+      <div class="fx-name">Fog</div>
+      <div class="fx-desc">Drifting atmospheric haze</div>
+    </div>
+    <div class="fx-card" style="--c:#e8b4b8;">
+      <div class="fx-name">Paint</div>
+      <div class="fx-desc">Wet watercolor bleeding and texture</div>
+    </div>
+    <div class="fx-card" style="--c:#c9a96e;">
+      <div class="fx-name">Film</div>
+      <div class="fx-desc">Dust, scratches and film grain overlay</div>
+    </div>
+    <div class="fx-card" style="--c:#b8d4e8;">
+      <div class="fx-name">Metal</div>
+      <div class="fx-desc">Liquid chrome surface distortion</div>
+    </div>
+    <div class="fx-card" style="--c:#ff2d8a;">
+      <div class="fx-name">Shatter</div>
+      <div class="fx-desc">Voronoi glass fracture pattern</div>
+    </div>
+    <div class="fx-card" style="--c:#00ff88;">
+      <div class="fx-name">Corrupt</div>
+      <div class="fx-desc">Digital glitch and data corruption</div>
+    </div>
+    <div class="fx-card" style="--c:#9b72cf;">
+      <div class="fx-name">Plasma</div>
+      <div class="fx-desc">Electric arc discharge overlay</div>
+    </div>
+    <div class="fx-card" style="--c:#5bc8f5;">
+      <div class="fx-name">Holo</div>
+      <div class="fx-desc">Iridescent holographic shimmer</div>
+    </div>
+    <div class="fx-card" style="--c:#ff6b35;">
+      <div class="fx-name">Heat</div>
+      <div class="fx-desc">Desert heat wave distortion</div>
+    </div>
+  </div>
+</section>
+
+<!-- SCENES -->
+<section id="scenes" style="max-width:1200px;">
+  <p class="section-tag">04 — Custom Scenes</p>
+  <h2>The Music<br>Made This.</h2>
+  <p class="lead">Five custom audio-reactive scenes, built from scratch. Real-time FFT analysis drives every pixel — bass hits, frequency bands, beat intensity — no presets, no templates, just sound shaping form.</p>
+
+  <div class="fx-grid">
+    <div class="fx-card" style="--c:#ff6b35;">
+      <div class="fx-name">Fire EQ</div>
+      <div class="fx-desc">Frequency-reactive flames climb with the spectrum</div>
+    </div>
+    <div class="fx-card" style="--c:#5bc8f5;">
+      <div class="fx-name">Spectrum</div>
+      <div class="fx-desc">Classic ripple bars driven by live frequency analysis</div>
+    </div>
+    <div class="fx-card" style="--c:#d4a843;">
+      <div class="fx-name">Waveray</div>
+      <div class="fx-desc">Radial beams pulse and sweep with the waveform</div>
+    </div>
+    <div class="fx-card" style="--c:#1db954;">
+      <div class="fx-name">Aurora</div>
+      <div class="fx-desc">Drifting curtains of light, mid-range driven</div>
+    </div>
+    <div class="fx-card" style="--c:#9b72cf;">
+      <div class="fx-name">Starfield</div>
+      <div class="fx-desc">Beat-reactive cosmos — the planet bounces with every kick</div>
+    </div>
+  </div>
+</section>
+
+<!-- SOURCES -->
+<section id="sources" style="max-width:none;padding:0 0 0 0;">
+  <div style="max-width:1200px;margin:0 auto;padding:120px 48px 48px;">
+    <p class="section-tag">05 — Audio Sources</p>
+    <h2>Four Ways<br>to Listen</h2>
+    <p class="lead">Connect whatever you&rsquo;re playing. Each source offers a different feature set &mdash; richer integrations on top, simpler ones below.</p>
+  </div>
+  <div class="sources-grid">
+    <div class="source-card" style="--c:var(--green);">
+      <span class="tier-pill tier-full">● Full features</span>
+      <span class="source-icon">🎵</span>
+      <div class="source-name">Spotify</div>
+      <p class="source-desc">Full Spotify integration with PKCE OAuth. Track info, album art, synced lyrics, playlist browser with search, and full playback control. Premium account required for transport &mdash; Free accounts get track info only.</p>
+    </div>
+    <div class="source-card" style="--c:#9b72cf;">
+      <span class="tier-pill tier-full">● Full features</span>
+      <span class="source-icon">🎧</span>
+      <div class="source-name">foobar2000</div>
+      <p class="source-desc">Connects via the foo_beefweb component for the full experience &mdash; playlist browse with search, every shuffle mode foobar supports, transport, album art, lyrics. The audiophile&rsquo;s player, fully integrated.</p>
+    </div>
+    <div class="source-card" style="--c:#ff6b35;">
+      <span class="tier-pill tier-std">● Standard</span>
+      <span class="source-icon">📺</span>
+      <div class="source-name">VLC</div>
+      <p class="source-desc">Connect to VLC&rsquo;s web interface for transport &mdash; play, pause, skip, shuffle on/off &mdash; with album art and synced lyrics. No library browse.</p>
+    </div>
+    <div class="source-card" style="--c:var(--ice);">
+      <span class="tier-pill tier-basic">● Basic</span>
+      <span class="source-icon">🎙️</span>
+      <div class="source-name">Now Playing</div>
+      <p class="source-desc">Reads whatever app is currently playing music on Windows &mdash; Spotify desktop, YouTube Music, Apple Music, browser tabs, anything that publishes to Windows Media Controls. Transport works (subject to what each source app supports). No browse, no shuffle, no album art.</p>
+    </div>
+  </div>
+</section>
+
+<!-- LYRICS -->
+<section style="max-width:1200px;">
+  <p class="section-tag">06 — Lyrics</p>
+  <h2>Synced Lyrics.<br>Two Modes.</h2>
+  <p class="lead">IKANDY fetches synced lyrics from LRCLIB automatically. Display them as a clean one-line overlay, or unleash Physics mode and watch the words float and bounce around the screen to the beat.</p>
+  <div style="display:flex;gap:40px;margin-top:48px;flex-wrap:wrap;">
+    <div style="flex:1;min-width:220px;padding:32px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--gold);letter-spacing:.08em;margin-bottom:10px;">Classic</div>
+      <p style="font-size:14px;color:var(--dim);line-height:1.6;">One line at a time, centred on screen. Clean, karaoke-style. Perfect for recording or just reading along.</p>
+    </div>
+    <div style="flex:1;min-width:220px;padding:32px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--neon);letter-spacing:.08em;margin-bottom:10px;">Physics</div>
+      <p style="font-size:14px;color:var(--dim);line-height:1.6;">Words explode onto the screen and float in zero-gravity. Collide, bounce, and drift. Totally chaotic, totally beautiful.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="reviews" style="max-width:1200px;">
+  <p class="section-tag">07 — Word On The Street</p>
+  <h2>What People<br>Are Saying</h2>
+  <p class="lead">Real reactions from real humans who fired it up and let it rip.</p>
+
+  <div class="testimonials">
+    <div class="quote-card">
+      <p class="quote-text">Ohh man this app is making me happy!!! In a world that demands constant attention, this just lets me chill and vibe out! Love it — take me to your leader!</p>
+      <div class="quote-attr">
+        <span class="quote-name">Salt Monkey (Zak)</span>
+        <span class="quote-source">Discord</span>
+      </div>
+    </div>
+    <div class="quote-card">
+      <p class="quote-text">Okay, this thing is f*^&amp;ing awesome. 49 inch curved monitor, just damn.</p>
+      <div class="quote-attr">
+        <span class="quote-name">y0himba</span>
+        <span class="quote-source">Reddit</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DOWNLOAD -->
+<div class="download-section" id="download">
+  <div class="download-title">Get IKANDY</div>
+  <p class="download-sub">Windows 10/11 · No Subscription</p>
+  <a href="https://github.com/IKANDYapp/IKANDY/releases/latest/download/IKANDY.Setup.exe" class="btn-primary pulse" style="display:inline-flex;font-size:22px;padding:20px 56px;position:relative;">
+    ↓ &nbsp;Download for Windows
+  </a>
+  <div style="margin-top:20px;position:relative;">
+    <a href="guide.html" style="display:inline-flex;align-items:center;gap:8px;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(212,168,67,.3);padding-bottom:3px;transition:border-color .2s,color .2s;" onmouseover="this.style.color='#fff';this.style.borderBottomColor='#fff'" onmouseout="this.style.color='';this.style.borderBottomColor=''">
+      📖 Read the User Guide first →
+    </a>
+  </div>
+  <p class="download-note">
+    ~75MB · Currently in <strong style="color:var(--gold);">BETA</strong> &mdash; the code-signing certificate is in verification, so Windows SmartScreen will warn on first run. Click <strong>More info → Run anyway</strong>. Once the certificate is issued the warning will go away. IKANDY is open source &mdash; you can read every line on GitHub.<br>
+    You&rsquo;ll need your own free <a href="https://developer.spotify.com/dashboard" target="_blank">Spotify Client ID</a> for Spotify features.
+  </p>
+  <div style="margin-top:48px;display:flex;gap:24px;justify-content:center;flex-wrap:wrap;">
+    <a href="guide.html" style="font-family:'Space Mono',monospace;font-size:11px;color:var(--dim);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;transition:color .2s;" onmouseover="this.style.color='#d4a843'" onmouseout="this.style.color=''">
+      📖 User Guide
+    </a>
+    <a href="https://github.com/IKANDYapp/IKANDY" target="_blank" style="font-family:'Space Mono',monospace;font-size:11px;color:var(--dim);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;transition:color .2s;" onmouseover="this.style.color='#d4a843'" onmouseout="this.style.color=''">
+      ↗ View on GitHub
+    </a>
+    <a href="https://buymeacoffee.com/IKANDY" target="_blank" style="font-family:'Space Mono',monospace;font-size:11px;color:var(--dim);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;transition:color .2s;" onmouseover="this.style.color='#d4a843'" onmouseout="this.style.color=''">
+      ☕ Buy Me a Coffee
+    </a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">IKANDY <span class="beta-badge" style="font-size:8px;vertical-align:5px;">BETA</span></div>
+  <ul class="footer-links">
+    <li><a href="guide.html">User Guide</a></li>
+    <li><a href="https://github.com/IKANDYapp/IKANDY" target="_blank">GitHub</a></li>
+    <li><a href="https://github.com/IKANDYapp/IKANDY/releases" target="_blank">Releases</a></li>
+    <li><a href="https://buymeacoffee.com/IKANDY" target="_blank">Support</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 Felix Bag of Tricks · IKANDY.app</div>
+</footer>
+<footer style="text-align:center;padding:20px;color:#666;font-size:11px;">
+    © 2026 Kevin Gavert
+</footer>
+</body>
+</html>

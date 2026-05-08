@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IKANDY — User Guide</title>
+<meta name="description" content="The full IKANDY user guide. Setup, audio sources, presets, custom scenes, FX, lyrics, troubleshooting.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #d4a843;
+    --neon: #ff2d8a;
+    --green: #1db954;
+    --ice: #5bc8f5;
+    --bg: #04040a;
+    --bg2: #08080f;
+    --txt: #e8e8e8;
+    --dim: rgba(255,255,255,.45);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--txt);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: .4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 48px;
+    background: linear-gradient(to bottom, rgba(4,4,10,.95), transparent);
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: .15em;
+    color: var(--gold);
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--dim);
+    text-decoration: none;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-links a.home-link { color: var(--gold); }
+  .nav-links a.home-link:hover { color: #fff; }
+
+  .beta-badge {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 3px 7px;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .15em;
+    color: var(--gold);
+    background: rgba(212,168,67,.08);
+    border: 1px solid rgba(212,168,67,.4);
+    border-radius: 3px;
+    vertical-align: 4px;
+    cursor: help;
+  }
+
+  /* ── PAGE HEADER (compact, not full-screen) ── */
+  .page-header {
+    padding: 180px 48px 80px;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    position: relative;
+  }
+
+  .page-header::after {
+    content: 'GUIDE';
+    position: absolute;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22vw;
+    color: rgba(212,168,67,.025);
+    top: 50%;
+    right: 48px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    letter-spacing: .08em;
+    line-height: 1;
+    z-index: 0;
+  }
+
+  .page-eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: var(--neon);
+    margin-bottom: 24px;
+    position: relative;
+  }
+
+  .page-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(64px, 10vw, 120px);
+    line-height: .9;
+    letter-spacing: .04em;
+    background: linear-gradient(135deg, #fff 0%, var(--gold) 50%, var(--neon) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 24px;
+    position: relative;
+  }
+
+  .page-sub {
+    font-size: 18px;
+    color: var(--dim);
+    line-height: 1.6;
+    font-weight: 300;
+    max-width: 640px;
+    position: relative;
+  }
+
+  /* ── TOC STRIP ── */
+  .toc {
+    background: rgba(255,255,255,.02);
+    border-top: 1px solid rgba(255,255,255,.06);
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    padding: 32px 48px;
+  }
+
+  .toc-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 4px 32px;
+  }
+
+  .toc a {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding: 10px 0;
+    font-size: 13px;
+    color: var(--dim);
+    text-decoration: none;
+    font-family: 'DM Sans', sans-serif;
+    border-bottom: 1px solid transparent;
+    transition: color .2s, border-color .2s;
+  }
+
+  .toc a:hover { color: var(--gold); border-bottom-color: rgba(212,168,67,.3); }
+
+  .toc-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .15em;
+    color: var(--neon);
+    min-width: 24px;
+  }
+
+  /* ── SECTION ── */
+  section {
+    padding: 120px 48px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--neon);
+    margin-bottom: 16px;
+  }
+
+  h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 6vw, 80px);
+    letter-spacing: .04em;
+    line-height: 1;
+    margin-bottom: 24px;
+  }
+
+  h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: .08em;
+    color: var(--gold);
+    margin: 48px 0 16px;
+    line-height: 1;
+  }
+
+  h3.first { margin-top: 32px; }
+
+  .lead {
+    font-size: 18px;
+    color: var(--dim);
+    line-height: 1.7;
+    max-width: 720px;
+    font-weight: 300;
+  }
+
+  p.body {
+    font-size: 15px;
+    color: var(--txt);
+    line-height: 1.75;
+    max-width: 720px;
+    margin-bottom: 16px;
+    font-weight: 300;
+  }
+
+  p.body.dim { color: var(--dim); }
+
+  /* ── STEPS ── */
+  ol.steps {
+    list-style: none;
+    counter-reset: step;
+    margin: 24px 0 16px;
+    max-width: 720px;
+  }
+
+  ol.steps > li {
+    counter-increment: step;
+    position: relative;
+    padding: 16px 16px 16px 64px;
+    margin-bottom: 6px;
+    border-left: 1px solid rgba(255,255,255,.08);
+    font-size: 15px;
+    color: var(--txt);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  ol.steps > li::before {
+    content: counter(step, decimal-leading-zero);
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .12em;
+    color: var(--neon);
+  }
+
+  ol.steps strong {
+    color: var(--gold);
+    font-weight: 400;
+  }
+
+  /* ── BULLET LIST ── */
+  ul.b {
+    list-style: none;
+    margin: 16px 0;
+    max-width: 720px;
+  }
+
+  ul.b > li {
+    position: relative;
+    padding: 8px 0 8px 28px;
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--txt);
+    font-weight: 300;
+  }
+
+  ul.b > li::before {
+    content: '◆';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    color: var(--gold);
+    font-size: 10px;
+  }
+
+  ul.b strong { color: var(--gold); font-weight: 400; }
+
+  /* ── CODE / KBD ── */
+  code {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    background: rgba(255,255,255,.05);
+    color: var(--ice);
+    padding: 2px 8px;
+    border-radius: 2px;
+    border: 1px solid rgba(91,200,245,.15);
+  }
+
+  kbd {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    background: rgba(255,255,255,.06);
+    color: var(--gold);
+    padding: 3px 9px;
+    border-radius: 2px;
+    border: 1px solid rgba(212,168,67,.3);
+    border-bottom-width: 2px;
+    letter-spacing: .05em;
+  }
+
+  /* ── CALLOUT ── */
+  .callout {
+    margin: 24px 0;
+    padding: 20px 24px;
+    border-left: 3px solid var(--gold);
+    background: rgba(212,168,67,.04);
+    max-width: 720px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--txt);
+    font-weight: 300;
+  }
+
+  .callout.warn {
+    border-left-color: var(--neon);
+    background: rgba(255,45,138,.04);
+  }
+
+  .callout.tip {
+    border-left-color: var(--ice);
+    background: rgba(91,200,245,.04);
+  }
+
+  .callout-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .callout.warn .callout-label { color: var(--neon); }
+  .callout.tip .callout-label { color: var(--ice); }
+
+  /* ── SOURCE BLOCK ── */
+  .source-block {
+    margin: 24px 0 56px;
+    padding: 32px;
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.02);
+    position: relative;
+    max-width: 880px;
+  }
+
+  .source-block::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--c, var(--gold));
+  }
+
+  .source-block-head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .source-block-icon {
+    font-size: 32px;
+  }
+
+  .source-block-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    letter-spacing: .08em;
+    color: var(--c, var(--gold));
+    line-height: 1;
+  }
+
+  .guide-screenshot {
+    display: block;
+    width: 100%;
+    max-width: 720px;
+    margin: 20px 0 0;
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 4px;
+    opacity: .9;
+    background: rgba(255,255,255,.03);
+    min-height: 160px;
+    object-fit: cover;
+  }
+  .guide-screenshot-caption {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--dim);
+    margin-top: 6px;
+    letter-spacing: .06em;
+  }
+
+  .source-block-meta {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin-left: auto;
+  }
+
+  /* ── LAYOUT DIAGRAM ── */
+  .layout-diagram {
+    margin: 32px 0;
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.015);
+    padding: 4px;
+    max-width: 880px;
+    aspect-ratio: 16 / 9;
+    display: grid;
+    grid-template-columns: 200px 1fr 240px;
+    grid-template-rows: 56px 1fr;
+    gap: 4px;
+  }
+
+  .ld {
+    background: rgba(255,255,255,.025);
+    border: 1px solid rgba(255,255,255,.06);
+    padding: 14px 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ld-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--neon);
+    margin-bottom: 6px;
+  }
+
+  .ld-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: .08em;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .ld-desc {
+    font-size: 11px;
+    color: var(--dim);
+    line-height: 1.5;
+    margin-top: 4px;
+    font-weight: 300;
+  }
+
+  .ld-top { grid-column: 1 / -1; }
+  .ld-stage {
+    background:
+      radial-gradient(ellipse at 50% 50%, rgba(212,168,67,.06), transparent 60%),
+      radial-gradient(ellipse at 70% 30%, rgba(255,45,138,.05), transparent 50%),
+      rgba(255,255,255,.015);
+    text-align: center;
+    align-items: center;
+  }
+
+  /* ── CONSOLE DIAGRAM ── */
+  .console-diagram {
+    margin: 32px 0;
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.015);
+    padding: 4px;
+    max-width: 880px;
+    display: grid;
+    grid-template-rows: 1fr 68px;
+    gap: 4px;
+  }
+
+  .cd-stage {
+    background:
+      radial-gradient(ellipse at 50% 50%, rgba(212,168,67,.06), transparent 60%),
+      radial-gradient(ellipse at 70% 30%, rgba(255,45,138,.05), transparent 50%),
+      rgba(255,255,255,.015);
+    border: 1px solid rgba(255,255,255,.06);
+    padding: 48px 24px 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    position: relative;
+    min-height: 180px;
+  }
+
+  .cd-lyrics-badge {
+    position: absolute;
+    top: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ice);
+    opacity: .55;
+    border: 1px solid rgba(91,200,245,.25);
+    padding: 4px 14px;
+    white-space: nowrap;
+  }
+
+  .cd-bar {
+    display: flex;
+    gap: 4px;
+  }
+
+  .cd-zone {
+    flex: 1;
+    background: rgba(255,255,255,.025);
+    border: 1px solid rgba(255,255,255,.06);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    padding: 6px 4px;
+  }
+
+  .cdz-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-align: center;
+  }
+
+  .cdz-desc {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    color: var(--dim);
+    text-align: center;
+    line-height: 1.4;
+    font-weight: 300;
+  }
+
+  /* ── FX TABLE ── */
+  .fx-table {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 4px;
+    margin: 24px 0 16px;
+    max-width: 880px;
+  }
+
+  .fx-item {
+    padding: 16px 18px;
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.02);
+    transition: border-color .2s, background .2s;
+  }
+
+  .fx-item:hover {
+    border-color: rgba(255,255,255,.18);
+    background: rgba(255,255,255,.04);
+  }
+
+  .fx-item-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: .08em;
+    color: var(--c, var(--gold));
+    line-height: 1;
+  }
+
+  .fx-item-desc {
+    font-size: 12px;
+    color: var(--dim);
+    line-height: 1.5;
+    margin-top: 6px;
+    font-weight: 300;
+  }
+
+  /* ── TROUBLESHOOTING ITEMS ── */
+  details.tr {
+    margin: 4px 0;
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.02);
+    transition: border-color .2s;
+    max-width: 880px;
+  }
+
+  details.tr[open] {
+    border-color: rgba(212,168,67,.3);
+    background: rgba(255,255,255,.03);
+  }
+
+  details.tr summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 16px 24px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    color: var(--txt);
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  details.tr summary::-webkit-details-marker { display: none; }
+
+  details.tr summary::before {
+    content: '+';
+    font-family: 'Space Mono', monospace;
+    font-size: 18px;
+    color: var(--gold);
+    width: 16px;
+    transition: transform .2s;
+  }
+
+  details.tr[open] summary::before {
+    content: '−';
+  }
+
+  details.tr summary:hover { color: var(--gold); }
+
+  .tr-body {
+    padding: 0 24px 24px 54px;
+    font-size: 14px;
+    color: var(--dim);
+    line-height: 1.75;
+    font-weight: 300;
+  }
+
+  .tr-body p { margin-bottom: 10px; }
+  .tr-body strong { color: var(--gold); font-weight: 400; }
+  .tr-body code { font-size: 12px; }
+
+  /* ── DOWNLOAD-LIKE FOOTER CTA ── */
+  .help-section {
+    background: linear-gradient(135deg, rgba(212,168,67,.08) 0%, rgba(255,45,138,.06) 100%);
+    border-top: 1px solid rgba(212,168,67,.2);
+    border-bottom: 1px solid rgba(212,168,67,.2);
+    padding: 96px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .help-section::before {
+    content: 'HELP';
+    position: absolute;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26vw;
+    color: rgba(212,168,67,.03);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    pointer-events: none;
+    white-space: nowrap;
+    letter-spacing: .08em;
+  }
+
+  .help-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(40px, 6vw, 80px);
+    letter-spacing: .06em;
+    line-height: 1;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, var(--gold), #fff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+  }
+
+  .help-sub {
+    font-size: 15px;
+    color: var(--dim);
+    margin-bottom: 36px;
+    position: relative;
+    font-weight: 300;
+  }
+
+  .help-links {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    position: relative;
+  }
+
+  .help-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    border: 1px solid rgba(255,255,255,.2);
+    color: var(--txt);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    letter-spacing: .1em;
+    text-decoration: none;
+    transition: all .2s;
+    background: rgba(255,255,255,.04);
+    backdrop-filter: blur(8px);
+  }
+
+  .help-link:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 32px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255,255,255,.06);
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: .15em;
+    color: var(--gold);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+  }
+
+  .footer-links a {
+    font-size: 12px;
+    color: var(--dim);
+    text-decoration: none;
+    font-family: 'Space Mono', monospace;
+    transition: color .2s;
+  }
+  .footer-links a:hover { color: var(--gold); }
+
+  .footer-copy {
+    font-size: 11px;
+    color: rgba(255,255,255,.2);
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--gold); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { gap: 18px; }
+    .page-header { padding: 130px 24px 60px; }
+    .page-header::after { font-size: 30vw; right: 0; }
+    .toc { padding: 24px; }
+    section { padding: 80px 24px; }
+    .help-section { padding: 64px 24px; }
+    footer { padding: 24px; flex-direction: column; text-align: center; }
+    .layout-diagram { grid-template-columns: 1fr; grid-template-rows: 56px repeat(3, 100px); aspect-ratio: auto; }
+    .ld-top { grid-column: 1; }
+    .cd-bar { flex-wrap: wrap; }
+    .cd-zone { flex: 0 0 calc(50% - 2px); min-width: 0; }
+    .console-diagram { grid-template-rows: 1fr auto; }
+  }
+
+  @media (max-width: 600px) {
+    .nav-links li:nth-child(n+3) { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">IKANDY <span class="beta-badge" title="IKANDY is in beta. Code-signing certificate is in verification — Windows may show a SmartScreen warning on first launch until that completes.">BETA</span></a>
+  <ul class="nav-links">
+    <li><a href="#sources">Sources</a></li>
+    <li><a href="#presets">Presets</a></li>
+    <li><a href="#fx">FX</a></li>
+    <li><a href="#troubleshooting">Help</a></li>
+    <li><a href="index.html" class="home-link">← Home</a></li>
+  </ul>
+</nav>
+
+<!-- HEADER -->
+<header class="page-header">
+  <p class="page-eyebrow">📖 The Manual</p>
+  <h1 class="page-title">User Guide</h1>
+  <p class="page-sub"><strong style="color:var(--txt);">IKANDY paints your music.</strong> Press play in any music app and watch your screen come alive &mdash; colors, light and shapes that move with every beat. This guide covers everything: getting set up, picking a music source, presets, scenes, FX, lyrics, and what to do when things misbehave.</p>
+</header>
+
+<!-- TOC -->
+<div class="toc">
+  <div class="toc-inner">
+    <a href="#first-launch"><span class="toc-num">01</span> First Launch</a>
+    <a href="#layout"><span class="toc-num">02</span> The Layout</a>
+    <a href="#sources"><span class="toc-num">03</span> Audio Sources</a>
+    <a href="#per-process"><span class="toc-num">03b</span> Per-Process Capture</a>
+    <a href="#presets"><span class="toc-num">04</span> Visualizer &amp; Presets</a>
+    <a href="#scenes"><span class="toc-num">05</span> Custom Scenes</a>
+    <a href="#fx"><span class="toc-num">06</span> FX Shaders</a>
+    <a href="#lyrics"><span class="toc-num">07</span> Lyrics</a>
+    <a href="#controls"><span class="toc-num">08</span> Controls &amp; Themes</a>
+    <a href="#tips"><span class="toc-num">09</span> Tips &amp; Workflow</a>
+    <a href="#troubleshooting"><span class="toc-num">10</span> Troubleshooting</a>
+    <a href="#help"><span class="toc-num">11</span> Get Help</a>
+  </div>
+</div>
+
+<!-- 01 FIRST LAUNCH -->
+<section id="first-launch">
+  <p class="section-tag">01 — First Launch</p>
+  <h2>Install &amp;<br>First Run</h2>
+  <p class="lead">IKANDY is a single-installer Windows desktop app. About 75&nbsp;MB. No account required to launch it — you can start visualising system audio in under a minute.</p>
+
+  <h3>Install</h3>
+  <ol class="steps">
+    <li>Download <code>IKANDY.Setup.exe</code> from the <strong>home page</strong> or the GitHub releases page.</li>
+    <li>Run the installer. It places IKANDY in your AppData folder and creates a Start Menu and desktop shortcut.</li>
+    <li>On first launch IKANDY indexes the preset library and runs a background reactivity scan — this takes a few seconds and happens silently while you use the app.</li>
+  </ol>
+
+  <div class="callout warn">
+    <span class="callout-label">SmartScreen on first run</span>
+    Windows will show <em>"Windows protected your PC"</em> on the very first launch. This is because IKANDY is in beta and the Certum code-signing certificate is still in verification. Click <strong>More info → Run anyway</strong>. Once the certificate is issued, the warning disappears for everyone. The full source code is public at github.com/IKANDYapp/IKANDY.
+  </div>
+
+  <div class="callout tip">
+    <span class="callout-label">Fastest path to visuals</span>
+    Start playing music in any app on your computer, then in IKANDY pick <strong>Now Playing</strong> as the source. No setup, no auth — IKANDY listens to whatever Windows is currently playing and starts reacting immediately.
+  </div>
+</section>
+
+<!-- 02 LAYOUT -->
+<section id="layout">
+  <p class="section-tag">02 — The Layout</p>
+  <h2>One Screen,<br>One Control Bar</h2>
+  <p class="lead">IKANDY has one layout: the full screen is the stage. A slim console bar lives at the bottom. Everything you need is in those five zones — no sidebars, no accordions.</p>
+
+  <div class="console-diagram">
+    <div class="cd-stage">
+      <div class="cd-lyrics-badge">lyrics overlay</div>
+      <span class="ld-tag">Visualizer Stage</span>
+      <span class="ld-name">The Show</span>
+      <span class="ld-desc">Full-screen preset · scenes · FX image · lyrics float here</span>
+    </div>
+    <div class="cd-bar">
+      <div class="cd-zone">
+        <span class="cdz-label">Now Playing</span>
+        <span class="cdz-desc">Art · title · artist</span>
+      </div>
+      <div class="cd-zone">
+        <span class="cdz-label">Playback</span>
+        <span class="cdz-desc">Transport · seek bar</span>
+      </div>
+      <div class="cd-zone">
+        <span class="cdz-label">Visualiser</span>
+        <span class="cdz-desc">Browse ⊞ · count · shuffle</span>
+      </div>
+      <div class="cd-zone">
+        <span class="cdz-label">Utility</span>
+        <span class="cdz-desc">Scene ✦ · Viz Config ≡ · multi-mon</span>
+      </div>
+      <div class="cd-zone">
+        <span class="cdz-label">Settings ⚙</span>
+        <span class="cdz-desc">Source · theme · about</span>
+      </div>
+    </div>
+  </div>
+
+  <h3>Console bar zones</h3>
+  <ul class="b">
+    <li><strong>Now Playing</strong> — album art, track title, artist name. Click the album art to open the lyrics overlay.</li>
+    <li><strong>Playback</strong> — play/pause, skip, shuffle, seek bar. Drag the bar to seek anywhere in the track.</li>
+    <li><strong>Visualiser</strong> — <strong>Browse (⊞)</strong> opens the full preset browser. The live preset count (<em>ALL · 745</em>) and shuffle status are shown here.</li>
+    <li><strong>Utility</strong> — <strong>✦</strong> opens the Scene popover (7 scenes + Intensity slider); <strong>≡</strong> opens Viz Config (MILKDROP / IMAGE / LYRICS tabs); multi-monitor toggle.</li>
+    <li><strong>Settings (⚙)</strong> — source selector, theme palette, reconnect audio, about.</li>
+  </ul>
+
+  <h3>Two modals</h3>
+  <p class="body">Almost all visual controls live in two modals:</p>
+  <ul class="b">
+    <li><strong>Settings (⚙)</strong> — tabs: SOURCE · VIDEO · MOUSE · DEBUG · ABOUT</li>
+    <li><strong>Viz Config (≡)</strong> — tabs: MILKDROP (preset cycling, sensitivity, opacity) · IMAGE (background photo, FX shaders, vignette/grain) · LYRICS (mode, position, font size, opacity, colour)</li>
+  </ul>
+
+  <h3>Multi-monitor</h3>
+  <p class="body">The multi-monitor toggle is in the <strong>Utility</strong> zone of the console bar. Enable it to send visuals to every secondary display. Two modes:</p>
+  <ul class="b">
+    <li><strong>Multi-display</strong> — shows a reactive radial spectrum visualizer on your secondary displays while your primary continues running your selected preset. Use Span instead if you want a single preset stretched across all displays.</li>
+    <li><strong>Span</strong> — stretches the IKANDY window across all selected secondaries into one giant canvas. Best when monitors share the same resolution; mixed resolutions get black filler in the gaps.</li>
+  </ul>
+  <p class="body">Per-display checkboxes let you include or exclude individual monitors. Hot-plug is automatic — connecting a new monitor opens a visualizer window; disconnecting one closes it.</p>
+</section>
+
+<!-- 03 SOURCES -->
+<section id="sources">
+  <p class="section-tag">03 — Audio Sources</p>
+  <h2>Connect<br>Your Music</h2>
+  <p class="lead">IKANDY can connect to four different sources. Each one offers a different feature set depending on what its underlying API exposes. Switching between them automatically pauses the previous one.</p>
+
+  <!-- SPOTIFY -->
+  <div class="source-block" id="source-spotify" style="--c:var(--green);">
+    <div class="source-block-head">
+      <span class="source-block-icon">🎵</span>
+      <span class="source-block-name">Spotify</span>
+      <span class="source-block-meta" style="color:var(--green);">● Full features &middot; Premium recommended</span>
+    </div>
+    <p class="body dim">The richest integration. Track info, album art, synced lyrics, playlist browser with search, and full transport &mdash; play, pause, skip, shuffle modes including Smart Shuffle detection. IKANDY uses <em>Bring Your Own Key</em> auth: you create a free Spotify Developer app and paste the Client ID once. It&rsquo;s saved encrypted via Windows DPAPI and never leaves your machine.</p>
+
+    <h3 class="first">One-time setup</h3>
+    <ol class="steps">
+      <li>In IKANDY, open the source selector and choose <strong>Spotify</strong>. The settings panel shows the exact <strong>Redirect URI</strong> to register.</li>
+      <li>Go to <code>developer.spotify.com/dashboard</code>, log in, and click <strong>Create app</strong>.</li>
+      <li>Give it any name and description. Under <strong>Redirect URIs</strong>, paste the URI shown in IKANDY. Check the <strong>Web API</strong> box. Save.</li>
+      <li>Open the new app → <strong>Settings</strong> → copy the <strong>Client ID</strong>.</li>
+      <li>Paste the Client ID into IKANDY's Spotify settings and click <strong>Connect</strong>. Spotify opens in your browser to authorise. Done.</li>
+    </ol>
+
+    <img class="guide-screenshot" src="assets/screenshots/spotify-setup.png" alt="Spotify BYOK setup — Client ID field in IKANDY settings">
+    <p class="guide-screenshot-caption">IKANDY's Spotify settings panel showing the Client ID field and Redirect URI</p>
+
+    <div class="callout">
+      <span class="callout-label">Why BYOK</span>
+      Most apps embed a shared Client ID, so Spotify rate-limits everyone using that app together. With BYOK, your IKANDY uses your own quota — no sharing, no throttling.
+    </div>
+
+    <div class="callout warn">
+      <span class="callout-label">Premium required for transport</span>
+      Spotify's Web API only allows playback control for Premium subscribers. Free accounts get track info, album art, and lyrics, but playback buttons are greyed out. Works with Spotify desktop, the web player, or any Spotify Connect device.
+    </div>
+  </div>
+
+  <!-- FOOBAR -->
+  <div class="source-block" id="source-foobar" style="--c:#9b72cf;">
+    <div class="source-block-head">
+      <span class="source-block-icon">🎧</span>
+      <span class="source-block-name">foobar2000</span>
+      <span class="source-block-meta" style="color:var(--green);">● Full features &middot; Beefweb plugin</span>
+    </div>
+    <p class="body dim">For the audiophile crowd. Connects via the <strong>foo_beefweb</strong> component — a REST/JSON API that exposes the full library. Playlist browse with search, every shuffle mode foobar supports, transport, album art, lyrics. The most feature-complete source IKANDY offers.</p>
+
+    <h3 class="first">One-time setup</h3>
+    <ol class="steps">
+      <li>Download and install <strong>foo_beefweb</strong> from <code>github.com/hyperblast/beefweb/releases</code>.</li>
+      <li>In foobar2000: <strong>File → Preferences → Tools → Beefweb Remote Control</strong>.</li>
+      <li>Tick <strong>Enable HTTP server</strong> (default port <code>8880</code>). Optionally set a password. Click Apply.</li>
+      <li>In IKANDY, choose <strong>foobar2000</strong>, leave port at <code>8880</code>, enter the password if set, and click <strong>Connect</strong>.</li>
+    </ol>
+    <img class="guide-screenshot" src="assets/screenshots/foobar-beefweb.png" alt="foo_beefweb preferences in foobar2000">
+    <p class="guide-screenshot-caption">foobar2000 → Preferences → Tools → Beefweb Remote Control</p>
+  </div>
+
+  <!-- VLC -->
+  <div class="source-block" id="source-vlc" style="--c:#ff6b35;">
+    <div class="source-block-head">
+      <span class="source-block-icon">📺</span>
+      <span class="source-block-name">VLC</span>
+      <span class="source-block-meta" style="color:#ff6b35;">● Standard &middot; Local HTTP</span>
+    </div>
+    <p class="body dim">Connects to VLC&rsquo;s built-in web interface — play, pause, skip, shuffle on/off, album art, synced lyrics. No library browse; pick what to play in VLC, control playback in IKANDY.</p>
+
+    <h3 class="first">One-time setup</h3>
+    <ol class="steps">
+      <li>Open VLC → <strong>Tools → Preferences</strong>. Switch <strong>Show settings</strong> to <strong>All</strong>.</li>
+      <li>Navigate to <strong>Interface → Main interfaces</strong> and tick <strong>Web</strong>.</li>
+      <li>Expand <strong>Main interfaces → Lua</strong>, set a <strong>Lua HTTP password</strong>, and save.</li>
+      <li>Restart VLC. In IKANDY, choose <strong>VLC</strong>, paste the password, and click <strong>Connect</strong>.</li>
+    </ol>
+    <img class="guide-screenshot" src="assets/screenshots/vlc-web-interface.png" alt="VLC Preferences showing Web interface enabled">
+    <p class="guide-screenshot-caption">VLC → Preferences → All → Interface → Main interfaces → Web (ticked)</p>
+
+    <div class="callout tip">
+      <span class="callout-label">Custom port</span>
+      If port 8080 is taken, change it in the same VLC preferences pane. Match it in IKANDY's VLC settings.
+    </div>
+  </div>
+
+  <!-- NOW PLAYING -->
+  <div class="source-block" id="source-smtc" style="--c:var(--ice);">
+    <div class="source-block-head">
+      <span class="source-block-icon">🎙️</span>
+      <span class="source-block-name">Now Playing</span>
+      <span class="source-block-meta" style="color:var(--ice);">● Basic &middot; Windows Media Controls &middot; Zero setup</span>
+    </div>
+    <p class="body dim">The catch-all. Reads whatever app is currently playing music on Windows &mdash; Spotify, YouTube Music, Apple Music, browser tabs, Tidal, anything that publishes to Windows Media Controls. Track info and transport controls (play, pause, next, prev) follow whatever is active. No browse, no shuffle, no album art.</p>
+
+    <h3 class="first">How to use it</h3>
+    <ol class="steps">
+      <li>Start playing music in any app on your computer.</li>
+      <li>In IKANDY, open the source selector and pick <strong>Now Playing</strong>.</li>
+      <li>Track info and transport light up within a second. IKANDY shows or greys out individual buttons based on what the active source app actually supports.</li>
+    </ol>
+
+    <div class="callout warn">
+      <span class="callout-label">Firefox needs a flag</span>
+      Chrome and Edge bridge HTML5 Media Session to Windows Media Controls automatically. Firefox doesn&rsquo;t by default &mdash; open <code>about:config</code>, search <code>media.hardwaremediakeys.enabled</code>, set it to <strong>true</strong>, and restart Firefox.
+    </div>
+  </div>
+
+  <!-- PER-PROCESS CAPTURE -->
+  <div class="source-block" id="source-perprocess" style="--c:var(--gold);margin-top:32px;">
+    <div class="source-block-head">
+      <span class="source-block-icon">🎯</span>
+      <span class="source-block-name">Per-Process Capture</span>
+      <span class="source-block-meta" style="color:var(--gold);">● Audio isolation &middot; Settings → SOURCE</span>
+    </div>
+    <p class="body dim">Capture audio from one specific app rather than the whole system mix. If you&rsquo;re gaming while listening to Spotify, IKANDY normally reacts to everything &mdash; game effects, Discord pings, notification sounds. Per-Process Capture locks on to Spotify alone and ignores everything else.</p>
+
+    <h3 class="first">How to use it</h3>
+    <ol class="steps">
+      <li>Start the app you want to capture (e.g. Spotify) and play something.</li>
+      <li>In IKANDY, open <strong>Settings (⚙) → SOURCE tab → Per-Process Capture</strong>.</li>
+      <li>Click <strong>Scan</strong>. IKANDY lists every app currently producing audio, with its icon.</li>
+      <li>Click <strong>Capture</strong> next to the app you want. The banner at the top of the section confirms which app is active.</li>
+      <li>To stop, click <strong>Stop</strong> in the banner. IKANDY returns to system audio automatically.</li>
+    </ol>
+
+    <div class="callout tip">
+      <span class="callout-label">Switching apps</span>
+      Click Capture on a different app while one is already active &mdash; IKANDY switches cleanly with no confirmation dialog. The banner updates immediately.
+    </div>
+
+    <div class="callout">
+      <span class="callout-label">Use cases</span>
+      <ul style="margin-top:6px;line-height:1.7">
+        <li>React to Spotify only, ignoring game audio and Discord</li>
+        <li>Capture a DAW or audio editor output for a live mix visualisation</li>
+        <li>Isolate browser tab audio when YouTube is playing alongside other apps</li>
+        <li>Test a specific app&rsquo;s audio routing without affecting the rest of the system</li>
+      </ul>
+    </div>
+
+    <div class="callout warn">
+      <span class="callout-label">Requires a connected source first</span>
+      Per-Process Capture shares the same audio graph as system audio. Connect any source (Spotify, VLC, etc.) or click <strong>🎤 Reconnect Audio</strong> once before using it &mdash; this initialises the audio context. After that, per-process capture works independently.
+    </div>
+  </div>
+</section>
+
+<!-- 03b PER-PROCESS (anchor target for TOC) -->
+<section id="per-process" style="padding-top:0;margin-top:-80px;pointer-events:none;height:0;"></section>
+
+<!-- 04 PRESETS -->
+<section id="presets">
+  <p class="section-tag">04 — Visualizer &amp; Presets</p>
+  <h2>745 MilkDrop<br>Presets</h2>
+  <p class="lead">The core visualiser is built on Butterchurn 3.0 — a WebGL port of Winamp's legendary MilkDrop engine. IKANDY ships with 745 presets — the base library, extra curated packs, and an <strong>Image</strong> category that layers especially well over a background photo.</p>
+
+  <h3>Cycling presets</h3>
+  <p class="body">IKANDY auto-cycles through presets at a fixed interval with a smooth blend between each one. Controls in <strong>Viz Config (≡) → MILKDROP tab</strong>:</p>
+  <ul class="b">
+    <li><strong>Auto-cycle interval</strong> — how long each preset stays before moving on. Default 30 seconds.</li>
+    <li><strong>Blend time</strong> — morph duration between presets. Longer = cinematic; shorter = kinetic.</li>
+    <li><strong>Visualizer opacity</strong> — fade the preset back to let a background image or scene show through.</li>
+  </ul>
+
+  <div class="callout tip">
+    <span class="callout-label">Shuffle bag</span>
+    Auto-cycle uses a shuffle bag — every preset in the active pool plays once before any can repeat. No more seeing the same preset twice in a row.
+  </div>
+
+  <h3>Reactivity scan</h3>
+  <p class="body">On first launch, IKANDY silently scans all presets in the background (after 30 seconds of keyboard/mouse idle) and rates each one for audio reactivity. The results are cached — future launches don't re-scan unless you add presets.</p>
+  <p class="body">Once the scan is complete, a <strong>Hide non-reactive</strong> toggle appears in the console's visualiser zone. Enable it to filter the auto-cycle pool to only presets that visibly respond to beats. To run a manual scan or check progress, click <strong>Run Scan</strong> — it shows live progress (<em>Scanning… 42/745</em>) and a completion summary when done.</p>
+
+  <h3>The preset browser</h3>
+  <p class="body">Click <strong>Browse (⊞)</strong> in the console's visualiser zone to open the full preset browser. All 745 are listed with thumbnail previews — hover any thumbnail for a live preview, click to load it immediately. Thumbnails are pre-cached on first launch.</p>
+
+  <h3>Custom preset folder</h3>
+  <p class="body">In the preset browser, switch to the <strong>CUSTOM</strong> tab. If no folder is loaded, the empty state shows a <strong>Load Folder</strong> button — click it to pick a directory of Butterchurn preset files. The folder merges into the browser alongside the bundled library and persists across restarts.</p>
+
+  <div class="callout warn">
+    <span class="callout-label">File format: .json, not .milk</span>
+    IKANDY uses Butterchurn's <code>.json</code> preset format — not the original MilkDrop <code>.milk</code> binary format. When downloading community preset packs, look for Butterchurn-compatible exports. Native <code>.milk</code> import is planned but not yet implemented.
+  </div>
+
+  <div class="callout tip">
+    <span class="callout-label">Broken preset handling</span>
+    Some presets produce invalid values on modern hardware. IKANDY automatically skips broken or near-black presets after the first frame and remembers them — warnings appear once, then the cycle keeps moving.
+  </div>
+</section>
+
+<!-- 05 SCENES -->
+<section id="scenes">
+  <p class="section-tag">05 — Custom Scenes</p>
+  <h2>Audio-Reactive,<br>Built In-House</h2>
+  <p class="lead">Seven custom scenes written from scratch for IKANDY. Unlike Butterchurn presets — which interpret a recipe of math — these are direct audio-reactive engines driven by real-time FFT analysis. The music literally makes the picture.</p>
+
+  <h3>Turning scenes on</h3>
+  <p class="body">Click the <strong>✦</strong> button in the console's Utility zone to open the Scene popover. Pick one of the seven scenes below — the <strong>Intensity</strong> slider controls how aggressively the scene reacts to the audio. Click <strong>✦</strong> again or press Escape to close.</p>
+
+  <div class="fx-table">
+    <div class="fx-item" style="--c:#ff6b35;">
+      <div class="fx-item-name">Fire EQ</div>
+      <div class="fx-item-desc">Frequency-reactive flames that climb with the spectrum. Low frequencies thicken the base, highs flick up sparks.</div>
+    </div>
+    <div class="fx-item" style="--c:#5bc8f5;">
+      <div class="fx-item-name">Spectrum</div>
+      <div class="fx-item-desc">Classic ripple bars driven by live frequency analysis. Clean, readable, hypnotic.</div>
+    </div>
+    <div class="fx-item" style="--c:#d4a843;">
+      <div class="fx-item-name">Waveray</div>
+      <div class="fx-item-desc">Radial beams that pulse and sweep with the waveform. Best with strong rhythmic music.</div>
+    </div>
+    <div class="fx-item" style="--c:#1db954;">
+      <div class="fx-item-name">Aurora</div>
+      <div class="fx-item-desc">Drifting curtains of light, mid-range driven. Soft, cinematic, hypnotic with vocal-led tracks.</div>
+    </div>
+    <div class="fx-item" style="--c:#9b72cf;">
+      <div class="fx-item-name">Starfield</div>
+      <div class="fx-item-desc">Beat-reactive cosmos. Stars sweep past while a central planet bounces with every kick — the harder the beat, the bigger the bloom.</div>
+    </div>
+    <div class="fx-item" style="--c:#ff2d8a;">
+      <div class="fx-item-name">Singularity</div>
+      <div class="fx-item-desc">A gravitational lens at the centre pulls light inward, collapsing on every beat drop.</div>
+    </div>
+    <div class="fx-item" style="--c:#5bc8f5;">
+      <div class="fx-item-name">Voyager</div>
+      <div class="fx-item-desc">Cosmic depth-of-field flythrough — star clusters and nebulae drift past in sync with tempo.</div>
+    </div>
+  </div>
+
+  <div class="callout tip">
+    <span class="callout-label">Layering</span>
+    Scenes layer over Butterchurn presets — and over FX images. Drop the visualizer opacity in <strong>Viz Config (≡) → MILKDROP tab</strong> to let the scene take centre stage, or keep it high to blend the two. Scenes and FX shaders can run simultaneously.
+  </div>
+</section>
+
+<!-- 06 FX -->
+<section id="fx">
+  <p class="section-tag">06 — FX Shaders</p>
+  <h2>12 Real-Time<br>Shaders</h2>
+  <p class="lead">The FX layer is for personalisation. Load a background image — a band photo, album art, your dog, anything — and overlay one of 12 cinematic GLSL shaders. The image becomes the canvas; the shader becomes the mood.</p>
+
+  <h3>Loading an image</h3>
+  <ol class="steps">
+    <li>Open <strong>Viz Config (≡) → IMAGE tab</strong>.</li>
+    <li>Click <strong>Load Image</strong> and pick any JPG or PNG.</li>
+    <li>The image fills the background. The visualizer and scenes (if any) layer on top.</li>
+    <li>Pick an FX shader from the grid. Use the <strong>Strength</strong> slider to dial it in.</li>
+  </ol>
+
+  <h3>The shaders</h3>
+  <div class="fx-table">
+    <div class="fx-item" style="--c:#5bc8f5;"><div class="fx-item-name">Rain</div><div class="fx-item-desc">Animated raindrops rippling across the image</div></div>
+    <div class="fx-item" style="--c:#aaa;"><div class="fx-item-name">Ink Bleed</div><div class="fx-item-desc">Bleeding ink absorption effect</div></div>
+    <div class="fx-item" style="--c:#ff6b35;"><div class="fx-item-name">VHS Warp</div><div class="fx-item-desc">Warped tape glitch and chromatic shift</div></div>
+    <div class="fx-item" style="--c:#bbb;"><div class="fx-item-name">Fog</div><div class="fx-item-desc">Drifting atmospheric haze</div></div>
+    <div class="fx-item" style="--c:#e8b4b8;"><div class="fx-item-name">Watercolor</div><div class="fx-item-desc">Wet watercolour bleeding and texture</div></div>
+    <div class="fx-item" style="--c:#c9a96e;"><div class="fx-item-name">Dust Film</div><div class="fx-item-desc">Dust, scratches and film grain overlay</div></div>
+    <div class="fx-item" style="--c:#b8d4e8;"><div class="fx-item-name">Liquid Metal</div><div class="fx-item-desc">Liquid chrome surface distortion</div></div>
+    <div class="fx-item" style="--c:#ff2d8a;"><div class="fx-item-name">Shatter</div><div class="fx-item-desc">Voronoi glass fracture pattern</div></div>
+    <div class="fx-item" style="--c:#00ff88;"><div class="fx-item-name">Data Corrupt</div><div class="fx-item-desc">Digital glitch and data corruption</div></div>
+    <div class="fx-item" style="--c:#9b72cf;"><div class="fx-item-name">Plasma Arc</div><div class="fx-item-desc">Electric arc discharge overlay</div></div>
+    <div class="fx-item" style="--c:#5bc8f5;"><div class="fx-item-name">Hologram</div><div class="fx-item-desc">Iridescent holographic shimmer</div></div>
+    <div class="fx-item" style="--c:#ff6b35;"><div class="fx-item-name">Heat Wave</div><div class="fx-item-desc">Desert heat wave distortion</div></div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">Bass-reactive vignette &amp; grain</span>
+    The IMAGE tab also has a global vignette and film grain that pulse softly with the bass. They work with or without an image loaded.
+  </div>
+</section>
+
+<!-- 07 LYRICS -->
+<section id="lyrics">
+  <p class="section-tag">07 — Lyrics</p>
+  <h2>Two Modes,<br>One Source</h2>
+  <p class="lead">IKANDY pulls synced lyrics from <strong>LRCLIB</strong>, a free, open community lyrics database. Lyrics fetch automatically based on the artist and title of the playing track — no manual entry, no per-track configuration.</p>
+
+  <h3 class="first">Classic mode</h3>
+  <p class="body">One line at a time, centred on screen. Clean, karaoke-style. Perfect for recording, screen-sharing, or just reading along. The current line glows; surrounding lines are dim.</p>
+
+  <h3>Physics mode</h3>
+  <p class="body">Words explode onto the screen and float in zero-gravity. They collide, bounce off the edges, and drift in response to the audio. Best paired with a busy preset for maximum overload, or against a clean scene for legibility.</p>
+
+  <div class="callout tip">
+    <span class="callout-label">Switching modes</span>
+    Click the album art in the console's Now Playing zone to show the lyrics overlay. The mode toggle is at the top. You can flip between Classic and Physics mid-song. For fine-grained control — position, font size, opacity, text colour — open <strong>Viz Config (≡) → LYRICS tab</strong>.
+  </div>
+
+  <div class="callout warn">
+    <span class="callout-label">No lyrics available</span>
+    LRCLIB is community-maintained — very new releases or obscure tracks may not have synced lyrics yet. If there's no LRC entry, IKANDY shows nothing instead of guessing.
+  </div>
+</section>
+
+<!-- 08 CONTROLS -->
+<section id="controls">
+  <p class="section-tag">08 — Controls &amp; Themes</p>
+  <h2>Tune the<br>Whole Thing</h2>
+  <p class="lead">Preset cycling controls live in <strong>Viz Config (≡) → MILKDROP tab</strong>. The progress bar and themes are in the console bar.</p>
+
+  <h3 class="first">Sensitivity</h3>
+  <p class="body">In the MILKDROP tab, the <strong>Sensitivity</strong> slider controls how aggressively the visuals respond to the audio. Low gives a calm, ambient feel; high makes everything snap to the beat. Default sits in the middle and works for most music.</p>
+
+  <h3>Progress bar</h3>
+  <p class="body">The playback progress bar in the console's Playback zone is draggable — click and drag anywhere on it to seek to that position in the track. Works with all sources that support seeking.</p>
+
+  <h3>Themes</h3>
+  <p class="body">IKANDY ships with <strong>6 colour themes</strong> that re-skin the entire UI. Access them via the palette button in <strong>Settings (⚙)</strong>. Available themes: Gold, Neon, Forest, Dusk, Ice, White. Themes don't change the visuals themselves, just the chrome around them.</p>
+
+  <div class="callout tip">
+    <span class="callout-label">Set it once, forget it</span>
+    All settings persist across sessions. Sensitivity, theme, source preferences, custom preset folder, last-used scene — all saved automatically.
+  </div>
+</section>
+
+<!-- 09 TIPS -->
+<section id="tips">
+  <p class="section-tag">09 — Tips &amp; Workflow</p>
+  <h2>Get the Most<br>Out of It</h2>
+
+  <ul class="b">
+    <li><strong>Drop visualizer opacity to spotlight a scene or background.</strong> In <strong>Viz Config (≡) → MILKDROP tab</strong>, fade the preset to 30–50% to let an image or scene breathe through. Scenes and FX shaders can run simultaneously.</li>
+    <li><strong>For recording or streaming.</strong> Classic lyric mode + Spectrum scene + Hologram or Plasma Arc shader gives a polished look that reads well on video.</li>
+    <li><strong>Lyrics need correct metadata.</strong> As long as artist and title are right, lyrics fetch automatically. If they&rsquo;re not loading, check the metadata on the playing source — wrong tags look up the wrong song.</li>
+    <li><strong>Volume lives in the source app.</strong> IKANDY doesn&rsquo;t adjust system volume — use the source app or your Windows volume mixer.</li>
+  </ul>
+</section>
+
+<!-- 10 TROUBLESHOOTING -->
+<section id="troubleshooting">
+  <p class="section-tag">10 — Troubleshooting</p>
+  <h2>When Things<br>Get Weird</h2>
+  <p class="lead">The most common issues people run into, and how to fix them. Click any item to expand.</p>
+
+  <div style="margin-top:32px;">
+
+    <details class="tr">
+      <summary>Now Playing says "Nothing is playing"</summary>
+      <div class="tr-body">
+        <p>Windows reports no app is currently registered as the SMTC owner. Simply <strong>start playing music in any app</strong> and the message will disappear within a second.</p>
+        <p>If music is playing and Now Playing still doesn&rsquo;t see it:</p>
+        <ul style="margin-top:8px;">
+          <li><strong>Firefox</strong> &mdash; open <code>about:config</code>, set <code>media.hardwaremediakeys.enabled</code> to <strong>true</strong>, restart Firefox.</li>
+          <li><strong>Chrome / Edge</strong> &mdash; check <code>chrome://flags</code> for <em>Hardware Media Key Handling</em> and set it to <strong>Enabled</strong>.</li>
+          <li><strong>Apple Music for Windows</strong> &mdash; can be inconsistent. Try pausing/resuming, or use a dedicated source instead.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="tr">
+      <summary>Now Playing controls grey out / Next or Previous don't work</summary>
+      <div class="tr-body">
+        <p>By design. IKANDY queries the active app for which transport commands it actually exposes — some apps (single YouTube videos, podcasts) don&rsquo;t advertise Next or Previous, so IKANDY locks those buttons.</p>
+        <p>Hover any greyed-out button to see the reason. For full transport, use a YouTube Mix or playlist URL, or Spotify desktop/web player.</p>
+      </div>
+    </details>
+
+    <details class="tr">
+      <summary>"Could not start audio source" / no audio reactivity</summary>
+      <div class="tr-body">
+        <p>Windows treats system audio capture the same as microphone access for privacy purposes.</p>
+        <p><strong>Fix:</strong> <strong>Settings → Privacy &amp; security → Microphone</strong> → toggle <strong>Let desktop apps access your microphone</strong> on. Restart IKANDY.</p>
+        <p>If that doesn&rsquo;t help, click <strong>🎤 Reconnect Audio</strong> in <strong>Settings (⚙) → SOURCE tab</strong>.</p>
+      </div>
+    </details>
+
+    <details class="tr">
+      <summary>Spotify playback controls are greyed out</summary>
+      <div class="tr-body">
+        <p>Spotify only allows external playback control for <strong>Premium</strong> subscribers — this is a Spotify API restriction. Free accounts still get track info, album art, and synced lyrics.</p>
+        <p>Premium users: the dedicated source works whether you&rsquo;re playing in Spotify desktop, web player, mobile, or a Spotify Connect speaker.</p>
+      </div>
+    </details>
+
+    <details class="tr">
+      <summary>Spotify won't connect / authentication fails</summary>
+      <div class="tr-body">
+        <p><strong>Most common cause:</strong> the Redirect URI in your Spotify Developer app doesn't exactly match the one IKANDY shows.</p>
+        <p>Open IKANDY's Spotify settings, copy the Redirect URI, then go to <code>developer.spotify.com/dashboard</code> → your app → Settings → paste it into <strong>Redirect URIs</strong>. Save, then retry Connect from IKANDY.</p>
+        <p>Also check: Client ID pasted with no leading/trailing spaces, Web API box is ticked.</p>
+      </div>
+    </details>
+
+    <details class="tr">
+      <summary>VLC won't connect</summary>
+      <div class="tr-body">
+        <p>Open <code>http://localhost:8080</code> in a browser — you should see the VLC web UI password prompt. If you don't, the web interface isn't enabled.</p>
+        <p><strong>Fix:</strong> VLC → <strong>Tools → Preferences</strong> → <strong>Show settings: All</strong> → <strong>Interface → Main interfaces</strong> → tick <strong>Web</strong>. Expand <strong>Lua</strong> below it and confirm a Lua HTTP password is set. Restart VLC.</p>
+      </div>
+    </details>
+
+    <details class="tr">
+      <summary>foobar2000 won't connect</summary>
+      <div class="tr-body">
+        <p>In foobar2000 → <strong>File → Preferences → Tools → Beefweb Remote Control</strong>, confirm <strong>Enable HTTP server</strong> is ticked.</p>
+        <p>Test by visiting <code>http://localhost:8880</code> in a browser. If you see the Beefweb player, the plugin is healthy. If you set a password, paste it exactly as configured in IKANDY's foobar2000 settings.</p>
+      </div>
+    </details>
+
+    <details class="tr">
+      <summary>SmartScreen blocks the installer</summary>
+      <div class="tr-body">
+        <p><em>"Windows protected your PC"</em> &mdash; IKANDY is in beta and the Certum code-signing certificate is still in verification.</p>
+        <p><strong>Fix:</strong> click <strong>More info</strong>, then <strong>Run anyway</strong>. The app is open source on GitHub. Once the certificate is issued, future builds will be signed and SmartScreen stops warning.</p>
+      </div>
+    </details>
+
+    <details class="tr">
+      <summary>Why doesn't IKANDY react to Spotify when I'm playing a game?</summary>
+      <div class="tr-body">
+        <p>By default IKANDY captures the entire system audio mix &mdash; game sound effects, Discord calls, notification pings, and Spotify all go in together. The visualiser reacts to whichever is loudest at any given moment, which is often the game.</p>
+        <p><strong>Fix: use Per-Process Capture.</strong> Open <strong>Settings (⚙) → SOURCE tab → Per-Process Capture</strong>, click <strong>Scan</strong>, then click <strong>Capture</strong> next to Spotify. IKANDY will lock on to Spotify&rsquo;s audio stream alone and ignore everything else. The game keeps running normally &mdash; IKANDY just doesn&rsquo;t listen to it.</p>
+      </div>
+    </details>
+
+    <details class="tr">
+      <summary>Visuals don't react to my music</summary>
+      <div class="tr-body">
+        <p>Confirm the source is connected — the console bar's Now Playing zone should show the track name and source.</p>
+        <p>Visuals react to <strong>system audio</strong> regardless of which source you&rsquo;ve picked for track info. If the visualizer is static while music plays, audio isn&rsquo;t reaching IKANDY. Click <strong>🎤 Reconnect Audio</strong> in <strong>Settings (⚙) → SOURCE tab</strong>, and check Windows microphone permissions.</p>
+      </div>
+    </details>
+
+    <details class="tr">
+      <summary>I have 5.1 or 7.1 surround sound and the visuals barely move</summary>
+      <div class="tr-body">
+        <p>IKANDY captures a stereo loopback stream. With 5.1/7.1 configured, Windows mixes most music into rear/centre/sub channels, leaving the front L/R that IKANDY captures very quiet.</p>
+        <p><strong>Fix:</strong> set your default output to <strong>Stereo (2 channel)</strong>:</p>
+        <ol style="margin-top:8px;list-style-position:inside;">
+          <li>Right-click speaker icon → <strong>Sounds → Playback</strong> tab.</li>
+          <li>Right-click your active output → <strong>Configure Speakers</strong> → choose <strong>Stereo</strong>.</li>
+          <li>Right-click again → <strong>Properties → Advanced</strong> → pick a 2-channel format from <strong>Default Format</strong>.</li>
+          <li>Apply, then in IKANDY hit <strong>🎤 Reconnect Audio</strong> in <strong>Settings (⚙) → SOURCE tab</strong>.</li>
+        </ol>
+      </div>
+    </details>
+
+    <details class="tr">
+      <summary>Lyrics aren't showing up</summary>
+      <div class="tr-body">
+        <p>Lyrics come from <a href="https://lrclib.net" target="_blank" style="color:var(--ice);">LRCLIB</a>, which is community-maintained. Very new or obscure tracks may not have an entry. Search <code>lrclib.net</code> directly to confirm.</p>
+        <p>Also check: if your local files have incorrect artist/title tags, lyrics will look up the wrong song.</p>
+      </div>
+    </details>
+
+    <details class="tr">
+      <summary>Performance is choppy or stuttering</summary>
+      <div class="tr-body">
+        <p>IKANDY is GPU-bound. If your GPU is busy with another task, frame rate will suffer.</p>
+        <p>Try: open <strong>Viz Config (≡) → MILKDROP tab</strong>, lower <strong>Sensitivity</strong>, drop preset <strong>Opacity</strong>; pick a simpler scene (Spectrum or Aurora instead of Starfield); or open the <strong>IMAGE tab</strong> and disable FX shaders to remove a full-frame post-process pass.</p>
+        <p>On laptops, make sure IKANDY is using the discrete GPU: <strong>Settings → System → Display → Graphics</strong>.</p>
+      </div>
+    </details>
+
+    <details class="tr">
+      <summary>The app won't launch / crashes on startup</summary>
+      <div class="tr-body">
+        <p>Try a clean reinstall: uninstall via Settings → Apps, delete <code>%APPDATA%\IKANDY</code>, then reinstall the latest build.</p>
+        <p>If it still crashes, open an issue at <a href="https://github.com/IKANDYapp/IKANDY/issues" target="_blank" style="color:var(--ice);">github.com/IKANDYapp/IKANDY/issues</a> with your Windows version, GPU, and any error message shown.</p>
+      </div>
+    </details>
+
+    <details class="tr" id="settings-location">
+      <summary>Where are my settings stored?</summary>
+      <div class="tr-body">
+        <p>IKANDY stores all user data in the Electron <code>userData</code> folder:</p>
+        <ul style="margin-top:8px;">
+          <li><strong>Windows:</strong> <code>%APPDATA%\IKANDY</code> (paste into Explorer address bar)</li>
+          <li><strong>macOS:</strong> <code>~/Library/Application Support/IKANDY</code></li>
+        </ul>
+        <p style="margin-top:8px;">Files stored there include your Spotify tokens (encrypted via Windows DPAPI / macOS Keychain), source preferences, preset reactivity scores, favorites, hidden presets, and thumbnail cache.</p>
+        <p style="margin-top:8px;"><strong>Uninstall note:</strong> the standard NSIS uninstaller on Windows does <em>not</em> delete <code>%APPDATA%\IKANDY</code>. Your settings, favorites, and cached thumbnails survive an uninstall and are picked up automatically when you reinstall. To fully reset IKANDY, delete that folder manually after uninstalling.</p>
+      </div>
+    </details>
+
+  </div>
+</section>
+
+<!-- 11 HELP -->
+<section id="help" style="padding-top:0;padding-bottom:0;max-width:none;">
+  <div class="help-section">
+    <p class="section-tag" style="position:relative;">11 — Get Help</p>
+    <div class="help-title">Stuck? Reach Out.</div>
+    <p class="help-sub">Discord for chat, GitHub for bugs, BuyMeACoffee if it made your day.</p>
+    <div class="help-links">
+      <a href="https://discord.gg/qnnx6BBp" target="_blank" class="help-link">💬 Discord</a>
+      <a href="https://github.com/IKANDYapp/IKANDY/issues" target="_blank" class="help-link">🐛 Report a Bug</a>
+      <a href="https://github.com/IKANDYapp/IKANDY" target="_blank" class="help-link">↗ GitHub</a>
+      <a href="https://buymeacoffee.com/IKANDY" target="_blank" class="help-link">☕ Support</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">IKANDY <span class="beta-badge" style="font-size:8px;vertical-align:5px;">BETA</span></div>
+  <ul class="footer-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="https://github.com/IKANDYapp/IKANDY" target="_blank">GitHub</a></li>
+    <li><a href="https://github.com/IKANDYapp/IKANDY/releases" target="_blank">Releases</a></li>
+    <li><a href="https://buymeacoffee.com/IKANDY" target="_blank">Support</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 Felix Bag of Tricks · IKANDY.app</div>
+</footer>
+
+</body>
+</html>
