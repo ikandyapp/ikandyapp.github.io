@@ -3,415 +3,614 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IKANDY Smart Auto: Per-Process Audio Dominance Detection with Metadata Backend Arbitration</title>
+<title>IKANDY Smart Auto — Per-Process Audio Dominance Detection with Metadata Backend Arbitration</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;700;800&display=swap');
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --bg: #0a0a0f;
-    --surface: #111118;
-    --border: #1e1e2e;
-    --cyan: #00e5ff;
-    --violet: #9b5de5;
-    --text: #c8c8d8;
-    --muted: #5a5a7a;
-    --white: #eeeef8;
+    --gold: #d4a843;
+    --neon: #ff2d8a;
+    --green: #1db954;
+    --ice: #5bc8f5;
+    --bg: #04040a;
+    --bg2: #08080f;
+    --txt: #e8e8e8;
+    --dim: rgba(255,255,255,.45);
   }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
 
   body {
     background: var(--bg);
-    color: var(--text);
-    font-family: 'Space Mono', monospace;
-    font-size: 14px;
-    line-height: 1.85;
+    color: var(--txt);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+    cursor: crosshair;
+    line-height: 1.7;
   }
 
-  .scan-line {
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      rgba(0,229,255,0.012) 2px,
-      rgba(0,229,255,0.012) 4px
-    );
-    pointer-events: none;
-    z-index: 100;
-  }
-
-  header {
-    border-bottom: 1px solid var(--border);
-    padding: 48px 0 40px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  header::before {
+  body::before {
     content: '';
-    position: absolute;
-    top: -60px; left: -60px;
-    width: 300px; height: 300px;
-    background: radial-gradient(circle, rgba(0,229,255,0.07) 0%, transparent 70%);
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
     pointer-events: none;
+    z-index: 9999;
+    opacity: .4;
   }
 
-  .container {
-    max-width: 780px;
-    margin: 0 auto;
-    padding: 0 32px;
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 48px;
+    background: rgba(0,0,0,.45);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,.06);
   }
 
-  .label {
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--cyan);
-    margin-bottom: 16px;
-    display: block;
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: .15em;
+    color: var(--gold);
+    text-decoration: none;
   }
 
-  h1 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(22px, 4vw, 34px);
-    font-weight: 800;
-    color: var(--white);
-    line-height: 1.2;
-    margin-bottom: 20px;
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
   }
 
-  h1 span {
-    color: var(--cyan);
-  }
-
-  .meta {
+  .nav-links a {
+    font-family: 'Space Mono', monospace;
     font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 0.05em;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--dim);
+    text-decoration: none;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  .page-header {
+    padding: 160px 48px 80px;
+    max-width: 980px;
+    margin: 0 auto;
   }
 
-  .meta strong {
-    color: var(--violet);
+  .page-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 24px;
   }
+
+  .page-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 7.5vw, 88px);
+    line-height: .92;
+    letter-spacing: .03em;
+    background: linear-gradient(135deg, #fff 0%, var(--gold) 50%, var(--ice) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 32px;
+  }
+
+  .page-title .accent {
+    background: linear-gradient(135deg, var(--neon) 0%, var(--gold) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .page-lead {
+    font-size: 18px;
+    color: var(--dim);
+    max-width: 760px;
+    line-height: 1.6;
+  }
+
+  .meta-line {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .12em;
+    color: var(--dim);
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,.06);
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .meta-line strong { color: var(--gold); font-weight: 500; letter-spacing: .15em; }
 
   main {
-    padding: 56px 0;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0 48px 120px;
   }
 
-  section {
-    margin-bottom: 56px;
+  section.disclosure {
+    margin-bottom: 72px;
+  }
+
+  .section-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
   }
 
   h2 {
-    font-family: 'Syne', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--cyan);
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--border);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(34px, 5.5vw, 52px);
+    line-height: 1;
+    letter-spacing: .04em;
+    color: var(--txt);
+    margin-bottom: 28px;
+  }
+
+  h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: .08em;
+    color: var(--ice);
+    margin: 32px 0 14px;
   }
 
   p {
-    margin-bottom: 16px;
-    color: var(--text);
+    font-size: 15px;
+    color: rgba(255,255,255,.8);
+    margin-bottom: 18px;
+  }
+
+  strong { color: var(--txt); font-weight: 500; }
+  em { color: var(--gold); font-style: normal; }
+
+  a.inline-link {
+    color: var(--gold);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(212,168,67,.3);
+    transition: color .2s, border-color .2s;
+  }
+  a.inline-link:hover {
+    color: #fff;
+    border-bottom-color: #fff;
   }
 
   code {
     font-family: 'Space Mono', monospace;
     font-size: 12px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    color: var(--cyan);
-    padding: 2px 7px;
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.08);
+    color: var(--ice);
+    padding: 2px 8px;
     border-radius: 3px;
   }
 
   pre {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--cyan);
-    padding: 20px 24px;
+    background: rgba(0,0,0,.45);
+    border: 1px solid rgba(255,255,255,.08);
+    border-left: 3px solid var(--gold);
+    padding: 24px 28px;
     overflow-x: auto;
-    margin: 24px 0;
-    font-size: 12px;
-    color: #a8d8e8;
+    margin: 28px 0;
+    font-family: 'Space Mono', monospace;
+    font-size: 12.5px;
+    color: #c8d8e8;
     line-height: 1.7;
   }
 
-  pre .comment { color: var(--muted); font-style: italic; }
-  pre .key { color: var(--violet); }
-  pre .val { color: var(--cyan); }
+  pre .c { color: rgba(255,255,255,.35); font-style: italic; }
+  pre .k { color: var(--neon); }
+  pre .v { color: var(--ice); }
+  pre .s { color: var(--green); }
+  pre .n { color: var(--gold); }
 
   .callout {
-    background: rgba(0,229,255,0.04);
-    border: 1px solid rgba(0,229,255,0.2);
-    border-radius: 4px;
-    padding: 20px 24px;
-    margin: 24px 0;
+    padding: 28px 32px;
+    border: 1px solid rgba(212,168,67,.2);
+    background: rgba(212,168,67,.04);
+    margin: 28px 0;
+  }
+  .callout p { font-size: 15px; color: rgba(255,255,255,.85); margin-bottom: 0; line-height: 1.65; }
+
+  .callout.novel {
+    border-color: rgba(255,45,138,.25);
+    background: rgba(255,45,138,.04);
   }
 
-  .callout p { margin-bottom: 0; }
-
-  .callout.violet {
-    background: rgba(155,93,229,0.06);
-    border-color: rgba(155,93,229,0.25);
+  .callout-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: .08em;
+    color: var(--gold);
+    margin-bottom: 8px;
   }
+  .callout.novel .callout-title { color: var(--neon); }
 
   table {
     width: 100%;
     border-collapse: collapse;
     margin: 24px 0;
-    font-size: 12px;
+    font-size: 13.5px;
   }
 
-  th {
+  th, td {
     text-align: left;
-    color: var(--violet);
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    padding: 10px 14px;
-    border-bottom: 1px solid var(--border);
-    font-size: 11px;
-    text-transform: uppercase;
-  }
-
-  td {
-    padding: 10px 14px;
-    border-bottom: 1px solid rgba(30,30,46,0.6);
-    color: var(--text);
+    padding: 13px 16px;
+    border: 1px solid rgba(255,255,255,.08);
     vertical-align: top;
   }
 
-  td:first-child { color: var(--white); }
-
-  tr:last-child td { border-bottom: none; }
-
-  .tag {
-    display: inline-block;
-    font-size: 10px;
-    letter-spacing: 0.1em;
+  th {
+    background: rgba(255,255,255,.04);
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .12em;
     text-transform: uppercase;
-    background: rgba(155,93,229,0.15);
-    color: var(--violet);
-    border: 1px solid rgba(155,93,229,0.3);
-    padding: 2px 8px;
-    border-radius: 2px;
-    margin-right: 6px;
+    color: var(--gold);
+    font-weight: 400;
   }
 
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 32px 0;
+  td { color: rgba(255,255,255,.78); }
+  td:first-child { color: var(--txt); font-weight: 500; }
+  td code { font-size: 11.5px; }
+
+  .step-block {
+    margin: 28px 0;
+    padding-left: 28px;
+    border-left: 2px solid rgba(212,168,67,.25);
+  }
+
+  .step-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: .08em;
+    color: var(--gold);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .step-label .num {
+    font-family: 'Space Mono', monospace;
     font-size: 11px;
-    color: var(--muted);
+    color: var(--neon);
+    letter-spacing: .15em;
+  }
+
+  .tag-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 24px 0;
+  }
+  .tag-row {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    padding: 14px 18px;
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.02);
+  }
+  .tag-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: .05em;
+    color: var(--gold);
+    flex-shrink: 0;
+    min-width: 32px;
+  }
+  .tag-text {
+    font-size: 14.5px;
+    color: rgba(255,255,255,.85);
+    line-height: 1.6;
+  }
+  .tag-text strong { color: var(--ice); font-weight: 500; }
+
+  footer {
+    border-top: 1px solid rgba(255,255,255,.06);
+    padding: 48px;
     text-align: center;
+  }
+
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: .15em;
+    color: var(--gold);
+    margin-bottom: 18px;
+  }
+
+  .footer-links {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+  }
+
+  .footer-links a {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--dim);
+    text-decoration: none;
+    transition: color .2s;
+  }
+  .footer-links a:hover { color: var(--gold); }
+
+  .footer-copy {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .15em;
+    color: var(--dim);
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 700px) {
+    nav { padding: 16px 24px; }
+    .nav-links { gap: 18px; }
+    .page-header { padding: 130px 24px 60px; }
+    main { padding: 0 24px 80px; }
+    .callout { padding: 22px 24px; }
+    .step-block { padding-left: 18px; }
+    pre { padding: 18px 20px; font-size: 11.5px; }
+    table { font-size: 12.5px; }
+    th, td { padding: 10px 12px; }
+    .meta-line { gap: 14px; flex-direction: column; }
   }
 </style>
 </head>
 <body>
-<div class="scan-line"></div>
 
-<header>
-  <div class="container">
-    <span class="label">Technical Disclosure — Prior Art Publication</span>
-    <h1>IKANDY <span>Smart Auto</span>:<br>Per-Process Audio Dominance Detection<br>with Metadata Backend Arbitration</h1>
-    <p class="meta">
-      <strong>Author:</strong> IKANDY / ikandyapp &nbsp;·&nbsp;
-      <strong>Published:</strong> May 10, 2026 &nbsp;·&nbsp;
-      <strong>Project:</strong> IKANDY Music Visualizer &nbsp;·&nbsp;
-      <strong>Repo:</strong> github.com/ikandyapp/ikandy
-    </p>
+<nav>
+  <a href="index.html" class="nav-logo">IKANDY</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="guide.html">Guide</a></li>
+    <li><a href="index.html#download">Download</a></li>
+  </ul>
+</nav>
+
+<header class="page-header">
+  <p class="page-tag">Technical Disclosure — Prior Art Publication</p>
+  <h1 class="page-title">Smart Auto:<br>Audio <span class="accent">Dominance</span><br>Detection.</h1>
+  <p class="page-lead">A novel method for automatically detecting the dominant audio-producing process on a Windows host and silently routing a music visualizer's metadata backend to the most appropriate provider — with hysteresis, candidate persistence across silence, and a configurable ignore list to prevent false promotion from notification chimes and communication apps.</p>
+  <div class="meta-line">
+    <span><strong>Author:</strong> IKANDY / ikandyapp</span>
+    <span><strong>Published:</strong> May 10, 2026</span>
+    <span><strong>Project:</strong> IKANDY Music Visualizer</span>
+    <span><strong>Repo:</strong> github.com/IKANDYapp/IKANDY</span>
   </div>
 </header>
 
 <main>
-  <div class="container">
 
-    <section>
-      <h2>Abstract</h2>
-      <p>
-        This document discloses a novel method implemented in IKANDY — a music visualizer application — for automatically detecting which audio-producing process on a Windows host is the dominant source, and silently switching the application's metadata retrieval backend to the most appropriate provider for that process, with hysteresis to prevent thrashing. This method is referred to internally as <strong>Smart Auto</strong>.
-      </p>
-      <div class="callout">
-        <p>This publication is intended to establish prior art. Any subsequent patent claim covering this method or substantially similar methods is anticipated by this disclosure.</p>
-      </div>
-    </section>
+  <section class="disclosure">
+    <p class="section-tag">01 — Abstract</p>
+    <h2>What This Is</h2>
+    <p>This document discloses a novel method implemented in IKANDY — a desktop music visualizer for Windows — for automatically detecting which audio-producing process on a host system is the dominant source, and silently switching the application's metadata retrieval backend to the most appropriate provider for that process. The method, referred to internally as <strong>Smart Auto</strong>, combines per-process audio session state inspection with backend arbitration, hysteresis dwell timing, candidate persistence across brief silent passages, and a denylist gate that prevents communication and broadcasting applications from incorrectly being promoted as the music source.</p>
+    <div class="callout">
+      <div class="callout-title">Purpose of this publication</div>
+      <p>This document is intended to establish prior art. Any subsequent patent claim covering this method or substantially similar methods is anticipated by this disclosure. IKANDY's source code repository provides timestamped evidence of invention predating this publication.</p>
+    </div>
+  </section>
 
-    <section>
-      <h2>Background &amp; Problem Statement</h2>
-      <p>
-        Music visualizer applications that display track metadata (title, artist, album art) face a fundamental challenge: a user's listening environment is rarely uniform. A user may listen via Spotify, then switch to VLC for a local file, then open a browser to stream a set. Each source exposes metadata through a different mechanism:
-      </p>
+  <section class="disclosure">
+    <p class="section-tag">02 — Problem</p>
+    <h2>The Listening Environment<br>Is Rarely Uniform</h2>
+    <p>Music visualizer applications that display track metadata (title, artist, album art, synced lyrics) face a fundamental challenge: a user's listening environment is rarely uniform within a session. A user may listen via Spotify, then switch to VLC for a local file, then open a browser to stream a DJ set. Each source exposes metadata through a different mechanism with different limitations:</p>
 
-      <table>
+    <table>
+      <thead>
         <tr>
           <th>Source App</th>
           <th>Native Metadata API</th>
           <th>Limitations</th>
         </tr>
+      </thead>
+      <tbody>
         <tr>
           <td>Spotify</td>
           <td>PKCE OAuth Web API</td>
-          <td>Requires auth; fails silently if another app is playing</td>
+          <td>Requires user-supplied client ID; fails silently if another app is producing audio</td>
         </tr>
         <tr>
           <td>VLC</td>
-          <td>HTTP API (Beefweb-style)</td>
-          <td>Must be manually enabled; SMTC data is often generic</td>
+          <td>HTTP API (Lua interface)</td>
+          <td>Must be manually enabled in VLC preferences; reports minimal metadata for most local files</td>
         </tr>
         <tr>
           <td>foobar2000</td>
-          <td>Beefweb REST Plugin</td>
-          <td>Plugin must be installed; port varies</td>
+          <td>Beefweb REST plugin</td>
+          <td>Component must be installed; port is user-configurable</td>
         </tr>
         <tr>
           <td>Browser / other</td>
           <td>Windows SMTC</td>
-          <td>Best-effort; rich for some apps, empty for others</td>
+          <td>Best-effort; rich for some apps (YouTube Music, Spotify Web), sparse or empty for others</td>
         </tr>
-      </table>
+      </tbody>
+    </table>
 
-      <p>
-        Prior art (SMTC, last.fm scrobbling, unified Now Playing widgets) reads from a single source or polls all sources indiscriminately with no awareness of which process is currently producing audio at a meaningful level. No existing system arbitrates metadata backends based on per-process audio dominance.
-      </p>
-    </section>
+    <p>Prior art (Windows SMTC widgets, last.fm scrobblers, unified Now Playing daemons) reads from a single metadata source or polls all sources indiscriminately with no awareness of which process is currently producing audio. No existing system arbitrates metadata backends based on per-process audio production state.</p>
+  </section>
 
-    <section>
-      <h2>The Novel Method</h2>
-      <p>
-        Smart Auto operates as follows:
-      </p>
+  <section class="disclosure">
+    <p class="section-tag">03 — Method</p>
+    <h2>The Novel Method</h2>
+    <p>Smart Auto operates through six discrete steps, each adding a layer of robustness against the failure modes of naïve dominance detection.</p>
 
-      <p><strong>Step 1 — Per-Process Audio Enumeration</strong></p>
-      <p>
-        A native Node.js addon (compiled via <code>node-addon-api</code>) calls the Windows <code>ApplicationLoopback</code> API family via WASAPI (<code>IAudioSessionManager2</code>, <code>IAudioSessionEnumerator</code>) to enumerate all active audio sessions. For each session, it retrieves the owning process ID and current audio level (peak meter value). This list is polled on an interval of approximately 1 second.
-      </p>
+    <div class="step-block">
+      <div class="step-label"><span class="num">STEP 01</span> Per-Process Audio Session Enumeration</div>
+      <p>The Windows Core Audio API family is queried via the <code>electron-loopback-audio</code> bridge (which invokes <code>IAudioSessionManager2</code> and <code>IAudioSessionEnumerator</code>) to enumerate all active audio sessions on the default render endpoint. For each session, the owning process ID is captured along with the session's current <em>Active</em> / <em>Inactive</em> state flag. Process name is resolved from PID via the Windows process table.</p>
+      <p>The enumeration is polled on an interval of approximately 500 milliseconds.</p>
+    </div>
 
-      <p><strong>Step 2 — Dominance Detection</strong></p>
-      <p>
-        Sessions are filtered against an audio threshold (e.g., peak &gt; 0.01) to exclude silent or idle processes. The producing process with the highest sustained peak level is identified as the <em>dominant source</em>. Process name is resolved from PID using <code>QueryFullProcessImageName</code>.
-      </p>
+    <div class="step-block">
+      <div class="step-label"><span class="num">STEP 02</span> Dominance Detection via Session State</div>
+      <p>Rather than relying on audio peak level (which fluctuates dramatically during natural quiet passages, dynamic mixes, and silent intros), Smart Auto uses the WASAPI <em>session activity flag</em> as the primary signal. A session reports <em>Active</em> when its owning process is producing audio output of any kind, regardless of amplitude. Sessions in the <em>Inactive</em> state are excluded from dominance evaluation.</p>
+      <p>When multiple sessions are simultaneously <em>Active</em>, dominance is resolved by an allowlist-driven priority order: applications known to be primary music producers (Spotify, foobar2000, VLC) outrank applications known to be ancillary audio producers.</p>
 
-      <pre><span class="comment">// Pseudocode — dominance detection</span>
-<span class="key">function</span> getDominantSource(sessions, threshold = 0.01) {
-  <span class="key">const</span> active = sessions.<span class="val">filter</span>(s => s.peak > threshold);
-  <span class="key">return</span> active.<span class="val">sort</span>((a, b) => b.peak - a.peak)[<span class="val">0</span>] ?? null;
+<pre><span class="c">// Simplified dominance evaluation</span>
+<span class="k">function</span> <span class="v">getDominantProcess</span>(sessions) {
+  <span class="k">const</span> active = sessions.<span class="v">filter</span>(s =&gt; s.state === <span class="s">'Active'</span>);
+  <span class="k">if</span> (active.<span class="n">length</span> === <span class="n">0</span>) <span class="k">return</span> <span class="s">null</span>;
+  <span class="k">const</span> filtered = active.<span class="v">filter</span>(s =&gt; !IGNORE_LIST.<span class="v">has</span>(s.name));
+  <span class="k">return</span> filtered.<span class="v">sort</span>(byAllowlistPriority)[<span class="n">0</span>] ?? <span class="s">null</span>;
 }</pre>
+    </div>
 
-      <p><strong>Step 3 — Metadata Backend Mapping</strong></p>
-      <p>
-        The dominant process name is matched against a priority map of known producing applications:
-      </p>
+    <div class="step-block">
+      <div class="step-label"><span class="num">STEP 03</span> Denylist Gate (False-Promotion Guard)</div>
+      <p>A small <em>ignore list</em> of processes that frequently produce audio but are never the user's intended music source is applied before allowlist priority ordering. These include communication clients (Discord, Microsoft Teams, Zoom, Slack) and broadcasting/recording software (OBS Studio variants).</p>
+      <p>Without this gate, a Discord notification arriving during VLC playback could trigger a backend switch to Discord — a process whose audio metadata is meaningless to a music visualizer. The denylist ensures these processes can still be manually selected by a user but cannot be automatically promoted to the dominant source.</p>
+    </div>
 
-      <table>
-        <tr>
-          <th>Detected Process</th>
-          <th>Metadata Backend Selected</th>
-          <th>Fallback</th>
-        </tr>
-        <tr>
-          <td><code>Spotify.exe</code></td>
-          <td>Spotify PKCE Web API</td>
-          <td>SMTC</td>
-        </tr>
-        <tr>
-          <td><code>vlc.exe</code></td>
-          <td>VLC HTTP API</td>
-          <td>SMTC</td>
-        </tr>
-        <tr>
-          <td><code>foobar2000.exe</code></td>
-          <td>Beefweb REST API</td>
-          <td>SMTC</td>
-        </tr>
-        <tr>
-          <td><code>chrome.exe</code>, <code>msedge.exe</code></td>
-          <td>SMTC (browser SMTC hint)</td>
-          <td>—</td>
-        </tr>
-        <tr>
-          <td>Unknown</td>
-          <td>SMTC</td>
-          <td>—</td>
-        </tr>
-      </table>
+    <div class="step-block">
+      <div class="step-label"><span class="num">STEP 04</span> Candidate Persistence Across Silence</div>
+      <p>WASAPI flips a session's state from <em>Active</em> to <em>Inactive</em> during silent passages within a track (intros, breakdowns, song-to-song gaps). A naïve dominance detector would drop the candidate during these passages and re-detect when audio resumes, producing thrashing UI state and incorrect backend selection during quiet moments.</p>
+      <p>To address this, Smart Auto maintains the previously-dominant candidate across short silent passages: if no process is currently <em>Active</em> but a previously-dominant process is still running, the candidate is retained for a grace period rather than dropped immediately. This produces stable behavior across natural quiet passages while still releasing the candidate when the user genuinely stops playback.</p>
+    </div>
 
-      <p>
-        If the selected backend's prerequisite is not configured (e.g., VLC HTTP API is disabled), the system falls back to SMTC automatically and surfaces a non-blocking UI hint.
-      </p>
+    <div class="step-block">
+      <div class="step-label"><span class="num">STEP 05</span> Hysteresis Dwell (Anti-Thrash)</div>
+      <p>A new candidate must sustain dominance for a minimum <em>dwell period</em> of approximately 1500 milliseconds before a backend switch is committed. This prevents rapid toggling when two applications produce audio briefly in succession.</p>
 
-      <p><strong>Step 4 — Hysteresis (Anti-Thrash)</strong></p>
-      <p>
-        A new dominant source must sustain dominance for a minimum dwell period (approximately 3 seconds) before a backend switch is committed. This prevents rapid toggling when two apps produce audio simultaneously (e.g., a notification sound during VLC playback).
-      </p>
+<pre><span class="c">// Hysteresis dwell guard</span>
+<span class="k">let</span> candidate = <span class="s">null</span>;
+<span class="k">let</span> candidateSince = <span class="n">0</span>;
+<span class="k">const</span> DWELL_MS = <span class="n">1500</span>;
 
-      <pre><span class="comment">// Pseudocode — hysteresis guard</span>
-<span class="key">let</span> candidate = null;
-<span class="key">let</span> candidateSince = <span class="val">0</span>;
-<span class="key">const</span> DWELL_MS = <span class="val">3000</span>;
-
-<span class="key">function</span> evaluateSwitch(dominant, now) {
-  <span class="key">if</span> (dominant?.pid !== candidate?.pid) {
+<span class="k">function</span> <span class="v">evaluateSwitch</span>(dominant, now) {
+  <span class="k">if</span> (dominant?.name !== candidate?.name) {
     candidate = dominant;
     candidateSince = now;
+    <span class="k">return</span>;
   }
-  <span class="key">if</span> (now - candidateSince >= DWELL_MS) {
-    commitBackendSwitch(candidate);
+  <span class="k">if</span> (candidate &amp;&amp; (now - candidateSince) &gt;= DWELL_MS) {
+    <span class="v">commitBackendSwitch</span>(candidate);
   }
 }</pre>
+    </div>
 
-      <p><strong>Step 5 — Silent Switch + UI Indicator</strong></p>
-      <p>
-        Backend switches are performed without interrupting playback or visualization. A transient UI indicator briefly surfaces to inform the user (e.g., <em>"Now following: VLC"</em>), then auto-dismisses. The user does not need to manually select a source.
-      </p>
-    </section>
+    <div class="step-block">
+      <div class="step-label"><span class="num">STEP 06</span> Metadata Backend Mapping &amp; Silent Switch</div>
+      <p>The committed dominant process is mapped to a metadata backend via a priority table. The switch is performed without interrupting playback or visualization, with a transient UI indicator briefly identifying the new source (e.g., <em>"foobar2000 metadata active"</em>) before auto-dismissing.</p>
 
-    <section>
-      <h2>What Makes This Novel</h2>
-      <div class="callout violet">
-        <p>
-          Existing solutions (SMTC widgets, last.fm scrobblers, unified Now Playing daemons) read from a single metadata source or poll all sources equally with no audio-level awareness. No prior system uses <strong>per-process audio peak level as the arbitration signal for selecting a metadata retrieval backend</strong>, nor implements hysteresis on that signal to govern backend switching in a desktop visualizer context.
-        </p>
+      <table>
+        <thead>
+          <tr>
+            <th>Detected Process</th>
+            <th>Backend Selected</th>
+            <th>Fallback if Unavailable</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>Spotify.exe</code></td><td>Spotify PKCE Web API</td><td>SMTC</td></tr>
+          <tr><td><code>vlc.exe</code></td><td>VLC HTTP Lua API</td><td>SMTC</td></tr>
+          <tr><td><code>foobar2000.exe</code></td><td>Beefweb REST API</td><td>SMTC</td></tr>
+          <tr><td><code>chrome.exe</code>, <code>msedge.exe</code>, <code>firefox.exe</code></td><td>SMTC</td><td>—</td></tr>
+          <tr><td>Unknown / unmatched</td><td>SMTC</td><td>—</td></tr>
+        </tbody>
+      </table>
+
+      <p>If the selected backend's prerequisite is not configured (e.g., VLC's HTTP interface is disabled), the system falls back to SMTC automatically and surfaces a non-blocking UI hint indicating the configuration step the user can take to unlock the richer backend.</p>
+    </div>
+
+    <h3>Tier 2 SMTC Discovery</h3>
+    <p>A parallel mechanism queries Windows' <code>GlobalSystemMediaTransportControlsSessionManager</code> via PowerShell to discover applications that register with SMTC but are not in the static allowlist (for example, Plex, Kodi, Apple Music, and various streaming clients). When such an application is detected as the active SMTC source AND a corresponding process is running on the host, it bypasses the allowlist gate and is eligible for dominance promotion. This provides extensibility without requiring an exhaustive allowlist of every media-aware application on Windows.</p>
+
+    <h3>Backend Pause on Switch</h3>
+    <p>When Smart Auto commits a backend switch, it issues a fire-and-forget pause command to the <em>previous</em> backend via that backend's native control API: Spotify's <code>PUT /me/player/pause</code>, VLC's <code>?command=pl_pause</code>, or foobar2000's Beefweb <code>POST /api/player/pause</code>. This prevents the previous source from continuing to produce audio simultaneously with the newly-selected source. The previous-backend pause is fire-and-forget — its failure (e.g., Spotify Web API returning 404 when IKANDY is not registered as a Spotify Connect device) does not block the switch.</p>
+  </section>
+
+  <section class="disclosure">
+    <p class="section-tag">04 — Novelty</p>
+    <h2>What Makes This Novel</h2>
+    <div class="callout novel">
+      <div class="callout-title">Claimed Novel Combination</div>
+      <p>Existing solutions (SMTC widgets, last.fm scrobblers, unified Now Playing daemons, browser media-key handlers) read from a single metadata source or poll all sources equally with no audio-production awareness. No prior system uses <strong>per-process WASAPI audio session state as the arbitration signal for selecting a metadata retrieval backend</strong>, combines it with candidate persistence across silent passages, applies a process-identity-based denylist to prevent false promotion from communication apps, and governs backend switching via hysteresis in a desktop music visualizer context.</p>
+    </div>
+
+    <p>The combination of these elements constitutes the claimed novel method:</p>
+
+    <div class="tag-list">
+      <div class="tag-row">
+        <div class="tag-num">01</div>
+        <div class="tag-text"><strong>Per-process audio session enumeration via WASAPI</strong> as the dominance signal, in place of system-wide peak metering</div>
       </div>
-      <p>The combination of these elements is the claimed novel method:</p>
-      <p>
-        <span class="tag">1</span> Per-process audio session enumeration via WASAPI<br>
-        <span class="tag">2</span> Peak-level dominance detection with configurable threshold<br>
-        <span class="tag">3</span> Priority-mapped metadata backend selection per process identity<br>
-        <span class="tag">4</span> Hysteresis guard preventing thrash on transient audio events<br>
-        <span class="tag">5</span> Silent backend switch with non-blocking user feedback
-      </p>
-    </section>
+      <div class="tag-row">
+        <div class="tag-num">02</div>
+        <div class="tag-text"><strong>Allowlist-driven backend arbitration</strong> mapping process identity to backend selection, with explicit graceful fallback to SMTC</div>
+      </div>
+      <div class="tag-row">
+        <div class="tag-num">03</div>
+        <div class="tag-text"><strong>Denylist gate against false promotion</strong> from communication and broadcasting applications (Discord, Teams, Zoom, OBS) that produce audio but are not music sources</div>
+      </div>
+      <div class="tag-row">
+        <div class="tag-num">04</div>
+        <div class="tag-text"><strong>Candidate persistence across silent passages</strong> — retention of the previously-dominant candidate when WASAPI reports Inactive state during natural quiet moments, preventing thrash during low-amplitude content</div>
+      </div>
+      <div class="tag-row">
+        <div class="tag-num">05</div>
+        <div class="tag-text"><strong>Hysteresis dwell timing</strong> requiring sustained dominance before committing a backend switch</div>
+      </div>
+      <div class="tag-row">
+        <div class="tag-num">06</div>
+        <div class="tag-text"><strong>Tier 2 SMTC bypass</strong> for media-aware applications not in the static allowlist, discovered dynamically via <code>GlobalSystemMediaTransportControlsSessionManager</code></div>
+      </div>
+      <div class="tag-row">
+        <div class="tag-num">07</div>
+        <div class="tag-text"><strong>Fire-and-forget previous-backend pause</strong> on commit, preventing simultaneous audio from the old and new sources</div>
+      </div>
+    </div>
+  </section>
 
-    <section>
-      <h2>Implementation Context</h2>
-      <p>
-        Smart Auto is implemented in IKANDY, an Electron 30-based music visualizer running on Windows. The native audio session enumeration layer is built with <code>node-addon-api</code> and compiled against the Electron runtime. The metadata backend layer communicates via IPC between the Electron main process and renderer. The visualizer renders via Butterchurn WebGL (MilkDrop-compatible).
-      </p>
-      <p>
-        Source code is maintained at <code>github.com/ikandyapp/ikandy</code>. Commit history provides timestamped evidence of invention predating this publication.
-      </p>
-    </section>
+  <section class="disclosure">
+    <p class="section-tag">05 — Implementation</p>
+    <h2>Implementation Context</h2>
+    <p>Smart Auto is implemented in IKANDY, an Electron-based music visualizer running on Windows. The audio session enumeration layer uses the <code>electron-loopback-audio</code> package, which provides a Node.js binding to the Windows Core Audio API. The metadata backend layer communicates via IPC between the Electron main process and the renderer. The visualizer itself renders via Butterchurn, a WebGL implementation of the MilkDrop preset format.</p>
+    <p>The Tier 2 SMTC discovery layer invokes PowerShell to query <code>GlobalSystemMediaTransportControlsSessionManager</code>, parses the resulting JSON, and cross-references the reported application user model IDs against the running process table.</p>
+    <p>Source code is maintained at <a href="https://github.com/IKANDYapp/IKANDY" target="_blank" rel="noopener" class="inline-link">github.com/IKANDYapp/IKANDY</a>. Commit history provides timestamped evidence of invention predating this publication.</p>
+  </section>
 
-    <section>
-      <h2>Prior Art Search Summary</h2>
-      <p>
-        A search of npm, GitHub, and general web sources conducted May 2026 found no implementation combining per-process audio dominance detection with metadata backend arbitration for a music visualizer or similar application. Existing packages such as <code>electron-audio-loopback</code> address system-level audio capture but do not perform process-aware metadata routing. Windows SMTC provides a unified metadata surface but does not select backends based on audio level or process identity.
-      </p>
-    </section>
+  <section class="disclosure">
+    <p class="section-tag">06 — Prior Art Search</p>
+    <h2>Prior Art Search Summary</h2>
+    <p>A search of npm, GitHub, and general web sources conducted May 2026 found no implementation combining the elements listed in §04 above. Existing packages such as <code>electron-loopback-audio</code> address system-level audio capture but do not perform process-aware metadata routing. Windows SMTC provides a unified metadata surface but does not select backends based on process identity, audio session state, or hysteresis-governed dominance.</p>
+    <p>Last.fm scrobblers and similar daemons consume metadata from a single source per session and require manual configuration to switch sources. They do not perform automatic arbitration based on audio production state.</p>
+  </section>
 
-  </div>
 </main>
 
 <footer>
-  <div class="container">
-    Published May 10, 2026 · IKANDY / ikandyapp · This document constitutes a public prior art disclosure.
-  </div>
+  <div class="footer-logo">IKANDY</div>
+  <ul class="footer-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="guide.html">User Guide</a></li>
+    <li><a href="privacy.html">Privacy</a></li>
+    <li><a href="https://github.com/IKANDYapp/IKANDY" target="_blank" rel="noopener">GitHub</a></li>
+  </ul>
+  <div class="footer-copy">Published May 10, 2026 · IKANDY / ikandyapp · Public Prior Art Disclosure</div>
 </footer>
 
 </body>

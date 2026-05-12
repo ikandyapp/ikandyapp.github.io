@@ -832,6 +832,7 @@
     <a href="#first-launch"><span class="toc-num">01</span> First Launch</a>
     <a href="#layout"><span class="toc-num">02</span> The Layout</a>
     <a href="#sources"><span class="toc-num">03</span> Audio Sources</a>
+    <a href="#per-process"><span class="toc-num">03b</span> Per-Process Capture</a>
     <a href="#presets"><span class="toc-num">04</span> Visualizer &amp; Presets</a>
     <a href="#scenes"><span class="toc-num">05</span> Custom Scenes</a>
     <a href="#fx"><span class="toc-num">06</span> FX Shaders</a>
@@ -858,12 +859,12 @@
 
   <div class="callout warn">
     <span class="callout-label">SmartScreen on first run</span>
-    Windows will show <em>"Windows protected your PC"</em> on the very first launch. This is because IKANDY is in beta and the Certum code-signing certificate is still in verification. Click <strong>More info → Run anyway</strong>. Once the certificate is issued, the warning disappears for everyone. The full source code is public at github.com/ikandyapp/ikandyapp.github.io.
+    Windows will show <em>"Windows protected your PC"</em> on the very first launch. This is because IKANDY is in beta and the Certum code-signing certificate is still in verification. Click <strong>More info → Run anyway</strong>. Once the certificate is issued, the warning disappears for everyone. The full source code is public at github.com/IKANDYapp/IKANDY.
   </div>
 
   <div class="callout tip">
     <span class="callout-label">Fastest path to visuals</span>
-    Start playing music in any app on your computer, then in IKANDY open <strong>Settings (⚙) → SOURCE</strong>, pick <strong>Local</strong>, and click <strong>Scan</strong>. Select the app from the list and IKANDY starts reacting immediately.
+    Start playing music in any app on your computer, then in IKANDY pick <strong>Now Playing</strong> as the source. No setup, no auth — IKANDY listens to whatever Windows is currently playing and starts reacting immediately.
   </div>
 </section>
 
@@ -1012,56 +1013,70 @@
     </div>
   </div>
 
-  <!-- LOCAL -->
-  <div class="source-block" id="source-local" style="--c:var(--ice);">
+  <!-- NOW PLAYING -->
+  <div class="source-block" id="source-smtc" style="--c:var(--ice);">
     <div class="source-block-head">
-      <span class="source-block-icon">🎚️</span>
-      <span class="source-block-name">Local</span>
-      <span class="source-block-meta" style="color:var(--ice);">● Audio capture &middot; Two modes &middot; No metadata</span>
+      <span class="source-block-icon">🎙️</span>
+      <span class="source-block-name">Now Playing</span>
+      <span class="source-block-meta" style="color:var(--ice);">● Basic &middot; Windows Media Controls &middot; Zero setup</span>
     </div>
-    <p class="body dim">Two capture modes in one source. <strong>Per-process WASAPI loopback</strong> locks IKANDY on to a specific running app &mdash; isolate Spotify while gaming, capture a DAW output, or react only to Chrome while everything else is silent to IKANDY. <strong>Device input</strong> captures any Windows audio input device &mdash; microphone, line-in, audio interface, or virtual cable (VB-Cable, Voicemeeter) &mdash; for DJs, hardware synths, live instruments, and anything originating outside a Windows process. Neither mode provides track metadata or transport controls.</p>
+    <p class="body dim">The catch-all. Reads whatever app is currently playing music on Windows &mdash; Spotify, YouTube Music, Apple Music, browser tabs, Tidal, anything that publishes to Windows Media Controls. Track info and transport controls (play, pause, next, prev) follow whatever is active. No browse, no shuffle, no album art.</p>
 
-    <h3 class="first">Mode A &mdash; Per-process WASAPI loopback</h3>
-    <p class="body">Captures audio from one specific Windows process, ignoring everything else on the system.</p>
+    <h3 class="first">How to use it</h3>
     <ol class="steps">
-      <li>Start the app you want to capture (e.g. Spotify, Chrome, a game) and play something.</li>
-      <li>In IKANDY, open <strong>Settings (⚙) → SOURCE tab</strong> and select <strong>Local</strong>.</li>
-      <li>Click <strong>Scan</strong>. IKANDY lists every process currently producing audio, with its icon.</li>
-      <li>Click the app you want. IKANDY locks on to that process&rsquo;s audio stream and ignores everything else.</li>
-      <li>To stop, click <strong>Stop</strong>. IKANDY returns to idle until you scan again.</li>
+      <li>Start playing music in any app on your computer.</li>
+      <li>In IKANDY, open the source selector and pick <strong>Now Playing</strong>.</li>
+      <li>Track info and transport light up within a second. IKANDY shows or greys out individual buttons based on what the active source app actually supports.</li>
+    </ol>
+
+    <div class="callout warn">
+      <span class="callout-label">Firefox needs a flag</span>
+      Chrome and Edge bridge HTML5 Media Session to Windows Media Controls automatically. Firefox doesn&rsquo;t by default &mdash; open <code>about:config</code>, search <code>media.hardwaremediakeys.enabled</code>, set it to <strong>true</strong>, and restart Firefox.
+    </div>
+  </div>
+
+  <!-- PER-PROCESS CAPTURE -->
+  <div class="source-block" id="source-perprocess" style="--c:var(--gold);margin-top:32px;">
+    <div class="source-block-head">
+      <span class="source-block-icon">🎯</span>
+      <span class="source-block-name">Per-Process Capture</span>
+      <span class="source-block-meta" style="color:var(--gold);">● Audio isolation &middot; Settings → SOURCE</span>
+    </div>
+    <p class="body dim">Capture audio from one specific app rather than the whole system mix. If you&rsquo;re gaming while listening to Spotify, IKANDY normally reacts to everything &mdash; game effects, Discord pings, notification sounds. Per-Process Capture locks on to Spotify alone and ignores everything else.</p>
+
+    <h3 class="first">How to use it</h3>
+    <ol class="steps">
+      <li>Start the app you want to capture (e.g. Spotify) and play something.</li>
+      <li>In IKANDY, open <strong>Settings (⚙) → SOURCE tab → Per-Process Capture</strong>.</li>
+      <li>Click <strong>Scan</strong>. IKANDY lists every app currently producing audio, with its icon.</li>
+      <li>Click <strong>Capture</strong> next to the app you want. The banner at the top of the section confirms which app is active.</li>
+      <li>To stop, click <strong>Stop</strong> in the banner. IKANDY returns to system audio automatically.</li>
     </ol>
 
     <div class="callout tip">
       <span class="callout-label">Switching apps</span>
-      Click a different app in the list while one is already active &mdash; IKANDY switches cleanly with no confirmation dialog.
+      Click Capture on a different app while one is already active &mdash; IKANDY switches cleanly with no confirmation dialog. The banner updates immediately.
     </div>
-
-    <h3>Mode B &mdash; Audio input device</h3>
-    <p class="body">Captures audio from any Windows audio input device &mdash; useful for anything that doesn&rsquo;t live inside a Windows process.</p>
-    <ol class="steps">
-      <li>Connect your device: plug in a microphone, audio interface, or set up a virtual cable (VB-Cable, Voicemeeter output).</li>
-      <li>In IKANDY, open <strong>Settings (⚙) → SOURCE tab → Local</strong>.</li>
-      <li>The device picker lists all recognised Windows audio input devices. Select the one you want.</li>
-      <li>Play or produce audio through that device &mdash; IKANDY starts reacting immediately.</li>
-    </ol>
 
     <div class="callout">
       <span class="callout-label">Use cases</span>
       <ul style="margin-top:6px;line-height:1.7">
-        <li><strong>DJs</strong> &mdash; run your mixer output into a line-in or interface and visualise your mix live</li>
-        <li><strong>Hardware synths &amp; instruments</strong> &mdash; capture direct from a keyboard, guitar, or synth via an audio interface</li>
-        <li><strong>Virtual cables</strong> &mdash; route any source through VB-Cable or Voicemeeter into IKANDY</li>
-        <li><strong>Isolation</strong> &mdash; react only to Spotify while gaming, or only to Chrome while Discord is open</li>
+        <li>React to Spotify only, ignoring game audio and Discord</li>
+        <li>Capture a DAW or audio editor output for a live mix visualisation</li>
+        <li>Isolate browser tab audio when YouTube is playing alongside other apps</li>
+        <li>Test a specific app&rsquo;s audio routing without affecting the rest of the system</li>
       </ul>
     </div>
 
     <div class="callout warn">
-      <span class="callout-label">No metadata or transport</span>
-      Local mode is pure audio capture &mdash; track title, album art, lyrics, and playback controls are not available in either mode. Pair Local with Spotify or foobar2000 if you want metadata alongside isolated audio.
+      <span class="callout-label">Requires a connected source first</span>
+      Per-Process Capture shares the same audio graph as system audio. Connect any source (Spotify, VLC, etc.) or click <strong>🎤 Reconnect Audio</strong> once before using it &mdash; this initialises the audio context. After that, per-process capture works independently.
     </div>
   </div>
 </section>
 
+<!-- 03b PER-PROCESS (anchor target for TOC) -->
+<section id="per-process" style="padding-top:0;margin-top:-80px;pointer-events:none;height:0;"></section>
 
 <!-- 04 PRESETS -->
 <section id="presets">
@@ -1251,6 +1266,27 @@
   <div style="margin-top:32px;">
 
     <details class="tr">
+      <summary>Now Playing says "Nothing is playing"</summary>
+      <div class="tr-body">
+        <p>Windows reports no app is currently registered as the SMTC owner. Simply <strong>start playing music in any app</strong> and the message will disappear within a second.</p>
+        <p>If music is playing and Now Playing still doesn&rsquo;t see it:</p>
+        <ul style="margin-top:8px;">
+          <li><strong>Firefox</strong> &mdash; open <code>about:config</code>, set <code>media.hardwaremediakeys.enabled</code> to <strong>true</strong>, restart Firefox.</li>
+          <li><strong>Chrome / Edge</strong> &mdash; check <code>chrome://flags</code> for <em>Hardware Media Key Handling</em> and set it to <strong>Enabled</strong>.</li>
+          <li><strong>Apple Music for Windows</strong> &mdash; can be inconsistent. Try pausing/resuming, or use a dedicated source instead.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="tr">
+      <summary>Now Playing controls grey out / Next or Previous don't work</summary>
+      <div class="tr-body">
+        <p>By design. IKANDY queries the active app for which transport commands it actually exposes — some apps (single YouTube videos, podcasts) don&rsquo;t advertise Next or Previous, so IKANDY locks those buttons.</p>
+        <p>Hover any greyed-out button to see the reason. For full transport, use a YouTube Mix or playlist URL, or Spotify desktop/web player.</p>
+      </div>
+    </details>
+
+    <details class="tr">
       <summary>"Could not start audio source" / no audio reactivity</summary>
       <div class="tr-body">
         <p>Windows treats system audio capture the same as microphone access for privacy purposes.</p>
@@ -1303,25 +1339,24 @@
     <details class="tr">
       <summary>Why doesn't IKANDY react to Spotify when I'm playing a game?</summary>
       <div class="tr-body">
-        <p>With system audio capture, IKANDY hears the entire mix &mdash; game sound effects, Discord calls, notification pings, and Spotify all together. The visualiser reacts to whichever is loudest, which is often the game.</p>
-        <p><strong>Fix: use Local mode&rsquo;s per-process picker.</strong> Open <strong>Settings (⚙) → SOURCE tab</strong>, select <strong>Local</strong>, click <strong>Scan</strong>, then click Spotify in the list. IKANDY locks on to Spotify&rsquo;s audio stream alone and ignores everything else.</p>
+        <p>By default IKANDY captures the entire system audio mix &mdash; game sound effects, Discord calls, notification pings, and Spotify all go in together. The visualiser reacts to whichever is loudest at any given moment, which is often the game.</p>
+        <p><strong>Fix: use Per-Process Capture.</strong> Open <strong>Settings (⚙) → SOURCE tab → Per-Process Capture</strong>, click <strong>Scan</strong>, then click <strong>Capture</strong> next to Spotify. IKANDY will lock on to Spotify&rsquo;s audio stream alone and ignore everything else. The game keeps running normally &mdash; IKANDY just doesn&rsquo;t listen to it.</p>
       </div>
     </details>
 
     <details class="tr">
       <summary>Visuals don't react to my music</summary>
       <div class="tr-body">
-        <p>Confirm the source is connected &mdash; the console bar&rsquo;s Now Playing zone should show the track name and source (or the Local capture status).</p>
-        <p><strong>Using Local per-process:</strong> make sure you&rsquo;ve clicked Scan and selected the app producing audio. If the list was empty, start playback in the app first, then Scan again.</p>
-        <p><strong>Using a metadata source (Spotify, foobar2000, VLC):</strong> visuals react to the system audio mix independently of the source connection. If the visualizer is static, audio isn&rsquo;t reaching IKANDY &mdash; click <strong>🎤 Reconnect Audio</strong> in <strong>Settings (⚙) → SOURCE tab</strong> and check Windows microphone permissions (Settings → Privacy &amp; security → Microphone).</p>
+        <p>Confirm the source is connected — the console bar's Now Playing zone should show the track name and source.</p>
+        <p>Visuals react to <strong>system audio</strong> regardless of which source you&rsquo;ve picked for track info. If the visualizer is static while music plays, audio isn&rsquo;t reaching IKANDY. Click <strong>🎤 Reconnect Audio</strong> in <strong>Settings (⚙) → SOURCE tab</strong>, and check Windows microphone permissions.</p>
       </div>
     </details>
 
     <details class="tr">
       <summary>I have 5.1 or 7.1 surround sound and the visuals barely move</summary>
       <div class="tr-body">
-        <p><strong>If you&rsquo;re using Local per-process:</strong> this issue doesn&rsquo;t apply &mdash; IKANDY captures the app&rsquo;s audio stream directly before Windows mixes it for output, so surround output configuration has no effect. Switch to Local and use the per-process picker.</p>
-        <p><strong>If you&rsquo;re using device input mode</strong> and capturing a hardware output, Windows mixes most music into rear/centre/sub channels, leaving the front L/R very quiet. Set your output to Stereo:</p>
+        <p>IKANDY captures a stereo loopback stream. With 5.1/7.1 configured, Windows mixes most music into rear/centre/sub channels, leaving the front L/R that IKANDY captures very quiet.</p>
+        <p><strong>Fix:</strong> set your default output to <strong>Stereo (2 channel)</strong>:</p>
         <ol style="margin-top:8px;list-style-position:inside;">
           <li>Right-click speaker icon → <strong>Sounds → Playback</strong> tab.</li>
           <li>Right-click your active output → <strong>Configure Speakers</strong> → choose <strong>Stereo</strong>.</li>
@@ -1352,7 +1387,7 @@
       <summary>The app won't launch / crashes on startup</summary>
       <div class="tr-body">
         <p>Try a clean reinstall: uninstall via Settings → Apps, delete <code>%APPDATA%\IKANDY</code>, then reinstall the latest build.</p>
-        <p>If it still crashes, open an issue at <a href="https://github.com/ikandyapp/ikandyapp.github.io/issues" target="_blank" style="color:var(--ice);">github.com/ikandyapp/ikandyapp.github.io/issues</a> with your Windows version, GPU, and any error message shown.</p>
+        <p>If it still crashes, open an issue at <a href="https://github.com/IKANDYapp/IKANDY/issues" target="_blank" style="color:var(--ice);">github.com/IKANDYapp/IKANDY/issues</a> with your Windows version, GPU, and any error message shown.</p>
       </div>
     </details>
 
@@ -1370,6 +1405,59 @@
     </details>
 
   </div>
+	<details class="tr">
+      <summary>How do I report a bug?</summary>
+      <div class="tr-body">
+        <p>Use the in-app bug reporter: <strong>Settings (⚙) → PRIVACY tab → Report a Bug</strong>. Type a quick description, optionally include an email, and submit. You&rsquo;ll get a reference ID (e.g. <code>BUG-A4F2</code>) for follow-up.</p>
+        <p>The report automatically includes app version, current audio source, current scene, Smart Auto state, and the last crash log if one exists. Stack traces are sanitized — Windows usernames and file paths are stripped before anything leaves your computer.</p>
+        <p>Reports land in the Discord <code>#submit-bug-report</code> channel and Supabase database. If you provided an email, you may get a follow-up if more info is needed.</p>
+      </div>
+    </details>
+
+    <details class="tr">
+      <summary>What data does IKANDY collect about me?</summary>
+      <div class="tr-body">
+        <p><strong>Telemetry is off by default.</strong> Nothing is sent unless you enable it in <strong>Settings (⚙) → PRIVACY tab</strong>.</p>
+        <p>When enabled, IKANDY can send:</p>
+        <ul style="margin-top:8px;">
+          <li><strong>Anonymous usage data</strong> — launch timestamps, app version, platform, session duration, and an anonymous installation ID.</li>
+          <li><strong>Crash reports</strong> — error type and sanitized stack trace (Windows usernames and file paths removed before transmission).</li>
+        </ul>
+        <p>IKANDY <em>never</em> transmits: your music, song titles, file names, audio content, account credentials, your real name, or your email address.</p>
+        <p>Beta validation always sends a random Beta ID + a one-way machine fingerprint hash — this is required to use the beta and is disclosed in the EULA. See the full <a href="privacy.html" style="color:var(--ice);">privacy policy</a> for details.</p>
+      </div>
+    </details>
+
+    <details class="tr">
+      <summary>How do I delete my data from IKANDY servers?</summary>
+      <div class="tr-body">
+        <p>Open <strong>Settings (⚙) → PRIVACY tab → Delete my data from IKANDY servers</strong>. Confirm the prompt. This permanently:</p>
+        <ul style="margin-top:8px;">
+          <li>Deletes all usage and crash report records tied to your installation</li>
+          <li>Anonymizes your beta installation record (removes personal identifiers)</li>
+          <li>Generates a new anonymous ID locally so future sessions start fresh</li>
+        </ul>
+        <p>If you delete your data and later want to rejoin the IKANDY beta, contact <a href="mailto:support@ikandy.app?subject=Rejoin Beta" style="color:var(--ice);">support@ikandy.app</a> with your Beta ID, or visit <a href="rejoin.html" style="color:var(--ice);">ikandy.app/rejoin</a>.</p>
+      </div>
+    </details>
+
+    <details class="tr">
+      <summary>What is Smart Auto and how do I turn it on?</summary>
+      <div class="tr-body">
+        <p>Smart Auto watches every audio-producing process on your PC and automatically routes IKANDY&rsquo;s metadata source (Spotify / VLC / foobar2000 / Now Playing) to whichever app is currently producing music. No manual switching — you start playing music in any supported app and IKANDY follows.</p>
+        <p><strong>Turn it on:</strong> <strong>Settings (⚙) → SOURCE tab → Smart Auto</strong> toggle. When enabled, the manual source picker is hidden — IKANDY handles the routing.</p>
+        <p>Smart Auto ignores Discord, Teams, Zoom, Slack, and OBS so notification chimes and call audio don&rsquo;t hijack your visualizer. It waits ~1.5 seconds of sustained dominance before switching, so a brief notification won&rsquo;t cause it to swap sources.</p>
+      </div>
+    </details>
+
+    <details class="tr">
+      <summary>I deleted my data and can't reopen IKANDY — how do I get back in?</summary>
+      <div class="tr-body">
+        <p>When you request data deletion, IKANDY locks the beta slot tied to your install to prevent slot recycling. You&rsquo;ll see a <em>"Welcome back"</em> screen on next launch with your Beta ID and instructions.</p>
+        <p>To rejoin, visit <a href="rejoin.html" style="color:var(--ice);">ikandy.app/rejoin</a> and enter your Beta ID. Your access will be reactivated immediately.</p>
+        <p>Alternative: email <a href="mailto:support@ikandy.app?subject=Rejoin Beta" style="color:var(--ice);">support@ikandy.app</a> with your Beta ID for manual help.</p>
+      </div>
+    </details>
 </section>
 
 <!-- 11 HELP -->
@@ -1380,8 +1468,8 @@
     <p class="help-sub">Discord for chat, GitHub for bugs, BuyMeACoffee if it made your day.</p>
     <div class="help-links">
       <a href="https://discord.gg/qnnx6BBp" target="_blank" class="help-link">💬 Discord</a>
-      <a href="https://github.com/ikandyapp/ikandyapp.github.io/issues" target="_blank" class="help-link">🐛 Report a Bug</a>
-      <a href="https://github.com/ikandyapp/ikandyapp.github.io" target="_blank" class="help-link">↗ GitHub</a>
+      <a href="https://github.com/IKANDYapp/IKANDY/issues" target="_blank" class="help-link">🐛 Report a Bug</a>
+      <a href="https://github.com/IKANDYapp/IKANDY" target="_blank" class="help-link">↗ GitHub</a>
       <a href="https://buymeacoffee.com/IKANDY" target="_blank" class="help-link">☕ Support</a>
     </div>
   </div>
@@ -1392,11 +1480,12 @@
   <div class="footer-logo">IKANDY <span class="beta-badge" style="font-size:8px;vertical-align:5px;">BETA</span></div>
   <ul class="footer-links">
     <li><a href="index.html">Home</a></li>
-    <li><a href="https://github.com/ikandyapp/ikandyapp.github.io" target="_blank">GitHub</a></li>
-    <li><a href="https://github.com/ikandyapp/ikandyapp.github.io/releases" target="_blank">Releases</a></li>
+    <li><a href="https://github.com/IKANDYapp/IKANDY" target="_blank">GitHub</a></li>
+    <li><a href="https://github.com/IKANDYapp/IKANDY/releases" target="_blank">Releases</a></li>
+    <li><a href="https://github.com/IKANDYapp/IKANDY/blob/main/THIRD_PARTY_LICENSES.txt" target="_blank">Licenses</a></li>
     <li><a href="https://buymeacoffee.com/IKANDY" target="_blank">Support</a></li>
   </ul>
-  <div class="footer-copy">© 2026 Felix Bag of Tricks · IKANDY.app</div>
+  <div class="footer-copy">© 2026 L&R Entertainment · IKANDY.app</div>
 </footer>
 
 </body>
