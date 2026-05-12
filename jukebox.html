@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Track Not Found</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Limelight&family=Cinzel:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-1: #1a0d05;
+    --bg-2: #2a1608;
+    --amber: #ffb547;
+    --amber-bright: #ffd07a;
+    --amber-deep: #c97a1a;
+    --cream: #f5e6c8;
+    --shadow: rgba(0,0,0,0.55);
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body {
+    background:
+      radial-gradient(ellipse at 50% 35%, #3a1d0a 0%, var(--bg-1) 55%, #0a0502 100%);
+    color: var(--cream);
+    font-family: 'Cinzel', 'Times New Roman', serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    overflow: hidden;
+    position: relative;
+  }
+  body::before {
+    content: "";
+    position: absolute; inset: 0;
+    background-image:
+      radial-gradient(rgba(255,181,71,0.04) 1px, transparent 1px);
+    background-size: 3px 3px;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+  }
+
+  .stage {
+    position: relative;
+    z-index: 1;
+    max-width: 540px;
+  }
+
+  .jukebox {
+    width: 220px;
+    height: 320px;
+    margin: 0 auto 2.2rem;
+    display: block;
+    filter: drop-shadow(0 12px 28px var(--shadow));
+  }
+
+  h1 {
+    font-family: 'Limelight', 'Cinzel', serif;
+    font-size: clamp(2.2rem, 6vw, 3.4rem);
+    letter-spacing: 0.18em;
+    margin: 0 0 0.6rem;
+    color: var(--amber-bright);
+    text-shadow:
+      0 0 12px rgba(255,176,75,0.35),
+      0 2px 0 #5a2a08,
+      0 4px 14px rgba(0,0,0,0.6);
+  }
+
+  .rule {
+    width: 140px;
+    height: 2px;
+    margin: 0.6rem auto 1.4rem;
+    background: linear-gradient(90deg, transparent, var(--amber-deep), transparent);
+  }
+
+  p.subhead {
+    font-family: 'Cinzel', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    letter-spacing: 0.05em;
+    color: var(--cream);
+    opacity: 0.85;
+    margin: 0;
+  }
+
+  footer.label {
+    margin-top: 3.2rem;
+    font-family: 'Cinzel', serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--amber-deep);
+    opacity: 0.85;
+  }
+
+  @media (max-width: 480px) {
+    .jukebox { width: 170px; height: 250px; }
+    footer.label { letter-spacing: 0.22em; }
+  }
+</style>
+</head>
+<body>
+    <!--
+      side a, track 7: signifyin' monkey
+      side b, track 5: bad mutha
+
+      drop a dime in the slot:
+      bWVzc2luLXVwLXBlb3BsZS1pcy1teS1nYW1l
+    -->
+
+  <main class="stage">
+    <svg class="jukebox" viewBox="0 0 220 320" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <linearGradient id="cab" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#7a3b10"/>
+          <stop offset="0.5" stop-color="#4a210a"/>
+          <stop offset="1" stop-color="#2a1208"/>
+        </linearGradient>
+        <linearGradient id="dome" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#ffd07a"/>
+          <stop offset="0.6" stop-color="#c97a1a"/>
+          <stop offset="1" stop-color="#7a3b10"/>
+        </linearGradient>
+        <linearGradient id="window" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#2a1206"/>
+          <stop offset="1" stop-color="#080302"/>
+        </linearGradient>
+        <radialGradient id="bulb" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0" stop-color="#fff4d0"/>
+          <stop offset="0.5" stop-color="#ffb547"/>
+          <stop offset="1" stop-color="#7a3b10" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+
+      <rect x="20" y="50" width="180" height="250" rx="14" fill="url(#cab)" stroke="#1a0a04" stroke-width="2"/>
+
+      <path d="M30 80 Q110 0 190 80 L190 130 L30 130 Z" fill="url(#dome)" stroke="#1a0a04" stroke-width="2"/>
+
+      <rect x="50" y="100" width="120" height="70" rx="8" fill="url(#window)" stroke="#1a0a04" stroke-width="1.5"/>
+
+      <g opacity="0.85">
+        <circle cx="110" cy="135" r="22" fill="#0a0402" stroke="#3a1d0a" stroke-width="1"/>
+        <circle cx="110" cy="135" r="6" fill="#c97a1a"/>
+        <circle cx="110" cy="135" r="1.6" fill="#1a0a04"/>
+      </g>
+
+      <rect x="35" y="185" width="150" height="55" rx="4" fill="#1a0a04" stroke="#3a1d0a" stroke-width="1"/>
+      <g font-family="Cinzel, serif" font-size="6" fill="#c97a1a" text-anchor="middle" opacity="0.75">
+        <text x="70" y="200">A1 — — —</text>
+        <text x="70" y="212">A2 — — —</text>
+        <text x="70" y="224">A3 — — —</text>
+        <text x="70" y="236">A4 — — —</text>
+        <text x="150" y="200">B1 — — —</text>
+        <text x="150" y="212">B2 — — —</text>
+        <text x="150" y="224">B3 — — —</text>
+        <text x="150" y="236">B4 — — —</text>
+      </g>
+
+      <rect x="35" y="250" width="150" height="38" rx="4" fill="#3a1d0a" stroke="#1a0a04" stroke-width="1"/>
+      <g fill="#c97a1a">
+        <circle cx="60" cy="269" r="4"/>
+        <circle cx="80" cy="269" r="4"/>
+        <circle cx="100" cy="269" r="4"/>
+        <circle cx="120" cy="269" r="4"/>
+        <circle cx="140" cy="269" r="4"/>
+        <circle cx="160" cy="269" r="4"/>
+      </g>
+
+      <circle cx="40" cy="65" r="14" fill="url(#bulb)"/>
+      <circle cx="180" cy="65" r="14" fill="url(#bulb)"/>
+      <circle cx="40" cy="285" r="10" fill="url(#bulb)" opacity="0.7"/>
+      <circle cx="180" cy="285" r="10" fill="url(#bulb)" opacity="0.7"/>
+    </svg>
+
+    <h1>TRACK NOT FOUND</h1>
+    <div class="rule"></div>
+    <p class="subhead">this side of the record is silent</p>
+
+    <footer class="label">side a &bull; track 7 &bull; 78 rpm</footer>
+  </main>
+</body>
+</html>
