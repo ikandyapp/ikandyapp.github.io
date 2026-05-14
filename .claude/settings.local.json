@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git remote *)",
+      "Bash(git -C \"E:\\\\ikandyapp.github.io\" status)",
+      "Bash(git -C \"E:\\\\ikandyapp.github.io\" log --oneline origin/main..HEAD)",
+      "Bash(git *)"
+    ]
+  }
+}
