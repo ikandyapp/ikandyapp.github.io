@@ -167,12 +167,12 @@
   /* ── HERO ── */
   .hero {
     position: relative;
-    height: 100vh;
-    min-height: 600px;
+    min-height: 100vh;
     overflow: hidden;
     display: flex;
-    align-items: flex-end;
-    padding: 0 48px 80px;
+    align-items: center;
+    padding: 120px 48px 80px;
+    background: var(--bg);
   }
 
   .hero::before {
@@ -187,35 +187,21 @@
   .hero-bg {
     position: absolute;
     inset: 0;
-    background-image: url("assets/screenshot.png");
-    background-size: cover;
-    background-position: center 30%;
-    transform: scale(1.05);
-    animation: slow-zoom 20s ease-in-out infinite alternate;
-  }
-
-  @keyframes slow-zoom {
-    from { transform: scale(1.05) translate(0,0); }
-    to   { transform: scale(1.12) translate(-1%, 1%); }
+    background:
+      radial-gradient(ellipse at 30% 40%, rgba(212,168,67,.07) 0%, transparent 55%),
+      radial-gradient(ellipse at 75% 60%, rgba(255,45,138,.05) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 80%, rgba(91,200,245,.04) 0%, transparent 45%);
+    pointer-events: none;
   }
 
   .hero-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      to bottom,
-      rgba(4,4,10,.3) 0%,
-      rgba(4,4,10,.1) 40%,
-      rgba(4,4,10,.8) 75%,
-      rgba(4,4,10,1)  100%
-    );
+    background: linear-gradient(to bottom, transparent 60%, rgba(4,4,10,1) 100%);
+    pointer-events: none;
   }
 
-  .hero-content {
-    position: relative;
-    z-index: 2;
-    max-width: 700px;
-  }
+  /* hero-content now inside .hero-inner */
 
   .hero-eyebrow {
     font-family: 'Space Mono', monospace;
@@ -699,7 +685,7 @@
   /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
     nav { padding: 16px 24px; }
-    .hero { padding: 0 24px 60px; }
+    .hero { padding: 100px 24px 60px; }
     .feature-split { grid-template-columns: 1fr; gap: 40px; padding: 60px 24px; }
     .feature-split.reverse { direction: ltr; }
     .sources-grid { grid-template-columns: 1fr; }
@@ -1020,17 +1006,26 @@
     .compat-rest-note { text-align: center; margin-left: auto; margin-right: auto; }
   }
 
-  /* ── HERO GALLERY STRIP ── */
+  /* ── SCREENSHOT GALLERY STRIP ── */
   .hero-gallery {
-    position: absolute;
-    top: 50%;
-    left: 0; right: 0;
-    transform: translateY(-60%);
-    z-index: 2;
+    position: relative;
     overflow: hidden;
-    pointer-events: none;
-    -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 12%, black 88%, transparent 100%);
-    mask-image: linear-gradient(90deg, transparent 0%, black 12%, black 88%, transparent 100%);
+    padding: 48px 0 56px;
+    background: var(--bg);
+    border-top: 1px solid rgba(255,255,255,.06);
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
+  }
+
+  .gallery-section-label {
+    text-align: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.25);
+    margin-bottom: 28px;
   }
 
   .gallery-row {
@@ -1083,6 +1078,87 @@
     color: rgba(255,255,255,.3);
     white-space: nowrap;
   }
+
+  /* ── HERO TWO-COLUMN ── */
+  .hero-inner {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 60px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .hero-content {
+    position: relative;
+    max-width: 560px;
+    flex-shrink: 0;
+  }
+
+  .hero-scene {
+    flex: 1;
+    max-width: 480px;
+    position: relative;
+  }
+
+  .hero-scene-img {
+    width: 100%;
+    border-radius: 4px;
+    display: block;
+    opacity: .85;
+    border: 1px solid rgba(255,255,255,.1);
+    box-shadow: 0 0 60px rgba(212,168,67,.1), 0 0 120px rgba(255,45,138,.08);
+  }
+
+  .hero-scene-credit {
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .hero-scene-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    letter-spacing: .1em;
+    color: rgba(255,255,255,.6);
+  }
+
+  .hero-scene-artist {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .05em;
+    color: rgba(255,255,255,.35);
+  }
+
+  .hero-scene-artist a {
+    color: var(--gold);
+    text-decoration: none;
+    transition: color .2s;
+  }
+  .hero-scene-artist a:hover { color: #fff; }
+
+  .hero-scene-license {
+    display: inline-block;
+    font-size: 9px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    background: rgba(155,93,229,.15);
+    color: #9b5de5;
+    border: 1px solid rgba(155,93,229,.3);
+    padding: 1px 6px;
+    border-radius: 2px;
+  }
+
+  @media (max-width: 900px) {
+    .hero-inner { flex-direction: column; gap: 32px; }
+    .hero-scene { max-width: 100%; width: 100%; }
+    .hero-content { max-width: 100%; }
+  }
 </style>
 </head>
 <body>
@@ -1107,64 +1183,27 @@
 </nav>
 
 <!-- HERO -->
-<section class="hero" style="padding:0;max-width:none;">
+<section class="hero">
   <div class="hero-bg"></div>
   <div class="hero-overlay"></div>
-
-<!-- HERO GALLERY -->
-<div class="hero-gallery">
-  <div class="gallery-row">
-    <div class="gallery-row-inner">
-      <img class="gallery-img" src="websitephotos/1.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-21-16.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-21-30.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-22-07.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-22-54.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-24-59.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-27-32.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/1.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-21-16.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-21-30.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-22-07.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-22-54.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-24-59.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-27-32.jpg" alt="IKANDY screenshot" loading="lazy">
-        
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-eyebrow">✦ Feel the music. See the magic.</div>
+      <h1 class="hero-title">IKANDY</h1>
+      <p class="hero-sub">IKANDY listens to whatever you&rsquo;re playing and paints it across your screen &mdash; every beat, every drop, every note, alive in real time. Free. No setup. Just music you can see.</p>
+      <div class="hero-cta">
+        <a href="#download" class="btn-primary pulse">
+          ↓ Download Free
+        </a>
+        <a href="#watch" class="btn-secondary">▶ Watch Demo</a>
+      </div>
     </div>
-  </div>
-  <div class="gallery-row reverse">
-    <div class="gallery-row-inner">
-      <img class="gallery-img" src="websitephotos/2026-05-06_17-27-53.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-31-26.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-31-41.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-31-50.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-32-14.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-32-35.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-33-14.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-33-46.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-27-53.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-31-26.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-31-41.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-31-50.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-32-14.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-32-35.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-33-14.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-33-46.jpg" alt="IKANDY screenshot" loading="lazy">
-        
-    </div>
-  </div>
-  <div class="gallery-caption">real screenshots · every visual reacts to your music live</div>
-</div>
-
-  <div class="hero-content" style="padding: 0 48px 80px;">
-    <div class="hero-eyebrow">✦ Feel the music. See the magic.</div>
-    <h1 class="hero-title">IKANDY</h1>
-    <p class="hero-sub">IKANDY listens to whatever you&rsquo;re playing and paints it across your screen &mdash; every beat, every drop, every note, alive in real time. Free. No setup. Just music you can see.</p>
-    <div class="hero-cta">
-      <a href="#download" class="btn-primary pulse">
-        ↓ Download Free
-      </a>
-      <a href="#watch" class="btn-secondary">▶ Watch Demo</a>
+    <div class="hero-scene">
+      <img src="websitephotos/1.jpg" alt="Liquid Metal scene by mrange" class="hero-scene-img">
+      <div class="hero-scene-credit">
+        <div class="hero-scene-name">Liquid Metal</div>
+        <div class="hero-scene-artist">Scene by <a href="https://www.shadertoy.com/user/mrange" target="_blank" rel="noopener">mrange</a> &nbsp;·&nbsp; <span class="hero-scene-license">CC0</span></div>
+      </div>
     </div>
   </div>
 </section>
@@ -1255,6 +1294,46 @@
     <p class="explainer-blurb">Feel the music. See the magic. IKANDY listens to whatever you&rsquo;re already playing and turns it into a living, breathing visual &mdash; 350+ MilkDrop presets, custom audio-reactive scenes, AI-generated shaders, and cinematic FX overlays. Free. Offline. No subscription.</p>
   </div>
 </section>
+
+
+<!-- SCREENSHOT GALLERY -->
+<div class="hero-gallery">
+  <p class="gallery-section-label">Real screenshots &mdash; every visual reacts to your music live</p>
+  <div class="gallery-row">
+    <div class="gallery-row-inner">
+      <img class="gallery-img" src="websitephotos/2026-05-06_17-21-16.jpg" alt="IKANDY screenshot" loading="lazy">
+      <img class="gallery-img" src="websitephotos/2026-05-06_17-21-30.jpg" alt="IKANDY screenshot" loading="lazy">
+      <img class="gallery-img" src="websitephotos/2026-05-06_17-22-07.jpg" alt="IKANDY screenshot" loading="lazy">
+      <img class="gallery-img" src="websitephotos/2026-05-06_17-22-54.jpg" alt="IKANDY screenshot" loading="lazy">
+      <img class="gallery-img" src="websitephotos/2026-05-06_17-24-59.jpg" alt="IKANDY screenshot" loading="lazy">
+      <img class="gallery-img" src="websitephotos/2026-05-06_17-27-32.jpg" alt="IKANDY screenshot" loading="lazy">
+      <img class="gallery-img" src="websitephotos/2026-05-06_17-21-16.jpg" alt="IKANDY screenshot" loading="lazy">
+      <img class="gallery-img" src="websitephotos/2026-05-06_17-21-30.jpg" alt="IKANDY screenshot" loading="lazy">
+      <img class="gallery-img" src="websitephotos/2026-05-06_17-22-07.jpg" alt="IKANDY screenshot" loading="lazy">
+      <img class="gallery-img" src="websitephotos/2026-05-06_17-22-54.jpg" alt="IKANDY screenshot" loading="lazy">
+      <img class="gallery-img" src="websitephotos/2026-05-06_17-24-59.jpg" alt="IKANDY screenshot" loading="lazy">
+      <img class="gallery-img" src="websitephotos/2026-05-06_17-27-32.jpg" alt="IKANDY screenshot" loading="lazy">
+    </div>
+  </div>
+  <div class="gallery-row reverse" style="margin-top:12px;">
+    <div class="gallery-row-inner">
+      <img class="gallery-img" src="websitephotos/2026-05-06_17-27-53.jpg" alt="IKANDY screenshot" loading="lazy">
+      <img class="gallery-img" src="websitephotos/2026-05-06_17-31-26.jpg" alt="IKANDY screenshot" loading="lazy">
+      <img class="gallery-img" src="websitephotos/2026-05-06_17-31-41.jpg" alt="IKANDY screenshot" loading="lazy">
+      <img class="gallery-img" src="websitephotos/2026-05-06_17-31-50.jpg" alt="IKANDY screenshot" loading="lazy">
+      <img class="gallery-img" src="websitephotos/2026-05-06_17-32-14.jpg" alt="IKANDY screenshot" loading="lazy">
+      <img class="gallery-img" src="websitephotos/2026-05-06_17-32-35.jpg" alt="IKANDY screenshot" loading="lazy">
+      <img class="gallery-img" src="websitephotos/2026-05-06_17-33-14.jpg" alt="IKANDY screenshot" loading="lazy">
+      <img class="gallery-img" src="websitephotos/2026-05-06_17-33-46.jpg" alt="IKANDY screenshot" loading="lazy">
+      <img class="gallery-img" src="websitephotos/2026-05-06_17-27-53.jpg" alt="IKANDY screenshot" loading="lazy">
+      <img class="gallery-img" src="websitephotos/2026-05-06_17-31-26.jpg" alt="IKANDY screenshot" loading="lazy">
+      <img class="gallery-img" src="websitephotos/2026-05-06_17-31-41.jpg" alt="IKANDY screenshot" loading="lazy">
+      <img class="gallery-img" src="websitephotos/2026-05-06_17-31-50.jpg" alt="IKANDY screenshot" loading="lazy">
+      <img class="gallery-img" src="websitephotos/2026-05-06_17-32-14.jpg" alt="IKANDY screenshot" loading="lazy">
+      <img class="gallery-img" src="websitephotos/2026-05-06_17-32-35.jpg" alt="IKANDY screenshot" loading="lazy">
+    </div>
+  </div>
+</div>
 
 <!-- WATCH / VIDEO -->
 <section class="video-section" id="watch">
