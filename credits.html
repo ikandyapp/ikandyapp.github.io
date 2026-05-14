@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IKANDY — Credits &amp; Open Source Notices</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #04040a;
+    --surface: #0d0d14;
+    --border: #1a1a28;
+    --gold: #d4a843;
+    --cyan: #00e5ff;
+    --violet: #9b5de5;
+    --neon: #ff2d8a;
+    --green: #1db954;
+    --text: #c8c8d8;
+    --muted: #5a5a7a;
+    --white: #eeeef8;
+    --dim: rgba(255,255,255,.45);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    line-height: 1.85;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: .4;
+  }
+
+  /* ── NAV ── */
+
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 48px;
+    background: rgba(0,0,0,.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    flex-wrap: wrap;
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: .15em;
+    color: var(--gold);
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 36px; height: 36px;
+    background: none; border: none;
+    cursor: pointer; padding: 4px; flex-shrink: 0;
+  }
+  .nav-toggle span {
+    display: block; width: 22px; height: 2px;
+    background: var(--gold); border-radius: 2px;
+    transition: transform .25s, opacity .25s;
+    transform-origin: center;
+  }
+  .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2) { opacity: 0; }
+  .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
+  .nav-links a {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--dim, rgba(255,255,255,.45));
+    text-decoration: none; transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-links a.active { color: var(--cyan, #00e5ff); }
+
+  @media (max-width: 860px) {
+    nav { padding: 16px 24px; }
+    .nav-toggle { display: flex; }
+    .nav-links {
+      display: none; flex-direction: column; align-items: flex-start;
+      gap: 0; width: 100%; padding: 12px 0 16px;
+      border-top: 1px solid rgba(255,255,255,.06); margin-top: 12px;
+    }
+    .nav-links.open { display: flex; }
+    .nav-links li { width: 100%; }
+    .nav-links a {
+      display: block; padding: 10px 4px; font-size: 13px;
+      border-bottom: 1px solid rgba(255,255,255,.04);
+    }
+    .nav-links li:last-child a { border-bottom: none; }
+  }
+
+  /* ── HEADER ── */
+  header {
+    padding: 120px 0 56px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(212,168,67,.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .container { max-width: 860px; margin: 0 auto; padding: 0 40px; }
+
+  .label {
+    font-size: 10px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+
+  h1 span { color: var(--gold); }
+
+  .header-lead {
+    font-size: 14px;
+    color: var(--muted);
+    max-width: 620px;
+    line-height: 1.8;
+  }
+
+  /* ── CONTENT ── */
+  main { padding: 64px 0 80px; }
+
+  .section { margin-bottom: 64px; }
+
+  .section-heading {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* Credit card */
+  .credit-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 28px 32px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+
+  .credit-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    border-radius: 4px 0 0 4px;
+    background: var(--stripe, var(--gold));
+  }
+
+  .credit-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+
+  .credit-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--white);
+  }
+
+  .credit-author {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .credit-author a {
+    color: var(--cyan);
+    text-decoration: none;
+  }
+  .credit-author a:hover { text-decoration: underline; }
+
+  .license-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 3px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .badge-mit    { background: rgba(29,185,84,.12);  color: #1db954; border: 1px solid rgba(29,185,84,.3); }
+  .badge-bsd    { background: rgba(91,200,245,.12); color: #5bc8f5; border: 1px solid rgba(91,200,245,.3); }
+  .badge-cc0    { background: rgba(155,93,229,.12); color: #9b5de5; border: 1px solid rgba(155,93,229,.3); }
+  .badge-perm   { background: rgba(212,168,67,.12); color: #d4a843; border: 1px solid rgba(212,168,67,.3); }
+  .badge-comm   { background: rgba(255,45,138,.12); color: #ff2d8a; border: 1px solid rgba(255,45,138,.3); }
+  .badge-prop   { background: rgba(255,107,53,.12); color: #ff6b35; border: 1px solid rgba(255,107,53,.3); }
+
+  .credit-body {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.75;
+  }
+
+  .credit-body a { color: var(--cyan); text-decoration: none; }
+  .credit-body a:hover { text-decoration: underline; }
+
+  .credit-body p { margin-bottom: 10px; }
+  .credit-body p:last-child { margin-bottom: 0; }
+
+  /* Scene list within a card */
+  .scene-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .scene-tag {
+    font-size: 10px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.1);
+    color: var(--muted);
+    padding: 3px 10px;
+    border-radius: 2px;
+  }
+
+  /* Notice box */
+  .notice {
+    background: rgba(212,168,67,.05);
+    border: 1px solid rgba(212,168,67,.2);
+    border-radius: 4px;
+    padding: 20px 24px;
+    margin-bottom: 32px;
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.75;
+  }
+
+  .notice strong { color: var(--gold); }
+
+  /* npm table */
+  .npm-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    margin-top: 8px;
+  }
+
+  .npm-table th {
+    text-align: left;
+    font-size: 10px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .npm-table td {
+    padding: 9px 12px;
+    border-bottom: 1px solid rgba(26,26,40,.8);
+    color: var(--text);
+    vertical-align: top;
+  }
+
+  .npm-table td:first-child { color: var(--white); font-weight: 700; }
+  .npm-table td:nth-child(2) { color: var(--muted); font-size: 11px; }
+  .npm-table td a { color: var(--cyan); text-decoration: none; }
+  .npm-table td a:hover { text-decoration: underline; }
+  .npm-table tr:last-child td { border-bottom: none; }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 0;
+    text-align: center;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  @media (max-width: 700px) {
+    nav { padding: 16px 20px; }
+    .nav-links { gap: 16px; }
+    .nav-links li:nth-child(n+5) { display: none; }
+    header { padding: 100px 0 40px; }
+    .container { padding: 0 20px; }
+    .credit-card { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">IKANDY</a>
+  <ul class="nav-links">
+    <li><a href="index.html#features">Features</a></li>
+    <li><a href="index.html#watch">Watch</a></li>
+    <li><a href="guide.html">Guide</a></li>
+    <li><a href="credits.html" class="active">Credits</a></li>
+    <li><a href="ikandy-smart-auto-prior-art.html">Smart Auto</a></li>
+    <li><a href="ikandy-ai-error-sandbox.html">AI Sandbox</a></li>
+    <li><a href="ikandy-vis-format.html">.vis Format</a></li>
+    <li><a href="index.html#download">Download</a></li>
+  </ul>
+</nav>
+
+<header>
+  <div class="container">
+    <span class="label">Legal &amp; Attribution</span>
+    <h1>Credits &amp; <span>Open Source</span> Notices</h1>
+    <p class="header-lead">IKANDY is built on the work of many talented people. This page lists every third-party component, library, shader, and preset collection used in IKANDY, along with their licenses and authors. These notices are reproduced in compliance with the terms of those licenses.</p>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <div class="notice">
+      <strong>About IKANDY's own code:</strong> The IKANDY application, original scenes, post-processing pipeline, native audio module, and UI are copyright © 2026 L&amp;R Entertainment LLC and distributed under the IKANDY Non-Commercial License. The notices below apply only to the third-party components bundled within IKANDY, not to IKANDY itself.
+    </div>
+
+    <!-- ── VISUALIZER ENGINE ── -->
+    <div class="section">
+      <div class="section-heading">Visualizer Engine</div>
+
+      <div class="credit-card" style="--stripe: #1db954;">
+        <div class="credit-top">
+          <div>
+            <div class="credit-name">Butterchurn</div>
+            <div class="credit-author">by <a href="https://github.com/jberg/butterchurn" target="_blank" rel="noopener">Jordan Berg</a> &nbsp;·&nbsp; v3.0.0-beta.5</div>
+          </div>
+          <span class="license-badge badge-mit">MIT License</span>
+        </div>
+        <div class="credit-body">
+          <p>The WebGL port of Winamp's legendary MilkDrop music visualizer. Butterchurn powers all 745+ MilkDrop preset renders in IKANDY, converting the legacy per-frame and per-pixel math equations into real-time WebGL shaders.</p>
+          <p><a href="https://github.com/jberg/butterchurn" target="_blank" rel="noopener">github.com/jberg/butterchurn</a></p>
+        </div>
+      </div>
+
+      <div class="credit-card" style="--stripe: #1db954;">
+        <div class="credit-top">
+          <div>
+            <div class="credit-name">Butterchurn Presets</div>
+            <div class="credit-author">by <a href="https://github.com/jberg/butterchurn-presets" target="_blank" rel="noopener">Jordan Berg</a> &nbsp;·&nbsp; v3.0.0-beta.4 + extra packs</div>
+          </div>
+          <span class="license-badge badge-mit">MIT License</span>
+        </div>
+        <div class="credit-body">
+          <p>The bundled preset collections used by Butterchurn, including the base library, extra packs, and image-texture presets.</p>
+          <p><a href="https://github.com/jberg/butterchurn-presets" target="_blank" rel="noopener">github.com/jberg/butterchurn-presets</a></p>
+        </div>
+      </div>
+
+      <div class="credit-card" style="--stripe: #ff2d8a;">
+        <div class="credit-top">
+          <div>
+            <div class="credit-name">MilkDrop Preset Library</div>
+            <div class="credit-author">Ryan Geiss &amp; the MilkDrop community &nbsp;·&nbsp; 2001–present</div>
+          </div>
+          <span class="license-badge badge-comm">Community</span>
+        </div>
+        <div class="credit-body">
+          <p>MilkDrop was created by Ryan Geiss in 2001 as a Winamp plugin. The 745+ presets bundled with IKANDY were contributed over more than two decades by Flexi, Martin, Geiss, and hundreds of community authors. These presets are redistributed in good faith consistent with their long-standing public availability across Winamp, foobar2000, MilkDrop2, projectM, Webamp, and Kodi.</p>
+          <p>If you are a preset author and wish your work removed from IKANDY, please contact <a href="mailto:support@ikandy.app">support@ikandy.app</a>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 3D SCENES ── -->
+    <div class="section">
+      <div class="section-heading">3D Raymarched Scenes</div>
+
+      <div class="credit-card" style="--stripe: #9b5de5;">
+        <div class="credit-top">
+          <div>
+            <div class="credit-name">mrange</div>
+            <div class="credit-author"><a href="https://github.com/mrange" target="_blank" rel="noopener">github.com/mrange</a></div>
+          </div>
+          <span class="license-badge badge-cc0">CC0 Public Domain</span>
+        </div>
+        <div class="credit-body">
+          <p>Five 3D raymarched scenes adapted from shaders by mrange and dedicated to the public domain under Creative Commons CC0 1.0 Universal.</p>
+          <div class="scene-list">
+            <span class="scene-tag">Liquid Metal</span>
+            <span class="scene-tag">Heart of Lightning</span>
+            <span class="scene-tag">Electric Eel Universe</span>
+            <span class="scene-tag">Face in the Clouds</span>
+            <span class="scene-tag">Saturday Weirdness</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="credit-card" style="--stripe: #9b5de5;">
+        <div class="credit-top">
+          <div>
+            <div class="credit-name">Blackle Mori</div>
+            <div class="credit-author"><a href="https://github.com/blackle" target="_blank" rel="noopener">github.com/blackle</a></div>
+          </div>
+          <span class="license-badge badge-cc0">CC0 Public Domain</span>
+        </div>
+        <div class="credit-body">
+          <p>One 3D scene adapted from a shader by Blackle Mori, dedicated to the public domain under Creative Commons CC0 1.0 Universal.</p>
+          <div class="scene-list">
+            <span class="scene-tag">Just a Flame</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="credit-card" style="--stripe: #d4a843;">
+        <div class="credit-top">
+          <div>
+            <div class="credit-name">Sabit Sugirov</div>
+            <div class="credit-author"><a href="https://x.com/sabosugi" target="_blank" rel="noopener">x.com/sabosugi</a></div>
+          </div>
+          <span class="license-badge badge-perm">Used with Permission</span>
+        </div>
+        <div class="credit-body">
+          <p>The Ferrofluid scene in IKANDY is adapted from a shader by Sabit Sugirov and included with the author's express permission. This shader is <strong>not</strong> released under CC0 or any open-source license. Forks, derivatives, or redistributions of IKANDY that include the Ferrofluid shader require separate permission from the original author.</p>
+          <div class="scene-list">
+            <span class="scene-tag">Ferrofluid</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── RUNTIME & PLATFORM ── -->
+    <div class="section">
+      <div class="section-heading">Runtime &amp; Platform</div>
+
+      <div class="credit-card" style="--stripe: #5bc8f5;">
+        <div class="credit-top">
+          <div>
+            <div class="credit-name">Electron</div>
+            <div class="credit-author">OpenJS Foundation &nbsp;·&nbsp; v30</div>
+          </div>
+          <span class="license-badge badge-mit">MIT License</span>
+        </div>
+        <div class="credit-body">
+          <p>IKANDY is built on Electron, which provides the desktop application shell, native API access, and the Chromium rendering engine. Electron bundles Chromium and Node.js.</p>
+          <p><a href="https://github.com/electron/electron" target="_blank" rel="noopener">github.com/electron/electron</a></p>
+        </div>
+      </div>
+
+      <div class="credit-card" style="--stripe: #5bc8f5;">
+        <div class="credit-top">
+          <div>
+            <div class="credit-name">Chromium</div>
+            <div class="credit-author">The Chromium Authors &amp; Google</div>
+          </div>
+          <span class="license-badge badge-bsd">BSD-style</span>
+        </div>
+        <div class="credit-body">
+          <p>Chromium provides the WebGL, WebGPU, Web Audio, and rendering surfaces IKANDY uses. Chromium is licensed under a BSD-style license and includes many third-party components. The complete license list is included with the IKANDY installer as <code>LICENSES.chromium.html</code>.</p>
+          <p><a href="https://www.chromium.org/Home" target="_blank" rel="noopener">chromium.org</a></p>
+        </div>
+      </div>
+
+      <div class="credit-card" style="--stripe: #1db954;">
+        <div class="credit-top">
+          <div>
+            <div class="credit-name">Node.js</div>
+            <div class="credit-author">OpenJS Foundation</div>
+          </div>
+          <span class="license-badge badge-mit">MIT License</span>
+        </div>
+        <div class="credit-body">
+          <p>Node.js powers IKANDY's main process, IPC layer, and native module loading.</p>
+          <p><a href="https://nodejs.org" target="_blank" rel="noopener">nodejs.org</a></p>
+        </div>
+      </div>
+
+      <div class="credit-card" style="--stripe: #5bc8f5;">
+        <div class="credit-top">
+          <div>
+            <div class="credit-name">Three.js</div>
+            <div class="credit-author">mrdoob &nbsp;·&nbsp; v0.184.0</div>
+          </div>
+          <span class="license-badge badge-mit">MIT License</span>
+        </div>
+        <div class="credit-body">
+          <p>Three.js powers the Trails scene — a Three.js-based bending light trails scene bundled as a self-contained ESM module.</p>
+          <p><a href="https://github.com/mrdoob/three.js" target="_blank" rel="noopener">github.com/mrdoob/three.js</a></p>
+        </div>
+      </div>
+
+      <div class="credit-card" style="--stripe: #d4a843;">
+        <div class="credit-top">
+          <div>
+            <div class="credit-name">WASAPI — Windows Audio Session API</div>
+            <div class="credit-author">Microsoft Corporation</div>
+          </div>
+          <span class="license-badge badge-prop">Windows SDK</span>
+        </div>
+        <div class="credit-body">
+          <p>IKANDY's per-process audio capture uses the Windows Audio Session API (WASAPI) from the Microsoft Windows SDK to enumerate audio sessions and capture per-application audio streams. No Microsoft source code is redistributed. The native module wrapping WASAPI is original to IKANDY.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── LYRICS ── -->
+    <div class="section">
+      <div class="section-heading">Data &amp; Services</div>
+
+      <div class="credit-card" style="--stripe: #9b5de5;">
+        <div class="credit-top">
+          <div>
+            <div class="credit-name">LRCLIB</div>
+            <div class="credit-author"><a href="https://lrclib.net" target="_blank" rel="noopener">lrclib.net</a></div>
+          </div>
+          <span class="license-badge badge-comm">Free API</span>
+        </div>
+        <div class="credit-body">
+          <p>IKANDY fetches time-synced lyrics via the LRCLIB public API. LRCLIB is a community-maintained lyrics database offering a free, open API with no authentication required.</p>
+        </div>
+      </div>
+
+      <div class="credit-card" style="--stripe: #1db954;">
+        <div class="credit-top">
+          <div>
+            <div class="credit-name">Spotify Web API</div>
+            <div class="credit-author">Spotify AB</div>
+          </div>
+          <span class="license-badge badge-prop">Developer Terms</span>
+        </div>
+        <div class="credit-body">
+          <p>IKANDY integrates with the Spotify Web API for track metadata, album art, playback control, and playlist browsing. IKANDY uses a BYOK (Bring Your Own Key) model — users supply their own Spotify Client ID, and no Spotify credentials are stored by IKANDY or L&amp;R Entertainment LLC. Use is subject to <a href="https://developer.spotify.com/terms" target="_blank" rel="noopener">Spotify's Developer Terms of Service</a>.</p>
+        </div>
+      </div>
+
+      <div class="credit-card" style="--stripe: #d4a843;">
+        <div class="credit-top">
+          <div>
+            <div class="credit-name">Supabase</div>
+            <div class="credit-author"><a href="https://supabase.com" target="_blank" rel="noopener">supabase.com</a></div>
+          </div>
+          <span class="license-badge badge-prop">Commercial SaaS</span>
+        </div>
+        <div class="credit-body">
+          <p>IKANDY uses Supabase as its backend for beta user management. Supabase is SOC 2 Type II-certified. Data handling is described in the <a href="privacy.html">Privacy Policy</a>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── NPM PACKAGES ── -->
+    <div class="section">
+      <div class="section-heading">npm Packages</div>
+
+      <div class="credit-card" style="--stripe: var(--border);">
+        <div class="credit-body">
+          <p style="margin-bottom:20px;">The following npm packages are used in IKANDY's main process or are bundled with the application. All are used under their respective open-source licenses.</p>
+          <table class="npm-table">
+            <thead>
+              <tr>
+                <th>Package</th>
+                <th>Version</th>
+                <th>License</th>
+                <th>Author / Repo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>electron-log</td>
+                <td>5.4.3</td>
+                <td>MIT</td>
+                <td><a href="https://github.com/megahertz/electron-log" target="_blank" rel="noopener">megahertz/electron-log</a></td>
+              </tr>
+              <tr>
+                <td>electron-updater</td>
+                <td>6.8.3</td>
+                <td>MIT</td>
+                <td><a href="https://github.com/electron-userland/electron-builder" target="_blank" rel="noopener">electron-userland/electron-builder</a></td>
+              </tr>
+              <tr>
+                <td>three</td>
+                <td>0.184.0</td>
+                <td>MIT</td>
+                <td><a href="https://github.com/mrdoob/three.js" target="_blank" rel="noopener">mrdoob/three.js</a></td>
+              </tr>
+              <tr>
+                <td>argparse</td>
+                <td>2.0.1</td>
+                <td>Python-2.0</td>
+                <td><a href="https://github.com/nodeca/argparse" target="_blank" rel="noopener">nodeca/argparse</a></td>
+              </tr>
+              <tr>
+                <td>builder-util-runtime</td>
+                <td>9.5.1</td>
+                <td>MIT</td>
+                <td><a href="https://github.com/electron-userland/electron-builder" target="_blank" rel="noopener">electron-userland/electron-builder</a></td>
+              </tr>
+              <tr>
+                <td>debug</td>
+                <td>4.4.3</td>
+                <td>MIT</td>
+                <td><a href="https://github.com/debug-js/debug" target="_blank" rel="noopener">debug-js/debug</a></td>
+              </tr>
+              <tr>
+                <td>fs-extra</td>
+                <td>10.1.0</td>
+                <td>MIT</td>
+                <td><a href="https://github.com/jprichardson/node-fs-extra" target="_blank" rel="noopener">jprichardson/node-fs-extra</a></td>
+              </tr>
+              <tr>
+                <td>graceful-fs</td>
+                <td>4.2.11</td>
+                <td>ISC</td>
+                <td><a href="https://github.com/isaacs/node-graceful-fs" target="_blank" rel="noopener">isaacs/node-graceful-fs</a></td>
+              </tr>
+              <tr>
+                <td>js-yaml</td>
+                <td>4.1.1</td>
+                <td>MIT</td>
+                <td><a href="https://github.com/nodeca/js-yaml" target="_blank" rel="noopener">nodeca/js-yaml</a></td>
+              </tr>
+              <tr>
+                <td>lodash.escaperegexp</td>
+                <td>4.1.2</td>
+                <td>MIT</td>
+                <td><a href="https://github.com/lodash/lodash" target="_blank" rel="noopener">lodash/lodash</a></td>
+              </tr>
+              <tr>
+                <td>lodash.isequal</td>
+                <td>4.5.0</td>
+                <td>MIT</td>
+                <td><a href="https://github.com/lodash/lodash" target="_blank" rel="noopener">lodash/lodash</a></td>
+              </tr>
+              <tr>
+                <td>semver</td>
+                <td>7.7.4</td>
+                <td>ISC</td>
+                <td><a href="https://github.com/npm/node-semver" target="_blank" rel="noopener">npm/node-semver</a></td>
+              </tr>
+              <tr>
+                <td>tiny-typed-emitter</td>
+                <td>2.1.0</td>
+                <td>MIT</td>
+                <td><a href="https://github.com/binier/tiny-typed-emitter" target="_blank" rel="noopener">binier/tiny-typed-emitter</a></td>
+              </tr>
+              <tr>
+                <td>sax</td>
+                <td>1.6.0</td>
+                <td>BlueOak-1.0.0</td>
+                <td><a href="https://github.com/isaacs/sax-js" target="_blank" rel="noopener">isaacs/sax-js</a></td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="margin-top:16px;font-size:12px;color:var(--muted);">A complete machine-readable license file (<code>THIRD_PARTY_LICENSES.txt</code>) is included in the IKANDY installation directory.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TESTING ── -->
+    <div class="section">
+      <div class="section-heading">Testing &amp; Quality</div>
+
+      <div class="credit-card" style="--stripe: var(--gold);">
+        <div class="credit-top">
+          <div>
+            <div class="credit-name">Bats586</div>
+            <div class="credit-author">Beta tester &amp; QA</div>
+          </div>
+        </div>
+        <div class="credit-body">
+          <p>Primary beta tester. Responsible for surfacing mirror mode issues, 5.1/7.1 audio edge cases, and numerous UX regressions before they reached release.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── FONTS ── -->
+    <div class="section">
+      <div class="section-heading">Fonts</div>
+
+      <div class="credit-card" style="--stripe: var(--border);">
+        <div class="credit-body">
+          <p>IKANDY uses the following typefaces, served via Google Fonts under the <a href="https://scripts.sil.org/OFL" target="_blank" rel="noopener">SIL Open Font License</a>:</p>
+          <div class="scene-list" style="margin-top:16px;">
+            <span class="scene-tag">Bebas Neue — Ryoichi Tsunekawa</span>
+            <span class="scene-tag">DM Sans — Colophon Foundry</span>
+            <span class="scene-tag">Space Mono — Colophon Foundry</span>
+            <span class="scene-tag">Syne — Bonjour Monde</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CONTACT ── -->
+    <div class="notice" style="margin-bottom:0;">
+      <strong>Attribution corrections &amp; takedown requests:</strong> If you believe any attribution is incorrect, incomplete, or if you are a rights holder who wishes to discuss the use of your work in IKANDY, please contact <a href="mailto:support@ikandy.app" style="color:var(--cyan);">support@ikandy.app</a>. We will respond promptly.
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    © 2026 L&amp;R Entertainment LLC · IKANDY.app · <a href="mailto:support@ikandy.app" style="color:var(--muted);text-decoration:none;">support@ikandy.app</a>
+  </div>
+</footer>
+
+</body>
+</html>

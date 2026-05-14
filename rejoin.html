@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IKANDY — Rejoin Beta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #d4a843;
+    --neon: #ff2d8a;
+    --green: #1db954;
+    --ice: #5bc8f5;
+    --bg: #04040a;
+    --bg2: #08080f;
+    --txt: #e8e8e8;
+    --dim: rgba(255,255,255,.45);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--txt);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+    cursor: crosshair;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: .4;
+  }
+
+
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 48px;
+    background: rgba(0,0,0,.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    flex-wrap: wrap;
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: .15em;
+    color: var(--gold);
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 36px; height: 36px;
+    background: none; border: none;
+    cursor: pointer; padding: 4px; flex-shrink: 0;
+  }
+  .nav-toggle span {
+    display: block; width: 22px; height: 2px;
+    background: var(--gold); border-radius: 2px;
+    transition: transform .25s, opacity .25s;
+    transform-origin: center;
+  }
+  .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2) { opacity: 0; }
+  .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
+  .nav-links a {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--dim, rgba(255,255,255,.45));
+    text-decoration: none; transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-links a.active { color: var(--cyan, #00e5ff); }
+
+  @media (max-width: 860px) {
+    nav { padding: 16px 24px; }
+    .nav-toggle { display: flex; }
+    .nav-links {
+      display: none; flex-direction: column; align-items: flex-start;
+      gap: 0; width: 100%; padding: 12px 0 16px;
+      border-top: 1px solid rgba(255,255,255,.06); margin-top: 12px;
+    }
+    .nav-links.open { display: flex; }
+    .nav-links li { width: 100%; }
+    .nav-links a {
+      display: block; padding: 10px 4px; font-size: 13px;
+      border-bottom: 1px solid rgba(255,255,255,.04);
+    }
+    .nav-links li:last-child a { border-bottom: none; }
+  }
+
+  main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 130px 48px 80px;
+  }
+
+  .rejoin-card {
+    width: 100%;
+    max-width: 560px;
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.02);
+    padding: 56px 48px;
+  }
+
+  .card-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 18px;
+  }
+
+  .card-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 7vw, 72px);
+    line-height: .9;
+    letter-spacing: .04em;
+    background: linear-gradient(135deg, #fff 0%, var(--gold) 50%, var(--ice) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 24px;
+  }
+
+  .card-lead {
+    font-size: 15px;
+    color: rgba(255,255,255,.7);
+    line-height: 1.65;
+    margin-bottom: 36px;
+  }
+
+  .field-label {
+    display: block;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+
+  .field-input {
+    width: 100%;
+    background: rgba(0,0,0,.5);
+    border: 1px solid rgba(255,255,255,.1);
+    color: var(--txt);
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    padding: 14px 16px;
+    border-radius: 4px;
+    margin-bottom: 24px;
+    transition: border-color .2s, background .2s;
+    letter-spacing: .02em;
+  }
+  .field-input:focus {
+    outline: none;
+    border-color: var(--gold);
+    background: rgba(0,0,0,.7);
+  }
+  .field-input::placeholder { color: rgba(255,255,255,.25); }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 16px 32px;
+    background: var(--gold);
+    color: var(--bg);
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background .2s, transform .15s, opacity .2s;
+  }
+  .btn-primary:hover:not(:disabled) {
+    background: #e6bc5b;
+    transform: translateY(-1px);
+  }
+  .btn-primary:disabled {
+    opacity: .35;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .status-line {
+    margin-top: 20px;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--dim);
+    text-align: center;
+    min-height: 18px;
+    transition: color .2s;
+    line-height: 1.6;
+  }
+  .status-line.success { color: var(--green); }
+  .status-line.error { color: var(--neon); }
+  .status-line.busy { color: var(--ice); }
+
+  .result-box {
+    margin-top: 36px;
+    padding: 28px;
+    border: 1px solid rgba(29,185,84,.3);
+    background: rgba(29,185,84,.05);
+    display: none;
+  }
+  .result-box.error {
+    border-color: rgba(255,45,138,.3);
+    background: rgba(255,45,138,.05);
+  }
+  .result-box.visible { display: block; }
+
+  .result-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: .08em;
+    color: var(--green);
+    margin-bottom: 10px;
+  }
+  .result-box.error .result-title { color: var(--neon); }
+
+  .result-body {
+    font-size: 14px;
+    color: rgba(255,255,255,.75);
+    line-height: 1.6;
+  }
+  .result-body code {
+    background: rgba(0,0,0,.4);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 12px;
+  }
+
+  .help-link {
+    display: block;
+    margin-top: 32px;
+    text-align: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--dim);
+    text-decoration: none;
+    transition: color .2s;
+  }
+  .help-link:hover { color: var(--gold); }
+
+  footer {
+    border-top: 1px solid rgba(255,255,255,.06);
+    padding: 32px 48px;
+    text-align: center;
+  }
+  .footer-copy {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .15em;
+    color: var(--dim);
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 600px) {
+    nav { padding: 16px 24px; }
+    .nav-links { gap: 18px; }
+    main { padding: 110px 20px 40px; }
+    .rejoin-card { padding: 40px 28px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">IKANDY <span class="beta-badge">BETA</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html#features">Features</a></li>
+    <li><a href="index.html#watch">Watch</a></li>
+    <li><a href="guide.html">Guide</a></li>
+    <li><a href="credits.html">Credits</a></li>
+    <li><a href="ikandy-smart-auto-prior-art.html">Smart Auto</a></li>
+    <li><a href="ikandy-ai-error-sandbox.html">AI Sandbox</a></li>
+    <li><a href="ikandy-vis-format.html">.vis Format</a></li>
+    <li><a href="index.html#download">Download</a></li>
+  </ul>
+</nav>
+
+<main>
+
+  <div class="rejoin-card">
+    <p class="card-tag">Beta Account Recovery</p>
+    <h1 class="card-title">Welcome<br>Back.</h1>
+    <p class="card-lead">If you previously deleted your IKANDY data and want to rejoin the beta, enter your Beta ID below. Your access will be restored immediately. You can find your Beta ID in the email you used to request reactivation, or in the "Welcome back" screen IKANDY shows when you launch.</p>
+
+    <label class="field-label" for="beta-id-input">Beta ID</label>
+    <input
+      type="text"
+      id="beta-id-input"
+      class="field-input"
+      placeholder="e.g. 64488da7-ec7f-497f-8e33-b22562bd87ef"
+      autocomplete="off"
+      spellcheck="false"
+      autocapitalize="off"
+    >
+
+    <button id="rejoin-btn" class="btn-primary" type="button">Rejoin the Beta</button>
+
+    <div class="status-line" id="status-line"></div>
+
+    <div class="result-box" id="result-box">
+      <div class="result-title" id="result-title"></div>
+      <div class="result-body" id="result-body"></div>
+    </div>
+
+    <a href="mailto:support@ikandy.app?subject=Rejoin Beta - Help" class="help-link">Need help? Email support →</a>
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-copy">© 2026 Felix Bag of Tricks · IKANDY.app</div>
+</footer>
+
+<script>
+  const SUPABASE_URL = 'https://grimznincoiujnurhmlx.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdyaW16bmluY29pdWpudXJobWx4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxNDQ5NzAsImV4cCI6MjA5MjcyMDk3MH0.X-eXBp4gF3RthSt10As83Ft4z5rOc929IMdis5BSuxk';
+
+  const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+  const input      = document.getElementById('beta-id-input');
+  const btn        = document.getElementById('rejoin-btn');
+  const status     = document.getElementById('status-line');
+  const resultBox  = document.getElementById('result-box');
+  const resultTitle= document.getElementById('result-title');
+  const resultBody = document.getElementById('result-body');
+
+  // Pre-fill from URL parameter if present (e.g. /rejoin.html?id=<beta-id>)
+  const urlParams = new URLSearchParams(window.location.search);
+  const prefillId = urlParams.get('id') || urlParams.get('beta_id');
+  if (prefillId) {
+    input.value = prefillId.trim();
+  }
+
+  function setStatus(message, type) {
+    status.textContent = message;
+    status.className = 'status-line';
+    if (type) status.classList.add(type);
+  }
+
+  function showResult(title, body, isError) {
+    resultBox.className = 'result-box visible' + (isError ? ' error' : '');
+    resultTitle.textContent = title;
+    resultBody.innerHTML = body;
+  }
+
+  function hideResult() {
+    resultBox.className = 'result-box';
+  }
+
+  async function doRejoin() {
+    const betaId = input.value.trim();
+
+    hideResult();
+
+    if (!betaId) {
+      setStatus('Please enter your Beta ID.', 'error');
+      return;
+    }
+
+    if (!UUID_REGEX.test(betaId)) {
+      setStatus('That doesn\'t look like a valid Beta ID. It should look like: 64488da7-ec7f-497f-8e33-b22562bd87ef', 'error');
+      return;
+    }
+
+    btn.disabled = true;
+    input.disabled = true;
+    setStatus('Reactivating your beta access…', 'busy');
+
+    try {
+      const response = await fetch(`${SUPABASE_URL}/functions/v1/rejoin-beta`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        },
+        body: JSON.stringify({ beta_id: betaId }),
+      });
+
+      const data = await response.json().catch(() => ({}));
+
+      if (response.ok && data.ok) {
+        setStatus('');
+        showResult(
+          '✓ Beta access restored',
+          `Your Beta ID <code>${betaId}</code> has been reactivated. Launch IKANDY to continue. If you don't have IKANDY installed anymore, <a href="index.html#download" style="color:var(--ice);text-decoration:underline;">download it here</a>.`,
+          false
+        );
+      } else if (response.status === 404 || (data && data.error === 'not_found_or_not_deleted')) {
+        setStatus('');
+        showResult(
+          'Couldn\'t find that Beta ID',
+          `Either the Beta ID doesn't exist, or this account isn't in a deleted state. If you believe this is an error, email <a href="mailto:support@ikandy.app?subject=Rejoin Beta - Not Found" style="color:var(--ice);text-decoration:underline;">support@ikandy.app</a> for help.`,
+          true
+        );
+        btn.disabled = false;
+        input.disabled = false;
+      } else {
+        setStatus('');
+        const errMsg = (data && data.error) ? data.error : `HTTP ${response.status}`;
+        showResult(
+          'Reactivation failed',
+          `Something went wrong on our end (<code>${errMsg}</code>). Please try again in a moment, or email <a href="mailto:support@ikandy.app?subject=Rejoin Beta - Error" style="color:var(--ice);text-decoration:underline;">support@ikandy.app</a> if it keeps failing.`,
+          true
+        );
+        btn.disabled = false;
+        input.disabled = false;
+      }
+    } catch (err) {
+      setStatus('');
+      showResult(
+        'Network error',
+        `Couldn't reach the IKANDY servers. Check your internet connection and try again, or email <a href="mailto:support@ikandy.app?subject=Rejoin Beta - Network Error" style="color:var(--ice);text-decoration:underline;">support@ikandy.app</a>.`,
+        true
+      );
+      btn.disabled = false;
+      input.disabled = false;
+    }
+  }
+
+  btn.addEventListener('click', doRejoin);
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      doRejoin();
+    }
+  });
+</script>
+
+</body>
+</html>

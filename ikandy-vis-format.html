@@ -45,6 +45,7 @@
     z-index: 50;
   }
 
+
   nav {
     position: fixed;
     top: 0; left: 0; right: 0;
@@ -52,11 +53,12 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px 48px;
-    background: rgba(0,0,0,.55);
+    padding: 16px 48px;
+    background: rgba(0,0,0,.6);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(255,255,255,.06);
+    flex-wrap: wrap;
   }
 
   .nav-logo {
@@ -65,21 +67,54 @@
     letter-spacing: .15em;
     color: var(--gold);
     text-decoration: none;
+    flex-shrink: 0;
   }
 
-  .nav-links { display: flex; gap: 28px; list-style: none; }
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 36px; height: 36px;
+    background: none; border: none;
+    cursor: pointer; padding: 4px; flex-shrink: 0;
+  }
+  .nav-toggle span {
+    display: block; width: 22px; height: 2px;
+    background: var(--gold); border-radius: 2px;
+    transition: transform .25s, opacity .25s;
+    transform-origin: center;
+  }
+  .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2) { opacity: 0; }
+  .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
+  .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
   .nav-links a {
     font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--dim);
-    text-decoration: none;
-    transition: color .2s;
+    font-size: 11px; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--dim, rgba(255,255,255,.45));
+    text-decoration: none; transition: color .2s;
   }
   .nav-links a:hover { color: var(--gold); }
-  .nav-links a.active { color: var(--cyan); }
+  .nav-links a.active { color: var(--cyan, #00e5ff); }
+
+  @media (max-width: 860px) {
+    nav { padding: 16px 24px; }
+    .nav-toggle { display: flex; }
+    .nav-links {
+      display: none; flex-direction: column; align-items: flex-start;
+      gap: 0; width: 100%; padding: 12px 0 16px;
+      border-top: 1px solid rgba(255,255,255,.06); margin-top: 12px;
+    }
+    .nav-links.open { display: flex; }
+    .nav-links li { width: 100%; }
+    .nav-links a {
+      display: block; padding: 10px 4px; font-size: 13px;
+      border-bottom: 1px solid rgba(255,255,255,.04);
+    }
+    .nav-links li:last-child a { border-bottom: none; }
+  }
 
   .beta-badge {
     display: inline-block;
@@ -325,6 +360,7 @@
     <li><a href="index.html#features">Features</a></li>
     <li><a href="index.html#watch">Watch</a></li>
     <li><a href="guide.html">Guide</a></li>
+    <li><a href="credits.html">Credits</a></li>
     <li><a href="ikandy-smart-auto-prior-art.html">Smart Auto</a></li>
     <li><a href="ikandy-ai-error-sandbox.html">AI Sandbox</a></li>
     <li><a href="ikandy-vis-format.html" class="active">.vis Format</a></li>

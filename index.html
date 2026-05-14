@@ -51,11 +51,13 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px 48px;
-    background: rgba(0,0,0,.45);
+    padding: 16px 48px;
+    background: rgba(0,0,0,.6);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(255,255,255,.06);
+    flex-wrap: wrap;
+    gap: 0;
   }
 
   .nav-logo {
@@ -64,12 +66,43 @@
     letter-spacing: .15em;
     color: var(--gold);
     text-decoration: none;
+    flex-shrink: 0;
   }
+
+  /* Hamburger button — hidden on desktop */
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 36px;
+    height: 36px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    flex-shrink: 0;
+  }
+
+  .nav-toggle span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--gold);
+    border-radius: 2px;
+    transition: transform .25s, opacity .25s;
+    transform-origin: center;
+  }
+
+  .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2) { opacity: 0; }
+  .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
   .nav-links {
     display: flex;
-    gap: 36px;
+    gap: 28px;
     list-style: none;
+    align-items: center;
   }
 
   .nav-links a {
@@ -82,6 +115,38 @@
     transition: color .2s;
   }
   .nav-links a:hover { color: var(--gold); }
+  .nav-links a.active { color: var(--cyan, #5bc8f5); }
+
+  /* Mobile nav */
+  @media (max-width: 860px) {
+    nav { padding: 16px 24px; }
+
+    .nav-toggle { display: flex; }
+
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0;
+      width: 100%;
+      padding: 12px 0 16px;
+      border-top: 1px solid rgba(255,255,255,.06);
+      margin-top: 12px;
+    }
+
+    .nav-links.open { display: flex; }
+
+    .nav-links li { width: 100%; }
+
+    .nav-links a {
+      display: block;
+      padding: 10px 4px;
+      font-size: 13px;
+      border-bottom: 1px solid rgba(255,255,255,.04);
+    }
+
+    .nav-links li:last-child a { border-bottom: none; }
+  }
 
   .beta-badge {
     display: inline-block;
@@ -1023,17 +1088,21 @@
 <body>
 
 <!-- NAV -->
-<nav>
-  <a href="#" class="nav-logo">IKANDY <span class="beta-badge" title="IKANDY is in beta. Code-signing certificate is in verification — Windows may show a SmartScreen warning on first launch until that completes.">BETA</span></a>
-  <ul class="nav-links">
-    <li><a href="#features">Features</a></li>
-    <li><a href="#watch">Watch</a></li>
-    <li><a href="#sources">Sources</a></li>
+<nav id="main-nav">
+  <a href="#" class="nav-logo">IKANDY</a>
+  <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" onclick="this.classList.toggle('open');document.getElementById('nav-links').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="#features" onclick="document.getElementById('nav-links').classList.remove('open');document.getElementById('nav-toggle').classList.remove('open')">Features</a></li>
+    <li><a href="#watch" onclick="document.getElementById('nav-links').classList.remove('open');document.getElementById('nav-toggle').classList.remove('open')">Watch</a></li>
+    <li><a href="#sources" onclick="document.getElementById('nav-links').classList.remove('open');document.getElementById('nav-toggle').classList.remove('open')">Sources</a></li>
     <li><a href="guide.html">Guide</a></li>
+    <li><a href="credits.html">Credits</a></li>
     <li><a href="ikandy-smart-auto-prior-art.html">Smart Auto</a></li>
     <li><a href="ikandy-ai-error-sandbox.html">AI Sandbox</a></li>
     <li><a href="ikandy-vis-format.html">.vis Format</a></li>
-    <li><a href="#download">Download</a></li>
+    <li><a href="#download" onclick="document.getElementById('nav-links').classList.remove('open');document.getElementById('nav-toggle').classList.remove('open')">Download</a></li>
   </ul>
 </nav>
 
@@ -1207,11 +1276,11 @@
 <!-- STATS -->
 <div class="stats-bar">
   <div class="stat">
-    <div class="stat-num">350+</div>
+    <div class="stat-num">745+</div>
     <div class="stat-label">MilkDrop Presets</div>
   </div>
   <div class="stat">
-    <div class="stat-num">5</div>
+    <div class="stat-num">17+</div>
     <div class="stat-label">Custom Scenes</div>
   </div>
   <div class="stat">
@@ -1223,7 +1292,7 @@
     <div class="stat-label">Audio Sources</div>
   </div>
   <div class="stat">
-    <div class="stat-num">6</div>
+    <div class="stat-num">9</div>
     <div class="stat-label">Colour Themes</div>
   </div>
   <div class="stat">
@@ -1239,7 +1308,7 @@
   </div>
   <div class="feature-text">
     <p class="section-tag">01 — Visualizer</p>
-    <h2>500+ Presets.<br>Zero Lag.</h2>
+    <h2>745+ Presets.<br>Zero Lag.</h2>
     <p class="lead">Powered by Butterchurn — the WebGL port of Winamp's legendary MilkDrop engine. Every preset reacts to your music in real time. Auto-cycle switches them per track automatically.</p>
     <div style="margin-top:32px;display:flex;flex-direction:column;gap:12px;">
       <div style="display:flex;gap:12px;align-items:center;">
@@ -1339,30 +1408,36 @@
 <!-- SCENES -->
 <section id="scenes" style="max-width:1200px;">
   <p class="section-tag">04 — Custom Scenes</p>
-  <h2>The Music<br>Made This.</h2>
-  <p class="lead">Five custom audio-reactive scenes, built from scratch. Real-time FFT analysis drives every pixel — bass hits, frequency bands, beat intensity — no presets, no templates, just sound shaping form.</p>
+  <h2>17 Scenes.<br>Built From<br>Scratch.</h2>
+  <p class="lead">Eight 2D audio-reactive scenes and six 3D raymarched scenes, all built from the ground up. Real-time FFT drives every pixel. Plus three WebGPU-native scenes — and an AI studio to build your own.</p>
 
+  <p style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;margin-top:48px;">2D Audio-Reactive</p>
   <div class="fx-grid">
-    <div class="fx-card" style="--c:#ff6b35;">
-      <div class="fx-name">Fire EQ</div>
-      <div class="fx-desc">Frequency-reactive flames climb with the spectrum</div>
-    </div>
-    <div class="fx-card" style="--c:#5bc8f5;">
-      <div class="fx-name">Spectrum</div>
-      <div class="fx-desc">Classic ripple bars driven by live frequency analysis</div>
-    </div>
-    <div class="fx-card" style="--c:#d4a843;">
-      <div class="fx-name">Waveray</div>
-      <div class="fx-desc">Radial beams pulse and sweep with the waveform</div>
-    </div>
-    <div class="fx-card" style="--c:#1db954;">
-      <div class="fx-name">Aurora</div>
-      <div class="fx-desc">Drifting curtains of light, mid-range driven</div>
-    </div>
-    <div class="fx-card" style="--c:#9b72cf;">
-      <div class="fx-name">Starfield</div>
-      <div class="fx-desc">Beat-reactive cosmos — the planet bounces with every kick</div>
-    </div>
+    <div class="fx-card" style="--c:#ff6b35;"><div class="fx-name">Fire EQ</div><div class="fx-desc">Frequency-reactive flames climb with the spectrum</div></div>
+    <div class="fx-card" style="--c:#5bc8f5;"><div class="fx-name">Spectrum</div><div class="fx-desc">Classic bars driven by live frequency analysis</div></div>
+    <div class="fx-card" style="--c:#d4a843;"><div class="fx-name">Waveray</div><div class="fx-desc">Radial beams pulse and sweep with the waveform</div></div>
+    <div class="fx-card" style="--c:#1db954;"><div class="fx-name">Aurora</div><div class="fx-desc">Drifting curtains of light — and they follow your cursor</div></div>
+    <div class="fx-card" style="--c:#9b72cf;"><div class="fx-name">Starfield</div><div class="fx-desc">Beat-reactive cosmos, planet bounces with every kick</div></div>
+    <div class="fx-card" style="--c:#ff2d8a;"><div class="fx-name">Singularity</div><div class="fx-desc">Collapsing gravity well that breathes with bass</div></div>
+    <div class="fx-card" style="--c:#5bc8f5;"><div class="fx-name">Voyager</div><div class="fx-desc">Gas giant with lightning storms and shooting stars</div></div>
+    <div class="fx-card" style="--c:#9b72cf;"><div class="fx-name">Pawrticles</div><div class="fx-desc">Particle field that flees from your cursor</div></div>
+  </div>
+
+  <p style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--neon);margin-bottom:16px;margin-top:40px;">3D Raymarched</p>
+  <div class="fx-grid">
+    <div class="fx-card" style="--c:#b8d4e8;"><div class="fx-name">Liquid Metal</div><div class="fx-desc">Warped FBM chrome surface that morphs with sound</div></div>
+    <div class="fx-card" style="--c:#ff6b35;"><div class="fx-name">Just a Flame</div><div class="fx-desc">Single organic flame, bass-reactive heat and flicker</div></div>
+    <div class="fx-card" style="--c:#d4a843;"><div class="fx-name">Heart of Lightning</div><div class="fx-desc">Neon heart with electric arc discharge on every beat</div></div>
+    <div class="fx-card" style="--c:#5bc8f5;"><div class="fx-name">Electric Eel</div><div class="fx-desc">Bioluminescent deep-sea creature driven by treble</div></div>
+    <div class="fx-card" style="--c:#aaa;"><div class="fx-name">Face in Clouds</div><div class="fx-desc">Volumetric fog portrait shifting with the mid-range</div></div>
+    <div class="fx-card" style="--c:#9b72cf;"><div class="fx-name">Saturday Weirdness</div><div class="fx-desc">Kali-fractal alien geometry that pulses with bass</div></div>
+  </div>
+
+  <p style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ice);margin-bottom:16px;margin-top:40px;">WebGPU Native</p>
+  <div class="fx-grid">
+    <div class="fx-card" style="--c:#5bc8f5;"><div class="fx-name">Nebula</div><div class="fx-desc">Deep space gas cloud, fully GPU-accelerated</div></div>
+    <div class="fx-card" style="--c:#9b72cf;"><div class="fx-name">Prism Cells</div><div class="fx-desc">Voronoi crystal lattice that shatters on every kick</div></div>
+    <div class="fx-card" style="--c:#ff2d8a;"><div class="fx-name">Ferrofluid</div><div class="fx-desc">Magnetic fluid simulation reacting to bass peaks</div></div>
   </div>
 </section>
 
@@ -1430,23 +1505,75 @@
 <!-- LYRICS -->
 <section style="max-width:1200px;">
   <p class="section-tag">07 — Lyrics</p>
-  <h2>Synced Lyrics.<br>Two Modes.</h2>
-  <p class="lead">IKANDY fetches synced lyrics from LRCLIB automatically. Display them as a clean one-line overlay, or unleash Physics mode and watch the words float and bounce around the screen to the beat.</p>
-  <div style="display:flex;gap:40px;margin-top:48px;flex-wrap:wrap;">
-    <div style="flex:1;min-width:220px;padding:32px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--gold);letter-spacing:.08em;margin-bottom:10px;">Classic</div>
-      <p style="font-size:14px;color:var(--dim);line-height:1.6;">One line at a time, centred on screen. Clean, karaoke-style. Perfect for recording or just reading along.</p>
+  <h2>Synced Lyrics.<br>Three Modes.<br>Your Words Too.</h2>
+  <p class="lead">IKANDY fetches synced lyrics automatically. But if a song has no lyrics — or you wrote your own — you can paste plain text and tap the timestamps live as the music plays.</p>
+  <div style="display:flex;gap:24px;margin-top:48px;flex-wrap:wrap;">
+    <div style="flex:1;min-width:200px;padding:32px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--gold);letter-spacing:.08em;margin-bottom:10px;">Classic</div>
+      <p style="font-size:14px;color:var(--dim);line-height:1.6;">One line at a time, centred. Clean, karaoke-style. Perfect for recording or reading along.</p>
     </div>
-    <div style="flex:1;min-width:220px;padding:32px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--neon);letter-spacing:.08em;margin-bottom:10px;">Physics</div>
-      <p style="font-size:14px;color:var(--dim);line-height:1.6;">Words explode onto the screen and float in zero-gravity. Collide, bounce, and drift. Totally chaotic, totally beautiful.</p>
+    <div style="flex:1;min-width:200px;padding:32px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--neon);letter-spacing:.08em;margin-bottom:10px;">Physics</div>
+      <p style="font-size:14px;color:var(--dim);line-height:1.6;">Words explode onto screen, float in zero-gravity, collide and bounce to the beat. Chaotic and beautiful.</p>
     </div>
+    <div style="flex:1;min-width:200px;padding:32px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--ice);letter-spacing:.08em;margin-bottom:10px;">Tap to Time</div>
+      <p style="font-size:14px;color:var(--dim);line-height:1.6;">Paste any lyrics. Hit play. Tap spacebar on each line as it hits &mdash; IKANDY stamps the timestamp live. Drag dots on the timeline to fine-tune. Save as LRC. Works for any song, any language, any source.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- MOUSE FX -->
+<section style="max-width:1200px;">
+  <p class="section-tag">08 — Mouse &amp; Touch</p>
+  <h2>Your Cursor<br>Is Part of<br>The Show.</h2>
+  <p class="lead">Every mouse action creates a visual effect. Draw on the canvas, send ripples exploding outward, charge a ring and release it — or just move and watch the Aurora scene bend toward you.</p>
+  <div style="display:flex;gap:24px;margin-top:48px;flex-wrap:wrap;">
+    <div style="flex:1;min-width:200px;padding:32px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--gold);letter-spacing:.08em;margin-bottom:10px;">Click Ripples</div>
+      <p style="font-size:14px;color:var(--dim);line-height:1.6;">Left-click spawns an expanding ring. Right-click collapses an implosion. Hold right-click to charge a ring that explodes outward on release — intensity scales with how long you held.</p>
+    </div>
+    <div style="flex:1;min-width:200px;padding:32px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--neon);letter-spacing:.08em;margin-bottom:10px;">Draw Mode</div>
+      <p style="font-size:14px;color:var(--dim);line-height:1.6;">Right-click and drag to paint freehand lines over the visualizer in screen-blend mode. Both buttons simultaneously clears the canvas. Random, White, or Accent color. Brush width 1–40px.</p>
+    </div>
+    <div style="flex:1;min-width:200px;padding:32px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--ice);letter-spacing:.08em;margin-bottom:10px;">Cursor Trail</div>
+      <p style="font-size:14px;color:var(--dim);line-height:1.6;">A fading 28-point streak follows your movement, colored to match the current theme. Middle-click opens a quick-access overlay for presets, scenes, and FX without touching the sidebar.</p>
+    </div>
+  </div>
+</section>
+
+<!-- AI SHADER STUDIO -->
+<section style="max-width:1200px;">
+  <p class="section-tag">09 — AI Shader Studio</p>
+  <h2>Describe It.<br>IKANDY<br>Builds It.</h2>
+  <p class="lead">Type what you want to see — "neon audio-reactive waves", "underwater bioluminescent jellyfish", anything. IKANDY generates a live GPU shader from your words and plays it immediately. If it fails, IKANDY silently fixes it and tries again. You never see an error.</p>
+  <div style="display:flex;gap:24px;margin-top:48px;flex-wrap:wrap;">
+    <div style="flex:1;min-width:200px;padding:32px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--gold);letter-spacing:.08em;margin-bottom:10px;">GLSL + WebGPU</div>
+      <p style="font-size:14px;color:var(--dim);line-height:1.6;">Generate fragment shaders in both GLSL (WebGL) and WGSL (WebGPU). Each type has its own Bass, Mid, Treble, Speed, and Intensity sliders that tune the shader live.</p>
+    </div>
+    <div style="flex:1;min-width:200px;padding:32px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--neon);letter-spacing:.08em;margin-bottom:10px;">Self-Healing</div>
+      <p style="font-size:14px;color:var(--dim);line-height:1.6;">GPU compile errors are captured and silently fed back to the AI with a fix request — up to 2 automatic retries before asking you to intervene. Most shaders just work first time.</p>
+    </div>
+    <div style="flex:1;min-width:200px;padding:32px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--ice);letter-spacing:.08em;margin-bottom:10px;">.vis Format</div>
+      <p style="font-size:14px;color:var(--dim);line-height:1.6;">Every saved shader stores its original prompt, author, license, and an auto-captured thumbnail — ready to share, import from Shadertoy, or upload to a future community gallery.</p>
+    </div>
+  </div>
+  <div style="margin-top:36px;">
+    <a href="ikandy-ai-error-sandbox.html" style="display:inline-flex;align-items:center;gap:8px;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(212,168,67,.3);padding-bottom:3px;transition:border-color .2s,color .2s;" onmouseover="this.style.color='#fff';this.style.borderBottomColor='#fff'" onmouseout="this.style.color='';this.style.borderBottomColor=''">
+      ↗ Read the Technical Disclosure
+    </a>
   </div>
 </section>
 
 <!-- TESTIMONIALS -->
 <section id="reviews" style="max-width:1200px;">
-  <p class="section-tag">08 — Word On The Street</p>
+  <p class="section-tag">10 — Word On The Street</p>
   <h2>What People<br>Are Saying</h2>
   <p class="lead">Real reactions from real humans who fired it up and let it rip.</p>
 
@@ -1481,7 +1608,7 @@
     </a>
   </div>
   <p class="download-note">
-    ~75MB · Currently in <strong style="color:var(--gold);">BETA</strong> &mdash; the code-signing certificate is in verification, so Windows SmartScreen will warn on first run. Click <strong>More info → Run anyway</strong>. Once the certificate is issued the warning will go away. IKANDY is open source &mdash; you can read every line on GitHub.<br>
+    ~75MB · Windows 10/11 · Free · Open source &mdash; you can read every line on GitHub.<br>
     You&rsquo;ll need your own free <a href="https://developer.spotify.com/dashboard" target="_blank">Spotify Client ID</a> for Spotify features.
   </p>
   <div style="margin-top:48px;display:flex;gap:24px;justify-content:center;flex-wrap:wrap;">
@@ -1499,9 +1626,10 @@
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo">IKANDY <span class="beta-badge" style="font-size:8px;vertical-align:5px;">BETA</span></div>
+  <div class="footer-logo">IKANDY</div>
   <ul class="footer-links">
     <li><a href="guide.html">User Guide</a></li>
+    <li><a href="credits.html">Credits</a></li>
     <li><a href="ikandy-smart-auto-prior-art.html">Smart Auto</a></li>
     <li><a href="ikandy-ai-error-sandbox.html">AI Sandbox</a></li>
     <li><a href="ikandy-vis-format.html">.vis Format</a></li>
@@ -1509,10 +1637,10 @@
     <li><a href="https://github.com/IKANDYapp/IKANDY/releases" target="_blank">Releases</a></li>
     <li><a href="https://buymeacoffee.com/IKANDY" target="_blank">Support</a></li>
   </ul>
-  <div class="footer-copy">© 2026 Felix Bag of Tricks · IKANDY.app</div>
+  <div class="footer-copy">© 2026 L&amp;R Entertainment LLC · IKANDY.app</div>
 </footer>
 <footer style="text-align:center; padding:20px; opacity:0.7;">
-  Feel the music. See the magic. · © 2026 IKANDY
+  © 2026 L&amp;R Entertainment LLC · IKANDY.app
   <a href="mailto:support@ikandy.app">Contact</a>
 </footer>
 </body>
