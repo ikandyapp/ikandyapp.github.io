@@ -815,6 +815,9 @@
     <li><a href="#presets">Presets</a></li>
     <li><a href="#fx">FX</a></li>
     <li><a href="#troubleshooting">Help</a></li>
+    <li><a href="ikandy-smart-auto-prior-art.html">Smart Auto</a></li>
+    <li><a href="ikandy-ai-error-sandbox.html">AI Sandbox</a></li>
+    <li><a href="ikandy-vis-format.html">.vis Format</a></li>
     <li><a href="index.html" class="home-link">← Home</a></li>
   </ul>
 </nav>
@@ -1405,59 +1408,6 @@
     </details>
 
   </div>
-	<details class="tr">
-      <summary>How do I report a bug?</summary>
-      <div class="tr-body">
-        <p>Use the in-app bug reporter: <strong>Settings (⚙) → PRIVACY tab → Report a Bug</strong>. Type a quick description, optionally include an email, and submit. You&rsquo;ll get a reference ID (e.g. <code>BUG-A4F2</code>) for follow-up.</p>
-        <p>The report automatically includes app version, current audio source, current scene, Smart Auto state, and the last crash log if one exists. Stack traces are sanitized — Windows usernames and file paths are stripped before anything leaves your computer.</p>
-        <p>Reports land in the Discord <code>#submit-bug-report</code> channel and Supabase database. If you provided an email, you may get a follow-up if more info is needed.</p>
-      </div>
-    </details>
-
-    <details class="tr">
-      <summary>What data does IKANDY collect about me?</summary>
-      <div class="tr-body">
-        <p><strong>Telemetry is off by default.</strong> Nothing is sent unless you enable it in <strong>Settings (⚙) → PRIVACY tab</strong>.</p>
-        <p>When enabled, IKANDY can send:</p>
-        <ul style="margin-top:8px;">
-          <li><strong>Anonymous usage data</strong> — launch timestamps, app version, platform, session duration, and an anonymous installation ID.</li>
-          <li><strong>Crash reports</strong> — error type and sanitized stack trace (Windows usernames and file paths removed before transmission).</li>
-        </ul>
-        <p>IKANDY <em>never</em> transmits: your music, song titles, file names, audio content, account credentials, your real name, or your email address.</p>
-        <p>Beta validation always sends a random Beta ID + a one-way machine fingerprint hash — this is required to use the beta and is disclosed in the EULA. See the full <a href="privacy.html" style="color:var(--ice);">privacy policy</a> for details.</p>
-      </div>
-    </details>
-
-    <details class="tr">
-      <summary>How do I delete my data from IKANDY servers?</summary>
-      <div class="tr-body">
-        <p>Open <strong>Settings (⚙) → PRIVACY tab → Delete my data from IKANDY servers</strong>. Confirm the prompt. This permanently:</p>
-        <ul style="margin-top:8px;">
-          <li>Deletes all usage and crash report records tied to your installation</li>
-          <li>Anonymizes your beta installation record (removes personal identifiers)</li>
-          <li>Generates a new anonymous ID locally so future sessions start fresh</li>
-        </ul>
-        <p>If you delete your data and later want to rejoin the IKANDY beta, contact <a href="mailto:support@ikandy.app?subject=Rejoin Beta" style="color:var(--ice);">support@ikandy.app</a> with your Beta ID, or visit <a href="rejoin.html" style="color:var(--ice);">ikandy.app/rejoin</a>.</p>
-      </div>
-    </details>
-
-    <details class="tr">
-      <summary>What is Smart Auto and how do I turn it on?</summary>
-      <div class="tr-body">
-        <p>Smart Auto watches every audio-producing process on your PC and automatically routes IKANDY&rsquo;s metadata source (Spotify / VLC / foobar2000 / Now Playing) to whichever app is currently producing music. No manual switching — you start playing music in any supported app and IKANDY follows.</p>
-        <p><strong>Turn it on:</strong> <strong>Settings (⚙) → SOURCE tab → Smart Auto</strong> toggle. When enabled, the manual source picker is hidden — IKANDY handles the routing.</p>
-        <p>Smart Auto ignores Discord, Teams, Zoom, Slack, and OBS so notification chimes and call audio don&rsquo;t hijack your visualizer. It waits ~1.5 seconds of sustained dominance before switching, so a brief notification won&rsquo;t cause it to swap sources.</p>
-      </div>
-    </details>
-
-    <details class="tr">
-      <summary>I deleted my data and can't reopen IKANDY — how do I get back in?</summary>
-      <div class="tr-body">
-        <p>When you request data deletion, IKANDY locks the beta slot tied to your install to prevent slot recycling. You&rsquo;ll see a <em>"Welcome back"</em> screen on next launch with your Beta ID and instructions.</p>
-        <p>To rejoin, visit <a href="rejoin.html" style="color:var(--ice);">ikandy.app/rejoin</a> and enter your Beta ID. Your access will be reactivated immediately.</p>
-        <p>Alternative: email <a href="mailto:support@ikandy.app?subject=Rejoin Beta" style="color:var(--ice);">support@ikandy.app</a> with your Beta ID for manual help.</p>
-      </div>
-    </details>
 </section>
 
 <!-- 11 HELP -->
@@ -1485,7 +1435,7 @@
     <li><a href="https://github.com/IKANDYapp/IKANDY/blob/main/THIRD_PARTY_LICENSES.txt" target="_blank">Licenses</a></li>
     <li><a href="https://buymeacoffee.com/IKANDY" target="_blank">Support</a></li>
   </ul>
-  <div class="footer-copy">© 2026 L&R Entertainment · IKANDY.app</div>
+  <div class="footer-copy">© 2026 Felix Bag of Tricks · IKANDY.app</div>
 </footer>
 
 </body>

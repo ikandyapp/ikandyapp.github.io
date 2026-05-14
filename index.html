@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IKANDY — Visual Music</title>
+<title>IKANDY — Feel the music. See the magic.</title>
+<meta name="description" content="Feel the music. See the magic. IKANDY turns any song into a real-time visual experience on Windows. Free. No subscription.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=Space+Mono&display=swap" rel="stylesheet">
@@ -953,6 +954,70 @@
     .compat-tier-label { text-align: center; }
     .compat-rest-note { text-align: center; margin-left: auto; margin-right: auto; }
   }
+
+  /* ── HERO GALLERY STRIP ── */
+  .hero-gallery {
+    position: absolute;
+    top: 50%;
+    left: 0; right: 0;
+    transform: translateY(-60%);
+    z-index: 2;
+    overflow: hidden;
+    pointer-events: none;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 12%, black 88%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0%, black 12%, black 88%, transparent 100%);
+  }
+
+  .gallery-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+    width: max-content;
+  }
+
+  .gallery-row-inner {
+    display: flex;
+    gap: 12px;
+    animation: gallery-scroll-left 40s linear infinite;
+  }
+
+  .gallery-row.reverse .gallery-row-inner {
+    animation: gallery-scroll-right 45s linear infinite;
+  }
+
+  .gallery-img {
+    width: 260px;
+    height: 146px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,.12);
+    opacity: 0.72;
+    flex-shrink: 0;
+    display: block;
+  }
+
+  @keyframes gallery-scroll-left {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  @keyframes gallery-scroll-right {
+    0%   { transform: translateX(-50%); }
+    100% { transform: translateX(0); }
+  }
+
+  .gallery-caption {
+    position: absolute;
+    bottom: -28px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.3);
+    white-space: nowrap;
+  }
 </style>
 </head>
 <body>
@@ -963,11 +1028,11 @@
   <ul class="nav-links">
     <li><a href="#features">Features</a></li>
     <li><a href="#watch">Watch</a></li>
-    <li><a href="#fx">FX</a></li>
-    <li><a href="#scenes">Scenes</a></li>
     <li><a href="#sources">Sources</a></li>
     <li><a href="guide.html">Guide</a></li>
-    <li><a href="ikandy-smart-auto-prior-art.html">Prior Art</a></li>
+    <li><a href="ikandy-smart-auto-prior-art.html">Smart Auto</a></li>
+    <li><a href="ikandy-ai-error-sandbox.html">AI Sandbox</a></li>
+    <li><a href="ikandy-vis-format.html">.vis Format</a></li>
     <li><a href="#download">Download</a></li>
   </ul>
 </nav>
@@ -976,10 +1041,56 @@
 <section class="hero" style="padding:0;max-width:none;">
   <div class="hero-bg"></div>
   <div class="hero-overlay"></div>
+
+<!-- HERO GALLERY -->
+<div class="hero-gallery">
+  <div class="gallery-row">
+    <div class="gallery-row-inner">
+      <img class="gallery-img" src="websitephotos/1.jpg" alt="IKANDY screenshot" loading="lazy">
+        <img class="gallery-img" src="websitephotos/2026-05-06_17-21-16.jpg" alt="IKANDY screenshot" loading="lazy">
+        <img class="gallery-img" src="websitephotos/2026-05-06_17-21-30.jpg" alt="IKANDY screenshot" loading="lazy">
+        <img class="gallery-img" src="websitephotos/2026-05-06_17-22-07.jpg" alt="IKANDY screenshot" loading="lazy">
+        <img class="gallery-img" src="websitephotos/2026-05-06_17-22-54.jpg" alt="IKANDY screenshot" loading="lazy">
+        <img class="gallery-img" src="websitephotos/2026-05-06_17-24-59.jpg" alt="IKANDY screenshot" loading="lazy">
+        <img class="gallery-img" src="websitephotos/2026-05-06_17-27-32.jpg" alt="IKANDY screenshot" loading="lazy">
+        <img class="gallery-img" src="websitephotos/1.jpg" alt="IKANDY screenshot" loading="lazy">
+        <img class="gallery-img" src="websitephotos/2026-05-06_17-21-16.jpg" alt="IKANDY screenshot" loading="lazy">
+        <img class="gallery-img" src="websitephotos/2026-05-06_17-21-30.jpg" alt="IKANDY screenshot" loading="lazy">
+        <img class="gallery-img" src="websitephotos/2026-05-06_17-22-07.jpg" alt="IKANDY screenshot" loading="lazy">
+        <img class="gallery-img" src="websitephotos/2026-05-06_17-22-54.jpg" alt="IKANDY screenshot" loading="lazy">
+        <img class="gallery-img" src="websitephotos/2026-05-06_17-24-59.jpg" alt="IKANDY screenshot" loading="lazy">
+        <img class="gallery-img" src="websitephotos/2026-05-06_17-27-32.jpg" alt="IKANDY screenshot" loading="lazy">
+        
+    </div>
+  </div>
+  <div class="gallery-row reverse">
+    <div class="gallery-row-inner">
+      <img class="gallery-img" src="websitephotos/2026-05-06_17-27-53.jpg" alt="IKANDY screenshot" loading="lazy">
+        <img class="gallery-img" src="websitephotos/2026-05-06_17-31-26.jpg" alt="IKANDY screenshot" loading="lazy">
+        <img class="gallery-img" src="websitephotos/2026-05-06_17-31-41.jpg" alt="IKANDY screenshot" loading="lazy">
+        <img class="gallery-img" src="websitephotos/2026-05-06_17-31-50.jpg" alt="IKANDY screenshot" loading="lazy">
+        <img class="gallery-img" src="websitephotos/2026-05-06_17-32-14.jpg" alt="IKANDY screenshot" loading="lazy">
+        <img class="gallery-img" src="websitephotos/2026-05-06_17-32-35.jpg" alt="IKANDY screenshot" loading="lazy">
+        <img class="gallery-img" src="websitephotos/2026-05-06_17-33-14.jpg" alt="IKANDY screenshot" loading="lazy">
+        <img class="gallery-img" src="websitephotos/2026-05-06_17-33-46.jpg" alt="IKANDY screenshot" loading="lazy">
+        <img class="gallery-img" src="websitephotos/2026-05-06_17-27-53.jpg" alt="IKANDY screenshot" loading="lazy">
+        <img class="gallery-img" src="websitephotos/2026-05-06_17-31-26.jpg" alt="IKANDY screenshot" loading="lazy">
+        <img class="gallery-img" src="websitephotos/2026-05-06_17-31-41.jpg" alt="IKANDY screenshot" loading="lazy">
+        <img class="gallery-img" src="websitephotos/2026-05-06_17-31-50.jpg" alt="IKANDY screenshot" loading="lazy">
+        <img class="gallery-img" src="websitephotos/2026-05-06_17-32-14.jpg" alt="IKANDY screenshot" loading="lazy">
+        <img class="gallery-img" src="websitephotos/2026-05-06_17-32-35.jpg" alt="IKANDY screenshot" loading="lazy">
+        <img class="gallery-img" src="websitephotos/2026-05-06_17-33-14.jpg" alt="IKANDY screenshot" loading="lazy">
+        <img class="gallery-img" src="websitephotos/2026-05-06_17-33-46.jpg" alt="IKANDY screenshot" loading="lazy">
+        
+    </div>
+  </div>
+  <div class="gallery-caption">real screenshots · every visual reacts to your music live</div>
+</div>
+
   <div class="hero-content" style="padding: 0 48px 80px;">
-    <div class="hero-eyebrow">🎵 Visual Music for Windows</div>
+    <div class="hero-eyebrow">✦ Feel the music. See the magic.</div>
     <h1 class="hero-title">IKANDY</h1>
-    <p class="hero-sub">Play any song in any app. IKANDY turns the music into a moving picture &mdash; colors, light and shapes that dance with every beat. Like a music video, but for whatever you&rsquo;re already listening to.</p>
+    <p class="hero-sub">IKANDY listens to whatever you&rsquo;re playing and paints it across your screen &mdash; every beat, every drop, every note, alive in real time. Free. No setup. Just music you can see.</p>
     <div class="hero-cta">
       <a href="#download" class="btn-primary pulse">
         ↓ Download Free
@@ -1072,7 +1183,7 @@
       <span class="explainer-arrow">→</span>
       <span class="explainer-step"><strong>3.</strong> Hit play. Watch your screen come alive.</span>
     </p>
-    <p class="explainer-blurb">No editing. No syncing. IKANDY listens to the music you&rsquo;re already playing and paints it across your screen in real time &mdash; 350+ classic MilkDrop visuals, custom audio-reactive scenes, and cinematic FX overlays. Free, offline, no subscription.</p>
+    <p class="explainer-blurb">Feel the music. See the magic. IKANDY listens to whatever you&rsquo;re already playing and turns it into a living, breathing visual &mdash; 350+ MilkDrop presets, custom audio-reactive scenes, AI-generated shaders, and cinematic FX overlays. Free. Offline. No subscription.</p>
   </div>
 </section>
 
@@ -1391,15 +1502,17 @@
   <div class="footer-logo">IKANDY <span class="beta-badge" style="font-size:8px;vertical-align:5px;">BETA</span></div>
   <ul class="footer-links">
     <li><a href="guide.html">User Guide</a></li>
-    <li><a href="ikandy-smart-auto-prior-art.html">Prior Art</a></li>
+    <li><a href="ikandy-smart-auto-prior-art.html">Smart Auto</a></li>
+    <li><a href="ikandy-ai-error-sandbox.html">AI Sandbox</a></li>
+    <li><a href="ikandy-vis-format.html">.vis Format</a></li>
     <li><a href="https://github.com/IKANDYapp/IKANDY" target="_blank">GitHub</a></li>
     <li><a href="https://github.com/IKANDYapp/IKANDY/releases" target="_blank">Releases</a></li>
     <li><a href="https://buymeacoffee.com/IKANDY" target="_blank">Support</a></li>
   </ul>
-  <div class="footer-copy">© 2026 L&R Entertainment · IKANDY.app</div>
+  <div class="footer-copy">© 2026 Felix Bag of Tricks · IKANDY.app</div>
 </footer>
 <footer style="text-align:center; padding:20px; opacity:0.7;">
-  © 2026 IKANDY — Developed by support@ikandy.app
+  Feel the music. See the magic. · © 2026 IKANDY
   <a href="mailto:support@ikandy.app">Contact</a>
 </footer>
 </body>

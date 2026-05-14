@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IKANDY — AI Shader Error Sandbox: Self-Healing GPU Shader Generation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;700;800&display=swap');
+
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --border: #1e1e2e;
+    --cyan: #00e5ff;
+    --violet: #9b5de5;
+    --gold: #d4a843;
+    --text: #c8c8d8;
+    --muted: #5a5a7a;
+    --white: #eeeef8;
+    --dim: rgba(255,255,255,.45);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    line-height: 1.85;
+  }
+
+  .scan-line {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,229,255,0.012) 2px,
+      rgba(0,229,255,0.012) 4px
+    );
+    pointer-events: none;
+    z-index: 50;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 48px;
+    background: rgba(0,0,0,.55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,.06);
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: .15em;
+    color: var(--gold);
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--dim);
+    text-decoration: none;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-links a.active { color: var(--cyan); }
+
+  .beta-badge {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 3px 7px;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .15em;
+    color: var(--gold);
+    background: rgba(212,168,67,.08);
+    border: 1px solid rgba(212,168,67,.4);
+    border-radius: 3px;
+    vertical-align: 4px;
+  }
+
+  /* ── HEADER ── */
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 120px 0 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(155,93,229,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: 10%;
+    width: 250px; height: 250px;
+    background: radial-gradient(circle, rgba(0,229,255,0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  .label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--violet);
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(22px, 4vw, 36px);
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.15;
+    margin-bottom: 20px;
+  }
+
+  h1 span { color: var(--violet); }
+
+  .meta {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  .meta strong { color: var(--cyan); }
+
+  /* ── MAIN ── */
+  main { padding: 56px 0; }
+
+  section { margin-bottom: 56px; }
+
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--violet);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  p { margin-bottom: 16px; color: var(--text); }
+
+  code {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--cyan);
+    padding: 2px 7px;
+    border-radius: 3px;
+  }
+
+  pre {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--violet);
+    padding: 20px 24px;
+    overflow-x: auto;
+    margin: 24px 0;
+    font-size: 12px;
+    color: #a8d8e8;
+    line-height: 1.7;
+  }
+
+  pre .comment { color: var(--muted); font-style: italic; }
+  pre .key { color: var(--violet); }
+  pre .val { color: var(--cyan); }
+  pre .str { color: #f0c070; }
+
+  .callout {
+    background: rgba(155,93,229,0.06);
+    border: 1px solid rgba(155,93,229,0.25);
+    border-radius: 4px;
+    padding: 20px 24px;
+    margin: 24px 0;
+  }
+
+  .callout.cyan {
+    background: rgba(0,229,255,0.04);
+    border-color: rgba(0,229,255,0.2);
+  }
+
+  .callout p { margin-bottom: 0; }
+
+  .flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 24px 0;
+  }
+
+  .flow-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 16px 20px;
+    border: 1px solid var(--border);
+    border-bottom: none;
+    background: var(--surface);
+    position: relative;
+  }
+
+  .flow-step:first-child { border-radius: 4px 4px 0 0; }
+  .flow-step:last-child { border-bottom: 1px solid var(--border); border-radius: 0 0 4px 4px; }
+
+  .flow-step::after {
+    content: '↓';
+    position: absolute;
+    bottom: -14px;
+    left: 28px;
+    font-size: 14px;
+    color: var(--violet);
+    z-index: 2;
+    background: var(--bg);
+    padding: 0 4px;
+    line-height: 1;
+  }
+
+  .flow-step:last-child::after { display: none; }
+
+  .step-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--violet);
+    opacity: 0.4;
+    min-width: 28px;
+    line-height: 1;
+    padding-top: 2px;
+  }
+
+  .step-content { flex: 1; }
+
+  .step-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+
+  .step-desc {
+    font-size: 12px;
+    color: var(--text);
+    margin: 0;
+    line-height: 1.65;
+  }
+
+  .step-badge {
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: rgba(155,93,229,0.15);
+    color: var(--violet);
+    border: 1px solid rgba(155,93,229,0.3);
+    padding: 2px 7px;
+    border-radius: 2px;
+    white-space: nowrap;
+    align-self: flex-start;
+    margin-top: 4px;
+  }
+
+  .step-badge.cyan {
+    background: rgba(0,229,255,0.1);
+    color: var(--cyan);
+    border-color: rgba(0,229,255,0.25);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 24px 0;
+    font-size: 12px;
+  }
+
+  th {
+    text-align: left;
+    color: var(--violet);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    font-size: 11px;
+    text-transform: uppercase;
+  }
+
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(30,30,46,0.6);
+    color: var(--text);
+    vertical-align: top;
+  }
+
+  td:first-child { color: var(--white); }
+  tr:last-child td { border-bottom: none; }
+
+  .tag {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: rgba(155,93,229,0.15);
+    color: var(--violet);
+    border: 1px solid rgba(155,93,229,0.3);
+    padding: 2px 8px;
+    border-radius: 2px;
+    margin-right: 6px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 0;
+    font-size: 11px;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  @media (max-width: 700px) {
+    nav { padding: 16px 20px; }
+    .nav-links { gap: 16px; }
+    .nav-links li:nth-child(n+4) { display: none; }
+    header { padding: 100px 0 40px; }
+  }
+</style>
+</head>
+<body>
+<div class="scan-line"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo">IKANDY <span class="beta-badge">BETA</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html#features">Features</a></li>
+    <li><a href="index.html#watch">Watch</a></li>
+    <li><a href="guide.html">Guide</a></li>
+    <li><a href="ikandy-smart-auto-prior-art.html">Smart Auto</a></li>
+    <li><a href="ikandy-ai-error-sandbox.html" class="active">AI Sandbox</a></li>
+    <li><a href="ikandy-vis-format.html">.vis Format</a></li>
+    <li><a href="index.html#download">Download</a></li>
+  </ul>
+</nav>
+
+<header>
+  <div class="container">
+    <span class="label">Technical Disclosure — Prior Art Publication</span>
+    <h1>IKANDY <span>AI Shader Error Sandbox</span>:<br>Self-Healing GPU Shader Generation<br>via Closed-Loop Compile Feedback</h1>
+    <p class="meta">
+      <strong>Author:</strong> IKANDY / ikandyapp &nbsp;·&nbsp;
+      <strong>Published:</strong> May 14, 2026 &nbsp;·&nbsp;
+      <strong>Project:</strong> IKANDY Music Visualizer &nbsp;·&nbsp;
+      <strong>Repo:</strong> github.com/ikandyapp/ikandy
+    </p>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <section>
+      <h2>Abstract</h2>
+      <p>
+        This document discloses a novel method implemented in IKANDY for automatically detecting GPU shader compile errors produced by AI-generated GLSL and WGSL code, silently feeding those exact compiler error strings back to the originating large language model, and retrying compilation — up to a configurable maximum — before surfacing any failure to the user. This method is referred to internally as the <strong>AI Shader Error Sandbox</strong>.
+      </p>
+      <div class="callout">
+        <p>This publication is intended to establish prior art. Any subsequent patent claim covering this method or substantially similar methods is anticipated by this disclosure.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Background &amp; Problem Statement</h2>
+      <p>
+        GPU shader languages (GLSL, WGSL) are strictly typed and structurally rigid. Large language models produce syntactically valid code for common patterns but frequently generate shaders that fail at the GPU driver's compile stage due to:
+      </p>
+      <table>
+        <tr>
+          <th>Failure Mode</th>
+          <th>Example</th>
+          <th>Frequency</th>
+        </tr>
+        <tr>
+          <td>Immutable binding violation</td>
+          <td><code>let x = 1.0; x = 2.0;</code> (WGSL <code>let</code> is immutable)</td>
+          <td>Common</td>
+        </tr>
+        <tr>
+          <td>Undeclared struct / binding</td>
+          <td>Referencing <code>u.bass</code> without a declared uniform block</td>
+          <td>Common</td>
+        </tr>
+        <tr>
+          <td>Type mismatch</td>
+          <td>Assigning <code>vec3</code> to <code>vec4</code> field</td>
+          <td>Occasional</td>
+        </tr>
+        <tr>
+          <td>Invalid built-in usage</td>
+          <td>Wrong <code>@builtin</code> attribute for vertex vs fragment stage</td>
+          <td>Occasional</td>
+        </tr>
+      </table>
+      <p>
+        In existing LLM-integrated tools, shader compile errors are surfaced directly to the user as raw driver error strings, requiring manual code intervention. No prior system in the music visualizer or real-time graphics domain closes the feedback loop by automatically returning compiler output to the model for self-correction.
+      </p>
+    </section>
+
+    <section>
+      <h2>The Novel Method</h2>
+
+      <div class="flow">
+        <div class="flow-step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">AI Generation</div>
+            <p class="step-desc">User submits a natural-language prompt (e.g., <em>"neon audio-reactive waves"</em>). The application sends it to a large language model (Claude Sonnet) with a structured system prompt that constrains output to only the fragment function body — no struct declarations, no binding boilerplate (these are prepended by the host). The model returns a GLSL or WGSL fragment.</p>
+          </div>
+          <div class="step-badge">generate</div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Compile &amp; Error Capture</div>
+            <p class="step-desc">The generated fragment is compiled via the WebGL driver (<code>gl.getShaderInfoLog()</code>) or WebGPU driver (<code>device.createShaderModule().getCompilationInfo()</code>). The raw error string from the GPU driver is captured in full — not parsed or summarized.</p>
+          </div>
+          <div class="step-badge">compile</div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Silent Retry Decision</div>
+            <p class="step-desc">If compilation succeeds, the shader runs immediately. If it fails and the retry counter is below <code>AUTO_RETRY_MAX</code> (default: 2), the system enters the silent fix loop without notifying the user of a failure. A transient status string (e.g., <em>"compile failed — silent AI auto-fix 1/2…"</em>) is shown only in the developer status line.</p>
+          </div>
+          <div class="step-badge cyan">decide</div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <div class="step-title">Closed-Loop Feedback to LLM</div>
+            <p class="step-desc">The system constructs a new LLM request containing the original user prompt, the failed shader source, and the exact GPU compiler error string. The prompt instructs the model: <em>"The shader you wrote produced this GPU compile error: [error]. Rewrite only the fragment function to fix it."</em> No user interaction is required.</p>
+          </div>
+          <div class="step-badge">ai fix</div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">5</div>
+          <div class="step-content">
+            <div class="step-title">Overwrite &amp; Re-compile</div>
+            <p class="step-desc">The model's corrected fragment replaces the previous version in memory and on disk (the saved <code>.glsl</code> / <code>.wgsl</code> file is overwritten via IPC). Compilation is attempted again. The loop returns to step 2.</p>
+          </div>
+          <div class="step-badge">overwrite</div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">6</div>
+          <div class="step-content">
+            <div class="step-title">Fallback or Success</div>
+            <p class="step-desc">If all retries are exhausted without a successful compile, the manual "Fix with AI" button is exposed so the user can intervene. If any retry succeeds, the shader runs immediately and the retry counter resets. From the user's perspective, the shader either works or it doesn't — intermediate failures are invisible.</p>
+          </div>
+          <div class="step-badge cyan">resolve</div>
+        </div>
+      </div>
+
+      <pre><span class="comment">// Pseudocode — error sandbox retry loop</span>
+<span class="key">const</span> AUTO_RETRY_MAX = <span class="val">2</span>;
+<span class="key">let</span> retryCount = <span class="val">0</span>;
+
+<span class="key">async function</span> compileWithSandbox(source, userPrompt, mode) {
+  <span class="key">const</span> result = <span class="key">await</span> compile(source, mode);
+
+  <span class="key">if</span> (result.ok) {
+    retryCount = <span class="val">0</span>;
+    <span class="key">return</span> result;
+  }
+
+  <span class="key">if</span> (retryCount >= AUTO_RETRY_MAX) {
+    showManualFixButton();
+    <span class="key">return</span> result;
+  }
+
+  retryCount++;
+  setStatus(<span class="str">`compile failed — silent AI auto-fix ${retryCount}/${AUTO_RETRY_MAX}…`</span>);
+
+  <span class="key">const</span> fixed = <span class="key">await</span> requestAiFix({
+    originalPrompt: userPrompt,
+    failedSource: source,
+    compilerError: result.error,  <span class="comment">// raw GPU driver string</span>
+    mode
+  });
+
+  <span class="key">await</span> saveScene(fixed.code);     <span class="comment">// overwrite on disk</span>
+  <span class="key">return</span> compileWithSandbox(fixed.code, userPrompt, mode);
+}</pre>
+    </section>
+
+    <section>
+      <h2>What Makes This Novel</h2>
+      <div class="callout">
+        <p>
+          Existing LLM-integrated shader editors (ShaderToy's community, ISF Editor, Bonzomatic) display compiler errors to the user and require manual correction. No prior system in real-time graphics or music visualizer software implements <strong>automatic GPU driver error capture → LLM re-submission → silent on-disk overwrite → recompile</strong> as a fully closed, user-invisible feedback loop.
+        </p>
+      </div>
+      <p>The combination of these elements constitutes the novel method:</p>
+      <p>
+        <span class="tag">1</span> AI fragment generation with structural boilerplate isolation<br>
+        <span class="tag">2</span> Raw GPU driver error string capture (not parsed or summarized)<br>
+        <span class="tag">3</span> Closed-loop LLM re-submission with error as context<br>
+        <span class="tag">4</span> Silent on-disk overwrite of the corrected fragment<br>
+        <span class="tag">5</span> Configurable retry ceiling with user-visible fallback<br>
+        <span class="tag">6</span> Zero user interaction required during the fix loop
+      </p>
+    </section>
+
+    <section>
+      <h2>Shader Type Coverage</h2>
+      <table>
+        <tr>
+          <th>Shader Type</th>
+          <th>Compiler Error Source</th>
+          <th>Retry Loop Active</th>
+          <th>Notes</th>
+        </tr>
+        <tr>
+          <td>GLSL (fragment)</td>
+          <td><code>gl.getShaderInfoLog()</code></td>
+          <td>Yes — at generate time + at scene mount</td>
+          <td>scrubGLSL / wrapGLSL applied before each compile</td>
+        </tr>
+        <tr>
+          <td>WGSL (fragment)</td>
+          <td><code>createShaderModule().getCompilationInfo()</code></td>
+          <td>Yes — at generate time + at scene mount</td>
+          <td>stripUserWgslDuplicates applied before compile; WebGPU async</td>
+        </tr>
+      </table>
+      <p>
+        The loop applies at two distinct points: during the AI generation flow (immediately after first compile attempt) and during browser-mount (when a user clicks a saved user scene card). This means a shader saved from an older AI output that later fails due to a driver update will also self-correct on next load.
+      </p>
+    </section>
+
+    <section>
+      <h2>Implementation Context</h2>
+      <p>
+        The AI Shader Error Sandbox is implemented in IKANDY, an Electron 30-based music visualizer running on Windows. AI generation calls target the Anthropic Claude API (<code>claude-sonnet-4-20250514</code>). GLSL shaders compile into inline WebGL contexts; WGSL shaders compile into WebGPU pipelines via <code>_wgpuUserScene()</code> in <code>scenes.js</code>. IPC handlers in <code>main.js</code> manage file writes with strict filename regex validation and size caps.
+      </p>
+      <p>
+        Source code is maintained at <code>github.com/ikandyapp/ikandy</code>. Commit history provides timestamped evidence predating this publication.
+      </p>
+    </section>
+
+    <section>
+      <h2>Prior Art Search Summary</h2>
+      <p>
+        A search of npm, GitHub, and general web sources conducted May 2026 found no implementation combining GPU compiler error capture with closed-loop LLM re-submission for automatic shader self-correction in any real-time graphics, music visualization, or creative coding context. Shader editors with AI-assist features (Cursor, GitHub Copilot in VSCode) offer suggestion and inline diff but require manual user acceptance of corrections and do not execute a silent compile-verify-overwrite loop.
+      </p>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    Published May 14, 2026 · IKANDY / ikandyapp · This document constitutes a public prior art disclosure.
+  </div>
+</footer>
+
+</body>
+</html>
