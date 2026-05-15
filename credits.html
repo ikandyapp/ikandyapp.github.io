@@ -368,7 +368,7 @@
   <div class="container">
 
     <div class="notice">
-      <strong>About IKANDY's own code:</strong> The IKANDY application, original scenes, post-processing pipeline, native audio module, and UI are copyright © 2026 L&amp;R Entertainment LLC and distributed under the IKANDY Non-Commercial License. The notices below apply only to the third-party components bundled within IKANDY, not to IKANDY itself.
+      <strong>About IKANDY's own code:</strong> The IKANDY application, all original 2D and WebGPU scenes, image FX shaders, post-processing pipeline, native audio module, and UI are copyright © 2026 L&amp;R Entertainment LLC. Third-party works are listed below with their respective licenses. If you believe any attribution is missing or incorrect, please contact <a href="mailto:support@ikandy.app" style="color:var(--gold);">support@ikandy.app</a>.
     </div>
 
     <!-- ── VISUALIZER ENGINE ── -->
@@ -462,14 +462,95 @@
         <div class="credit-top">
           <div>
             <div class="credit-name">Sabit Sugirov</div>
-            <div class="credit-author"><a href="https://x.com/sabosugi" target="_blank" rel="noopener">x.com/sabosugi</a></div>
+            <div class="credit-author">
+              <a href="https://x.com/sabosugi" target="_blank" rel="noopener">x.com/sabosugi</a>
+            </div>
           </div>
           <span class="license-badge badge-perm">Used with Permission</span>
         </div>
         <div class="credit-body">
-          <p>The Ferrofluid scene in IKANDY is adapted from a shader by Sabit Sugirov and included with the author's express permission. This shader is <strong>not</strong> released under CC0 or any open-source license. Forks, derivatives, or redistributions of IKANDY that include the Ferrofluid shader require separate permission from the original author.</p>
+          <p>Two scenes in IKANDY are adapted from works by Sabit Sugirov and included with the author's express permission. These works are <strong>not</strong> released under CC0 or any open-source license. Forks, derivatives, or redistributions of IKANDY that include these scenes require separate permission from the original author.</p>
           <div class="scene-list">
             <span class="scene-tag">Ferrofluid</span>
+            <span class="scene-tag">Trails</span>
+          </div>
+          <p style="margin-top:14px;">
+            Ferrofluid shader &nbsp;·&nbsp; <a href="https://x.com/sabosugi" target="_blank" rel="noopener">x.com/sabosugi</a><br>
+            Trails scene &nbsp;·&nbsp; <a href="https://codepen.io/sabosugi/full/bNBVWpN" target="_blank" rel="noopener">codepen.io/sabosugi/full/bNBVWpN</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ── ORIGINAL IKANDY SCENES ── -->
+    <div class="section">
+      <div class="section-heading">Original IKANDY Scenes</div>
+
+      <div class="credit-card" style="--stripe: var(--gold);">
+        <div class="credit-top">
+          <div>
+            <div class="credit-name">2D Audio-Reactive Scenes</div>
+            <div class="credit-author">© 2026 L&amp;R Entertainment LLC</div>
+          </div>
+          <span class="license-badge badge-prop">IKANDY Original</span>
+        </div>
+        <div class="credit-body">
+          <p>The following scenes were designed and written from scratch by IKANDY using real-time FFT audio analysis. No external shader source was used.</p>
+          <div class="scene-list">
+            <span class="scene-tag">Fire EQ</span>
+            <span class="scene-tag">Spectrum</span>
+            <span class="scene-tag">Waveray</span>
+            <span class="scene-tag">Aurora</span>
+            <span class="scene-tag">Starfield</span>
+            <span class="scene-tag">Singularity</span>
+            <span class="scene-tag">Voyager</span>
+            <span class="scene-tag">Pawrticles</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="credit-card" style="--stripe: var(--gold);">
+        <div class="credit-top">
+          <div>
+            <div class="credit-name">WebGPU Scenes</div>
+            <div class="credit-author">© 2026 L&amp;R Entertainment LLC</div>
+          </div>
+          <span class="license-badge badge-prop">IKANDY Original</span>
+        </div>
+        <div class="credit-body">
+          <p>Native WebGPU scenes written in WGSL, designed and authored entirely by IKANDY.</p>
+          <div class="scene-list">
+            <span class="scene-tag">Nebula</span>
+            <span class="scene-tag">Prism Cells</span>
+            <span class="scene-tag">IKANDY Eye</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="credit-card" style="--stripe: var(--gold);">
+        <div class="credit-top">
+          <div>
+            <div class="credit-name">Image FX Shaders</div>
+            <div class="credit-author">© 2026 L&amp;R Entertainment LLC</div>
+          </div>
+          <span class="license-badge badge-prop">IKANDY Original</span>
+        </div>
+        <div class="credit-body">
+          <p>All 12 image FX shaders are original IKANDY GLSL implementations. Common techniques (fbm, domain warping, Voronoi) are standard mathematical methods not subject to copyright. No Shadertoy or third-party shader source was used.</p>
+          <div class="scene-list">
+            <span class="scene-tag">Rain</span>
+            <span class="scene-tag">Ink</span>
+            <span class="scene-tag">VHS</span>
+            <span class="scene-tag">Fog</span>
+            <span class="scene-tag">Paint</span>
+            <span class="scene-tag">Film</span>
+            <span class="scene-tag">Metal</span>
+            <span class="scene-tag">Shatter</span>
+            <span class="scene-tag">Corrupt</span>
+            <span class="scene-tag">Plasma</span>
+            <span class="scene-tag">Holo</span>
+            <span class="scene-tag">Heat</span>
           </div>
         </div>
       </div>
