@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -533,7 +533,7 @@ body::before {
     if (STATE.yetiActive && STATE.yeti) {
       // Yeti closes in over time
       const dx = STATE.skier.x - STATE.yeti.x;
-      const dy = (H - 100) - STATE.yeti.y;
+      const dy = (H * 0.75) - STATE.yeti.y;
       const dist = Math.hypot(dx, dy);
       // Slow build, then closes faster
       const chaseSpeed = 60 + (STATE.distance - 2000) * 0.04;
@@ -762,7 +762,7 @@ body::before {
     STATE.elapsedMs = 0;
     STATE.distance = 0;
     STATE.speed = STATE.baseSpeed;
-    STATE.skier = { x: W/2, y: H - 100, dir: 0 };
+    STATE.skier = { x: W/2, y: H * 0.75, dir: 0 };
     STATE.trees = [];
     STATE.rocks = [];
     STATE.moguls = [];
