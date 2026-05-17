@@ -1178,6 +1178,8 @@
     <li><a href="ikandy-smart-auto-prior-art.html">Smart Auto</a></li>
     <li><a href="ikandy-ai-error-sandbox.html">AI Sandbox</a></li>
     <li><a href="ikandy-vis-format.html">.vis Format</a></li>
+    <li><a href="privacy.html">Privacy</a></li>
+    <li><a href="license.html">License</a></li>
     <li><a href="#download" onclick="document.getElementById('nav-links').classList.remove('open');document.getElementById('nav-toggle').classList.remove('open')">Download</a></li>
   </ul>
 </nav>
@@ -1524,7 +1526,7 @@
 <section id="sources" style="max-width:none;padding:0 0 0 0;">
   <div style="max-width:1200px;margin:0 auto;padding:120px 48px 48px;">
     <p class="section-tag">05 — Audio Sources</p>
-    <h2>Four Ways<br>to Listen</h2>
+    <h2>Five Ways<br>to Listen</h2>
     <p class="lead">Connect whatever you&rsquo;re playing. Each source offers a different feature set &mdash; richer integrations on top, simpler ones below.</p>
   </div>
   <div class="sources-grid">
@@ -1551,6 +1553,12 @@
       <span class="source-icon">🎙️</span>
       <div class="source-name">Now Playing</div>
       <p class="source-desc">Reads whatever app is currently playing music on Windows &mdash; Spotify desktop, YouTube Music, Apple Music, browser tabs, anything that publishes to Windows Media Controls. Transport works (subject to what each source app supports). No browse, no shuffle, no album art.</p>
+    </div>
+    <div class="source-card" style="--c:var(--neon);">
+      <span class="tier-pill tier-full">● Audio Isolation</span>
+      <span class="source-icon">🎯</span>
+      <div class="source-name">Per-Process Capture</div>
+      <p class="source-desc">Lock the visualiser to one app&rsquo;s audio &mdash; Spotify only, not the game, not Discord, not notifications. WASAPI loopback isolates a single Windows process so what you see reacts to exactly what you want, even when half a dozen apps are playing sound. Settings &rarr; Source &rarr; Per-Process Capture.</p>
     </div>
   </div>
 </section>
@@ -1650,9 +1658,29 @@
   </div>
 </section>
 
+<!-- SPOUT OUTPUT -->
+<section id="spout" style="max-width:1200px;">
+  <p class="section-tag">10 — Spout Output</p>
+  <h2>Live Into<br>OBS. Resolume.<br>TouchDesigner.</h2>
+  <p class="lead">IKANDY publishes its rendered output as a real-time Spout sender &mdash; pixel-perfect, zero-latency, GPU-shared. No screen capture, no recording loop. Just pure visuals piped straight into your streaming or VJ rig.</p>
+  <div style="display:flex;gap:24px;margin-top:48px;flex-wrap:wrap;">
+    <div style="flex:1;min-width:220px;padding:32px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--gold);letter-spacing:.08em;margin-bottom:10px;">OBS &middot; Twitch &middot; YouTube</div>
+      <p style="font-size:14px;color:var(--dim);line-height:1.6;">Add the free obs-spout2 plugin, drop in a Spout2 Capture source, pick IKANDY. Your visuals are now a live OBS scene &mdash; ready to stream, record, or composite over your camera.</p>
+    </div>
+    <div style="flex:1;min-width:220px;padding:32px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--neon);letter-spacing:.08em;margin-bottom:10px;">VJ Ready</div>
+      <p style="font-size:14px;color:var(--dim);line-height:1.6;">Resolume, MadMapper, TouchDesigner, vMix &mdash; anything that speaks Spout2 can receive IKANDY. Map it to projectors, LED walls, holograms. The visualiser becomes a live VJ deck.</p>
+    </div>
+    <div style="flex:1;min-width:220px;padding:32px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--ice);letter-spacing:.08em;margin-bottom:10px;">Zero Latency</div>
+      <p style="font-size:14px;color:var(--dim);line-height:1.6;">Pure GPU-to-GPU texture sharing &mdash; not a screen-capture detour. 0.5ms per frame, 0 dropped frames at 60fps 1080p. Pick 15 / 24 / 30 / 60 FPS in Settings &rarr; Video.</p>
+    </div>
+  </div>
+</section>
 <!-- TESTIMONIALS -->
 <section id="reviews" style="max-width:1200px;">
-  <p class="section-tag">10 — Word On The Street</p>
+  <p class="section-tag">11 — Word On The Street</p>
   <h2>What People<br>Are Saying</h2>
   <p class="lead">Real reactions from real humans who fired it up and let it rip.</p>
 
