@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IKANDY &mdash; Beta License Agreement</title>
+<meta name="description" content="The IKANDY Beta Software License Agreement. Read before installing.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --gold: #d4a843;
+  --neon: #ff2d8a;
+  --green: #1db954;
+  --ice: #5bc8f5;
+  --bg: #04040a;
+  --bg2: #08080f;
+  --txt: #e8e8e8;
+  --dim: rgba(255,255,255,.45);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--txt);
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
+  cursor: crosshair;
+  line-height: 1.7;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: .4;
+}
+
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 48px;
+  background: rgba(0,0,0,.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  flex-wrap: wrap;
+}
+
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  letter-spacing: .15em;
+  color: var(--gold);
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 36px; height: 36px;
+  background: none; border: none;
+  cursor: pointer; padding: 4px; flex-shrink: 0;
+}
+.nav-toggle span {
+  display: block; width: 22px; height: 2px;
+  background: var(--gold); border-radius: 2px;
+  transition: transform .25s, opacity .25s;
+  transform-origin: center;
+}
+.nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle.open span:nth-child(2) { opacity: 0; }
+.nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
+.nav-links a {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--dim);
+  text-decoration: none; transition: color .2s;
+}
+.nav-links a:hover { color: var(--gold); }
+
+@media (max-width: 860px) {
+  nav { padding: 16px 24px; }
+  .nav-toggle { display: flex; }
+  .nav-links {
+    display: none; flex-direction: column; align-items: flex-start;
+    gap: 0; width: 100%; padding: 12px 0 16px;
+    border-top: 1px solid rgba(255,255,255,.06); margin-top: 12px;
+  }
+  .nav-links.open { display: flex; }
+  .nav-links li { width: 100%; }
+  .nav-links a { display: block; padding: 10px 4px; font-size: 13px; }
+}
+
+.page-header {
+  padding: 160px 48px 80px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.page-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 24px;
+}
+
+.page-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(56px, 9vw, 120px);
+  line-height: .9;
+  letter-spacing: .04em;
+  background: linear-gradient(135deg, #fff 0%, var(--gold) 50%, var(--ice) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 32px;
+}
+
+.page-lead {
+  font-size: 18px;
+  color: var(--dim);
+  max-width: 700px;
+  line-height: 1.6;
+}
+
+.meta-line {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255,255,255,.06);
+}
+
+main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 48px 120px;
+}
+
+section.policy { margin-bottom: 64px; }
+
+.section-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+
+h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(32px, 5vw, 48px);
+  line-height: 1;
+  letter-spacing: .04em;
+  color: var(--txt);
+  margin-bottom: 24px;
+}
+
+h3 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: .08em;
+  color: var(--ice);
+  margin: 28px 0 12px;
+}
+
+p { font-size: 15px; color: rgba(255,255,255,.8); margin-bottom: 16px; }
+
+ul, ol { margin: 16px 0 16px 24px; }
+li { font-size: 15px; color: rgba(255,255,255,.8); margin-bottom: 10px; }
+
+strong { color: var(--txt); font-weight: 500; }
+
+a.inline-link {
+  color: var(--gold);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(212,168,67,.3);
+  transition: color .2s, border-color .2s;
+}
+a.inline-link:hover { color: #fff; border-bottom-color: #fff; }
+
+.callout {
+  padding: 28px 32px;
+  border: 1px solid rgba(255,255,255,.08);
+  background: rgba(255,255,255,.02);
+  margin: 32px 0;
+}
+
+.callout-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  letter-spacing: .08em;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+
+.callout p { font-size: 14px; color: var(--dim); line-height: 1.6; margin-bottom: 0; }
+
+.warn-block {
+  border: 1px solid rgba(255,45,138,.2);
+  background: rgba(255,45,138,.04);
+  padding: 24px 28px;
+  margin-bottom: 48px;
+}
+.warn-block p { font-size: 15px; color: rgba(255,255,255,.8); margin: 0; }
+.warn-block strong { color: #fff; }
+
+footer {
+  border-top: 1px solid rgba(255,255,255,.06);
+  padding: 48px;
+  text-align: center;
+}
+
+.footer-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px;
+  letter-spacing: .15em;
+  color: var(--gold);
+  margin-bottom: 18px;
+}
+
+.footer-links {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--dim);
+  text-decoration: none;
+  transition: color .2s;
+}
+.footer-links a:hover { color: var(--gold); }
+
+.footer-copy {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .15em;
+  color: var(--dim);
+  text-transform: uppercase;
+}
+
+@media (max-width: 700px) {
+  nav { padding: 16px 24px; }
+  .page-header { padding: 130px 24px 60px; }
+  main { padding: 0 24px 80px; }
+  .callout { padding: 20px 22px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">IKANDY</a>
+  <button class="nav-toggle" aria-label="Toggle navigation" onclick="this.classList.toggle('open');document.querySelector('.nav-links').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links">
+    <li><a href="guide.html">Guide</a></li>
+    <li><a href="credits.html">Credits</a></li>
+    <li><a href="privacy.html">Privacy</a></li>
+    <li><a href="index.html#download">Download</a></li>
+  </ul>
+</nav>
+
+<header class="page-header">
+  <p class="page-tag">Legal &mdash; License Agreement</p>
+  <h1 class="page-title">Beta<br>License.</h1>
+  <p class="page-lead">The agreement you accept when you install and use IKANDY. Plain language, no surprises.</p>
+  <div class="meta-line">Version 1.1 &middot; Effective May 2026 &middot; Governing law: California, USA</div>
+</header>
+
+<main>
+
+<div class="warn-block">
+  <p><strong>This agreement is accepted in-app on first launch.</strong> By installing IKANDY and clicking &ldquo;I Accept&rdquo;, you agree to these terms. If you do not agree, click &ldquo;Decline&rdquo; and do not install the Software.</p>
+</div>
+
+<section class="policy">
+  <p class="section-tag">01</p>
+  <h2>Grant of License</h2>
+  <p>L&amp;R Entertainment LLC (&ldquo;Company&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;) grants you a personal, non-exclusive, non-transferable, revocable license to install and use IKANDY (&ldquo;Software&rdquo;) on Windows computers that you own or control, for personal, non-commercial purposes during the beta period.</p>
+  <p>This license does not include the right to:</p>
+  <ul>
+    <li>Sublicense, sell, resell, or commercially distribute the Software</li>
+    <li>Use the Software as part of a paid product or service without written permission from the Company</li>
+    <li>Remove or alter any copyright, trademark, or proprietary notices</li>
+  </ul>
+</section>
+
+<section class="policy">
+  <p class="section-tag">02</p>
+  <h2>Beta Software Disclaimer</h2>
+  <p>THE SOFTWARE IS PROVIDED AS BETA SOFTWARE. It is incomplete, may contain bugs, and may change significantly before final release. Features may be added, modified, or removed without notice.</p>
+  <p>By accepting this agreement you acknowledge that:</p>
+  <ul>
+    <li>Beta software may crash, produce incorrect results, or lose data</li>
+    <li>Features available during beta may not be available in the final release, or may require a paid license upgrade</li>
+    <li>We may terminate beta access at any time for any reason</li>
+  </ul>
+</section>
+
+<section class="policy">
+  <p class="section-tag">03</p>
+  <h2>Intellectual Property</h2>
+  <p>The Software, including all code, graphics, user interface design, audio-reactive scenes, shader programs, and documentation, is owned by L&amp;R Entertainment LLC and is protected by copyright law and international treaties. Third-party components are used under their respective licenses, listed at <a href="credits.html" class="inline-link">ikandy.app/credits.html</a>.</p>
+  <p>You may not:</p>
+  <ul>
+    <li>Reverse engineer, decompile, or disassemble the Software except to the extent permitted by applicable law</li>
+    <li>Copy or reproduce the Software except as permitted by this Agreement</li>
+    <li>Create derivative works based on the Software without written consent</li>
+  </ul>
+  <p>The source code for IKANDY is available at <a href="https://github.com/IKANDYapp/IKANDY" class="inline-link" target="_blank" rel="noopener">github.com/IKANDYapp/IKANDY</a> under a separate non-commercial source license. This end-user license governs your use of the compiled application.</p>
+</section>
+
+<section class="policy">
+  <p class="section-tag">04</p>
+  <h2>Data Collection &amp; Privacy</h2>
+  <p>By using the Software, you acknowledge receipt of our <a href="privacy.html" class="inline-link">Privacy Policy</a>. Key points:</p>
+  <ul>
+    <li>Basic beta validation data is required to use the Software</li>
+    <li>Usage telemetry and crash reports are <strong>off by default</strong></li>
+    <li>We do not collect your music, audio content, or personal files</li>
+    <li>You may delete your data at any time from Settings &rarr; Privacy</li>
+  </ul>
+</section>
+
+<section class="policy">
+  <p class="section-tag">05</p>
+  <h2>Third-Party Services</h2>
+  <p>The Software integrates with optional third-party services including Spotify, foobar2000, VLC, and LRCLIB. Use of these services is governed by their respective terms of service. We are not affiliated with, endorsed by, or responsible for any third-party service.</p>
+  <p>Spotify integration uses a Bring Your Own Key (BYOK) model. You are responsible for compliance with Spotify&rsquo;s Developer Terms of Service when registering and using your own Spotify application credentials.</p>
+</section>
+
+<section class="policy">
+  <p class="section-tag">06</p>
+  <h2>Disclaimer of Warranties</h2>
+  <p>THE SOFTWARE IS PROVIDED &ldquo;AS IS&rdquo; WITHOUT WARRANTY OF ANY KIND. TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, L&amp;R ENTERTAINMENT LLC EXPRESSLY DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND NON-INFRINGEMENT.</p>
+  <p>WE DO NOT WARRANT THAT THE SOFTWARE WILL BE ERROR-FREE, UNINTERRUPTED, SECURE, OR FREE OF VIRUSES OR OTHER HARMFUL COMPONENTS.</p>
+</section>
+
+<section class="policy">
+  <p class="section-tag">07</p>
+  <h2>Limitation of Liability</h2>
+  <p>TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL L&amp;R ENTERTAINMENT LLC, ITS OFFICERS, DIRECTORS, EMPLOYEES, OR AGENTS BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING BUT NOT LIMITED TO LOSS OF DATA, LOSS OF PROFITS, BUSINESS INTERRUPTION, OR DAMAGE TO EQUIPMENT) ARISING OUT OF OR IN CONNECTION WITH YOUR USE OF OR INABILITY TO USE THE SOFTWARE.</p>
+  <p>OUR TOTAL CUMULATIVE LIABILITY TO YOU FOR ALL CLAIMS ARISING UNDER THIS AGREEMENT SHALL NOT EXCEED FIFTY DOLLARS (USD $50.00).</p>
+</section>
+
+<section class="policy">
+  <p class="section-tag">08</p>
+  <h2>Termination</h2>
+  <p>This Agreement is effective until terminated. Your rights terminate automatically if you fail to comply with any of its terms. Upon termination, you must cease all use of the Software and delete all copies in your possession.</p>
+  <p>We may terminate beta access or modify the Software at any time without notice, including by requiring acceptance of an updated agreement before continued use.</p>
+</section>
+
+<section class="policy">
+  <p class="section-tag">09</p>
+  <h2>Governing Law</h2>
+  <p>This Agreement shall be governed by the laws of the State of California, United States, without regard to its conflict of law provisions.</p>
+  <p>Any dispute shall first be submitted to informal resolution by contacting <a href="mailto:support@ikandy.app" class="inline-link">support@ikandy.app</a>. If informal resolution fails, disputes shall be resolved by binding arbitration in Los Angeles County, California, under the rules of the American Arbitration Association. You waive any right to participate in a class action lawsuit or class-wide arbitration.</p>
+</section>
+
+<section class="policy">
+  <p class="section-tag">10</p>
+  <h2>General Provisions</h2>
+  <p><strong>Entire Agreement.</strong> This Agreement, together with the Privacy Policy, constitutes the entire agreement between you and L&amp;R Entertainment LLC regarding the Software.</p>
+  <p><strong>Severability.</strong> If any provision is found unenforceable, the remaining provisions remain in full force.</p>
+  <p><strong>No Waiver.</strong> Failure to enforce any provision shall not constitute a waiver of our right to enforce it in the future.</p>
+  <p><strong>Updates.</strong> We may update this Agreement at any time. Continued use after notification constitutes acceptance of the revised terms.</p>
+</section>
+
+<section class="policy">
+  <p class="section-tag">11</p>
+  <h2>Contact</h2>
+  <div class="callout">
+    <p style="margin-bottom:8px;"><strong>L&amp;R Entertainment LLC</strong></p>
+    <p style="margin-bottom:8px;"><strong>Email:</strong> <a href="mailto:support@ikandy.app" class="inline-link">support@ikandy.app</a></p>
+    <p style="margin-bottom:8px;"><strong>Website:</strong> <a href="https://ikandy.app" class="inline-link">ikandy.app</a></p>
+    <p style="margin:0;"><strong>GitHub:</strong> <a href="https://github.com/IKANDYapp/IKANDY" target="_blank" rel="noopener" class="inline-link">github.com/IKANDYapp/IKANDY</a></p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="footer-logo">IKANDY</div>
+  <ul class="footer-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="guide.html">User Guide</a></li>
+    <li><a href="privacy.html">Privacy</a></li>
+    <li><a href="credits.html">Credits</a></li>
+    <li><a href="mailto:support@ikandy.app">Contact</a></li>
+  </ul>
+  <div class="footer-copy">&copy; 2026 L&amp;R Entertainment LLC &middot; IKANDY.app</div>
+</footer>
+
+<script>
+document.querySelector('.nav-toggle')?.addEventListener('click', function() {
+  this.classList.toggle('open');
+  document.querySelector('.nav-links').classList.toggle('open');
+});
+</script>
+
+</body>
+</html>
