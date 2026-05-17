@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -805,7 +805,21 @@
 
       <div class="credit-card" style="--stripe: var(--border);">
         <div class="credit-body">
-          <p>IKANDY uses the following typefaces, served via Google Fonts under the <a href="https://scripts.sil.org/OFL" target="_blank" rel="noopener">SIL Open Font License</a>:</p>
+          <section class="credit-section">
+<p class="section-tag">NATIVE OUTPUT</p>
+<h3 class="credit-title">Spout2 / SpoutDX</h3>
+<p class="credit-meta">leadedge &middot; v2.007.017 &middot; <a href="https://github.com/leadedge/Spout2" target="_blank" rel="noopener" class="inline-link">github.com/leadedge/Spout2</a> &middot; BSD-style license</p>
+<p>Spout is a Windows GPU texture sharing framework used by OBS, TouchDesigner, Resolume, MadMapper, and vMix. IKANDY uses SpoutDX to publish its primary window as a real-time Spout sender. The Spout2 SDK is vendored and statically linked &mdash; no runtime DLL required.</p>
+</section>
+
+<section class="credit-section">
+<p class="section-tag">BUILD TOOLING</p>
+<h3 class="credit-title">cmake-js</h3>
+<p class="credit-meta">cmake-js contributors &middot; <a href="https://github.com/cmake-js/cmake-js" target="_blank" rel="noopener" class="inline-link">github.com/cmake-js/cmake-js</a> &middot; MIT license</p>
+<p>cmake-js builds IKANDY&rsquo;s native C++ addons (audio loopback capture and Spout output) against the correct Electron ABI using CMake and node-addon-api.</p>
+</section>
+
+<p>IKANDY uses the following typefaces, served via Google Fonts under the <a href="https://scripts.sil.org/OFL" target="_blank" rel="noopener">SIL Open Font License</a>:</p>
           <div class="scene-list" style="margin-top:16px;">
             <span class="scene-tag">Bebas Neue — Ryoichi Tsunekawa</span>
             <span class="scene-tag">DM Sans — Colophon Foundry</span>

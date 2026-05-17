@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -861,7 +861,7 @@ nav {
 <header class="page-header">
   <p class="page-eyebrow">📖 The Manual</p>
   <h1 class="page-title">User Guide</h1>
-  <p class="page-sub"><strong style="color:var(--txt);">IKANDY paints your music.</strong> Press play in any music app and watch your screen come alive &mdash; colors, light and shapes that move with every beat. This guide covers everything: getting set up, picking a music source, presets, scenes, FX, lyrics, and what to do when things misbehave.</p>
+  <p class="page-sub"><strong style="color:var(--txt);">IKANDY paints your music.</strong> Press play in any music app and watch your screen come alive &mdash; colors, light and shapes that move with every beat. This guide covers everything: getting set up, picking a music source, presets, scenes, FX, lyrics, Spout output, and what to do when things misbehave.</p>
 </header>
 
 <!-- TOC -->
@@ -879,6 +879,7 @@ nav {
     <a href="#tips"><span class="toc-num">09</span> Tips &amp; Workflow</a>
     <a href="#troubleshooting"><span class="toc-num">10</span> Troubleshooting</a>
     <a href="#help"><span class="toc-num">11</span> Get Help</a>
+    <a href="#spout"><span class="toc-num">12</span> Spout Output</a>
   </div>
 </div>
 
@@ -1446,6 +1447,51 @@ nav {
 </section>
 
 <!-- 11 HELP -->
+
+<section id="spout" class="guide-section">
+<p class="section-tag">12</p>
+<h2>Spout Output</h2>
+<p class="section-intro">Send IKANDY live to OBS, TouchDesigner, Resolume, MadMapper, vMix, or any Spout2-compatible app. Windows only. Zero latency. No screen capture.</p>
+
+<h3>What is Spout?</h3>
+<p>Spout is a GPU texture sharing framework for Windows. Instead of capturing your screen, IKANDY pushes its rendered output directly to any Spout receiver over shared GPU memory. The result is a pixel-perfect feed of exactly what you see in IKANDY — all canvas layers composited together (visualizer, FX, grain, vignette, draw canvas, click effects).</p>
+
+<h3>Enabling Spout output</h3>
+<p>Open Settings (⚙) → VIDEO tab → <strong>SPOUT OUTPUT</strong>. Click the toggle — it glows pink when active. Status reads <em>live</em> once the first frame is published.</p>
+<p>The sender name defaults to <strong>IKANDY</strong>. You can rename it in the Sender Name field — the new name appears in receiver dropdowns immediately. Changing the name while active restarts the sender briefly.</p>
+
+<h3>Target FPS</h3>
+<p>Four presets: 15 / 24 / 30 / 60. Default is 30 — the sweet spot for OBS and TouchDesigner. Higher frame rates are fully supported.</p>
+
+<h3>Receiving in OBS</h3>
+<ol>
+<li>Install the <strong>obs-spout2</strong> plugin (free, Windows only) from <a href="https://github.com/Off-World-Live/obs-spout2-plugin" target="_blank" rel="noopener" class="inline-link">github.com/Off-World-Live/obs-spout2-plugin</a>. Restart OBS after installing.</li>
+<li>In OBS: Sources → + → <strong>Spout2 Capture</strong>.</li>
+<li>In the source properties, select <strong>IKANDY</strong> from the SpoutSenders dropdown.</li>
+<li>Click OK. IKANDY's live output appears in the OBS preview immediately.</li>
+</ol>
+
+<h3>Receiving in TouchDesigner</h3>
+<p>Add a <strong>SpoutIn TOP</strong>. Set the Sender Name to <strong>IKANDY</strong>. The feed appears as soon as IKANDY's Spout toggle is active.</p>
+
+<h3>Receiving in Resolume</h3>
+<p>In Resolume Arena or Avenue, add a <strong>Spout</strong> source and select IKANDY from the sender list.</p>
+
+<div class="tip-box">
+<strong>Hide the UI before streaming.</strong> Spout captures the full IKANDY window including any open panels. Press <strong>H</strong> (or click the eye icon in the utility zone) to hide the UI before switching to your streaming scene. The visualizer, FX layers, and draw canvas remain visible — only the chrome disappears.
+</div>
+
+<div class="tip-box">
+<strong>Auto-restore.</strong> IKANDY remembers whether Spout was active when you closed the app and re-enables it automatically on next launch.
+</div>
+
+<h3>Troubleshooting</h3>
+<ul>
+<li><strong>IKANDY not in receiver's sender list</strong> — confirm the Spout toggle shows <em>live</em> in IKANDY's VIDEO settings. If it shows <em>error</em>, restart IKANDY. Rarely a crashed previous session leaves a stale entry — a Windows restart clears it.</li>
+<li><strong>Black frame in OBS</strong> — make sure music is playing and IKANDY is actively visualizing. A fully idle IKANDY with no audio source connected can produce black frames.</li>
+<li><strong>obs-spout2 not installed</strong> — standard OBS does not include Spout support. Install the plugin linked above and restart OBS.</li>
+</ul>
+</section>
 <section id="help" style="padding-top:0;padding-bottom:0;max-width:none;">
   <div class="help-section">
     <p class="section-tag" style="position:relative;">11 — Get Help</p>
@@ -1470,7 +1516,7 @@ nav {
     <li><a href="https://github.com/IKANDYapp/IKANDY/blob/main/THIRD_PARTY_LICENSES.txt" target="_blank">Licenses</a></li>
     <li><a href="https://buymeacoffee.com/IKANDY" target="_blank">Support</a></li>
   </ul>
-  <div class="footer-copy">© 2026 Felix Bag of Tricks · IKANDY.app</div>
+  <div class="footer-copy">© 2026 L&R Entertainment LLC · IKANDY.app</div>
 </footer>
 
 </body>

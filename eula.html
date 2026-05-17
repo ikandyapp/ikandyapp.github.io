@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -276,7 +276,7 @@
         if (remaining < 8) onScrolled(); // already at bottom
       }, 100);
     } catch(e) {
-      eulaText.textContent = 'Failed to load the license agreement.\nPlease reinstall IKANDY.';
+      eulaText.textContent = 'This page is shown inside the IKANDY application on first launch.\n\nTo read the full IKANDY Beta License Agreement online, visit:\nhttps://ikandy.app/license.html';
       statusLine.textContent = 'Error loading agreement text.';
       statusLine.classList.add('error');
     }
