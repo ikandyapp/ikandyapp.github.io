@@ -31,11 +31,11 @@ canvas { border: 1px solid #111; }
 <div class="overlay" id="start-overlay">
   <h1>PONG</h1>
   <p>W / S &nbsp;&middot;&nbsp; &uarr; / &darr; &nbsp; TO MOVE YOUR PADDLE (LEFT SIDE)</p>
-  <p>FIRST TO 7 WINS</p>
+  <p>5 LIVES &middot; AI GETS FASTER EVERY POINT &middot; ENDLESS</p>
   <button id="btn-start">SERVE</button>
 </div>
 <div class="overlay hidden" id="over-overlay">
-  <h1 id="over-title">YOU WIN!</h1>
+  <h1>GAME OVER</h1>
   <p id="final-score"></p>
   <button id="btn-retry">PLAY AGAIN</button>
 </div>
@@ -53,6 +53,7 @@ canvas { border: 1px solid #111; }
   let interactions = 0, sessionId = '', startTime = 0;
 
   async function submitScore(score, timeSec) {
+    if (score === 0) return;
     const ident = getArcadeIdentity();
     if (!ident.id || !ident.name) return;
     try {
@@ -67,22 +68,22 @@ canvas { border: 1px solid #111; }
   const canvas = document.getElementById('game');
   const ctx = canvas.getContext('2d');
   const W = 640, H = 420;
-  const WIN = 7;
+  const LIVES_MAX = 5;
   const PW = 10, PH = 70, PSPEED = 5, BZ = 8;
   const PX_LEFT = 20, PX_RIGHT = W - 20 - PW;
 
-  let playerY, aiY, ball, pScore, aScore, running, animId, keys = {};
+  let playerY, aiY, ball, pScore, aScore, lives, running, animId, keys = {};
 
   function getBest() { return parseInt(localStorage.getItem(BEST_KEY) || '0', 10); }
   function setBest(v) { localStorage.setItem(BEST_KEY, String(Math.max(getBest(), v))); }
 
   function resetBall(toRight) {
-    ball = { x: W / 2, y: H / 2, vx: (toRight ? 1 : -1) * 4.2, vy: (Math.random() < .5 ? 1 : -1) * 3 };
+    ball = { x: W / 2, y: H / 2, vx: (toRight ? 1 : -1) * 4.6, vy: (Math.random() < .5 ? 1 : -1) * 3.2 };
   }
 
   function startGame() {
     playerY = H / 2 - PH / 2; aiY = H / 2 - PH / 2;
-    pScore = 0; aScore = 0; running = true; interactions = 0;
+    pScore = 0; aScore = 0; lives = LIVES_MAX; running = true; interactions = 0;
     startTime = performance.now();
     sessionId = crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36);
     resetBall(true);
@@ -102,10 +103,10 @@ canvas { border: 1px solid #111; }
     if (keys['ArrowDown'] || keys['s']) playerY += PSPEED;
     playerY = Math.max(0, Math.min(H - PH, playerY));
 
-    // AI — tracks ball at limited speed, only moves when ball crosses midpoint heading its way
+    // AI escalates per AI point
     if (ball.vx > 0) {
       const aiCenter = aiY + PH / 2;
-      const spd = 3.8 + aScore * 0.15;
+      const spd = 4.0 + aScore * 0.4;
       const diff = ball.y - aiCenter;
       if (Math.abs(diff) > 4) aiY += Math.sign(diff) * Math.min(spd, Math.abs(diff));
     }
@@ -116,41 +117,48 @@ canvas { border: 1px solid #111; }
     if (ball.y < 0) { ball.y = 0; ball.vy *= -1; }
     if (ball.y + BZ > H) { ball.y = H - BZ; ball.vy *= -1; }
 
-    // Left paddle hit
     if (ball.vx < 0 && ball.x <= PX_LEFT + PW && ball.x >= PX_LEFT && ball.y + BZ >= playerY && ball.y <= playerY + PH) {
       ball.x = PX_LEFT + PW;
-      ball.vx = Math.abs(ball.vx) * 1.04;
+      ball.vx = Math.abs(ball.vx) * 1.05;
       ball.vy += ((ball.y + BZ / 2) - (playerY + PH / 2)) * 0.12;
     }
-    // Right paddle hit
     if (ball.vx > 0 && ball.x + BZ >= PX_RIGHT && ball.x + BZ <= PX_RIGHT + PW && ball.y + BZ >= aiY && ball.y <= aiY + PH) {
       ball.x = PX_RIGHT - BZ;
-      ball.vx = -Math.abs(ball.vx) * 1.04;
+      ball.vx = -Math.abs(ball.vx) * 1.05;
       ball.vy += ((ball.y + BZ / 2) - (aiY + PH / 2)) * 0.12;
     }
 
-    // Clamp speed
     const spd = Math.hypot(ball.vx, ball.vy);
-    if (spd > 13) { ball.vx = ball.vx / spd * 13; ball.vy = ball.vy / spd * 13; }
+    if (spd > 16) { ball.vx = ball.vx / spd * 16; ball.vy = ball.vy / spd * 16; }
 
-    if (ball.x < 0)    { aScore++; if (aScore >= WIN) { endGame(false); return; } resetBall(true);  }
-    if (ball.x > W)    { pScore++; if (pScore >= WIN) { endGame(true);  return; } resetBall(false); }
+    if (ball.x < 0)  {
+      aScore++; lives--;
+      if (lives <= 0) { endGame(); return; }
+      resetBall(true);
+    }
+    if (ball.x > W)  {
+      pScore++;
+      resetBall(false);
+    }
   }
 
   function draw() {
     ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H);
 
-    // Dashed center line
     ctx.setLineDash([10, 10]); ctx.strokeStyle = '#222'; ctx.lineWidth = 2;
     ctx.beginPath(); ctx.moveTo(W / 2, 0); ctx.lineTo(W / 2, H); ctx.stroke();
     ctx.setLineDash([]);
 
-    // Scores
-    ctx.fillStyle = '#fff'; ctx.font = 'bold 52px Courier New';
-    ctx.textAlign = 'right'; ctx.fillText(pScore, W / 2 - 24, 64);
-    ctx.textAlign = 'left';  ctx.fillText(aScore, W / 2 + 24, 64);
+    ctx.fillStyle = '#666'; ctx.font = '10px Courier New';
+    ctx.textAlign = 'right'; ctx.fillText('SCORE', W / 2 - 24, 30);
+    ctx.textAlign = 'left';  ctx.fillText('LIVES', W / 2 + 24, 30);
 
-    // Paddles & ball
+    ctx.font = 'bold 52px Courier New';
+    ctx.fillStyle = '#fff';
+    ctx.textAlign = 'right'; ctx.fillText(pScore, W / 2 - 24, 80);
+    ctx.fillStyle = lives <= 1 ? '#f44' : '#fff';
+    ctx.textAlign = 'left';  ctx.fillText(lives, W / 2 + 24, 80);
+
     ctx.fillStyle = '#fff';
     ctx.fillRect(PX_LEFT,  playerY, PW, PH);
     ctx.fillRect(PX_RIGHT, aiY,     PW, PH);
@@ -159,12 +167,11 @@ canvas { border: 1px solid #111; }
 
   function loop() { if (!running) return; update(); draw(); animId = requestAnimationFrame(loop); }
 
-  function endGame(won) {
+  function endGame() {
     running = false; cancelAnimationFrame(animId);
     const timeSec = (performance.now() - startTime) / 1000;
     setBest(pScore);
-    document.getElementById('over-title').textContent = won ? 'YOU WIN!' : 'GAME OVER';
-    document.getElementById('final-score').textContent = `${pScore} \u2014 ${aScore}`;
+    document.getElementById('final-score').textContent = `SCORE: ${pScore}`;
     document.getElementById('over-overlay').classList.remove('hidden');
     submitScore(pScore, timeSec);
   }

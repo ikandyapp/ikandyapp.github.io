@@ -28,7 +28,7 @@ canvas { border: 1px solid #333; }
 </div>
 <div class="hud">
   <span>SCORE: <strong id="score">0</strong></span>
-  <span>LIVES: <strong id="lives">3</strong></span>
+  <span>LIVES: <strong id="lives">2</strong></span>
   <span>BEST: <strong id="best">0</strong></span>
 </div>
 <canvas id="game" width="480" height="400"></canvas>
@@ -98,13 +98,13 @@ canvas { border: 1px solid #333; }
   }
 
   function startGame() {
-    initBricks(); lives = 3; score = 0; running = true; interactions = 0;
+    initBricks(); lives = 2; score = 0; running = true; interactions = 0;
     startTime = performance.now();
     sessionId = crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36);
     paddleX = W / 2 - PADDLE_W / 2;
     resetBall();
     document.getElementById('score').textContent = 0;
-    document.getElementById('lives').textContent = 3;
+    document.getElementById('lives').textContent = 2;
     document.getElementById('start-overlay').classList.add('hidden');
     document.getElementById('over-overlay').classList.add('hidden');
     cancelAnimationFrame(animId); loop();
@@ -127,7 +127,7 @@ canvas { border: 1px solid #333; }
 
     if (ball.vy > 0 && ball.y + BALL_R >= PADDLE_Y && ball.y + BALL_R <= PADDLE_Y + PADDLE_H && ball.x >= paddleX && ball.x <= paddleX + PADDLE_W) {
       ball.vy *= -1;
-      ball.vx = ((ball.x - (paddleX + PADDLE_W / 2)) / (PADDLE_W / 2)) * 4.5;
+      ball.vx = ((ball.x - (paddleX + PADDLE_W / 2)) / (PADDLE_W / 2)) * 5.5;
     }
 
     if (ball.y - BALL_R > H) {
@@ -139,7 +139,7 @@ canvas { border: 1px solid #333; }
     for (const b of bricks) {
       if (!b.alive) continue;
       if (ball.x + BALL_R > b.x && ball.x - BALL_R < b.x + BW && ball.y + BALL_R > b.y && ball.y - BALL_R < b.y + BH) {
-        b.alive = false; ball.vy *= -1;
+        b.alive = false; ball.vy *= -1; ball.vx *= 1.012; ball.vy *= 1.012;
         score += b.pts; document.getElementById('score').textContent = score;
         break;
       }
@@ -175,3 +175,4 @@ canvas { border: 1px solid #333; }
 </script>
 </body>
 </html>
+

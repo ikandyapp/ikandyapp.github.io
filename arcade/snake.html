@@ -34,7 +34,7 @@ canvas { border: 2px solid #0f0; box-shadow: 0 0 24px #0f04; }
 <div class="overlay" id="start-overlay">
   <h1>SNAKE</h1>
   <p>ARROW KEYS OR WASD TO STEER</p>
-  <p>EAT FOOD &middot; AVOID WALLS &middot; DON&apos;T EAT YOURSELF</p>
+  <p>SPEEDS UP EVERY 3 PELLETS &middot; NO MERCY</p>
   <button id="btn-start">START GAME</button>
 </div>
 <div class="overlay hidden" id="over-overlay">
@@ -71,7 +71,7 @@ canvas { border: 2px solid #0f0; box-shadow: 0 0 24px #0f04; }
   const CELL = 20, COLS = 20, ROWS = 20;
   const canvas = document.getElementById('game');
   const ctx = canvas.getContext('2d');
-  let snake, dir, nextDir, food, score, running;
+  let snake, dir, nextDir, food, score, running, tickMs;
   let gameLoop;
 
   function getBest() { return parseInt(localStorage.getItem(BEST_KEY) || '0', 10); }
@@ -82,9 +82,10 @@ canvas { border: 2px solid #0f0; box-shadow: 0 0 24px #0f04; }
   function placeFood() { let f; do { f = randCell(); } while (snake.some(s => s.x === f.x && s.y === f.y)); food = f; }
 
   function startGame() {
-    snake = [{ x: 10, y: 10 }, { x: 9, y: 10 }, { x: 8, y: 10 }];
+    snake = [{ x: 10, y: 10 }, { x: 9, y: 10 }, { x: 8, y: 10 }, { x: 7, y: 10 }, { x: 6, y: 10 }];
     dir = { x: 1, y: 0 }; nextDir = { x: 1, y: 0 };
     score = 0; running = true; interactions = 0;
+    tickMs = 90;
     startTime = performance.now();
     sessionId = crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36);
     placeFood();
@@ -92,7 +93,7 @@ canvas { border: 2px solid #0f0; box-shadow: 0 0 24px #0f04; }
     document.getElementById('start-overlay').classList.add('hidden');
     document.getElementById('over-overlay').classList.add('hidden');
     clearInterval(gameLoop);
-    gameLoop = setInterval(tick, 115);
+    gameLoop = setInterval(tick, tickMs);
   }
 
   function tick() {
@@ -101,7 +102,18 @@ canvas { border: 2px solid #0f0; box-shadow: 0 0 24px #0f04; }
     const head = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
     if (head.x < 0 || head.x >= COLS || head.y < 0 || head.y >= ROWS || snake.some(s => s.x === head.x && s.y === head.y)) { endGame(); return; }
     snake.unshift(head);
-    if (head.x === food.x && head.y === food.y) { score++; document.getElementById('score').textContent = score; placeFood(); } else { snake.pop(); }
+    if (head.x === food.x && head.y === food.y) {
+      score++;
+      document.getElementById('score').textContent = score;
+      placeFood();
+      if (score % 3 === 0 && tickMs > 50) {
+        tickMs -= 5;
+        clearInterval(gameLoop);
+        gameLoop = setInterval(tick, tickMs);
+      }
+    } else {
+      snake.pop();
+    }
     draw();
   }
 

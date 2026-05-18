@@ -65,7 +65,7 @@ canvas { display: block; }
     try{ await fetch(SUPABASE_URL+'/functions/v1/arcade-submit-score',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+SUPABASE_ANON_KEY,'apikey':SUPABASE_ANON_KEY},body:JSON.stringify({ikandyId:id.id,ikandyName:id.name,game:'pinball',score,timeSec:Math.round(timeSec*1000)/1000,interactionCount:interactions,sessionId})}); }catch(_){}
   }
 
-  const W=280,H=520,BR=8,GRAV=0.25,SUB=3;
+  const W=280,H=520,BR=8,GRAV=0.32,SUB=3;
   const canvas=document.getElementById('game');
   const ctx=canvas.getContext('2d');
 
@@ -134,7 +134,7 @@ canvas { display: block; }
   function step(dt){
     ball.vy+=GRAV*dt; ball.x+=ball.vx*dt; ball.y+=ball.vy*dt;
     const spd=Math.hypot(ball.vx,ball.vy);
-    if(spd>20){ball.vx=ball.vx/spd*20;ball.vy=ball.vy/spd*20;}
+    if(spd>24){ball.vx=ball.vx/spd*24;ball.vy=ball.vy/spd*24;}
     WALLS.forEach(w=>resolveWall(w[0],w[1],w[2],w[3]));
     BUMPERS.forEach((b,i)=>{
       const dx=ball.x-b.x,dy=ball.y-b.y,d=Math.sqrt(dx*dx+dy*dy);
@@ -142,7 +142,7 @@ canvas { display: block; }
         const nx=dx/d,ny=dy/d;
         ball.x=b.x+nx*(BR+b.r+1); ball.y=b.y+ny*(BR+b.r+1);
         const sp=Math.max(7,Math.hypot(ball.vx,ball.vy));
-        ball.vx=nx*(sp+3); ball.vy=ny*(sp+3);
+        ball.vx=nx*(sp+5); ball.vy=ny*(sp+5);
         addPts(b.pts); blit[i]=15; interactions++;
       }
     });
@@ -258,3 +258,4 @@ canvas { display: block; }
 </script>
 </body>
 </html>
+
