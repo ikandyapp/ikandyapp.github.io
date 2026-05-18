@@ -97,6 +97,7 @@ input.txt:focus { outline: 1px dotted #000080; }
 .pill.pending  { background: #fff4d4; color: #806000; }
 .pill.approved { background: #d4ffd4; color: #006000; }
 .pill.rejected { background: #ffe4e4; color: #800000; }
+.note-cell { max-width: 200px; font-size: 10px; }
 .history-empty { padding: 16px; text-align: center; color: #808080; font-style: italic; }
 
 .daily-meter {
@@ -105,6 +106,42 @@ input.txt:focus { outline: 1px dotted #000080; }
   display: flex; justify-content: space-between; align-items: center;
 }
 .daily-meter strong { color: #c00080; }
+.user-stats {
+  background: linear-gradient(180deg, #000080 0%, #1084d0 100%);
+  color: #fff; padding: 10px 16px;
+}
+.stats-grid {
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;
+}
+.stat-item {
+  display: flex; flex-direction: column; gap: 2px;
+  text-align: center; padding: 4px 8px;
+  border: 1px solid rgba(255,255,255,0.3);
+  background: rgba(0,0,0,0.2);
+}
+.stat-label {
+  font-size: 9px; letter-spacing: 0.1em; opacity: 0.7;
+  font-family: 'Courier New', monospace;
+}
+.stat-value {
+  font-size: 16px; font-weight: bold; color: #ffff00;
+  font-family: 'Courier New', monospace;
+}
+.toast-notify {
+  background: #ffffe1; border: 1px solid #c08000;
+  color: #000; padding: 8px 12px; margin: 8px 22px 0;
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+}
+.toast-icon { font-size: 18px; color: #c08000; }
+.toast-text { flex: 1; line-height: 1.4; }
+.toast-text strong { color: #c00080; }
+.toast-close {
+  background: #c0c0c0; border: 1px solid; border-color: #fff #404040 #404040 #fff;
+  font-family: monospace; font-size: 11px; font-weight: bold;
+  padding: 2px 6px; cursor: pointer;
+}
 .handle-box {
   background: #fff; border: 1px inset #808080; padding: 8px 12px; margin: 10px 0 14px;
 }
@@ -124,6 +161,18 @@ input.txt:focus { outline: 1px dotted #000080; }
 </div>
 
 <div class="window">
+  <div class="user-stats" id="user-stats" style="display:none;">
+    <div class="stats-grid">
+      <div class="stat-item"><span class="stat-label">YOUR TOTAL</span><span class="stat-value" id="stat-total">0 pts</span></div>
+      <div class="stat-item"><span class="stat-label">RANK</span><span class="stat-value" id="stat-rank">&mdash;</span></div>
+      <div class="stat-item"><span class="stat-label">POSTS</span><span class="stat-value" id="stat-count">0</span></div>
+    </div>
+  </div>
+  <div class="toast-notify" id="toast-notify" style="display:none;">
+    <span class="toast-icon">&#9733;</span>
+    <span class="toast-text" id="toast-text"></span>
+    <button class="toast-close" id="toast-close">x</button>
+  </div>
   <div class="titlebar">
     <span class="titlebar-text"><span class="titlebar-icon"></span>Spread the Word</span>
   </div>
@@ -229,7 +278,7 @@ input.txt:focus { outline: 1px dotted #000080; }
     const url = SUPABASE_URL + '/rest/v1/arcade_mentions'
       + '?ikandy_id=eq.' + ikandyId
       + '&order=created_at.desc&limit=20'
-      + '&select=url_original,platform,points,status,created_at';
+      + '&select=url_original,platform,points,bonus_points,admin_note,status,created_at';
     try {
       const r = await fetch(url, {
         headers: { apikey: SUPABASE_ANON_KEY, Authorization: 'Bearer ' + SUPABASE_ANON_KEY }
@@ -248,14 +297,19 @@ input.txt:focus { outline: 1px dotted #000080; }
       $('#history-content').innerHTML = '<div class="history-empty">No submissions yet. Drop your first link above.</div>';
       return;
     }
-    const html = '<table class="history-table"><thead><tr><th>URL</th><th>Platform</th><th class="num">Points</th><th>Status</th><th>When</th></tr></thead><tbody>' +
-      rows.map(r =>
-        '<tr><td><a href="' + r.url_original.replace(/"/g, '&quot;') + '" target="_blank" rel="noopener">' + shortUrl(r.url_original) + '</a></td>' +
-        '<td>' + r.platform + '</td>' +
-        '<td class="num">' + r.points + '</td>' +
-        '<td>' + statusPill(r.status) + '</td>' +
-        '<td>' + fmtDate(r.created_at) + '</td></tr>'
-      ).join('') +
+    const html = '<table class="history-table"><thead><tr><th>URL</th><th>Platform</th><th class="num">Points</th><th class="num">Bonus</th><th>Status</th><th>Note</th><th>When</th></tr></thead><tbody>' +
+      rows.map(r => {
+        const bonus = r.bonus_points || 0;
+        const totalPts = r.points + bonus;
+        const note = r.admin_note ? r.admin_note.replace(/&/g, '&amp;').replace(/</g, '&lt;') : '';
+        return '<tr><td><a href="' + r.url_original.replace(/"/g, '&quot;') + '" target="_blank" rel="noopener">' + shortUrl(r.url_original) + '</a></td>' +
+          '<td>' + r.platform + '</td>' +
+          '<td class="num">' + totalPts + (bonus > 0 ? ' <span style="color:#c08000;font-size:9px;">(' + r.points + '+' + bonus + ')</span>' : '') + '</td>' +
+          '<td class="num">' + (bonus > 0 ? '<span style="color:#c08000;font-weight:bold;">+' + bonus + '</span>' : '&mdash;') + '</td>' +
+          '<td>' + statusPill(r.status) + '</td>' +
+          '<td class="note-cell" title="' + note.replace(/"/g, '&quot;') + '">' + (note ? '<span style="color:#000080;cursor:help;">&#9432; ' + (note.length > 24 ? note.slice(0, 22) + '...' : note) + '</span>' : '&mdash;') + '</td>' +
+          '<td>' + fmtDate(r.created_at) + '</td></tr>';
+      }).join('') +
       '</tbody></table>';
     $('#history-content').innerHTML = html;
   }
@@ -349,6 +403,69 @@ input.txt:focus { outline: 1px dotted #000080; }
     });
   }
 
+  // Calculate stats + check for new activity since last visit
+  const LAST_SEEN_KEY = 'spread_last_seen';
+  let lastSeen = parseInt(localStorage.getItem(LAST_SEEN_KEY) || '0', 10);
+
+  async function refreshStats() {
+    try {
+      const r = await fetch(SUPABASE_URL + '/rest/v1/arcade_mentions_leaderboard?ikandy_id=eq.' + ikandyId, {
+        headers: { apikey: SUPABASE_ANON_KEY, Authorization: 'Bearer ' + SUPABASE_ANON_KEY }
+      });
+      const [me] = await r.json();
+      if (me) {
+        document.getElementById('user-stats').style.display = 'block';
+        document.getElementById('stat-total').textContent = Number(me.total_points || 0).toLocaleString() + ' pts';
+        document.getElementById('stat-rank').textContent = '#' + me.rank;
+        document.getElementById('stat-count').textContent = me.mention_count;
+      }
+    } catch(e) { /* ignore */ }
+  }
+
+  async function checkNewActivity() {
+    try {
+      const r = await fetch(SUPABASE_URL + '/rest/v1/arcade_mentions'
+        + '?ikandy_id=eq.' + ikandyId
+        + '&order=created_at.desc&limit=50'
+        + '&select=bonus_points,admin_note,created_at', {
+        headers: { apikey: SUPABASE_ANON_KEY, Authorization: 'Bearer ' + SUPABASE_ANON_KEY }
+      });
+      const rows = await r.json();
+      if (!Array.isArray(rows) || !rows.length) return;
+
+      let bonusTotal = 0, hasNote = false;
+      for (const row of rows) {
+        // We approximate "new" by checking notes/bonuses on rows; a real implementation
+        // would track per-row review timestamps, but bonus presence + last-seen is good enough
+        if (row.bonus_points > 0) bonusTotal += row.bonus_points;
+        if (row.admin_note) hasNote = true;
+      }
+
+      const lastBonus = parseInt(localStorage.getItem('spread_last_bonus_total') || '0', 10);
+      const lastNoteState = localStorage.getItem('spread_last_note_state') || 'false';
+
+      if (bonusTotal > lastBonus || (hasNote && lastNoteState === 'false')) {
+        const delta = bonusTotal - lastBonus;
+        const parts = [];
+        if (delta > 0) parts.push('You earned <strong>+' + delta + ' bonus points</strong>');
+        if (hasNote && lastNoteState === 'false') parts.push('an admin note was added to one of your posts');
+        const msg = 'Since your last visit: ' + parts.join(' and ') + '. Check the table below.';
+        document.getElementById('toast-text').innerHTML = msg;
+        document.getElementById('toast-notify').style.display = 'flex';
+      }
+
+      localStorage.setItem('spread_last_bonus_total', String(bonusTotal));
+      localStorage.setItem('spread_last_note_state', String(hasNote));
+    } catch(e) { /* ignore */ }
+    localStorage.setItem(LAST_SEEN_KEY, String(Date.now()));
+  }
+
+  document.getElementById('toast-close').addEventListener('click', function() {
+    document.getElementById('toast-notify').style.display = 'none';
+  });
+
+  refreshStats();
+  checkNewActivity();
   loadHistory();
 })();
 </script>
