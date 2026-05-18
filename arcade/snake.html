@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -19,6 +19,19 @@ canvas { border: 2px solid #0f0; box-shadow: 0 0 24px #0f04; }
 .overlay p { color: #090; font-size: 12px; letter-spacing: .1em; }
 .overlay button { background: #000; color: #0f0; border: 1px solid #0f0; font-family: "Courier New", monospace; font-size: 14px; padding: 10px 28px; cursor: pointer; letter-spacing: .15em; margin-top: 8px; }
 .overlay button:hover { background: #0f0; color: #000; }
+
+/* === Unified arcade opening overlay === */
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,.94); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; padding: 24px; z-index: 100; }
+.overlay.hidden { display: none; }
+.overlay h1 { color: #0f0; font-size: 44px; letter-spacing: .3em; text-shadow: 0 0 18px rgba(0,255,0,.5); margin: 0; font-family: "Courier New", monospace; }
+.overlay p { color: #888; font-size: 12px; letter-spacing: .15em; text-transform: uppercase; margin: 0; max-width: 560px; text-align: center; line-height: 1.6; font-family: "Courier New", monospace; }
+.overlay button { background: #000; color: #0f0; border: 1px solid #0f0; font-family: "Courier New", monospace; font-size: 14px; padding: 12px 36px; cursor: pointer; letter-spacing: .3em; margin-top: 10px; }
+.overlay button:hover { background: #0f0; color: #000; }
+
+/* Back button + row layout */
+.overlay .btn-row { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 10px; }
+.overlay button.secondary { color: #888; border-color: #555; }
+.overlay button.secondary:hover { background: #555; color: #fff; }
 </style>
 </head>
 <body>
@@ -35,12 +48,12 @@ canvas { border: 2px solid #0f0; box-shadow: 0 0 24px #0f04; }
   <h1>SNAKE</h1>
   <p>ARROW KEYS OR WASD TO STEER</p>
   <p>SPEEDS UP EVERY 3 PELLETS &middot; NO MERCY</p>
-  <button id="btn-start">START GAME</button>
+  <button id="btn-start">[ PRESS START ]</button>
 </div>
 <div class="overlay hidden" id="over-overlay">
   <h1>GAME OVER</h1>
   <p>SCORE: <strong id="final-score">0</strong></p>
-  <button id="btn-retry">PLAY AGAIN</button>
+  <div class="btn-row"><button id="btn-retry">[ PLAY AGAIN ]</button><button id="btn-back" class="secondary">[ BACK TO ARCADE ]</button></div>
 </div>
 <script>
 (() => {
@@ -144,6 +157,7 @@ canvas { border: 2px solid #0f0; box-shadow: 0 0 24px #0f04; }
 
   document.getElementById('btn-start').addEventListener('click', startGame);
   document.getElementById('btn-retry').addEventListener('click', startGame);
+  document.getElementById('btn-back').addEventListener('click', function() { location.href = 'index.html'; });
   ctx.fillStyle = '#000'; ctx.fillRect(0, 0, 400, 400);
 })();
 </script>
