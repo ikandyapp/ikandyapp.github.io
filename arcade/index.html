@@ -18,7 +18,6 @@ html, body {
   color: #000;
 }
 
-/* Classic Win98 chunky white arrow cursor */
 html, body, .desktop, .window, .icon, .start-btn, .taskbar-btn {
   cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><polygon points='1,1 1,21 6.5,15.5 9.5,22 13,20.5 10,14 17,14' fill='white' stroke='black' stroke-width='1.2' stroke-linejoin='miter' stroke-linecap='butt'/></svg>") 1 1, default;
 }
@@ -26,112 +25,50 @@ html, body, .desktop, .window, .icon, .start-btn, .taskbar-btn {
   cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><path d='M9,3 L9,18 L13,18 L13,21 L11,21 L11,28 L17,28 L17,21 L15,21 L15,18 L19,18 L19,12 L23,12 L23,8 L19,8 L19,3 L15,3 L15,8 L11,8 L11,3 Z' fill='white' stroke='black' stroke-width='1.2'/></svg>") 14 3, pointer;
 }
 
-/* -- BOOT SCREEN (BIOS) ----------------------------------------------- */
+/* Boot screen */
 .boot {
-  position: fixed;
-  inset: 0;
-  background: #000;
-  color: #c0c0c0;
+  position: fixed; inset: 0; background: #000; color: #c0c0c0;
   font-family: 'VT323', 'Courier New', monospace;
-  font-size: 22px;
-  line-height: 1.4;
-  padding: 24px 32px;
-  z-index: 10000;
-  overflow: hidden;
-  white-space: pre;
+  font-size: 22px; line-height: 1.4; padding: 24px 32px;
+  z-index: 10000; overflow: hidden; white-space: pre;
 }
 .boot.hide { display: none; }
 .boot-line { opacity: 0; }
 .boot-line.show { opacity: 1; }
 .boot-cursor {
-  display: inline-block;
-  width: 12px;
-  height: 18px;
-  background: #c0c0c0;
-  vertical-align: text-bottom;
-  animation: blink 1s steps(2) infinite;
+  display: inline-block; width: 12px; height: 18px; background: #c0c0c0;
+  vertical-align: text-bottom; animation: blink 1s steps(2) infinite;
 }
 @keyframes blink { 50% { opacity: 0; } }
 
-/* -- LOGIN TERMINAL --------------------------------------------------- */
+/* Login terminal */
 .login {
-  position: fixed;
-  inset: 0;
-  background: #000;
-  color: #c0c0c0;
+  position: fixed; inset: 0; background: #000; color: #c0c0c0;
   font-family: 'VT323', 'Courier New', monospace;
-  padding: 24px 32px;
-  z-index: 9000;
-  display: none;
+  padding: 24px 32px; z-index: 9000; display: none;
 }
 .login.show { display: block; }
-
-.login-banner {
-  font-size: 20px;
-  color: #c0c0c0;
-  margin-bottom: 28px;
-  white-space: pre;
-  line-height: 1.2;
-}
-.login-banner-title {
-  color: #ffffff;
-  font-size: 28px;
-  letter-spacing: 0.04em;
-  margin-bottom: 8px;
-}
+.login-banner { font-size: 20px; color: #c0c0c0; margin-bottom: 28px; white-space: pre; line-height: 1.2; }
+.login-banner-title { color: #ffffff; font-size: 28px; letter-spacing: 0.04em; margin-bottom: 8px; }
 .login-banner-sub { color: #808080; font-size: 18px; }
-
-.login-prompt {
-  font-size: 22px;
-  margin-top: 24px;
-  margin-bottom: 8px;
-}
-.login-prompt-label {
-  color: #5bc8f5;
-  margin-right: 6px;
-}
+.login-prompt { font-size: 22px; margin-top: 24px; margin-bottom: 8px; }
+.login-prompt-label { color: #5bc8f5; margin-right: 6px; }
 .login-input {
-  background: #000;
-  border: 1px solid #c0c0c0;
-  color: #ffffff;
-  font-family: 'VT323', 'Courier New', monospace;
-  font-size: 22px;
-  padding: 6px 10px;
-  width: 100%;
-  max-width: 520px;
-  outline: none;
+  background: #000; border: 1px solid #c0c0c0; color: #ffffff;
+  font-family: 'VT323', 'Courier New', monospace; font-size: 22px;
+  padding: 6px 10px; width: 100%; max-width: 520px; outline: none;
 }
 .login-input:focus { border-color: #5bc8f5; }
-.login-hint {
-  font-size: 18px;
-  color: #808080;
-  margin-top: 12px;
-  max-width: 720px;
-  line-height: 1.5;
-}
+.login-hint { font-size: 18px; color: #808080; margin-top: 12px; max-width: 720px; line-height: 1.5; }
 .login-hint a { color: #5bc8f5; text-decoration: underline; }
-.login-error {
-  font-size: 20px;
-  color: #ff5050;
-  margin-top: 16px;
-  min-height: 24px;
-}
-.login-actions {
-  margin-top: 20px;
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
+.login-error { font-size: 20px; color: #ff5050; margin-top: 16px; min-height: 24px; }
+.login-actions { margin-top: 20px; display: flex; gap: 12px; flex-wrap: wrap; }
 .login-btn {
-  font-family: 'VT323', 'Courier New', monospace;
-  font-size: 20px;
-  background: #c0c0c0;
-  color: #000;
-  border: 2px solid;
-  border-color: #ffffff #404040 #404040 #ffffff;
+  font-family: 'VT323', 'Courier New', monospace; font-size: 20px;
+  background: #c0c0c0; color: #000;
+  border: 2px solid; border-color: #ffffff #404040 #404040 #ffffff;
   box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf;
   padding: 6px 18px;
-  cursor: pointer;
 }
 .login-btn:active {
   border-color: #404040 #ffffff #ffffff #404040;
@@ -139,21 +76,14 @@ html, body, .desktop, .window, .icon, .start-btn, .taskbar-btn {
 }
 .login-btn.ghost { background: transparent; color: #c0c0c0; border-color: #c0c0c0 #404040 #404040 #c0c0c0; box-shadow: none; }
 
-/* -- DESKTOP ---------------------------------------------------------- */
+/* Desktop */
 .desktop {
-  position: fixed;
-  inset: 0;
-  background: #008080;
-  display: none;
-  overflow: hidden;
+  position: fixed; inset: 0; background: #008080;
+  display: none; overflow: hidden;
 }
 .desktop.show { display: block; }
-
-/* Classic Win98 desktop pattern (subtle dot grid) */
 .desktop::before {
-  content: '';
-  position: absolute;
-  inset: 0;
+  content: ''; position: absolute; inset: 0;
   background-image:
     radial-gradient(circle at 1px 1px, rgba(0,0,0,.15) 1px, transparent 0),
     radial-gradient(circle at 1px 1px, rgba(255,255,255,.06) 1px, transparent 0);
@@ -162,131 +92,75 @@ html, body, .desktop, .window, .icon, .start-btn, .taskbar-btn {
   pointer-events: none;
 }
 
-/* Desktop icons */
 .icon-grid {
-  position: absolute;
-  top: 16px;
-  left: 16px;
-  display: grid;
-  grid-template-columns: 88px;
-  gap: 14px;
+  position: absolute; top: 16px; left: 16px;
+  display: grid; grid-template-columns: 88px; gap: 14px;
 }
 .icon {
-  width: 88px;
-  padding: 6px 4px 4px;
-  text-align: center;
-  color: white;
-  font-size: 11px;
+  width: 88px; padding: 6px 4px 4px; text-align: center;
+  color: white; font-size: 11px;
   font-family: 'MS Sans Serif', Tahoma, sans-serif;
   text-shadow: 1px 1px 0 #000, 1px 1px 1px #000;
-  border: 1px dotted transparent;
+  border: 1px dotted transparent; background: transparent;
 }
-.icon.locked .icon-img,
-.icon.locked .icon-label {
-  filter: grayscale(1) brightness(0.6);
-}
-.icon:focus, .icon:active {
-  border-color: rgba(255,255,255,.5);
-  background: rgba(0,0,128,.35);
-}
+.icon.locked .icon-img, .icon.locked .icon-label { filter: grayscale(1) brightness(0.6); }
+.icon:focus, .icon:active { border-color: rgba(255,255,255,.5); background: rgba(0,0,128,.35); }
 .icon-img {
-  width: 36px;
-  height: 36px;
-  margin: 0 auto 4px;
+  width: 36px; height: 36px; margin: 0 auto 4px;
   background: #c0c0c0;
-  border: 2px solid;
-  border-color: #ffffff #404040 #404040 #ffffff;
+  border: 2px solid; border-color: #ffffff #404040 #404040 #ffffff;
   box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  image-rendering: pixelated;
-  position: relative;
-  overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  image-rendering: pixelated; position: relative; overflow: hidden;
 }
-.icon-glyph {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 11px;
-  color: #000080;
-  letter-spacing: 0;
-  line-height: 1;
-}
-.icon-label {
-  display: block;
-  padding: 1px 3px;
-  word-wrap: break-word;
-  line-height: 1.25;
-}
+.icon-glyph { font-family: 'Press Start 2P', monospace; font-size: 11px; color: #000080; letter-spacing: 0; line-height: 1; }
+.icon-label { display: block; padding: 1px 3px; word-wrap: break-word; line-height: 1.25; }
 
-/* Icon glyph variants - chunky pixel-like art via CSS */
 .glyph-ski   { background: linear-gradient(180deg, #c0c0c0 0%, #c0c0c0 60%, #ffffff 60%, #ffffff 100%); }
 .glyph-ski::after { content: '&#127935;'; font-size: 22px; filter: grayscale(0.3); }
-
 .glyph-snake { background: #002800; }
 .glyph-snake::after { content: ''; width: 24px; height: 6px; background: #00ff00; box-shadow: 8px 6px 0 #00ff00, 14px 6px 0 #00ff00, 14px 12px 0 #ff0000; }
-
 .glyph-pong  { background: #000; display: flex; align-items: center; justify-content: space-between; padding: 4px; }
 .glyph-pong::before { content: ''; width: 4px; height: 16px; background: #fff; box-shadow: 26px 8px 0 -8px #fff; }
 .glyph-pong::after  { content: ''; width: 4px; height: 4px; background: #fff; align-self: center; }
-
 .glyph-brick { background: #000080; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; padding: 3px; }
-.glyph-brick > i {
-  display: block;
-  background: #ff0000;
-}
+.glyph-brick > i { display: block; background: #ff0000; }
 .glyph-brick > i:nth-child(2) { background: #ffaa00; }
 .glyph-brick > i:nth-child(3) { background: #ffff00; }
 .glyph-brick > i:nth-child(4) { background: #00ff00; }
 .glyph-brick > i:nth-child(5) { background: #00aaff; }
 .glyph-brick > i:nth-child(6) { background: #aa00ff; }
-
 .glyph-ikamp { background: #1d1d1d; display: flex; align-items: flex-end; justify-content: center; padding: 2px; gap: 1px; }
 .glyph-ikamp > i { display: block; width: 3px; background: #00ff00; }
-
 .glyph-score { background: #c0c0c0; font-family: 'Press Start 2P', monospace; font-size: 8px; color: #000; padding-top: 6px; }
-.glyph-score::after { content: '#1\\A 100K'; white-space: pre; font-size: 7px; line-height: 1.2; }
-
+.glyph-score::after { content: '#1\A 100K'; white-space: pre; font-size: 7px; line-height: 1.2; }
 .glyph-logout { background: #c0c0c0; }
 .glyph-logout::after { content: '&#8617;'; font-size: 22px; color: #c00; font-weight: bold; }
 
-/* -- TASKBAR ---------------------------------------------------------- */
+/* Taskbar */
 .taskbar {
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
-  height: 28px;
+  position: absolute; left: 0; right: 0; bottom: 0; height: 28px;
   background: #c0c0c0;
-  border-top: 2px solid;
-  border-color: #ffffff #404040 #404040 #ffffff;
+  border-top: 2px solid; border-color: #ffffff #404040 #404040 #ffffff;
   box-shadow: inset 0 1px 0 #dfdfdf;
-  display: flex;
-  align-items: center;
-  padding: 2px;
-  gap: 4px;
+  display: flex; align-items: center; padding: 2px; gap: 4px;
   z-index: 500;
 }
 .start-btn {
-  display: flex;
-  align-items: center;
-  gap: 4px;
+  display: flex; align-items: center; gap: 4px;
   padding: 2px 6px 2px 4px;
-  border: 2px solid;
-  border-color: #ffffff #404040 #404040 #ffffff;
+  border: 2px solid; border-color: #ffffff #404040 #404040 #ffffff;
   box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf;
   background: #c0c0c0;
   font-family: 'MS Sans Serif', Tahoma, sans-serif;
-  font-size: 12px;
-  font-weight: bold;
-  color: #000;
-  height: 22px;
+  font-size: 12px; font-weight: bold; color: #000; height: 22px;
 }
-.start-btn:active,
-.start-btn.open {
+.start-btn:active, .start-btn.open {
   border-color: #404040 #ffffff #ffffff #404040;
   box-shadow: inset 1px 1px 0 #808080, inset -1px -1px 0 #dfdfdf;
 }
 .start-btn-logo {
-  width: 16px; height: 16px;
-  display: inline-block;
+  width: 16px; height: 16px; display: inline-block;
   background:
     linear-gradient(135deg, #d4a843 0%, #d4a843 50%, transparent 50%) top left / 8px 8px no-repeat,
     linear-gradient(135deg, #ff2d8a 0%, #ff2d8a 50%, transparent 50%) top right / 8px 8px no-repeat,
@@ -295,119 +169,84 @@ html, body, .desktop, .window, .icon, .start-btn, .taskbar-btn {
     #000;
 }
 
-.taskbar-spacer { flex: 1; }
+.taskbar-windows {
+  display: flex; gap: 2px; flex: 1; padding-left: 6px;
+}
+.taskbar-task {
+  display: flex; align-items: center; gap: 4px;
+  height: 22px; padding: 0 8px;
+  background: #c0c0c0;
+  border: 1px solid; border-color: #ffffff #404040 #404040 #ffffff;
+  box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf;
+  font-family: 'MS Sans Serif', Tahoma, sans-serif;
+  font-size: 11px; max-width: 180px; overflow: hidden;
+  text-overflow: ellipsis; white-space: nowrap;
+}
+.taskbar-task.active {
+  border-color: #404040 #ffffff #ffffff #404040;
+  box-shadow: inset 1px 1px 0 #808080, inset -1px -1px 0 #dfdfdf;
+  background: #909090;
+}
+.taskbar-task .task-icon { font-size: 11px; }
 
 .taskbar-tray {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 0 8px;
-  height: 22px;
-  border: 1px solid;
-  border-color: #404040 #ffffff #ffffff #404040;
+  display: flex; align-items: center; gap: 6px;
+  padding: 0 8px; height: 22px;
+  border: 1px solid; border-color: #404040 #ffffff #ffffff #404040;
   box-shadow: inset 1px 1px 0 #808080;
   font-family: 'MS Sans Serif', Tahoma, sans-serif;
-  font-size: 11px;
-  background: #c0c0c0;
+  font-size: 11px; background: #c0c0c0;
 }
-.tray-user {
-  color: #000080;
-  font-weight: bold;
-  max-width: 220px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
+.tray-user { color: #000080; font-weight: bold; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tray-music { font-size: 11px; line-height: 1; }
+.tray-music.playing { color: #1db954; animation: bump 0.6s ease infinite alternate; }
+@keyframes bump { from { transform: scale(1); } to { transform: scale(1.15); } }
 .tray-clock { color: #000; min-width: 56px; text-align: right; }
 
-/* -- START MENU ------------------------------------------------------- */
+/* Start menu */
 .start-menu {
-  position: absolute;
-  left: 2px;
-  bottom: 30px;
-  width: 220px;
+  position: absolute; left: 2px; bottom: 30px; width: 220px;
   background: #c0c0c0;
-  border: 2px solid;
-  border-color: #ffffff #404040 #404040 #ffffff;
+  border: 2px solid; border-color: #ffffff #404040 #404040 #ffffff;
   box-shadow: 1px 1px 0 #000, inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf;
-  display: none;
-  z-index: 600;
+  display: none; z-index: 600;
   font-family: 'MS Sans Serif', Tahoma, sans-serif;
 }
 .start-menu.show { display: flex; }
 .start-menu-side {
   width: 24px;
   background: linear-gradient(180deg, #000080 0%, #4040a0 100%);
-  color: #c0c0c0;
-  font-weight: bold;
-  font-size: 16px;
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-  padding: 8px 4px;
-  letter-spacing: 0.1em;
-  text-align: left;
-  font-family: 'MS Sans Serif', Tahoma, sans-serif;
+  color: #c0c0c0; font-weight: bold; font-size: 16px;
+  writing-mode: vertical-rl; transform: rotate(180deg);
+  padding: 8px 4px; letter-spacing: 0.1em; text-align: left;
 }
 .start-menu-side b { color: #fff; }
-.start-menu-items {
-  flex: 1;
-  padding: 2px;
-}
-.start-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 4px 8px;
-  font-size: 12px;
-  color: #000;
-}
-.start-item:hover {
-  background: #000080;
-  color: #ffffff;
-}
+.start-menu-items { flex: 1; padding: 2px; }
+.start-item { display: flex; align-items: center; gap: 8px; padding: 4px 8px; font-size: 12px; color: #000; }
+.start-item:hover { background: #000080; color: #ffffff; }
 .start-item-icon { font-size: 14px; width: 16px; text-align: center; }
-.start-divider {
-  height: 1px;
-  background: #808080;
-  border-bottom: 1px solid #ffffff;
-  margin: 4px 2px;
-}
+.start-divider { height: 1px; background: #808080; border-bottom: 1px solid #ffffff; margin: 4px 2px; }
 
-/* -- WELCOME WINDOW (first reveal) ------------------------------------ */
+/* Welcome window */
 .welcome-window {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
   width: min(420px, 90vw);
   background: #c0c0c0;
-  border: 2px solid;
-  border-color: #ffffff #404040 #404040 #ffffff;
-  box-shadow:
-    2px 2px 0 #000000,
-    inset -1px -1px 0 #808080,
-    inset 1px 1px 0 #dfdfdf;
-  z-index: 400;
-  display: none;
+  border: 2px solid; border-color: #ffffff #404040 #404040 #ffffff;
+  box-shadow: 2px 2px 0 #000000, inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf;
+  z-index: 400; display: none;
 }
 .welcome-window.show { display: block; }
-
 .titlebar {
   background: linear-gradient(90deg, #000080 0%, #1084d0 100%);
-  color: white;
-  padding: 3px 4px 3px 6px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-weight: bold;
-  font-size: 11px;
-  height: 20px;
+  color: white; padding: 3px 4px 3px 6px;
+  display: flex; align-items: center; justify-content: space-between;
+  font-weight: bold; font-size: 11px; height: 20px;
   font-family: 'MS Sans Serif', Tahoma, sans-serif;
 }
 .titlebar-text { display: flex; align-items: center; gap: 6px; }
 .titlebar-icon {
-  width: 14px; height: 14px;
-  display: inline-block;
+  width: 14px; height: 14px; display: inline-block;
   background:
     linear-gradient(135deg, #d4a843 0%, #d4a843 50%, transparent 50%) top left / 7px 7px no-repeat,
     linear-gradient(135deg, #ff2d8a 0%, #ff2d8a 50%, transparent 50%) top right / 7px 7px no-repeat,
@@ -417,62 +256,35 @@ html, body, .desktop, .window, .icon, .start-btn, .taskbar-btn {
 }
 .titlebar-controls { display: flex; gap: 2px; }
 .titlebar-btn {
-  width: 16px; height: 14px;
-  background: #c0c0c0;
-  color: #000;
-  border: 1px solid;
-  border-color: #ffffff #404040 #404040 #ffffff;
+  width: 16px; height: 14px; background: #c0c0c0; color: #000;
+  border: 1px solid; border-color: #ffffff #404040 #404040 #ffffff;
   box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf;
   font-family: 'Marlett', 'MS Sans Serif', monospace;
-  font-size: 9px;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-  padding: 0;
+  font-size: 9px; font-weight: bold;
+  display: flex; align-items: center; justify-content: center;
+  line-height: 1; padding: 0;
 }
-
 .window-body {
   padding: 18px 20px 14px;
   font-family: 'MS Sans Serif', Tahoma, sans-serif;
-  font-size: 12px;
-  color: #000;
-  line-height: 1.5;
+  font-size: 12px; color: #000; line-height: 1.5;
 }
-.welcome-greeting {
-  font-size: 14px;
-  font-weight: bold;
-  margin-bottom: 12px;
-  color: #000080;
-}
+.welcome-greeting { font-size: 14px; font-weight: bold; margin-bottom: 12px; color: #000080; }
 .welcome-name {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 11px;
-  color: #c00080;
-  background: #ffffff;
-  border: 1px solid #808080;
-  padding: 6px 8px;
-  margin: 8px 0 14px;
-  word-break: break-word;
-  line-height: 1.4;
+  font-family: 'Press Start 2P', monospace; font-size: 11px; color: #c00080;
+  background: #ffffff; border: 1px solid #808080;
+  padding: 6px 8px; margin: 8px 0 14px;
+  word-break: break-word; line-height: 1.4;
 }
 .window-buttons {
-  display: flex;
-  justify-content: flex-end;
-  gap: 6px;
-  padding: 8px 12px 12px;
-  background: #c0c0c0;
+  display: flex; justify-content: flex-end; gap: 6px;
+  padding: 8px 12px 12px; background: #c0c0c0;
 }
 .win-btn {
   font-family: 'MS Sans Serif', Tahoma, sans-serif;
-  font-size: 12px;
-  padding: 4px 16px;
-  min-width: 70px;
-  background: #c0c0c0;
-  color: #000;
-  border: 2px solid;
-  border-color: #ffffff #404040 #404040 #ffffff;
+  font-size: 12px; padding: 4px 16px; min-width: 70px;
+  background: #c0c0c0; color: #000;
+  border: 2px solid; border-color: #ffffff #404040 #404040 #ffffff;
   box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf;
 }
 .win-btn:active {
@@ -481,17 +293,24 @@ html, body, .desktop, .window, .icon, .start-btn, .taskbar-btn {
 }
 .win-btn.default { border-color: #000; outline: 1px dotted #000; outline-offset: -4px; }
 
+/* Webamp / IKAMP overrides - force Win98 title chrome to match desktop */
+#ikamp-mount {
+  position: absolute; z-index: 350;
+}
+/* Webamp draws its own classic skin - we only constrain placement */
+
 @media (max-width: 600px) {
   .boot, .login { padding: 16px 18px; font-size: 18px; }
   .login-banner-title { font-size: 22px; }
   .icon-grid { grid-template-columns: 80px; gap: 10px; }
   .icon { width: 80px; }
+  .taskbar-windows .taskbar-task { max-width: 100px; }
 }
 </style>
 </head>
 <body>
 
-<!-- ------------ BOOT SCREEN ------------ -->
+<!-- BOOT -->
 <div class="boot" id="boot">
 <div class="boot-line" id="boot-1">IKANDY BIOS v1.0.18  Copyright (C) 2026 L&amp;R Entertainment LLC</div>
 <div class="boot-line" id="boot-2">Pentium-class CPU detected at 3.40 GHz</div>
@@ -505,25 +324,19 @@ html, body, .desktop, .window, .icon, .start-btn, .taskbar-btn {
 <div class="boot-line" id="boot-10">Starting IKANDY OS<span class="boot-cursor"></span></div>
 </div>
 
-<!-- ------------ LOGIN TERMINAL ------------ -->
+<!-- LOGIN -->
 <div class="login" id="login">
   <div class="login-banner">
 <div class="login-banner-title">IKANDY OS</div>
 <div class="login-banner-sub">Identity required to access the arcade.</div>
   </div>
-
   <form id="login-form" autocomplete="off" onsubmit="return false;">
     <div class="login-prompt">
       <span class="login-prompt-label">&gt; Enter your IKANDY ID:</span>
     </div>
-    <input
-      type="text"
-      class="login-input"
-      id="login-input"
+    <input type="text" class="login-input" id="login-input"
       placeholder="xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
-      spellcheck="false"
-      autocapitalize="off"
-      autocorrect="off">
+      spellcheck="false" autocapitalize="off" autocorrect="off">
     <div class="login-error" id="login-error"></div>
     <div class="login-actions">
       <button type="submit" class="login-btn" id="login-submit">[ ENTER ]</button>
@@ -537,32 +350,31 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
   </form>
 </div>
 
-<!-- ------------ DESKTOP ------------ -->
+<!-- DESKTOP -->
 <div class="desktop" id="desktop">
 
-  <!-- icons -->
   <div class="icon-grid">
     <button class="icon" data-action="open-skifree">
       <span class="icon-img"><span class="icon-glyph glyph-ski"></span></span>
       <span class="icon-label">SkiFree</span>
     </button>
-    <button class="icon locked" data-locked="Snake is coming soon. Check back after we ship the next update.">
+    <button class="icon locked" data-locked="Snake is coming soon.">
       <span class="icon-img"><span class="icon-glyph glyph-snake"></span></span>
       <span class="icon-label">Snake<br>(soon)</span>
     </button>
-    <button class="icon locked" data-locked="Pong is coming soon. Check back after we ship the next update.">
+    <button class="icon locked" data-locked="Pong is coming soon.">
       <span class="icon-img"><span class="icon-glyph glyph-pong"></span></span>
       <span class="icon-label">Pong<br>(soon)</span>
     </button>
-    <button class="icon locked" data-locked="Breakout is coming soon. Check back after we ship the next update.">
+    <button class="icon locked" data-locked="Breakout is coming soon.">
       <span class="icon-img"><span class="icon-glyph glyph-brick"><i></i><i></i><i></i><i></i><i></i><i></i></span></span>
       <span class="icon-label">Breakout<br>(soon)</span>
     </button>
-    <button class="icon locked" data-locked="IKAMP music player is coming soon.">
+    <button class="icon" data-action="open-ikamp">
       <span class="icon-img"><span class="icon-glyph glyph-ikamp"><i style="height:60%"></i><i style="height:90%"></i><i style="height:40%"></i><i style="height:80%"></i><i style="height:55%"></i></span></span>
-      <span class="icon-label">IKAMP<br>(soon)</span>
+      <span class="icon-label">IKAMP</span>
     </button>
-    <button class="icon locked" data-locked="High Scores window is coming soon. SkiFree will write to it once it ships.">
+    <button class="icon locked" data-locked="High Scores window is coming soon.">
       <span class="icon-img"><span class="icon-glyph glyph-score"></span></span>
       <span class="icon-label">High Scores</span>
     </button>
@@ -572,13 +384,10 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
     </button>
   </div>
 
-  <!-- welcome window -->
+  <!-- Welcome window -->
   <div class="welcome-window" id="welcome-window">
     <div class="titlebar">
-      <span class="titlebar-text">
-        <span class="titlebar-icon"></span>
-        Welcome to IKANDY OS
-      </span>
+      <span class="titlebar-text"><span class="titlebar-icon"></span>Welcome to IKANDY OS</span>
       <span class="titlebar-controls">
         <button class="titlebar-btn" data-action="close-welcome" title="Close">x</button>
       </span>
@@ -589,7 +398,8 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
       <div class="welcome-name" id="welcome-name">&mdash;</div>
       <div>
         Double-click an icon to launch a game. Your IKANDY ID is hidden &mdash; treat it as a password.
-        Scores you submit will be attributed to your display name.
+        <br><br>
+        <strong>IKAMP</strong> is your music player. Click the icon to open it, then hit play to fill the arcade with sound.
       </div>
     </div>
     <div class="window-buttons">
@@ -597,11 +407,12 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
     </div>
   </div>
 
-  <!-- start menu -->
+  <!-- Start menu -->
   <div class="start-menu" id="start-menu">
     <div class="start-menu-side">IKANDY<b> OS</b></div>
     <div class="start-menu-items">
       <div class="start-item" data-action="open-skifree"><span class="start-item-icon">&#127935;</span>SkiFree</div>
+      <div class="start-item" data-action="open-ikamp"><span class="start-item-icon">&#127911;</span>IKAMP Player</div>
       <div class="start-divider"></div>
       <div class="start-item" data-action="back-home"><span class="start-item-icon">&#127968;</span>Back to ikandy.app</div>
       <div class="start-item" data-action="get-ikandy"><span class="start-item-icon">&#8675;</span>Download IKANDY</div>
@@ -610,15 +421,20 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
     </div>
   </div>
 
-  <!-- taskbar -->
+  <!-- IKAMP mount point - Webamp injects into this -->
+  <div id="ikamp-mount"></div>
+
+  <!-- Taskbar -->
   <div class="taskbar">
     <button class="start-btn" id="start-btn">
       <span class="start-btn-logo"></span>
       <span>Start</span>
     </button>
-    <div class="taskbar-spacer"></div>
+    <div class="taskbar-windows" id="taskbar-windows"></div>
     <div class="taskbar-tray">
       <span class="tray-user" id="tray-user">&mdash;</span>
+      <span style="color:#808080;">|</span>
+      <span class="tray-music" id="tray-music" title="IKAMP">&#9836;</span>
       <span style="color:#808080;">|</span>
       <span class="tray-clock" id="tray-clock">--:-- --</span>
     </div>
@@ -629,68 +445,55 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
 (() => {
   'use strict';
 
-  // -- State ----------------------------------------------------------
+  // -- State / helpers ------------------------------------------------
   const LS_KEY_NAME = 'ikandy_arcade_name';
-  const LS_KEY_ID   = 'ikandy_arcade_id_v1'; // never displayed; treated as secret
+  const LS_KEY_ID   = 'ikandy_arcade_id_v1';
   const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
-  // -- Helpers --------------------------------------------------------
-  function $(sel) { return document.querySelector(sel); }
-  function $$(sel) { return [...document.querySelectorAll(sel)]; }
+  function $(s) { return document.querySelector(s); }
+  function $$(s) { return [...document.querySelectorAll(s)]; }
 
   function readParams() {
     const p = new URLSearchParams(location.search);
-    return {
-      id:   (p.get('id') || '').trim(),
-      name: (p.get('name') || '').trim()
-    };
+    return { id: (p.get('id') || '').trim(), name: (p.get('name') || '').trim() };
   }
-
-  function isValidId(id) {
-    return typeof id === 'string' && UUID_REGEX.test(id);
-  }
-
+  function isValidId(id) { return typeof id === 'string' && UUID_REGEX.test(id); }
   function saveIdentity(id, name) {
     try {
       localStorage.setItem(LS_KEY_ID, id);
       localStorage.setItem(LS_KEY_NAME, name || 'Guest');
-    } catch (e) { /* private mode */ }
-  }
-
-  function loadIdentity() {
-    try {
-      return {
-        id:   localStorage.getItem(LS_KEY_ID)   || '',
-        name: localStorage.getItem(LS_KEY_NAME) || ''
-      };
-    } catch (e) { return { id: '', name: '' }; }
-  }
-
-  function clearIdentity() {
-    try {
-      localStorage.removeItem(LS_KEY_ID);
-      localStorage.removeItem(LS_KEY_NAME);
     } catch (e) {}
   }
+  function loadIdentity() {
+    try {
+      return { id: localStorage.getItem(LS_KEY_ID) || '', name: localStorage.getItem(LS_KEY_NAME) || '' };
+    } catch (e) { return { id: '', name: '' }; }
+  }
+  function clearIdentity() {
+    try { localStorage.removeItem(LS_KEY_ID); localStorage.removeItem(LS_KEY_NAME); } catch (e) {}
+  }
+
+  // -- IKAMP music tracks ---------------------------------------------
+  const TRACKS = [
+    { url: 'music/01-synthwave-drive.mp3',     metaData: { artist: 'monume',         title: 'Synthwave Drive'     } },
+    { url: 'music/02-synthwave-cruise.mp3',    metaData: { artist: 'monume',         title: 'Synthwave Cruise'    } },
+    { url: 'music/03-neon-pulse.mp3',          metaData: { artist: 'ronaldoreyz',    title: 'Neon Pulse'          } },
+    { url: 'music/04-midnight-synthwave.mp3',  metaData: { artist: 'the_mountain',   title: 'Midnight Synthwave'  } },
+    { url: 'music/05-deep-synthwave.mp3',      metaData: { artist: 'the_mountain',   title: 'Deep Synthwave'      } }
+  ];
 
   // -- Boot sequence --------------------------------------------------
   function runBoot() {
     return new Promise(resolve => {
       const lines = [
-        { id: 'boot-1',  delay: 300  },
-        { id: 'boot-2',  delay: 200  },
-        { id: 'boot-3',  delay: 200  },
-        { id: 'boot-4',  delay: 100  },
-        { id: 'boot-5',  delay: 280  },
-        { id: 'boot-6',  delay: 240  },
-        { id: 'boot-7',  delay: 260  },
-        { id: 'boot-8',  delay: 220  },
-        { id: 'boot-9',  delay: 100  },
-        { id: 'boot-10', delay: 400  }
+        { id: 'boot-1', d: 300 }, { id: 'boot-2', d: 200 }, { id: 'boot-3', d: 200 },
+        { id: 'boot-4', d: 100 }, { id: 'boot-5', d: 280 }, { id: 'boot-6', d: 240 },
+        { id: 'boot-7', d: 260 }, { id: 'boot-8', d: 220 }, { id: 'boot-9', d: 100 },
+        { id: 'boot-10', d: 400 }
       ];
       let acc = 200;
       for (const ln of lines) {
-        acc += ln.delay;
+        acc += ln.d;
         setTimeout(() => {
           const el = document.getElementById(ln.id);
           if (el) el.classList.add('show');
@@ -700,30 +503,23 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
     });
   }
 
-  // -- Show login -----------------------------------------------------
   function showLogin() {
-    document.getElementById('boot').classList.add('hide');
-    document.getElementById('login').classList.add('show');
-    const input = document.getElementById('login-input');
-    setTimeout(() => input.focus(), 50);
+    $('#boot').classList.add('hide');
+    $('#login').classList.add('show');
+    setTimeout(() => $('#login-input').focus(), 50);
   }
+  function setLoginError(msg) { $('#login-error').textContent = msg || ''; }
 
-  function setLoginError(msg) {
-    document.getElementById('login-error').textContent = msg || '';
-  }
-
-  // -- Show desktop ---------------------------------------------------
   function showDesktop(name) {
-    document.getElementById('boot').classList.add('hide');
-    document.getElementById('login').classList.remove('show');
-    document.getElementById('desktop').classList.add('show');
-    document.getElementById('tray-user').textContent = name || 'Guest';
-    document.getElementById('welcome-name').textContent = name || 'Guest';
-    document.getElementById('welcome-window').classList.add('show');
+    $('#boot').classList.add('hide');
+    $('#login').classList.remove('show');
+    $('#desktop').classList.add('show');
+    $('#tray-user').textContent = name || 'Guest';
+    $('#welcome-name').textContent = name || 'Guest';
+    $('#welcome-window').classList.add('show');
     startClock();
   }
 
-  // -- Clock ----------------------------------------------------------
   let clockTimer = null;
   function startClock() {
     function tick() {
@@ -733,7 +529,7 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
       const ampm = h >= 12 ? 'PM' : 'AM';
       h = h % 12 || 12;
       const mm = m.toString().padStart(2, '0');
-      const el = document.getElementById('tray-clock');
+      const el = $('#tray-clock');
       if (el) el.textContent = `${h}:${mm} ${ampm}`;
     }
     tick();
@@ -741,14 +537,10 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
     clockTimer = setInterval(tick, 30000);
   }
 
-  // -- Login submit ---------------------------------------------------
   function tryLogin(idRaw, nameRaw) {
     const id = (idRaw || '').trim();
     const name = (nameRaw || '').trim();
-    if (!id) {
-      setLoginError('> ERROR: ID is required.');
-      return false;
-    }
+    if (!id) { setLoginError('> ERROR: ID is required.'); return false; }
     if (!isValidId(id)) {
       setLoginError('> ERROR: Invalid ID format. Must be a UUID like xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx.');
       return false;
@@ -759,33 +551,156 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
     return true;
   }
 
+  // -- IKAMP (Webamp) -------------------------------------------------
+  let webampInstance = null;
+  let webampReady = false;
+  let webampLoading = false;
+  let isMusicPlaying = false;
+
+  function addTaskbarEntry(id, label, iconChar, onClick) {
+    const wrap = $('#taskbar-windows');
+    let task = document.getElementById('task-' + id);
+    if (task) return;
+    task = document.createElement('button');
+    task.className = 'taskbar-task active';
+    task.id = 'task-' + id;
+    task.innerHTML = `<span class="task-icon">${iconChar}</span><span>${label}</span>`;
+    task.addEventListener('click', onClick);
+    wrap.appendChild(task);
+  }
+  function removeTaskbarEntry(id) {
+    const task = document.getElementById('task-' + id);
+    if (task) task.remove();
+  }
+
+  function setMusicIndicator(playing) {
+    isMusicPlaying = playing;
+    const el = $('#tray-music');
+    if (!el) return;
+    if (playing) el.classList.add('playing'); else el.classList.remove('playing');
+  }
+
+  async function loadWebamp() {
+    if (webampReady) return;
+    if (webampLoading) return new Promise(r => {
+      const check = setInterval(() => { if (webampReady) { clearInterval(check); r(); } }, 100);
+    });
+    webampLoading = true;
+    return new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = 'https://unpkg.com/webamp@1.5.0/built/webamp.bundle.min.js';
+      script.async = true;
+      script.onload = () => { webampReady = true; webampLoading = false; resolve(); };
+      script.onerror = () => {
+        webampLoading = false;
+        reject(new Error('Failed to load Webamp library from CDN'));
+      };
+      document.head.appendChild(script);
+    });
+  }
+
+  async function openIkamp() {
+    if (webampInstance) {
+      // Already open: bring to focus / make sure mount is visible
+      const mount = document.getElementById('ikamp-mount');
+      if (mount) mount.style.display = 'block';
+      return;
+    }
+    try {
+      await loadWebamp();
+    } catch (e) {
+      alert('IKAMP could not load. Check your internet connection.');
+      return;
+    }
+    if (!window.Webamp) {
+      alert('IKAMP library failed to initialize.');
+      return;
+    }
+
+    const mount = document.getElementById('ikamp-mount');
+
+    webampInstance = new window.Webamp({
+      initialTracks: TRACKS,
+      // Optional: classic skin already bundled
+    });
+
+    try {
+      await webampInstance.renderWhenReady(mount);
+    } catch (e) {
+      console.error('IKAMP render failed', e);
+      alert('IKAMP failed to render.');
+      webampInstance = null;
+      return;
+    }
+
+    // Position the Webamp main window into upper-right of desktop area
+    // Webamp positions itself absolutely; we nudge after a tick.
+    setTimeout(() => positionIkamp(), 100);
+
+    // Listen for play/pause/track changes for the tray indicator
+    if (webampInstance.onTrackDidChange) {
+      webampInstance.onTrackDidChange(() => { setMusicIndicator(true); });
+    }
+    if (webampInstance.onMinimize) {
+      webampInstance.onMinimize(() => {
+        const m = document.getElementById('ikamp-mount');
+        if (m) m.style.display = 'none';
+      });
+    }
+    if (webampInstance.onClose) {
+      webampInstance.onClose(() => {
+        webampInstance = null;
+        removeTaskbarEntry('ikamp');
+        setMusicIndicator(false);
+      });
+    }
+
+    // Poll the audio state every 500ms for tray indicator
+    const stateInterval = setInterval(() => {
+      if (!webampInstance) { clearInterval(stateInterval); return; }
+      try {
+        const audio = document.querySelector('#ikamp-mount audio');
+        if (audio) {
+          setMusicIndicator(!audio.paused && !audio.ended);
+        }
+      } catch (e) {}
+    }, 500);
+
+    addTaskbarEntry('ikamp', 'IKAMP', '&#127911;', () => {
+      const m = document.getElementById('ikamp-mount');
+      if (!m) return;
+      const isHidden = m.style.display === 'none';
+      m.style.display = isHidden ? 'block' : 'none';
+    });
+  }
+
+  function positionIkamp() {
+    // Webamp's main window has a known DOM id "main-window"
+    const desk = document.getElementById('desktop');
+    if (!desk) return;
+    // Webamp renders into a #webamp container; we position our mount instead
+    const mount = document.getElementById('ikamp-mount');
+    if (!mount) return;
+    // Place in the upper-right; Webamp's own draggable system takes over after this
+    mount.style.top = '32px';
+    mount.style.right = '32px';
+    mount.style.left = 'auto';
+  }
+
   // -- Actions --------------------------------------------------------
   function handleAction(action) {
     switch (action) {
-      case 'open-skifree':
-        // For Phase 1, this just links to the existing (placeholder) game.
-        // Phase 2 will reskin it to live inside this Win98 window UX.
-        location.href = 'skifree.html';
-        break;
-      case 'logout':
-        clearIdentity();
-        location.href = location.pathname; // strip URL params
-        break;
-      case 'close-welcome':
-        document.getElementById('welcome-window').classList.remove('show');
-        break;
-      case 'back-home':
-        location.href = '../index.html';
-        break;
-      case 'get-ikandy':
-        location.href = '../index.html#download';
-        break;
+      case 'open-skifree': location.href = 'skifree.html'; break;
+      case 'open-ikamp':   openIkamp(); break;
+      case 'logout':       clearIdentity(); location.href = location.pathname; break;
+      case 'close-welcome':$('#welcome-window').classList.remove('show'); break;
+      case 'back-home':    location.href = '../index.html'; break;
+      case 'get-ikandy':   location.href = '../index.html#download'; break;
     }
   }
 
-  // -- Wire it up -----------------------------------------------------
+  // -- Wire up --------------------------------------------------------
   document.addEventListener('DOMContentLoaded', async () => {
-    // Auto-login path: URL params present and valid
     const params = readParams();
     const stored = loadIdentity();
 
@@ -793,7 +708,6 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
 
     if (isValidId(params.id)) {
       saveIdentity(params.id, params.name || 'Guest');
-      // Replace URL so id never sits in history
       history.replaceState(null, '', location.pathname);
       showDesktop(params.name || 'Guest');
     } else if (isValidId(stored.id)) {
@@ -802,21 +716,14 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
       showLogin();
     }
 
-    // Login form
-    $('#login-submit').addEventListener('click', () => {
-      tryLogin($('#login-input').value, '');
-    });
+    $('#login-submit').addEventListener('click', () => tryLogin($('#login-input').value, ''));
     $('#login-input').addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        tryLogin($('#login-input').value, '');
-      }
+      if (e.key === 'Enter') { e.preventDefault(); tryLogin($('#login-input').value, ''); }
     });
     $('#login-help').addEventListener('click', () => {
       setLoginError('> Install IKANDY at ikandy.app, then open the app menu and click Show My IKANDY ID.');
     });
 
-    // Desktop icon clicks (single + double click both work for accessibility)
     $$('.icon').forEach(btn => {
       btn.addEventListener('click', () => {
         if (btn.classList.contains('locked')) {
@@ -833,44 +740,28 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
       });
     });
 
-    // Start menu toggle
     const startBtn = $('#start-btn');
     const startMenu = $('#start-menu');
-    function closeStart() {
-      startMenu.classList.remove('show');
-      startBtn.classList.remove('open');
-    }
+    function closeStart() { startMenu.classList.remove('show'); startBtn.classList.remove('open'); }
     startBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      const isOpen = startMenu.classList.contains('show');
-      if (isOpen) { closeStart(); }
-      else {
-        startMenu.classList.add('show');
-        startBtn.classList.add('open');
-      }
+      if (startMenu.classList.contains('show')) closeStart();
+      else { startMenu.classList.add('show'); startBtn.classList.add('open'); }
     });
     document.addEventListener('click', (e) => {
       if (!startMenu.contains(e.target) && !startBtn.contains(e.target)) closeStart();
     });
     $$('.start-item').forEach(item => {
-      item.addEventListener('click', () => {
-        closeStart();
-        handleAction(item.dataset.action);
-      });
+      item.addEventListener('click', () => { closeStart(); handleAction(item.dataset.action); });
     });
 
-    // Welcome window close
     $$('[data-action="close-welcome"]').forEach(b => {
       b.addEventListener('click', () => handleAction('close-welcome'));
     });
   });
 
-  // Expose minimal hook for future game scripts to read current identity
   window.IKANDY_ARCADE = {
     getName: () => loadIdentity().name,
-    // Note: getId is intentionally NOT exposed here as a global to avoid
-    // leaking it to game iframes / scripts. Read localStorage directly
-    // from same-origin code that needs to submit scores.
   };
 })();
 </script>
