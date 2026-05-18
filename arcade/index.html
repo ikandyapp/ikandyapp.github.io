@@ -816,6 +816,8 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
     $$('[data-action="close-welcome"]').forEach(b => {
       b.addEventListener('click', () => handleAction('close-welcome'));
     });
+    document.querySelectorAll("[data-action=close-scores]").forEach(function(b){b.addEventListener("click",closeScores);});
+    var srb=document.getElementById("scores-refresh-btn");if(srb)srb.addEventListener("click",fetchScores);
   });
 
   window.IKANDY_ARCADE = {
