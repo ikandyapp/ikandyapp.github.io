@@ -82,18 +82,25 @@
     sessionId    = crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36);
   }
 
-  // Hook localStorage.setItem — game writes 'highScore' exactly once per game-over
-  const origSetItem = localStorage.setItem.bind(localStorage);
-  localStorage.setItem = function(key, value) {
-    origSetItem(key, value);
-    if (key === 'highScore') {
-        submitScore(parseFloat(value));
-        var ov = document.getElementById('sf-overlay');
-        var fs = document.getElementById('sf-final-score');
-        if (fs) fs.textContent = Math.round(parseFloat(value) || 0);
-        if (ov) setTimeout(function(){ ov.classList.add('show'); }, 400);
-      }
-  };
+  // Poll for game-over: basicallydan's bundle writes localStorage.highScore exactly once on death.
+  // We snapshot the value at start, then poll every 300ms — when it changes, the player died.
+  // More reliable than wrapping localStorage.setItem (which can be bypassed by Storage.prototype calls).
+  var __sfStartHighScore = localStorage.getItem('highScore');
+  var __sfShown = false;
+  var __sfPoll = setInterval(function() {
+    if (__sfShown) { clearInterval(__sfPoll); return; }
+    var cur = localStorage.getItem('highScore');
+    if (cur !== __sfStartHighScore && cur !== null) {
+      __sfShown = true;
+      clearInterval(__sfPoll);
+      var distance = parseFloat(cur) || 0;
+      submitScore(distance);
+      var ov = document.getElementById('sf-overlay');
+      var fs = document.getElementById('sf-final-score');
+      if (fs) fs.textContent = Math.round(distance);
+      if (ov) setTimeout(function(){ ov.classList.add('show'); }, 400);
+    }
+  }, 300);
 })();
 </script>
 <script src="skifree.js"></script>
