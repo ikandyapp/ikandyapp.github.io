@@ -134,6 +134,7 @@ html, body, .desktop, .window, .icon, .start-btn, .taskbar-btn {
 .glyph-ikamp > i { display: block; width: 3px; background: #00ff00; }
 .glyph-score { background: #c0c0c0; font-family: 'Press Start 2P', monospace; font-size: 8px; color: #000; padding-top: 6px; }
 .glyph-score::after { content: '#1\A 100K'; white-space: pre; font-size: 7px; line-height: 1.2; }
+.glyph-spread { background: #5bc8f5; font-size: 22px; display: flex; align-items: center; justify-content: center; }
 .glyph-logout { background: #c0c0c0; }
 .glyph-logout::after { content: '&#8617;'; font-size: 22px; color: #c00; font-weight: bold; }
 
@@ -394,6 +395,10 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
       <span class="icon-img"><span class="icon-glyph glyph-ikamp"><i style="height:60%"></i><i style="height:90%"></i><i style="height:40%"></i><i style="height:80%"></i><i style="height:55%"></i></span></span>
       <span class="icon-label">IKAMP</span>
     </button>
+    <button class="icon" data-action="open-spread">
+      <span class="icon-img"><span class="icon-glyph glyph-spread">&#128226;</span></span>
+      <span class="icon-label">Spread the Word</span>
+    </button>
     <button class="icon" data-action="open-scores">
       <span class="icon-img"><span class="icon-glyph glyph-score"></span></span>
       <span class="icon-label">High Scores</span>
@@ -458,6 +463,7 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
       <div class="start-item" data-action="open-pong"><span class="start-item-icon">&#127951;</span>Pong</div>
       <div class="start-item" data-action="open-breakout"><span class="start-item-icon">&#127963;</span>Breakout</div>
       <div class="start-item" data-action="open-skifree"><span class="start-item-icon">&#127935;</span>SkiFree</div>
+      <div class="start-item" data-action="open-spread"><span class="start-item-icon">&#128226;</span>Spread the Word</div>
       <div class="start-item" data-action="open-scores"><span class="start-item-icon">&#127942;</span>High Scores</div>
       <div class="start-item" data-action="open-ikamp"><span class="start-item-icon">&#127911;</span>IKAMP Player</div>
       <div class="start-divider"></div>
@@ -771,6 +777,7 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
       case 'open-breakout': location.href = 'breakout.html'; break;
       case 'open-pinball':  location.href = 'pinball.html'; break;
       case 'open-ikamp':   openIkamp(); break;
+      case 'open-spread':  location.href = 'spread.html'; break;
       case 'open-scores':  openScores(); break;
       case 'close-scores': closeScores(); break;
       case 'logout':       clearIdentity(); location.href = location.pathname; break;
