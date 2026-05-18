@@ -490,6 +490,8 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
       <span style="color:#808080;">|</span>
       <span class="tray-music" id="tray-music" title="IKAMP">&#9836;</span>
       <span style="color:#808080;">|</span>
+      <span class="tray-help" id="tray-help" title="Welcome / About" style="cursor:pointer;color:#000080;font-weight:bold;">?</span>
+      <span style="color:#808080;">|</span>
       <span class="tray-clock" id="tray-clock">--:-- --</span>
     </div>
   </div>
@@ -572,8 +574,10 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
     $('#desktop').classList.add('show');
     $('#tray-user').textContent = name || 'Guest';
     $('#welcome-name').textContent = name || 'Guest';
-    $('#welcome-window').classList.add('show');
+    try { if (!localStorage.getItem('ikandy_arcade_welcomed_v1')) { $('#welcome-window').classList.add('show'); localStorage.setItem('ikandy_arcade_welcomed_v1', '1'); } } catch(e) { $('#welcome-window').classList.add('show'); }
     startClock();
+    // Preload Webamp in the background so first IKAMP click is instant
+    setTimeout(function(){ loadWebamp().catch(function(){}); }, 1500);
   }
 
   let clockTimer = null;
@@ -851,6 +855,7 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
     document.querySelectorAll("[data-action=close-scores]").forEach(function(b){b.addEventListener("click",closeScores);});
     document.querySelectorAll(".score-tab").forEach(function(t){t.addEventListener("click",function(){document.querySelectorAll(".score-tab").forEach(function(x){x.classList.remove("active");x.style.background="#c0c0c0";});t.classList.add("active");t.style.background="#fff";fetchScores(t.dataset.game);});});
     var srb=document.getElementById("scores-refresh-btn");if(srb)srb.addEventListener("click",function(){var at=document.querySelector(".score-tab.active");fetchScores(at?at.dataset.game:"skifree");});
+    var th=document.getElementById("tray-help");if(th)th.addEventListener("click",function(){$("#welcome-window").classList.add("show");});
   });
 
   window.IKANDY_ARCADE = {
