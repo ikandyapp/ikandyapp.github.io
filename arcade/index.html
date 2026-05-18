@@ -318,13 +318,14 @@ html, body, .desktop, .window, .icon, .start-btn, .taskbar-btn {
 .desktop-wallpaper {
   position: absolute;
   top: 24px; right: 24px; bottom: 60px;
-  width: min(620px, calc(100vw - 200px));
+  width: min(820px, calc(100vw - 180px));
   max-height: calc(100vh - 110px);
+  overflow-y: auto;
   pointer-events: none; z-index: 1;
   font-family: 'VT323', 'Courier New', monospace;
   color: #ffffff;
   user-select: none;
-  display: flex; flex-direction: column; gap: 12px;
+  display: flex; flex-direction: column; gap: 16px;
   padding: 8px;
   filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.4));
   overflow: hidden;
@@ -333,7 +334,7 @@ html, body, .desktop, .window, .icon, .start-btn, .taskbar-btn {
   background: linear-gradient(180deg, rgba(0,0,40,0.82) 0%, rgba(0,30,60,0.82) 100%);
   border: 2px solid;
   border-color: #ff2d8a #5bc8f5 #5bc8f5 #ff2d8a;
-  padding: 12px 16px;
+  padding: 16px 22px;
   box-shadow:
     inset 1px 1px 0 rgba(255,255,255,0.3),
     inset -1px -1px 0 rgba(0,0,0,0.3),
@@ -407,7 +408,7 @@ html, body, .desktop, .window, .icon, .start-btn, .taskbar-btn {
 .wp-viz-header {
   display: flex; align-items: center; gap: 8px;
   font-family: 'Press Start 2P', monospace;
-  font-size: 7px; color: #5bc8f5; margin-bottom: 4px;
+  font-size: 10px; color: #5bc8f5; margin-bottom: 6px;
   letter-spacing: 0.05em;
 }
 .wp-viz-led {
