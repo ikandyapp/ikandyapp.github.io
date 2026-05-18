@@ -1222,7 +1222,7 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
       }
       body.innerHTML = ikqMessages.map(m => {
         const unread = !ikqReadIds.has(m.id);
-        return '<div class="ikq-msg ' + (unread ? 'unread' : '') + '" data-id="' + m.id + '">'
+        return '<div class="ikq-msg ' + (unread ? 'unread' : '') + '" data-id="' + m.id + '" onclick="window.__ikqMarkRead(this.dataset.id)">'
           + '<div class="ikq-msg-header"><span class="ikq-msg-from">'
           + ikqEscape(m.from_handle) + '</span><span class="ikq-msg-time">'
           + ikqFmtTime(m.created_at) + '</span></div>'
@@ -1237,9 +1237,7 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
     function ikqOpen() {
       const w = document.getElementById('ikq-window');
       if (w) w.classList.add('show');
-      // Mark all as read on open
-      for (const m of ikqMessages) ikqReadIds.add(m.id);
-      ikqSaveReadIds();
+      // Don't auto-mark as read — let user see the unread state
       ikqRender();
     }
     function ikqClose() {
@@ -1261,6 +1259,11 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
       ikqRender();
     });
 
+    window.__ikqMarkRead = function(id) {
+      ikqReadIds.add(id);
+      ikqSaveReadIds();
+      ikqRender();
+    };
     ikqLoadReadIds();
     setTimeout(ikqFetch, 1500);
     setInterval(ikqFetch, 30000);  // poll every 30s
