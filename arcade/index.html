@@ -3,1676 +3,825 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IKANDY — Feel the music. See the magic.</title>
-<meta name="description" content="Feel the music. See the magic. IKANDY turns any song into a real-time visual experience on Windows. Free. No subscription.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=Space+Mono&display=swap" rel="stylesheet">
+<title>IKANDY OS</title>
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --gold: #d4a843;
-    --neon: #ff2d8a;
-    --green: #1db954;
-    --ice: #5bc8f5;
-    --bg: #04040a;
-    --bg2: #08080f;
-    --txt: #e8e8e8;
-    --dim: rgba(255,255,255,.45);
-  }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--bg);
-    color: var(--txt);
-    font-family: 'DM Sans', sans-serif;
-    overflow-x: hidden;
-    cursor: crosshair;
-  }
-
-  /* ── NOISE OVERLAY ── */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 9999;
-    opacity: .4;
-  }
-
-  /* ── NAV ── */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 48px;
-    background: rgba(0,0,0,.6);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255,255,255,.06);
-    flex-wrap: wrap;
-    gap: 0;
-  }
-
-  .nav-logo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 28px;
-    letter-spacing: .15em;
-    color: var(--gold);
-    text-decoration: none;
-    flex-shrink: 0;
-  }
-
-  /* Hamburger button — hidden on desktop */
-  .nav-toggle {
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    gap: 5px;
-    width: 36px;
-    height: 36px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 4px;
-    flex-shrink: 0;
-  }
-
-  .nav-toggle span {
-    display: block;
-    width: 22px;
-    height: 2px;
-    background: var(--gold);
-    border-radius: 2px;
-    transition: transform .25s, opacity .25s;
-    transform-origin: center;
-  }
-
-  .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  .nav-toggle.open span:nth-child(2) { opacity: 0; }
-  .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-  .nav-links {
-    display: flex;
-    gap: 28px;
-    list-style: none;
-    align-items: center;
-  }
-
-  .nav-links a {
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--dim);
-    text-decoration: none;
-    transition: color .2s;
-  }
-  .nav-links a:hover { color: var(--gold); }
-  .nav-links a.active { color: var(--cyan, #5bc8f5); }
-
-  /* Mobile nav */
-  @media (max-width: 860px) {
-    nav { padding: 16px 24px; }
-
-    .nav-toggle { display: flex; }
-
-    .nav-links {
-      display: none;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0;
-      width: 100%;
-      padding: 12px 0 16px;
-      border-top: 1px solid rgba(255,255,255,.06);
-      margin-top: 12px;
-    }
-
-    .nav-links.open { display: flex; }
-
-    .nav-links li { width: 100%; }
-
-    .nav-links a {
-      display: block;
-      padding: 10px 4px;
-      font-size: 13px;
-      border-bottom: 1px solid rgba(255,255,255,.04);
-    }
-
-    .nav-links li:last-child a { border-bottom: none; }
-  }
-
-  .beta-badge {
-    display: inline-block;
-    margin-left: 6px;
-    padding: 3px 7px;
-    font-family: 'Space Mono', monospace;
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: .15em;
-    color: var(--gold);
-    background: rgba(212,168,67,.08);
-    border: 1px solid rgba(212,168,67,.4);
-    border-radius: 3px;
-    vertical-align: 4px;
-    cursor: help;
-  }
-
-  /* ── HERO ── */
-  .hero {
-    position: relative;
-    height: 100vh;
-    min-height: 600px;
-    overflow: hidden;
-    display: flex;
-    align-items: flex-end;
-    padding: 0 48px 80px;
-  }
-
-  .hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to bottom, rgba(0,0,0,.5) 0%, transparent 30%);
-    z-index: 1;
-    pointer-events: none;
-  }
-
-  .hero-bg {
-    position: absolute;
-    inset: 0;
-    background-image: url("assets/screenshot.png");
-    background-size: cover;
-    background-position: center 30%;
-    transform: scale(1.05);
-    animation: slow-zoom 20s ease-in-out infinite alternate;
-  }
-
-  @keyframes slow-zoom {
-    from { transform: scale(1.05) translate(0,0); }
-    to   { transform: scale(1.12) translate(-1%, 1%); }
-  }
-
-  .hero-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      to bottom,
-      rgba(4,4,10,.3) 0%,
-      rgba(4,4,10,.1) 40%,
-      rgba(4,4,10,.8) 75%,
-      rgba(4,4,10,1)  100%
-    );
-  }
-
-  .hero-content {
-    position: relative;
-    z-index: 2;
-    max-width: 700px;
-  }
-
-  .hero-eyebrow {
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    letter-spacing: .25em;
-    text-transform: uppercase;
-    color: var(--green);
-    margin-bottom: 16px;
-    opacity: 0;
-    animation: fade-up .8s .2s forwards;
-  }
-
-  .hero-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(72px, 12vw, 140px);
-    line-height: .9;
-    letter-spacing: .04em;
-    background: linear-gradient(135deg, #fff 0%, var(--gold) 50%, var(--neon) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    opacity: 0;
-    animation: fade-up .8s .4s forwards;
-  }
-
-  .hero-sub {
-    font-size: 18px;
-    color: var(--dim);
-    margin: 20px 0 36px;
-    line-height: 1.6;
-    font-weight: 300;
-    opacity: 0;
-    animation: fade-up .8s .6s forwards;
-  }
-
-  .hero-cta {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-    opacity: 0;
-    animation: fade-up .8s .8s forwards;
-  }
-
-  .btn-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 16px 36px;
-    background: var(--gold);
-    color: #000;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 18px;
-    letter-spacing: .1em;
-    text-decoration: none;
-    border: none;
-    cursor: pointer;
-    transition: all .2s;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .btn-primary::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,.2));
-    opacity: 0;
-    transition: opacity .2s;
-  }
-
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(212,168,67,.4); }
-  .btn-primary:hover::after { opacity: 1; }
-
-  .btn-secondary {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 16px 36px;
-    border: 1px solid rgba(255,255,255,.2);
-    color: var(--txt);
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 18px;
-    letter-spacing: .1em;
-    text-decoration: none;
-    transition: all .2s;
-    background: rgba(255,255,255,.04);
-    backdrop-filter: blur(8px);
-  }
-  .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
-
-  @keyframes fade-up {
-    from { opacity: 0; transform: translateY(24px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  /* ── STATS BAR ── */
-  .stats-bar {
-    display: flex;
-    gap: 0;
-    border-top: 1px solid rgba(255,255,255,.08);
-    border-bottom: 1px solid rgba(255,255,255,.08);
-    overflow-x: auto;
-  }
-
-  .stat {
-    flex: 1;
-    min-width: 160px;
-    padding: 32px 40px;
-    border-right: 1px solid rgba(255,255,255,.08);
-    text-align: center;
-  }
-  .stat:last-child { border-right: none; }
-
-  .stat-num {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 48px;
-    color: var(--gold);
-    letter-spacing: .05em;
-    line-height: 1;
-  }
-
-  .stat-label {
-    font-size: 11px;
-    letter-spacing: .15em;
-    text-transform: uppercase;
-    color: var(--dim);
-    margin-top: 6px;
-    font-family: 'Space Mono', monospace;
-  }
-
-  /* ── SECTION ── */
-  section {
-    padding: 120px 48px;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  .section-tag {
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    letter-spacing: .2em;
-    text-transform: uppercase;
-    color: var(--neon);
-    margin-bottom: 16px;
-  }
-
-  h2 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(48px, 6vw, 80px);
-    letter-spacing: .04em;
-    line-height: 1;
-    margin-bottom: 24px;
-  }
-
-  .lead {
-    font-size: 18px;
-    color: var(--dim);
-    line-height: 1.7;
-    max-width: 600px;
-    font-weight: 300;
-  }
-
-  /* ── SCREENSHOT FEATURE ── */
-  .feature-split {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: center;
-    padding: 120px 48px;
-    max-width: 1400px;
-    margin: 0 auto;
-  }
-
-  .feature-split.reverse { direction: rtl; }
-  .feature-split.reverse > * { direction: ltr; }
-
-  .feature-img {
-    position: relative;
-    border-radius: 2px;
-    overflow: hidden;
-  }
-
-  .feature-img img {
-    width: 100%;
-    display: block;
-    border-radius: 2px;
-  }
-
-  .feature-img::before {
-    content: '';
-    position: absolute;
-    inset: -1px;
-    border-radius: 3px;
-    background: linear-gradient(135deg, var(--gold), var(--neon), var(--ice));
-    z-index: -1;
-    opacity: .6;
-  }
-
-  .feature-img::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to bottom, transparent 60%, rgba(4,4,10,.8));
-    pointer-events: none;
-  }
-
-  .glow-img {
-    box-shadow:
-      0 0 60px rgba(212,168,67,.15),
-      0 0 120px rgba(255,45,138,.1);
-  }
-
-  /* ── FX GRID ── */
-  .fx-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 12px;
-    margin-top: 48px;
-  }
-
-  .fx-card {
-    padding: 24px 20px;
-    border: 1px solid rgba(255,255,255,.08);
-    background: rgba(255,255,255,.02);
-    position: relative;
-    overflow: hidden;
-    transition: all .25s;
-    cursor: default;
-  }
-
-  .fx-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: var(--c, var(--gold));
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform .3s;
-  }
-
-  .fx-card:hover { border-color: rgba(255,255,255,.2); background: rgba(255,255,255,.05); transform: translateY(-2px); }
-  .fx-card:hover::before { transform: scaleX(1); }
-
-  .fx-name {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 22px;
-    letter-spacing: .08em;
-    color: var(--c, var(--gold));
-  }
-
-  .fx-desc {
-    font-size: 12px;
-    color: var(--dim);
-    margin-top: 6px;
-    line-height: 1.5;
-  }
-
-  /* ── SOURCES ── */
-  .sources-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2px;
-    margin-top: 48px;
-    background: rgba(255,255,255,.06);
-  }
-
-  .source-card {
-    background: var(--bg);
-    padding: 48px 40px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .source-card::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 3px;
-    background: var(--c);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform .4s;
-  }
-
-  .source-card:hover::after { transform: scaleX(1); }
-
-  .source-icon {
-    font-size: 36px;
-    margin-bottom: 20px;
-    display: block;
-  }
-
-  .tier-pill {
-    display: inline-block;
-    padding: 4px 9px;
-    margin-bottom: 18px;
-    font-family: 'Space Mono', monospace;
-    font-size: 9px;
-    letter-spacing: .15em;
-    text-transform: uppercase;
-    border-radius: 2px;
-    border: 1px solid;
-  }
-  .tier-pill.tier-full  { color: var(--green); border-color: rgba(29,185,84,.45); background: rgba(29,185,84,.08); }
-  .tier-pill.tier-std   { color: #ff6b35;     border-color: rgba(255,107,53,.45); background: rgba(255,107,53,.08); }
-  .tier-pill.tier-basic { color: var(--ice);  border-color: rgba(91,200,245,.45); background: rgba(91,200,245,.08); }
-
-  .source-name {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 32px;
-    letter-spacing: .08em;
-    color: var(--c);
-    margin-bottom: 12px;
-  }
-
-  .source-desc {
-    font-size: 14px;
-    color: var(--dim);
-    line-height: 1.6;
-  }
-
-  /* ── DOWNLOAD SECTION ── */
-  .download-section {
-    background: linear-gradient(135deg, rgba(212,168,67,.08) 0%, rgba(255,45,138,.06) 100%);
-    border-top: 1px solid rgba(212,168,67,.2);
-    border-bottom: 1px solid rgba(212,168,67,.2);
-    padding: 120px 48px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .download-section::before {
-    content: 'IKANDY';
-    position: absolute;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 30vw;
-    color: rgba(212,168,67,.03);
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    pointer-events: none;
-    white-space: nowrap;
-  }
-
-  .download-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(48px, 8vw, 100px);
-    letter-spacing: .06em;
-    line-height: 1;
-    margin-bottom: 16px;
-    background: linear-gradient(135deg, var(--gold), #fff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    position: relative;
-  }
-
-  .download-sub {
-    font-size: 16px;
-    color: var(--dim);
-    margin-bottom: 48px;
-    font-family: 'Space Mono', monospace;
-    letter-spacing: .05em;
-    position: relative;
-  }
-
-  .download-note {
-    margin-top: 20px;
-    font-size: 12px;
-    color: rgba(255,255,255,.3);
-    font-family: 'Space Mono', monospace;
-  }
-
-  .download-note a { color: rgba(255,255,255,.4); }
-
-  /* ── FOOTER ── */
-  footer {
-    padding: 48px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 1px solid rgba(255,255,255,.06);
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-
-  .footer-logo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 24px;
-    letter-spacing: .15em;
-    color: var(--gold);
-  }
-
-  .footer-links {
-    display: flex;
-    gap: 28px;
-    list-style: none;
-  }
-
-  .footer-links a {
-    font-size: 12px;
-    color: var(--dim);
-    text-decoration: none;
-    font-family: 'Space Mono', monospace;
-    transition: color .2s;
-  }
-  .footer-links a:hover { color: var(--gold); }
-
-  .footer-copy {
-    font-size: 11px;
-    color: rgba(255,255,255,.2);
-    font-family: 'Space Mono', monospace;
-  }
-
-  /* ── SCROLLBAR ── */
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: var(--bg); }
-  ::-webkit-scrollbar-thumb { background: var(--gold); }
-
-  /* ── VIDEO SECTION ── */
-  .video-section {
-    padding: 120px 48px 100px;
-    max-width: 1200px;
-    margin: 0 auto;
-    text-align: center;
-    position: relative;
-  }
-
-  .video-section::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse at 30% 20%, rgba(212,168,67,.06), transparent 50%),
-      radial-gradient(ellipse at 70% 80%, rgba(255,45,138,.05), transparent 50%);
-    pointer-events: none;
-    z-index: -1;
-  }
-
-  .video-section .section-tag,
-  .video-section h2,
-  .video-section .lead {
-    position: relative;
-  }
-
-  .video-section .lead {
-    margin: 0 auto;
-  }
-
-  .video-wrap {
-    position: relative;
-    width: 100%;
-    max-width: 1100px;
-    margin: 56px auto 0;
-    aspect-ratio: 16 / 9;
-    overflow: hidden;
-    box-shadow:
-      0 0 60px rgba(212,168,67,.18),
-      0 0 120px rgba(255,45,138,.1);
-  }
-
-  .video-wrap::before {
-    content: '';
-    position: absolute;
-    inset: -2px;
-    background: linear-gradient(135deg, var(--gold), var(--neon), var(--ice));
-    z-index: -1;
-    opacity: .6;
-  }
-
-  .video-wrap iframe {
-    width: 100%;
-    height: 100%;
-    display: block;
-    border: 0;
-    background: #000;
-  }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 900px) {
-    nav { padding: 16px 24px; }
-    .hero { padding: 0 24px 60px; }
-    .feature-split { grid-template-columns: 1fr; gap: 40px; padding: 60px 24px; }
-    .feature-split.reverse { direction: ltr; }
-    .sources-grid { grid-template-columns: 1fr; }
-    section { padding: 80px 24px; }
-    footer { padding: 32px 24px; flex-direction: column; text-align: center; }
-    .stats-bar { flex-wrap: wrap; }
-    .stat { min-width: 50%; }
-  }
-
-  /* ── PULSE ANIMATION on download ── */
-  @keyframes pulse-ring {
-    0%   { box-shadow: 0 0 0 0 rgba(212,168,67,.4); }
-    70%  { box-shadow: 0 0 0 16px rgba(212,168,67,0); }
-    100% { box-shadow: 0 0 0 0 rgba(212,168,67,0); }
-  }
-  .btn-primary.pulse { animation: pulse-ring 2s infinite; }
-
-  /* ── TESTIMONIALS ── */
-  .testimonials {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
-    gap: 24px;
-    margin-top: 56px;
-  }
-
-  .quote-card {
-    position: relative;
-    padding: 56px 48px 40px;
-    border: 1px solid rgba(255,255,255,.08);
-    background: rgba(255,255,255,.02);
-    overflow: hidden;
-    transition: border-color .25s, background .25s;
-  }
-
-  .quote-card:hover {
-    border-color: rgba(212,168,67,.3);
-    background: rgba(255,255,255,.04);
-  }
-
-  .quote-card::before {
-    content: '"';
-    position: absolute;
-    top: -30px;
-    left: 24px;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 180px;
-    line-height: 1;
-    color: var(--gold);
-    opacity: .35;
-    pointer-events: none;
-  }
-
-  .quote-text {
-    font-family: 'DM Sans', sans-serif;
-    font-size: clamp(20px, 2.4vw, 28px);
-    line-height: 1.45;
-    font-weight: 300;
-    color: var(--txt);
-    letter-spacing: .005em;
-    position: relative;
-  }
-
-  .quote-attr {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-top: 28px;
-    padding-top: 20px;
-    border-top: 1px solid rgba(255,255,255,.06);
-  }
-
-  .quote-name {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 18px;
-    letter-spacing: .12em;
-    color: var(--gold);
-  }
-
-  .quote-source {
-    font-family: 'Space Mono', monospace;
-    font-size: 10px;
-    letter-spacing: .15em;
-    text-transform: uppercase;
-    color: var(--dim);
-  }
-
-  .quote-source::before {
-    content: '·';
-    margin-right: 14px;
-    color: rgba(255,255,255,.2);
-  }
-
-  /* ── THEME DOT ROW ── */
-  .theme-dots {
-    display: flex;
-    gap: 10px;
-    margin-top: 24px;
-    flex-wrap: wrap;
-  }
-  .dot {
-    width: 28px; height: 28px; border-radius: 50%;
-    border: 2px solid rgba(255,255,255,.1);
-    transition: transform .2s, border-color .2s;
-    cursor: default;
-  }
-  .dot:hover { transform: scale(1.25); border-color: rgba(255,255,255,.4); }
-
-  /* ── PLAIN-LANGUAGE EXPLAINER ── */
-  .explainer {
-    padding: 64px 48px;
-    background: linear-gradient(135deg, rgba(212,168,67,.06) 0%, rgba(91,200,245,.05) 100%);
-    border-top: 1px solid rgba(255,255,255,.08);
-    border-bottom: 1px solid rgba(255,255,255,.08);
-    text-align: center;
-  }
-  .explainer-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-  .explainer-line {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 16px 24px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: clamp(16px, 2vw, 22px);
-    color: var(--txt);
-    font-weight: 300;
-    line-height: 1.4;
-  }
-  .explainer-step strong {
-    color: var(--gold);
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.3em;
-    letter-spacing: .08em;
-    margin-right: 6px;
-  }
-  .explainer-arrow {
-    color: rgba(212,168,67,.5);
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.4em;
-  }
-  .explainer-blurb {
-    margin-top: 28px;
-    font-size: 14px;
-    color: var(--dim);
-    line-height: 1.7;
-    max-width: 720px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  @media (max-width: 700px) {
-    .explainer { padding: 48px 24px; }
-    .explainer-arrow { display: none; }
-    .explainer-line { flex-direction: column; gap: 14px; }
-  }
-
-  /* ── COMPATIBILITY STRIP ── */
-  .compat-strip {
-    padding: 56px 48px 64px;
-    background:
-      linear-gradient(180deg, rgba(4,4,10,.0) 0%, rgba(4,4,10,.6) 100%),
-      radial-gradient(ellipse at 30% 0%, rgba(0,120,215,.10), transparent 60%),
-      radial-gradient(ellipse at 70% 100%, rgba(212,168,67,.05), transparent 60%);
-    border-top: 1px solid rgba(255,255,255,.06);
-    border-bottom: 1px solid rgba(255,255,255,.06);
-    position: relative;
-  }
-  .compat-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: auto 1px 1fr;
-    align-items: center;
-    gap: 48px;
-  }
-
-  /* "Built for Windows" badge */
-  .compat-windows {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    flex-shrink: 0;
-  }
-  .compat-win-mark {
-    width: 36px; height: 36px;
-    fill: #0078D7;
-  }
-  .compat-windows-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 22px;
-    letter-spacing: .12em;
-    color: var(--txt);
-    line-height: 1;
-  }
-  .compat-windows-sub {
-    font-family: 'Space Mono', monospace;
-    font-size: 10px;
-    letter-spacing: .15em;
-    color: var(--dim);
-    text-transform: uppercase;
-    margin-top: 5px;
-  }
-
-  /* Vertical divider on desktop, horizontal on mobile */
-  .compat-inner::before {
-    content: '';
-    grid-column: 2;
-    grid-row: 1;
-    width: 1px;
-    height: 100%;
-    background: linear-gradient(180deg, transparent, rgba(255,255,255,.15), transparent);
-  }
-
-  /* Tier wrapper */
-  .compat-tier {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-  .compat-tier-label {
-    font-family: 'Space Mono', monospace;
-    font-size: 10px;
-    letter-spacing: .2em;
-    color: var(--dim);
-    text-transform: uppercase;
-  }
-  .compat-tier-advanced .compat-tier-label::before {
-    content: '●';
-    color: var(--green);
-    margin-right: 6px;
-    text-shadow: 0 0 6px var(--green);
-  }
-  .compat-tier-rest .compat-tier-label::before {
-    content: '●';
-    color: var(--ice);
-    margin-right: 6px;
-  }
-
-  /* Icon row */
-  .compat-icons {
-    display: flex;
-    align-items: center;
-    gap: 22px;
-    flex-wrap: wrap;
-  }
-  .compat-icon {
-    --c: var(--txt);
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    color: var(--c);
-    cursor: help;
-    opacity: .85;
-    transition: opacity .2s, transform .2s;
-  }
-  .compat-icon:hover { opacity: 1; transform: translateY(-2px); }
-  .compat-icon svg {
-    fill: currentColor;
-    display: block;
-  }
-  .compat-icon-name {
-    font-family: 'Space Mono', monospace;
-    font-size: 9px;
-    letter-spacing: .12em;
-    color: var(--dim);
-    text-transform: uppercase;
-  }
-
-  /* Big icons for advanced tier */
-  .compat-icons-lg .compat-icon svg { width: 38px; height: 38px; }
-  .compat-icons-lg .compat-icon-name { font-size: 10px; }
-
-  /* Small icons for everything-else tier */
-  .compat-icons-sm .compat-icon svg { width: 22px; height: 22px; }
-  .compat-icons-sm { gap: 18px; }
-
-  .compat-icon-more .compat-more-dots {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 22px; height: 22px;
-    border: 1px dashed rgba(255,255,255,.3);
-    border-radius: 50%;
-    color: var(--dim);
-    font-size: 14px;
-    font-weight: 300;
-  }
-
-  .compat-rest-note {
-    font-size: 12px;
-    color: var(--dim);
-    line-height: 1.6;
-    margin-top: 6px;
-    max-width: 600px;
-  }
-  .compat-rest-note strong { color: var(--ice); font-weight: 500; }
-
-  @media (max-width: 900px) {
-    .compat-strip { padding: 40px 24px 48px; }
-    .compat-inner {
-      grid-template-columns: 1fr;
-      gap: 28px;
-    }
-    .compat-inner::before {
-      grid-column: 1;
-      grid-row: 2;
-      width: 100%;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,.15), transparent);
-    }
-    .compat-windows { justify-content: center; }
-    .compat-icons { justify-content: center; gap: 18px; }
-    .compat-icons-sm { gap: 14px; }
-    .compat-tier-label { text-align: center; }
-    .compat-rest-note { text-align: center; margin-left: auto; margin-right: auto; }
-  }
-
-  /* ── SCREENSHOT GALLERY STRIP ── */
-  .hero-gallery {
-    position: relative;
-    overflow: hidden;
-    padding: 48px 0 56px;
-    background: var(--bg);
-    border-top: 1px solid rgba(255,255,255,.06);
-    border-bottom: 1px solid rgba(255,255,255,.06);
-    -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
-    mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
-  }
-
-  .gallery-section-label {
-    text-align: center;
-    font-family: 'Space Mono', monospace;
-    font-size: 10px;
-    letter-spacing: .25em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,.25);
-    margin-bottom: 28px;
-  }
-
-  .gallery-row {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 12px;
-    width: max-content;
-  }
-
-  .gallery-row-inner {
-    display: flex;
-    gap: 12px;
-    animation: gallery-scroll-left 40s linear infinite;
-  }
-
-  .gallery-row.reverse .gallery-row-inner {
-    animation: gallery-scroll-right 45s linear infinite;
-  }
-
-  .gallery-img {
-    width: 260px;
-    height: 146px;
-    object-fit: cover;
-    border-radius: 4px;
-    border: 1px solid rgba(255,255,255,.12);
-    opacity: 0.72;
-    flex-shrink: 0;
-    display: block;
-  }
-
-  @keyframes gallery-scroll-left {
-    0%   { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-  }
-
-  @keyframes gallery-scroll-right {
-    0%   { transform: translateX(-50%); }
-    100% { transform: translateX(0); }
-  }
-
-  .gallery-caption {
-    position: absolute;
-    bottom: -28px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-family: 'Space Mono', monospace;
-    font-size: 10px;
-    letter-spacing: .2em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,.3);
-    white-space: nowrap;
-  }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  font-family: 'MS Sans Serif', 'Tahoma', 'Segoe UI', sans-serif;
+  user-select: none;
+  -webkit-user-select: none;
+  color: #000;
+}
+
+html, body, .desktop, .window, .icon, .start-btn, .taskbar-btn {
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><polygon points='1,1 1,21 6.5,15.5 9.5,22 13,20.5 10,14 17,14' fill='white' stroke='black' stroke-width='1.2' stroke-linejoin='miter' stroke-linecap='butt'/></svg>") 1 1, default;
+}
+.icon, .start-btn, .taskbar-btn, .titlebar, .login-btn, .login-input {
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><path d='M9,3 L9,18 L13,18 L13,21 L11,21 L11,28 L17,28 L17,21 L15,21 L15,18 L19,18 L19,12 L23,12 L23,8 L19,8 L19,3 L15,3 L15,8 L11,8 L11,3 Z' fill='white' stroke='black' stroke-width='1.2'/></svg>") 14 3, pointer;
+}
+
+/* Boot screen */
+.boot {
+  position: fixed; inset: 0; background: #000; color: #c0c0c0;
+  font-family: 'VT323', 'Courier New', monospace;
+  font-size: 22px; line-height: 1.4; padding: 24px 32px;
+  z-index: 10000; overflow: hidden; white-space: pre;
+}
+.boot.hide { display: none; }
+.boot-line { opacity: 0; }
+.boot-line.show { opacity: 1; }
+.boot-cursor {
+  display: inline-block; width: 12px; height: 18px; background: #c0c0c0;
+  vertical-align: text-bottom; animation: blink 1s steps(2) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* Login terminal */
+.login {
+  position: fixed; inset: 0; background: #000; color: #c0c0c0;
+  font-family: 'VT323', 'Courier New', monospace;
+  padding: 24px 32px; z-index: 9000; display: none;
+}
+.login.show { display: block; }
+.login-banner { font-size: 20px; color: #c0c0c0; margin-bottom: 28px; white-space: pre; line-height: 1.2; }
+.login-banner-title { color: #ffffff; font-size: 28px; letter-spacing: 0.04em; margin-bottom: 8px; }
+.login-banner-sub { color: #808080; font-size: 18px; }
+.login-prompt { font-size: 22px; margin-top: 24px; margin-bottom: 8px; }
+.login-prompt-label { color: #5bc8f5; margin-right: 6px; }
+.login-input {
+  background: #000; border: 1px solid #c0c0c0; color: #ffffff;
+  font-family: 'VT323', 'Courier New', monospace; font-size: 22px;
+  padding: 6px 10px; width: 100%; max-width: 520px; outline: none;
+}
+.login-input:focus { border-color: #5bc8f5; }
+.login-hint { font-size: 18px; color: #808080; margin-top: 12px; max-width: 720px; line-height: 1.5; }
+.login-hint a { color: #5bc8f5; text-decoration: underline; }
+.login-error { font-size: 20px; color: #ff5050; margin-top: 16px; min-height: 24px; }
+.login-actions { margin-top: 20px; display: flex; gap: 12px; flex-wrap: wrap; }
+.login-btn {
+  font-family: 'VT323', 'Courier New', monospace; font-size: 20px;
+  background: #c0c0c0; color: #000;
+  border: 2px solid; border-color: #ffffff #404040 #404040 #ffffff;
+  box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf;
+  padding: 6px 18px;
+}
+.login-btn:active {
+  border-color: #404040 #ffffff #ffffff #404040;
+  box-shadow: inset 1px 1px 0 #808080, inset -1px -1px 0 #dfdfdf;
+}
+.login-btn.ghost { background: transparent; color: #c0c0c0; border-color: #c0c0c0 #404040 #404040 #c0c0c0; box-shadow: none; }
+
+/* Desktop */
+.desktop {
+  position: fixed; inset: 0; background: #008080;
+  display: none; overflow: hidden;
+}
+.desktop.show { display: block; }
+.desktop::before {
+  content: ''; position: absolute; inset: 0;
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(0,0,0,.15) 1px, transparent 0),
+    radial-gradient(circle at 1px 1px, rgba(255,255,255,.06) 1px, transparent 0);
+  background-size: 6px 6px, 6px 6px;
+  background-position: 0 0, 3px 3px;
+  pointer-events: none;
+}
+
+.icon-grid {
+  position: absolute; top: 16px; left: 16px;
+  display: grid; grid-template-columns: 88px; gap: 14px;
+}
+.icon {
+  width: 88px; padding: 6px 4px 4px; text-align: center;
+  color: white; font-size: 11px;
+  font-family: 'MS Sans Serif', Tahoma, sans-serif;
+  text-shadow: 1px 1px 0 #000, 1px 1px 1px #000;
+  border: 1px dotted transparent; background: transparent;
+}
+.icon.locked .icon-img, .icon.locked .icon-label { filter: grayscale(1) brightness(0.6); }
+.icon:focus, .icon:active { border-color: rgba(255,255,255,.5); background: rgba(0,0,128,.35); }
+.icon-img {
+  width: 36px; height: 36px; margin: 0 auto 4px;
+  background: #c0c0c0;
+  border: 2px solid; border-color: #ffffff #404040 #404040 #ffffff;
+  box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf;
+  display: flex; align-items: center; justify-content: center;
+  image-rendering: pixelated; position: relative; overflow: hidden;
+}
+.icon-glyph { font-family: 'Press Start 2P', monospace; font-size: 11px; color: #000080; letter-spacing: 0; line-height: 1; }
+.icon-label { display: block; padding: 1px 3px; word-wrap: break-word; line-height: 1.25; }
+
+.glyph-ski   { background: linear-gradient(180deg, #c0c0c0 0%, #c0c0c0 60%, #ffffff 60%, #ffffff 100%); }
+.glyph-ski::after { content: '&#127935;'; font-size: 22px; filter: grayscale(0.3); }
+.glyph-snake { background: #002800; }
+.glyph-snake::after { content: ''; width: 24px; height: 6px; background: #00ff00; box-shadow: 8px 6px 0 #00ff00, 14px 6px 0 #00ff00, 14px 12px 0 #ff0000; }
+.glyph-pong  { background: #000; display: flex; align-items: center; justify-content: space-between; padding: 4px; }
+.glyph-pong::before { content: ''; width: 4px; height: 16px; background: #fff; box-shadow: 26px 8px 0 -8px #fff; }
+.glyph-pong::after  { content: ''; width: 4px; height: 4px; background: #fff; align-self: center; }
+.glyph-brick { background: #000080; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; padding: 3px; }
+.glyph-brick > i { display: block; background: #ff0000; }
+.glyph-brick > i:nth-child(2) { background: #ffaa00; }
+.glyph-brick > i:nth-child(3) { background: #ffff00; }
+.glyph-brick > i:nth-child(4) { background: #00ff00; }
+.glyph-brick > i:nth-child(5) { background: #00aaff; }
+.glyph-brick > i:nth-child(6) { background: #aa00ff; }
+.glyph-ikamp { background: #1d1d1d; display: flex; align-items: flex-end; justify-content: center; padding: 2px; gap: 1px; }
+.glyph-ikamp > i { display: block; width: 3px; background: #00ff00; }
+.glyph-score { background: #c0c0c0; font-family: 'Press Start 2P', monospace; font-size: 8px; color: #000; padding-top: 6px; }
+.glyph-score::after { content: '#1\A 100K'; white-space: pre; font-size: 7px; line-height: 1.2; }
+.glyph-logout { background: #c0c0c0; }
+.glyph-logout::after { content: '&#8617;'; font-size: 22px; color: #c00; font-weight: bold; }
+
+/* Taskbar */
+.taskbar {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 28px;
+  background: #c0c0c0;
+  border-top: 2px solid; border-color: #ffffff #404040 #404040 #ffffff;
+  box-shadow: inset 0 1px 0 #dfdfdf;
+  display: flex; align-items: center; padding: 2px; gap: 4px;
+  z-index: 500;
+}
+.start-btn {
+  display: flex; align-items: center; gap: 4px;
+  padding: 2px 6px 2px 4px;
+  border: 2px solid; border-color: #ffffff #404040 #404040 #ffffff;
+  box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf;
+  background: #c0c0c0;
+  font-family: 'MS Sans Serif', Tahoma, sans-serif;
+  font-size: 12px; font-weight: bold; color: #000; height: 22px;
+}
+.start-btn:active, .start-btn.open {
+  border-color: #404040 #ffffff #ffffff #404040;
+  box-shadow: inset 1px 1px 0 #808080, inset -1px -1px 0 #dfdfdf;
+}
+.start-btn-logo {
+  width: 16px; height: 16px; display: inline-block;
+  background:
+    linear-gradient(135deg, #d4a843 0%, #d4a843 50%, transparent 50%) top left / 8px 8px no-repeat,
+    linear-gradient(135deg, #ff2d8a 0%, #ff2d8a 50%, transparent 50%) top right / 8px 8px no-repeat,
+    linear-gradient(135deg, #1db954 0%, #1db954 50%, transparent 50%) bottom left / 8px 8px no-repeat,
+    linear-gradient(135deg, #5bc8f5 0%, #5bc8f5 50%, transparent 50%) bottom right / 8px 8px no-repeat,
+    #000;
+}
+
+.taskbar-windows {
+  display: flex; gap: 2px; flex: 1; padding-left: 6px;
+}
+.taskbar-task {
+  display: flex; align-items: center; gap: 4px;
+  height: 22px; padding: 0 8px;
+  background: #c0c0c0;
+  border: 1px solid; border-color: #ffffff #404040 #404040 #ffffff;
+  box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf;
+  font-family: 'MS Sans Serif', Tahoma, sans-serif;
+  font-size: 11px; max-width: 180px; overflow: hidden;
+  text-overflow: ellipsis; white-space: nowrap;
+}
+.taskbar-task.active {
+  border-color: #404040 #ffffff #ffffff #404040;
+  box-shadow: inset 1px 1px 0 #808080, inset -1px -1px 0 #dfdfdf;
+  background: #909090;
+}
+.taskbar-task .task-icon { font-size: 11px; }
+
+.taskbar-tray {
+  display: flex; align-items: center; gap: 6px;
+  padding: 0 8px; height: 22px;
+  border: 1px solid; border-color: #404040 #ffffff #ffffff #404040;
+  box-shadow: inset 1px 1px 0 #808080;
+  font-family: 'MS Sans Serif', Tahoma, sans-serif;
+  font-size: 11px; background: #c0c0c0;
+}
+.tray-user { color: #000080; font-weight: bold; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tray-music { display: inline-block; min-width: 14px; text-align: center; font-size: 13px; line-height: 1; }
+.tray-music.playing { color: #1db954; animation: bump 0.42s ease infinite alternate; font-weight: bold; text-shadow: 0 0 4px rgba(29,185,84,0.6); }
+@keyframes bump { 0% { transform: scale(1) rotate(-10deg); } 100% { transform: scale(1.45) rotate(10deg); } }
+.tray-clock { color: #000; min-width: 56px; text-align: right; }
+
+/* Start menu */
+.start-menu {
+  position: absolute; left: 2px; bottom: 30px; width: 220px;
+  background: #c0c0c0;
+  border: 2px solid; border-color: #ffffff #404040 #404040 #ffffff;
+  box-shadow: 1px 1px 0 #000, inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf;
+  display: none; z-index: 600;
+  font-family: 'MS Sans Serif', Tahoma, sans-serif;
+}
+.start-menu.show { display: flex; }
+.start-menu-side {
+  width: 24px;
+  background: linear-gradient(180deg, #000080 0%, #4040a0 100%);
+  color: #c0c0c0; font-weight: bold; font-size: 16px;
+  writing-mode: vertical-rl; transform: rotate(180deg);
+  padding: 8px 4px; letter-spacing: 0.1em; text-align: left;
+}
+.start-menu-side b { color: #fff; }
+.start-menu-items { flex: 1; padding: 2px; }
+.start-item { display: flex; align-items: center; gap: 8px; padding: 4px 8px; font-size: 12px; color: #000; }
+.start-item:hover { background: #000080; color: #ffffff; }
+.start-item-icon { font-size: 14px; width: 16px; text-align: center; }
+.start-divider { height: 1px; background: #808080; border-bottom: 1px solid #ffffff; margin: 4px 2px; }
+
+/* Welcome window */
+.welcome-window {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: min(420px, 90vw);
+  background: #c0c0c0;
+  border: 2px solid; border-color: #ffffff #404040 #404040 #ffffff;
+  box-shadow: 2px 2px 0 #000000, inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf;
+  z-index: 400; display: none;
+}
+.welcome-window.show { display: block; }
+.titlebar {
+  background: linear-gradient(90deg, #000080 0%, #1084d0 100%);
+  color: white; padding: 3px 4px 3px 6px;
+  display: flex; align-items: center; justify-content: space-between;
+  font-weight: bold; font-size: 11px; height: 20px;
+  font-family: 'MS Sans Serif', Tahoma, sans-serif;
+}
+.titlebar-text { display: flex; align-items: center; gap: 6px; }
+.titlebar-icon {
+  width: 14px; height: 14px; display: inline-block;
+  background:
+    linear-gradient(135deg, #d4a843 0%, #d4a843 50%, transparent 50%) top left / 7px 7px no-repeat,
+    linear-gradient(135deg, #ff2d8a 0%, #ff2d8a 50%, transparent 50%) top right / 7px 7px no-repeat,
+    linear-gradient(135deg, #1db954 0%, #1db954 50%, transparent 50%) bottom left / 7px 7px no-repeat,
+    linear-gradient(135deg, #5bc8f5 0%, #5bc8f5 50%, transparent 50%) bottom right / 7px 7px no-repeat,
+    #000;
+}
+.titlebar-controls { display: flex; gap: 2px; }
+.titlebar-btn {
+  width: 16px; height: 14px; background: #c0c0c0; color: #000;
+  border: 1px solid; border-color: #ffffff #404040 #404040 #ffffff;
+  box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf;
+  font-family: 'Marlett', 'MS Sans Serif', monospace;
+  font-size: 9px; font-weight: bold;
+  display: flex; align-items: center; justify-content: center;
+  line-height: 1; padding: 0;
+}
+.window-body {
+  padding: 18px 20px 14px;
+  font-family: 'MS Sans Serif', Tahoma, sans-serif;
+  font-size: 12px; color: #000; line-height: 1.5;
+}
+.welcome-greeting { font-size: 14px; font-weight: bold; margin-bottom: 12px; color: #000080; }
+.welcome-name {
+  font-family: 'Press Start 2P', monospace; font-size: 11px; color: #c00080;
+  background: #ffffff; border: 1px solid #808080;
+  padding: 6px 8px; margin: 8px 0 14px;
+  word-break: break-word; line-height: 1.4;
+}
+.window-buttons {
+  display: flex; justify-content: flex-end; gap: 6px;
+  padding: 8px 12px 12px; background: #c0c0c0;
+}
+.win-btn {
+  font-family: 'MS Sans Serif', Tahoma, sans-serif;
+  font-size: 12px; padding: 4px 16px; min-width: 70px;
+  background: #c0c0c0; color: #000;
+  border: 2px solid; border-color: #ffffff #404040 #404040 #ffffff;
+  box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf;
+}
+.win-btn:active {
+  border-color: #404040 #ffffff #ffffff #404040;
+  box-shadow: inset 1px 1px 0 #808080, inset -1px -1px 0 #dfdfdf;
+}
+.win-btn.default { border-color: #000; outline: 1px dotted #000; outline-offset: -4px; }
+
+.scores-window{position:absolute;top:36px;left:50%;transform:translateX(-50%);width:min(580px,96vw);background:#c0c0c0;border:2px solid;border-color:#fff #404040 #404040 #fff;box-shadow:2px 2px 0 #000,inset -1px -1px 0 #808080,inset 1px 1px 0 #dfdfdf;z-index:410;display:none}
+.scores-window.show{display:block}
+.scores-window .window-body{padding:8px 8px 4px}
+.scores-table-wrap{overflow-y:auto;max-height:340px;border:2px inset #808080;background:#fff;margin-bottom:4px}
+.scores-table{width:100%;border-collapse:collapse;font-family:'MS Sans Serif',Tahoma,sans-serif;font-size:12px;color:#000}
+.scores-table thead th{background:#000080;color:#fff;padding:4px 8px;text-align:left;font-weight:bold;position:sticky;top:0;z-index:1;font-size:11px;border-right:1px solid #0000a0}
+.scores-table thead th.num{text-align:right}
+.scores-table tbody td{padding:3px 8px;border-bottom:1px solid #e0e0e0}
+.scores-table tbody tr:nth-child(even) td{background:#f4f4f4}
+.scores-table tbody tr:hover td{background:#000080;color:#fff}
+.scores-table td.num{text-align:right}
+.scores-table td.rank-col{font-weight:bold;text-align:center;width:38px;color:#000080}
+.scores-table tbody tr:hover td.rank-col{color:#fff}
+.scores-msg{padding:24px 16px;text-align:center;font-family:'MS Sans Serif',Tahoma,sans-serif;font-size:12px;color:#808080}
+/* Webamp / IKAMP overrides - force Win98 title chrome to match desktop */
+#ikamp-mount {
+  position: absolute; z-index: 350;
+}
+/* Webamp draws its own classic skin - we only constrain placement */
+
+@media (max-width: 600px) {
+  .boot, .login { padding: 16px 18px; font-size: 18px; }
+  .login-banner-title { font-size: 22px; }
+  .icon-grid { grid-template-columns: 80px; gap: 10px; }
+  .icon { width: 80px; }
+  .taskbar-windows .taskbar-task { max-width: 100px; }
+}
 </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav id="main-nav">
-  <a href="#" class="nav-logo">IKANDY</a>
-  <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" onclick="this.classList.toggle('open');document.getElementById('nav-links').classList.toggle('open')">
-    <span></span><span></span><span></span>
-  </button>
-  <ul class="nav-links" id="nav-links">
-    <li><a href="#features" onclick="document.getElementById('nav-links').classList.remove('open');document.getElementById('nav-toggle').classList.remove('open')">Features</a></li>
-    <li><a href="#watch" onclick="document.getElementById('nav-links').classList.remove('open');document.getElementById('nav-toggle').classList.remove('open')">Watch</a></li>
-    <li><a href="#sources" onclick="document.getElementById('nav-links').classList.remove('open');document.getElementById('nav-toggle').classList.remove('open')">Sources</a></li>
-    <li><a href="guide.html">Guide</a></li>
-    <li><a href="credits.html">Credits</a></li>
-    <li><a href="ikandy-smart-auto-prior-art.html">Smart Auto</a></li>
-    <li><a href="ikandy-ai-error-sandbox.html">AI Sandbox</a></li>
-    <li><a href="ikandy-vis-format.html">.vis Format</a></li>
-    <li><a href="#download" onclick="document.getElementById('nav-links').classList.remove('open');document.getElementById('nav-toggle').classList.remove('open')">Download</a></li>
-  </ul>
-</nav>
-
-<!-- HERO -->
-<section class="hero" style="padding:0;max-width:none;">
-  <div class="hero-bg"></div>
-  <div class="hero-overlay"></div>
-
-  </div>
-  <div class="gallery-row reverse">
-    <div class="gallery-row-inner">
-      <img class="gallery-img" src="websitephotos/2026-05-06_17-27-53.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-31-26.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-31-41.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-31-50.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-32-14.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-32-35.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-33-14.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-33-46.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-27-53.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-31-26.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-31-41.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-31-50.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-32-14.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-32-35.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-33-14.jpg" alt="IKANDY screenshot" loading="lazy">
-        <img class="gallery-img" src="websitephotos/2026-05-06_17-33-46.jpg" alt="IKANDY screenshot" loading="lazy">
-        
-    </div>
-  </div>
-
+<!-- BOOT -->
+<div class="boot" id="boot">
+<div class="boot-line" id="boot-1">IKANDY BIOS v1.0.18  Copyright (C) 2026 L&amp;R Entertainment LLC</div>
+<div class="boot-line" id="boot-2">Pentium-class CPU detected at 3.40 GHz</div>
+<div class="boot-line" id="boot-3">Memory test: 32768K OK</div>
+<div class="boot-line" id="boot-4">&nbsp;</div>
+<div class="boot-line" id="boot-5">Loading audio subsystem.................. OK</div>
+<div class="boot-line" id="boot-6">Loading visualizer kernel................. OK</div>
+<div class="boot-line" id="boot-7">Initializing arcade modules............... OK</div>
+<div class="boot-line" id="boot-8">Mounting identity store................... OK</div>
+<div class="boot-line" id="boot-9">&nbsp;</div>
+<div class="boot-line" id="boot-10">Starting IKANDY OS<span class="boot-cursor"></span></div>
 </div>
 
-  <div class="hero-content" style="padding: 0 48px 80px;">
-    <div class="hero-eyebrow">✦ Feel the music. See the magic.</div>
-    <h1 class="hero-title">IKANDY</h1>
-    <p class="hero-sub">IKANDY listens to whatever you&rsquo;re playing and paints it across your screen &mdash; every beat, every drop, every note, alive in real time. Free. No setup. Just music you can see.</p>
-    <div class="hero-cta">
-      <a href="#download" class="btn-primary pulse">
-        ↓ Download Free
-      </a>
-      <a href="#watch" class="btn-secondary">▶ Watch Demo</a>
-    </div>
+<!-- LOGIN -->
+<div class="login" id="login">
+  <div class="login-banner">
+<div class="login-banner-title">IKANDY OS</div>
+<div class="login-banner-sub">Identity required to access the arcade.</div>
   </div>
-</section>
+  <form id="login-form" autocomplete="off" onsubmit="return false;">
+    <div class="login-prompt">
+      <span class="login-prompt-label">&gt; Enter your IKANDY ID:</span>
+    </div>
+    <input type="text" class="login-input" id="login-input"
+      placeholder="xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
+      spellcheck="false" autocapitalize="off" autocorrect="off">
+    <div class="login-error" id="login-error"></div>
+    <div class="login-actions">
+      <button type="submit" class="login-btn" id="login-submit">[ ENTER ]</button>
+      <button type="button" class="login-btn ghost" id="login-help">[ I DON'T HAVE ONE ]</button>
+    </div>
+    <div class="login-hint">
+Your IKANDY ID is the authorId UUID generated when you picked your name in the IKANDY app.
+Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or click the
+<strong>Open Arcade</strong> menu item to log in automatically.
+    </div>
+  </form>
+</div>
 
-<!-- COMPATIBILITY STRIP -->
-<section class="compat-strip">
-  <div class="compat-inner">
+<!-- DESKTOP -->
+<div class="desktop" id="desktop">
 
-    <!-- Windows badge -->
-    <div class="compat-windows">
-      <svg class="compat-win-mark" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/>
-      </svg>
-      <div class="compat-windows-text">
-        <div class="compat-windows-title">Built for Windows</div>
-        <div class="compat-windows-sub">10 / 11 &middot; Free &middot; Open source</div>
+  <div class="icon-grid">
+    <button class="icon" data-action="open-skifree">
+      <span class="icon-img"><span class="icon-glyph glyph-ski"></span></span>
+      <span class="icon-label">SkiFree</span>
+    </button>
+    <button class="icon locked" data-locked="Snake is coming soon.">
+      <span class="icon-img"><span class="icon-glyph glyph-snake"></span></span>
+      <span class="icon-label">Snake<br>(soon)</span>
+    </button>
+    <button class="icon locked" data-locked="Pong is coming soon.">
+      <span class="icon-img"><span class="icon-glyph glyph-pong"></span></span>
+      <span class="icon-label">Pong<br>(soon)</span>
+    </button>
+    <button class="icon locked" data-locked="Breakout is coming soon.">
+      <span class="icon-img"><span class="icon-glyph glyph-brick"><i></i><i></i><i></i><i></i><i></i><i></i></span></span>
+      <span class="icon-label">Breakout<br>(soon)</span>
+    </button>
+    <button class="icon" data-action="open-ikamp">
+      <span class="icon-img"><span class="icon-glyph glyph-ikamp"><i style="height:60%"></i><i style="height:90%"></i><i style="height:40%"></i><i style="height:80%"></i><i style="height:55%"></i></span></span>
+      <span class="icon-label">IKAMP</span>
+    </button>
+    <button class="icon" data-action="open-scores">
+      <span class="icon-img"><span class="icon-glyph glyph-score"></span></span>
+      <span class="icon-label">High Scores</span>
+    </button>
+    <button class="icon" data-action="logout">
+      <span class="icon-img"><span class="icon-glyph glyph-logout"></span></span>
+      <span class="icon-label">Sign Out</span>
+    </button>
+  </div>
+
+  <!-- Welcome window -->
+  <div class="welcome-window" id="welcome-window">
+    <div class="titlebar">
+      <span class="titlebar-text"><span class="titlebar-icon"></span>Welcome to IKANDY OS</span>
+      <span class="titlebar-controls">
+        <button class="titlebar-btn" data-action="close-welcome" title="Close">x</button>
+      </span>
+    </div>
+    <div class="window-body">
+      <div class="welcome-greeting">Welcome back.</div>
+      <div>You are signed in as:</div>
+      <div class="welcome-name" id="welcome-name">&mdash;</div>
+      <div>
+        Double-click an icon to launch a game. Your IKANDY ID is hidden &mdash; treat it as a password.
+        <br><br>
+        <strong>IKAMP</strong> is your music player. Click the icon to open it, then hit play to fill the arcade with sound.
       </div>
     </div>
-
-    <!-- Advanced tier -->
-    <div class="compat-tier compat-tier-advanced">
-      <div class="compat-tier-label">Advanced features with</div>
-      <div class="compat-icons compat-icons-lg">
-        <span class="compat-icon" data-brand="Spotify" title="Spotify &mdash; full integration: playlists, search, shuffle modes, transport, art, lyrics" style="--c:#1DB954;">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.42 1.56-.299.421-1.02.599-1.56.3z"/></svg>
-          <span class="compat-icon-name">Spotify</span>
-        </span>
-        <span class="compat-icon" data-brand="foobar2000" title="foobar2000 &mdash; full integration: playlist browse, search, all shuffle modes, transport, art, lyrics" style="--c:#9b72cf;">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v3H3zm0 6.5h18v3H3zm0 6.5h18v3H3z" opacity=".0"/><text x="12" y="16" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="9" font-weight="600" fill="currentColor" letter-spacing="0.5">foobar</text><text x="12" y="22" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="6" fill="currentColor" letter-spacing="1">2000</text></svg>
-          <span class="compat-icon-name">foobar2000</span>
-        </span>
-      </div>
-    </div>
-
-    <!-- Everything else tier -->
-    <div class="compat-tier compat-tier-rest">
-      <div class="compat-tier-label">Plus anything else playing on your PC</div>
-      <div class="compat-icons compat-icons-sm">
-        <span class="compat-icon" title="YouTube &amp; YouTube Music" style="--c:#FF0000;">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-          <span class="compat-icon-name">YouTube</span>
-        </span>
-        <span class="compat-icon" title="Apple Music" style="--c:#FA243C;">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.997 6.124c0-.738-.065-1.47-.24-2.19-.317-1.31-1.062-2.31-2.18-3.043C21.003.517 20.373.285 19.7.164c-.517-.093-1.038-.135-1.564-.15-.04-.003-.083-.01-.124-.013H5.988c-.152.01-.303.017-.455.026C4.786.07 4.043.15 3.32.398 2.024.842 1.044 1.6.46 2.846c-.36.766-.495 1.578-.502 2.41V18.74c.026.272.05.547.082.82.107.928.421 1.797.94 2.585.715 1.082 1.69 1.798 2.86 2.196.642.218 1.298.31 1.967.34h12.06c.276-.024.55-.046.825-.075.788-.084 1.55-.275 2.244-.69 1.39-.83 2.302-2.064 2.7-3.74.087-.378.135-.764.158-1.15.005-.054.013-.107.02-.16zm-7.022 7.572c-.296 1.255-1.243 2.135-2.566 2.43-.484.108-.97.158-1.46.158-.484 0-.97-.05-1.453-.158-1.323-.295-2.27-1.175-2.566-2.43-.135-.575-.158-1.166-.07-1.749.094-.616.358-1.15.756-1.604.49-.557 1.114-.875 1.847-.946.345-.034.69-.034 1.034 0 .344.034.683.099 1.013.196.073.022.142.054.207.097.115.077.18.187.18.323v6.69c0 .2-.062.366-.193.494-.13.128-.298.19-.504.19h-.013c-.205 0-.373-.062-.504-.19-.13-.128-.193-.295-.193-.494v-3.99c-.155.076-.32.13-.498.157-.49.075-.965.027-1.42-.137-.567-.205-.97-.59-1.207-1.157-.236-.566-.29-1.16-.165-1.78.13-.66.444-1.213.946-1.658.5-.444 1.097-.708 1.79-.79.354-.04.708-.04 1.063 0 .354.04.7.118 1.04.232.235.078.467.17.694.276.114.054.218.123.314.205.137.117.207.27.207.46v6.79c0 .2-.062.366-.193.494-.13.128-.298.19-.504.19h-.013zM12 0C5.376 0 0 5.376 0 12s5.376 12 12 12 12-5.376 12-12S18.624 0 12 0z" opacity=".0"/><path d="M19.05 6.473c-.038.014-.083.02-.13.02-.197 0-.353-.156-.353-.353V4.06c0-.196.156-.352.353-.352.197 0 .353.156.353.352V6.14c0 .142-.084.265-.223.333zM5.96 16.27c0 1.323 1.072 2.395 2.395 2.395s2.395-1.072 2.395-2.395-1.072-2.395-2.395-2.395-2.395 1.072-2.395 2.395zm10.91-1.66c0 1.323 1.072 2.395 2.395 2.395s2.394-1.072 2.394-2.395-1.073-2.395-2.395-2.395-2.394 1.072-2.394 2.395zM10.75 14.61V5.4c0-.273.197-.51.467-.555l9-1.5c.34-.057.66.205.66.555v8.165c0 .273-.197.51-.467.555l-9 1.5c-.34.057-.66-.205-.66-.555z"/></svg>
-          <span class="compat-icon-name">Apple Music</span>
-        </span>
-        <span class="compat-icon" title="Tidal" style="--c:#FFFFFF;">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.012 3.992L8.008 7.996 4.004 3.992 0 7.996l4.004 4.004L8.008 7.996l4.004 4.008 4.004-4.008-4.004-4.004zm0 8.008l-4.004 4.004 4.004 4.004 4.004-4.004-4.004-4.004zm4.004-4.004L20.02 3.992l4.004 4.004-4.004 4.004z"/></svg>
-          <span class="compat-icon-name">Tidal</span>
-        </span>
-        <span class="compat-icon" title="VLC" style="--c:#FF8800;">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.295 0l-1.642 4.054h4.694L12.705 0zm-3.273 7.643L4 17.757h16L15.978 7.643h-2.81l.701 1.737h-3.738l.701-1.737zM3 19v3.071A1.93 1.93 0 0 0 4.929 24H19.07A1.93 1.93 0 0 0 21 22.071V19z"/></svg>
-          <span class="compat-icon-name">VLC</span>
-        </span>
-        <span class="compat-icon" title="Chrome / browser tabs" style="--c:#4285F4;">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C8.21 0 4.831 1.757 2.632 4.501l3.953 6.848A5.454 5.454 0 0 1 12 6.545h10.691A12 12 0 0 0 12 0zM1.931 5.47A11.943 11.943 0 0 0 0 12c0 6.012 4.42 10.991 10.189 11.864l3.953-6.847a5.45 5.45 0 0 1-6.865-2.29zm13.342 2.166a5.446 5.446 0 0 1 1.45 7.09l.002.001h-.002l-5.344 9.257c.206.01.413.016.621.016 6.627 0 12-5.373 12-12 0-1.54-.29-3.011-.818-4.364zM12 16.364a4.364 4.364 0 1 1 0-8.728 4.364 4.364 0 0 1 0 8.728Z"/></svg>
-          <span class="compat-icon-name">Chrome</span>
-        </span>
-        <span class="compat-icon" title="Microsoft Edge" style="--c:#0078D7;">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.86 17.86q.14 0 .25.12.1.13.1.25.13.25-1.5 1.86-1.6 1.6-4.46 1.6t-4.95-1.71q-2.1-1.7-2.99-3.79-1.74 3.99-1.74 5.99 0 .25.12.61.13.36.13.61 0 .61-.36.61-.5 0-1.74-1.62-1.24-1.62-1.86-3.61-.61-2-.61-3.86 0-2.86 1.12-5.36 1.13-2.5 3.13-4.46 1.99-1.99 4.6-3.11Q9.86 0 13 0q4.86 0 7.97 2.86 3.11 2.86 3.11 7.07 0 4.21-3.27 7.07-3.26 2.86-7.86 2.86-2 0-3.5-.75-1.5-.74-2.5-2.21.5 1.86 1.99 3.07 1.5 1.21 3.71 1.21 1.61 0 2.86-.43 1.24-.43 1.74-.86.5-.43.86-.43z"/></svg>
-          <span class="compat-icon-name">Edge</span>
-        </span>
-        <span class="compat-icon" title="Firefox (with media.hardwaremediakeys.enabled flag)" style="--c:#FF7139;">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.616 5.043c.097.054.197.147.288.198a4.46 4.46 0 0 1 1.247 1.029c.832-.063 1.7-.054 2.51.21a3.83 3.83 0 0 0-1.61-.806 3.49 3.49 0 0 1 1.838-.183 3.92 3.92 0 0 0-2.13-.726c-.652-.014-1.3.13-1.901.408-.07.04-.179.054-.242-.13zM23.5 9.752a18.9 18.9 0 0 0-1.45-2.92 8.16 8.16 0 0 0-1.04-1.36 9.96 9.96 0 0 0-2.31-1.83l-.04-.18c.1-.18.21-.3.32-.34.51-.18.61-.45.32-.71-.39-.34-1.4-.53-2.61-.45-.34.02-.65.07-.93.14-.87-.55-1.84-.94-2.86-1.12-.4-.07-.81-.1-1.22-.1-1.94 0-3.85.66-5.42 1.93C5.05 3.87 4.43 4.45 3.95 5.13a13.8 13.8 0 0 0-2.18 4.71 12.43 12.43 0 0 0-.34 1.97c-.07.83-.1 1.65 0 2.48.06.69.18 1.4.4 2.06a11.9 11.9 0 0 0 2.55 4.31c1.17 1.21 2.55 2.13 4.06 2.71a13 13 0 0 0 2.79.66c.93.13 1.88.18 2.81.06 1.5-.18 2.95-.7 4.21-1.55a11.79 11.79 0 0 0 4.91-7.5c.27-1.46.27-3 .04-4.46-.16-.5-.3-.95-.5-1.4z"/></svg>
-          <span class="compat-icon-name">Firefox</span>
-        </span>
-        <span class="compat-icon compat-icon-more" title="Any app that publishes to Windows Media Controls">
-          <span class="compat-more-dots">+</span>
-          <span class="compat-icon-name">more</span>
-        </span>
-      </div>
-      <p class="compat-rest-note">Anything that publishes to Windows Media Controls works through the <strong>Now Playing</strong> source &mdash; no setup, no auth.</p>
-    </div>
-
-  </div>
-</section>
-
-<!-- WHAT IS IT — plain-language explainer -->
-<section class="explainer">
-  <div class="explainer-inner">
-    <p class="explainer-line">
-      <span class="explainer-step"><strong>1.</strong> Open Spotify, YouTube, or any other music app.</span>
-      <span class="explainer-arrow">→</span>
-      <span class="explainer-step"><strong>2.</strong> Open IKANDY and pick how it should listen.</span>
-      <span class="explainer-arrow">→</span>
-      <span class="explainer-step"><strong>3.</strong> Hit play. Watch your screen come alive.</span>
-    </p>
-    <p class="explainer-blurb">Feel the music. See the magic. IKANDY listens to whatever you&rsquo;re already playing and turns it into a living, breathing visual &mdash; 350+ MilkDrop presets, custom audio-reactive scenes, AI-generated shaders, and cinematic FX overlays. Free. Offline. No subscription.</p>
-  </div>
-</section>
-
-
-<!-- SCREENSHOT GALLERY -->
-<div class="hero-gallery">
-  <p class="gallery-section-label">Real screenshots &mdash; every visual reacts to your music live</p>
-  <div class="gallery-row">
-    <div class="gallery-row-inner">
-      <img class="gallery-img" src="websitephotos/1.jpg" alt="IKANDY screenshot" loading="lazy">
-      <img class="gallery-img" src="websitephotos/2026-05-06_17-21-16.jpg" alt="IKANDY screenshot" loading="lazy">
-      <img class="gallery-img" src="websitephotos/2026-05-06_17-21-30.jpg" alt="IKANDY screenshot" loading="lazy">
-      <img class="gallery-img" src="websitephotos/2026-05-06_17-22-07.jpg" alt="IKANDY screenshot" loading="lazy">
-      <img class="gallery-img" src="websitephotos/2026-05-06_17-22-54.jpg" alt="IKANDY screenshot" loading="lazy">
-      <img class="gallery-img" src="websitephotos/2026-05-06_17-24-59.jpg" alt="IKANDY screenshot" loading="lazy">
-      <img class="gallery-img" src="websitephotos/2026-05-06_17-27-32.jpg" alt="IKANDY screenshot" loading="lazy">
-      <img class="gallery-img" src="websitephotos/1.jpg" alt="IKANDY screenshot" loading="lazy">
-      <img class="gallery-img" src="websitephotos/2026-05-06_17-21-16.jpg" alt="IKANDY screenshot" loading="lazy">
-      <img class="gallery-img" src="websitephotos/2026-05-06_17-21-30.jpg" alt="IKANDY screenshot" loading="lazy">
-      <img class="gallery-img" src="websitephotos/2026-05-06_17-22-07.jpg" alt="IKANDY screenshot" loading="lazy">
-      <img class="gallery-img" src="websitephotos/2026-05-06_17-22-54.jpg" alt="IKANDY screenshot" loading="lazy">
-      <img class="gallery-img" src="websitephotos/2026-05-06_17-24-59.jpg" alt="IKANDY screenshot" loading="lazy">
-      <img class="gallery-img" src="websitephotos/2026-05-06_17-27-32.jpg" alt="IKANDY screenshot" loading="lazy">
+    <div class="window-buttons">
+      <button class="win-btn default" data-action="close-welcome">OK</button>
     </div>
   </div>
-  <div class="gallery-row reverse" style="margin-top:12px;">
-    <div class="gallery-row-inner">
-      <img class="gallery-img" src="websitephotos/2026-05-06_17-27-53.jpg" alt="IKANDY screenshot" loading="lazy">
-      <img class="gallery-img" src="websitephotos/2026-05-06_17-31-26.jpg" alt="IKANDY screenshot" loading="lazy">
-      <img class="gallery-img" src="websitephotos/2026-05-06_17-31-41.jpg" alt="IKANDY screenshot" loading="lazy">
-      <img class="gallery-img" src="websitephotos/2026-05-06_17-31-50.jpg" alt="IKANDY screenshot" loading="lazy">
-      <img class="gallery-img" src="websitephotos/2026-05-06_17-32-14.jpg" alt="IKANDY screenshot" loading="lazy">
-      <img class="gallery-img" src="websitephotos/2026-05-06_17-32-35.jpg" alt="IKANDY screenshot" loading="lazy">
-      <img class="gallery-img" src="websitephotos/2026-05-06_17-33-14.jpg" alt="IKANDY screenshot" loading="lazy">
-      <img class="gallery-img" src="websitephotos/2026-05-06_17-33-46.jpg" alt="IKANDY screenshot" loading="lazy">
-      <img class="gallery-img" src="websitephotos/2026-05-06_17-27-53.jpg" alt="IKANDY screenshot" loading="lazy">
-      <img class="gallery-img" src="websitephotos/2026-05-06_17-31-26.jpg" alt="IKANDY screenshot" loading="lazy">
-      <img class="gallery-img" src="websitephotos/2026-05-06_17-31-41.jpg" alt="IKANDY screenshot" loading="lazy">
-      <img class="gallery-img" src="websitephotos/2026-05-06_17-31-50.jpg" alt="IKANDY screenshot" loading="lazy">
-      <img class="gallery-img" src="websitephotos/2026-05-06_17-32-14.jpg" alt="IKANDY screenshot" loading="lazy">
-      <img class="gallery-img" src="websitephotos/2026-05-06_17-32-35.jpg" alt="IKANDY screenshot" loading="lazy">
+
+  <!-- High Scores window -->
+  <div class="scores-window" id="scores-window">
+    <div class="titlebar">
+      <span class="titlebar-text"><span class="titlebar-icon"></span>High Scores &mdash; SkiFree</span>
+      <span class="titlebar-controls"><button class="titlebar-btn" data-action="close-scores" title="Close">x</button></span>
+    </div>
+    <div class="window-body"><div id="scores-content"><div class="scores-msg">Loading&hellip;</div></div></div>
+    <div class="window-buttons">
+      <button class="win-btn" id="scores-refresh-btn">Refresh</button>
+      <button class="win-btn default" data-action="close-scores">Close</button>
+    </div>
+  </div>
+
+  <!-- Start menu -->
+  <div class="start-menu" id="start-menu">
+    <div class="start-menu-side">IKANDY<b> OS</b></div>
+    <div class="start-menu-items">
+      <div class="start-item" data-action="open-skifree"><span class="start-item-icon">&#127935;</span>SkiFree</div>
+      <div class="start-item" data-action="open-scores"><span class="start-item-icon">&#127942;</span>High Scores</div>
+      <div class="start-item" data-action="open-ikamp"><span class="start-item-icon">&#127911;</span>IKAMP Player</div>
+      <div class="start-divider"></div>
+      <div class="start-item" data-action="back-home"><span class="start-item-icon">&#127968;</span>Back to ikandy.app</div>
+      <div class="start-item" data-action="get-ikandy"><span class="start-item-icon">&#8675;</span>Download IKANDY</div>
+      <div class="start-divider"></div>
+      <div class="start-item" data-action="logout"><span class="start-item-icon">&#8617;</span>Sign Out</div>
+    </div>
+  </div>
+
+  <!-- IKAMP mount point - Webamp injects into this -->
+  <div id="ikamp-mount"></div>
+
+  <!-- Taskbar -->
+  <div class="taskbar">
+    <button class="start-btn" id="start-btn">
+      <span class="start-btn-logo"></span>
+      <span>Start</span>
+    </button>
+    <div class="taskbar-windows" id="taskbar-windows"></div>
+    <div class="taskbar-tray">
+      <span class="tray-user" id="tray-user">&mdash;</span>
+      <span style="color:#808080;">|</span>
+      <span class="tray-music" id="tray-music" title="IKAMP">&#9836;</span>
+      <span style="color:#808080;">|</span>
+      <span class="tray-clock" id="tray-clock">--:-- --</span>
     </div>
   </div>
 </div>
 
-<!-- WATCH / VIDEO -->
-<section class="video-section" id="watch">
-  <p class="section-tag">▶ Watch The Demo</p>
-  <h2>See It<br>In Action</h2>
-  <p class="lead">A walkthrough of what IKANDY actually does — visuals, scenes, FX, lyrics, all in motion.</p>
-  <div class="video-wrap">
-    <iframe
-      src="https://www.youtube-nocookie.com/embed/5algfY8vwv8?rel=0"
-      title="IKANDY Demo"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      referrerpolicy="strict-origin-when-cross-origin"
-      allowfullscreen
-      loading="lazy">
-    </iframe>
-  </div>
-</section>
+<script>
+(() => {
+  'use strict';
 
-<!-- STATS -->
-<div class="stats-bar">
-  <div class="stat">
-    <div class="stat-num">745+</div>
-    <div class="stat-label">MilkDrop Presets</div>
-  </div>
-  <div class="stat">
-    <div class="stat-num">17+</div>
-    <div class="stat-label">Custom Scenes</div>
-  </div>
-  <div class="stat">
-    <div class="stat-num">12</div>
-    <div class="stat-label">GLSL FX Shaders</div>
-  </div>
-  <div class="stat">
-    <div class="stat-num">4</div>
-    <div class="stat-label">Audio Sources</div>
-  </div>
-  <div class="stat">
-    <div class="stat-num">9</div>
-    <div class="stat-label">Colour Themes</div>
-  </div>
-  <div class="stat">
-    <div class="stat-num">100%</div>
-    <div class="stat-label">Free</div>
-  </div>
-</div>
+  // -- State / helpers ------------------------------------------------
+  const LS_KEY_NAME = 'ikandy_arcade_name';
+  const LS_KEY_ID   = 'ikandy_arcade_id_v1';
+  const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+  const SUPABASE_URL="https://grimznincoiujnurhmlx.supabase.co";
+  const SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdyaW16bmluY29pdWpudXJobWx4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxNDQ5NzAsImV4cCI6MjA5MjcyMDk3MH0.X-eXBp4gF3RthSt10As83Ft4z5rOc929IMdis5BSuxk'";
 
-<!-- FEATURE: VISUALIZER -->
-<div class="feature-split" id="features">
-  <div class="feature-img">
-    <img src="assets/screenshot.png" alt="IKANDY visualizer rendering Frosty The Snowman with vibrant chrome MilkDrop preset" class="glow-img">
-  </div>
-  <div class="feature-text">
-    <p class="section-tag">01 — Visualizer</p>
-    <h2>745+ Presets.<br>Zero Lag.</h2>
-    <p class="lead">Powered by Butterchurn — the WebGL port of Winamp's legendary MilkDrop engine. Every preset reacts to your music in real time. Auto-cycle switches them per track automatically.</p>
-    <div style="margin-top:32px;display:flex;flex-direction:column;gap:12px;">
-      <div style="display:flex;gap:12px;align-items:center;">
-        <span style="color:var(--gold);font-family:'Space Mono',monospace;font-size:12px;">→</span>
-        <span style="font-size:14px;color:var(--dim);">Browse all presets with live previews in Grid, List, or Large mode</span>
-      </div>
-      <div style="display:flex;gap:12px;align-items:center;">
-        <span style="color:var(--gold);font-family:'Space Mono',monospace;font-size:12px;">→</span>
-        <span style="font-size:14px;color:var(--dim);">Auto-cycle with adjustable interval and blend time</span>
-      </div>
-      <div style="display:flex;gap:12px;align-items:center;">
-        <span style="color:var(--gold);font-family:'Space Mono',monospace;font-size:12px;">→</span>
-        <span style="font-size:14px;color:var(--dim);">Bass-reactive vignette, grain, and scanline overlays</span>
-      </div>
-    </div>
-  </div>
-</div>
+  function $(s) { return document.querySelector(s); }
+  function $$(s) { return [...document.querySelectorAll(s)]; }
 
-<!-- FEATURE: SIDEBAR -->
-<div class="feature-split" style="background:rgba(255,255,255,.01);padding-top:80px;padding-bottom:80px;grid-template-columns:1fr;">
-  <div class="feature-text">
-    <p class="section-tag">02 — Control Panel</p>
-    <h2>Everything.<br>One Panel.</h2>
-    <p class="lead">Speed, Reactivity, Smoothness, FX strength — all in a clean collapsible sidebar. Pick your theme from 6 accent colours. Upload a background image or cycle a whole folder.</p>
-    <div class="theme-dots" style="margin-top:28px;">
-      <div class="dot" style="background:#d4a843;" title="Gold"></div>
-      <div class="dot" style="background:#ff2d8a;" title="Neon"></div>
-      <div class="dot" style="background:#4caf7d;" title="Forest"></div>
-      <div class="dot" style="background:#9b72cf;" title="Dusk"></div>
-      <div class="dot" style="background:#5bc8f5;" title="Ice"></div>
-      <div class="dot" style="background:#e8e8e8;" title="White"></div>
-    </div>
-  </div>
-  <div class="feature-img">
-    <img src="assets/console-bar.png" alt="IKANDY console bar — Now Playing, Playback, Visualiser, Utility and Settings zones" class="glow-img">
-  </div>
-</div>
+  function readParams() {
+    const p = new URLSearchParams(location.search);
+    return { id: (p.get('id') || '').trim(), name: (p.get('name') || '').trim() };
+  }
+  function isValidId(id) { return typeof id === 'string' && UUID_REGEX.test(id); }
+  function saveIdentity(id, name) {
+    try {
+      localStorage.setItem(LS_KEY_ID, id);
+      localStorage.setItem(LS_KEY_NAME, name || 'Guest');
+    } catch (e) {}
+  }
+  function loadIdentity() {
+    try {
+      return { id: localStorage.getItem(LS_KEY_ID) || '', name: localStorage.getItem(LS_KEY_NAME) || '' };
+    } catch (e) { return { id: '', name: '' }; }
+  }
+  function clearIdentity() {
+    try { localStorage.removeItem(LS_KEY_ID); localStorage.removeItem(LS_KEY_NAME); } catch (e) {}
+  }
 
-<!-- FX SHADERS -->
-<section id="fx" style="max-width:1200px;">
-  <p class="section-tag">03 — FX Shaders</p>
-  <h2>12 Real-Time<br>GLSL Shaders</h2>
-  <p class="lead">Layer cinematic FX over your background image. Adjust strength on the fly. Combine with grain and scanlines for maximum vibe.</p>
+  // -- IKAMP music tracks ---------------------------------------------
+  const TRACKS = [
+    { url: 'music/01-synthwave-drive.mp3',     metaData: { artist: 'monume',         title: 'Synthwave Drive'     } },
+    { url: 'music/02-synthwave-cruise.mp3',    metaData: { artist: 'monume',         title: 'Synthwave Cruise'    } },
+    { url: 'music/03-neon-pulse.mp3',          metaData: { artist: 'ronaldoreyz',    title: 'Neon Pulse'          } },
+    { url: 'music/04-midnight-synthwave.mp3',  metaData: { artist: 'the_mountain',   title: 'Midnight Synthwave'  } },
+    { url: 'music/05-deep-synthwave.mp3',      metaData: { artist: 'the_mountain',   title: 'Deep Synthwave'      } }
+  ];
 
-  <div class="fx-grid">
-    <div class="fx-card" style="--c:#5bc8f5;">
-      <div class="fx-name">Rain</div>
-      <div class="fx-desc">Animated raindrops rippling across the image</div>
-    </div>
-    <div class="fx-card" style="--c:#333;">
-      <div class="fx-name">Ink</div>
-      <div class="fx-desc">Bleeding ink absorption effect</div>
-    </div>
-    <div class="fx-card" style="--c:#ff6b35;">
-      <div class="fx-name">VHS</div>
-      <div class="fx-desc">Warped tape glitch and chromatic shift</div>
-    </div>
-    <div class="fx-card" style="--c:#aaa;">
-      <div class="fx-name">Fog</div>
-      <div class="fx-desc">Drifting atmospheric haze</div>
-    </div>
-    <div class="fx-card" style="--c:#e8b4b8;">
-      <div class="fx-name">Paint</div>
-      <div class="fx-desc">Wet watercolor bleeding and texture</div>
-    </div>
-    <div class="fx-card" style="--c:#c9a96e;">
-      <div class="fx-name">Film</div>
-      <div class="fx-desc">Dust, scratches and film grain overlay</div>
-    </div>
-    <div class="fx-card" style="--c:#b8d4e8;">
-      <div class="fx-name">Metal</div>
-      <div class="fx-desc">Liquid chrome surface distortion</div>
-    </div>
-    <div class="fx-card" style="--c:#ff2d8a;">
-      <div class="fx-name">Shatter</div>
-      <div class="fx-desc">Voronoi glass fracture pattern</div>
-    </div>
-    <div class="fx-card" style="--c:#00ff88;">
-      <div class="fx-name">Corrupt</div>
-      <div class="fx-desc">Digital glitch and data corruption</div>
-    </div>
-    <div class="fx-card" style="--c:#9b72cf;">
-      <div class="fx-name">Plasma</div>
-      <div class="fx-desc">Electric arc discharge overlay</div>
-    </div>
-    <div class="fx-card" style="--c:#5bc8f5;">
-      <div class="fx-name">Holo</div>
-      <div class="fx-desc">Iridescent holographic shimmer</div>
-    </div>
-    <div class="fx-card" style="--c:#ff6b35;">
-      <div class="fx-name">Heat</div>
-      <div class="fx-desc">Desert heat wave distortion</div>
-    </div>
-  </div>
-</section>
+  // -- Boot sequence --------------------------------------------------
+  function runBoot() {
+    return new Promise(resolve => {
+      const lines = [
+        { id: 'boot-1', d: 300 }, { id: 'boot-2', d: 200 }, { id: 'boot-3', d: 200 },
+        { id: 'boot-4', d: 100 }, { id: 'boot-5', d: 280 }, { id: 'boot-6', d: 240 },
+        { id: 'boot-7', d: 260 }, { id: 'boot-8', d: 220 }, { id: 'boot-9', d: 100 },
+        { id: 'boot-10', d: 400 }
+      ];
+      let acc = 200;
+      for (const ln of lines) {
+        acc += ln.d;
+        setTimeout(() => {
+          const el = document.getElementById(ln.id);
+          if (el) el.classList.add('show');
+        }, acc);
+      }
+      setTimeout(resolve, acc + 700);
+    });
+  }
 
-<!-- SCENES -->
-<section id="scenes" style="max-width:1200px;">
-  <p class="section-tag">04 — Custom Scenes</p>
-  <h2>17 Scenes.<br>Built From<br>Scratch.</h2>
-  <p class="lead">Eight 2D audio-reactive scenes and six 3D raymarched scenes, all built from the ground up. Real-time FFT drives every pixel. Plus three WebGPU-native scenes — and an AI studio to build your own.</p>
+  function showLogin() {
+    $('#boot').classList.add('hide');
+    $('#login').classList.add('show');
+    setTimeout(() => $('#login-input').focus(), 50);
+  }
+  function setLoginError(msg) { $('#login-error').textContent = msg || ''; }
 
-  <p style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;margin-top:48px;">2D Audio-Reactive</p>
-  <div class="fx-grid">
-    <div class="fx-card" style="--c:#ff6b35;"><div class="fx-name">Fire EQ</div><div class="fx-desc">Frequency-reactive flames climb with the spectrum</div></div>
-    <div class="fx-card" style="--c:#5bc8f5;"><div class="fx-name">Spectrum</div><div class="fx-desc">Classic bars driven by live frequency analysis</div></div>
-    <div class="fx-card" style="--c:#d4a843;"><div class="fx-name">Waveray</div><div class="fx-desc">Radial beams pulse and sweep with the waveform</div></div>
-    <div class="fx-card" style="--c:#1db954;"><div class="fx-name">Aurora</div><div class="fx-desc">Drifting curtains of light — and they follow your cursor</div></div>
-    <div class="fx-card" style="--c:#9b72cf;"><div class="fx-name">Starfield</div><div class="fx-desc">Beat-reactive cosmos, planet bounces with every kick</div></div>
-    <div class="fx-card" style="--c:#ff2d8a;"><div class="fx-name">Singularity</div><div class="fx-desc">Collapsing gravity well that breathes with bass</div></div>
-    <div class="fx-card" style="--c:#5bc8f5;"><div class="fx-name">Voyager</div><div class="fx-desc">Gas giant with lightning storms and shooting stars</div></div>
-    <div class="fx-card" style="--c:#9b72cf;"><div class="fx-name">Pawrticles</div><div class="fx-desc">Particle field that flees from your cursor</div></div>
-  </div>
+  function showDesktop(name) {
+    $('#boot').classList.add('hide');
+    $('#login').classList.remove('show');
+    $('#desktop').classList.add('show');
+    $('#tray-user').textContent = name || 'Guest';
+    $('#welcome-name').textContent = name || 'Guest';
+    $('#welcome-window').classList.add('show');
+    startClock();
+  }
 
-  <p style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--neon);margin-bottom:16px;margin-top:40px;">3D Raymarched</p>
-  <div class="fx-grid">
-    <div class="fx-card" style="--c:#b8d4e8;"><div class="fx-name">Liquid Metal</div><div class="fx-desc">Warped FBM chrome surface that morphs with sound</div></div>
-    <div class="fx-card" style="--c:#ff6b35;"><div class="fx-name">Just a Flame</div><div class="fx-desc">Single organic flame, bass-reactive heat and flicker</div></div>
-    <div class="fx-card" style="--c:#d4a843;"><div class="fx-name">Heart of Lightning</div><div class="fx-desc">Neon heart with electric arc discharge on every beat</div></div>
-    <div class="fx-card" style="--c:#5bc8f5;"><div class="fx-name">Electric Eel</div><div class="fx-desc">Bioluminescent deep-sea creature driven by treble</div></div>
-    <div class="fx-card" style="--c:#aaa;"><div class="fx-name">Face in Clouds</div><div class="fx-desc">Volumetric fog portrait shifting with the mid-range</div></div>
-    <div class="fx-card" style="--c:#9b72cf;"><div class="fx-name">Saturday Weirdness</div><div class="fx-desc">Kali-fractal alien geometry that pulses with bass</div></div>
-  </div>
+  let clockTimer = null;
+  function startClock() {
+    function tick() {
+      const d = new Date();
+      let h = d.getHours();
+      const m = d.getMinutes();
+      const ampm = h >= 12 ? 'PM' : 'AM';
+      h = h % 12 || 12;
+      const mm = m.toString().padStart(2, '0');
+      const el = $('#tray-clock');
+      if (el) el.textContent = `${h}:${mm} ${ampm}`;
+    }
+    tick();
+    if (clockTimer) clearInterval(clockTimer);
+    clockTimer = setInterval(tick, 30000);
+  }
 
-  <p style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ice);margin-bottom:16px;margin-top:40px;">WebGPU Native</p>
-  <div class="fx-grid">
-    <div class="fx-card" style="--c:#5bc8f5;"><div class="fx-name">Nebula</div><div class="fx-desc">Deep space gas cloud, fully GPU-accelerated</div></div>
-    <div class="fx-card" style="--c:#9b72cf;"><div class="fx-name">Prism Cells</div><div class="fx-desc">Voronoi crystal lattice that shatters on every kick</div></div>
-    <div class="fx-card" style="--c:#ff2d8a;"><div class="fx-name">Ferrofluid</div><div class="fx-desc">Magnetic fluid simulation reacting to bass peaks</div></div>
-  </div>
-</section>
+  function tryLogin(idRaw, nameRaw) {
+    const id = (idRaw || '').trim();
+    const name = (nameRaw || '').trim();
+    if (!id) { setLoginError('> ERROR: ID is required.'); return false; }
+    if (!isValidId(id)) {
+      setLoginError('> ERROR: Invalid ID format. Must be a UUID like xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx.');
+      return false;
+    }
+    saveIdentity(id, name || 'Guest');
+    setLoginError('');
+    showDesktop(name || 'Guest');
+    return true;
+  }
 
-<!-- SOURCES -->
-<section id="sources" style="max-width:none;padding:0 0 0 0;">
-  <div style="max-width:1200px;margin:0 auto;padding:120px 48px 48px;">
-    <p class="section-tag">05 — Audio Sources</p>
-    <h2>Four Ways<br>to Listen</h2>
-    <p class="lead">Connect whatever you&rsquo;re playing. Each source offers a different feature set &mdash; richer integrations on top, simpler ones below.</p>
-  </div>
-  <div class="sources-grid">
-    <div class="source-card" style="--c:var(--green);">
-      <span class="tier-pill tier-full">● Full features</span>
-      <span class="source-icon">🎵</span>
-      <div class="source-name">Spotify</div>
-      <p class="source-desc">Full Spotify integration with PKCE OAuth. Track info, album art, synced lyrics, playlist browser with search, and full playback control. Premium account required for transport &mdash; Free accounts get track info only.</p>
-    </div>
-    <div class="source-card" style="--c:#9b72cf;">
-      <span class="tier-pill tier-full">● Full features</span>
-      <span class="source-icon">🎧</span>
-      <div class="source-name">foobar2000</div>
-      <p class="source-desc">Connects via the foo_beefweb component for the full experience &mdash; playlist browse with search, every shuffle mode foobar supports, transport, album art, lyrics. The audiophile&rsquo;s player, fully integrated.</p>
-    </div>
-    <div class="source-card" style="--c:#ff6b35;">
-      <span class="tier-pill tier-std">● Standard</span>
-      <span class="source-icon">📺</span>
-      <div class="source-name">VLC</div>
-      <p class="source-desc">Connect to VLC&rsquo;s web interface for transport &mdash; play, pause, skip, shuffle on/off &mdash; with album art and synced lyrics. No library browse.</p>
-    </div>
-    <div class="source-card" style="--c:var(--ice);">
-      <span class="tier-pill tier-basic">● Basic</span>
-      <span class="source-icon">🎙️</span>
-      <div class="source-name">Now Playing</div>
-      <p class="source-desc">Reads whatever app is currently playing music on Windows &mdash; Spotify desktop, YouTube Music, Apple Music, browser tabs, anything that publishes to Windows Media Controls. Transport works (subject to what each source app supports). No browse, no shuffle, no album art.</p>
-    </div>
-  </div>
-</section>
+  // -- IKAMP (Webamp) -------------------------------------------------
+  let webampInstance = null;
+  let webampReady = false;
+  let webampLoading = false;
+  let isMusicPlaying = false;
 
-<!-- SMART AUTO -->
-<section style="max-width:1200px;">
-  <p class="section-tag">06 — Smart Auto</p>
-  <h2>Finds Your<br>Music.<br>Automatically.</h2>
-  <p class="lead">Smart Auto watches every audio-producing process on your PC and the metadata coming from connected backends, then picks the right source without you having to touch anything. Switch from Spotify to YouTube — IKANDY follows.</p>
-  <div style="display:flex;gap:40px;margin-top:48px;flex-wrap:wrap;">
-    <div style="flex:1;min-width:220px;padding:32px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--gold);letter-spacing:.08em;margin-bottom:10px;">Per-Process Capture</div>
-      <p style="font-size:14px;color:var(--dim);line-height:1.6;">WASAPI loopback isolates the audio of a single app — no system mix bleed, no mic bleed. Spotify, YouTube, VLC, anything.</p>
-    </div>
-    <div style="flex:1;min-width:220px;padding:32px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--ice);letter-spacing:.08em;margin-bottom:10px;">Dominance Detection</div>
-      <p style="font-size:14px;color:var(--dim);line-height:1.6;">Amplitude and metadata signals are combined to determine which process is the active music source at any moment.</p>
-    </div>
-    <div style="flex:1;min-width:220px;padding:32px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--neon);letter-spacing:.08em;margin-bottom:10px;">Backend Arbitration</div>
-      <p style="font-size:14px;color:var(--dim);line-height:1.6;">When multiple backends are connected, the metadata arbiter resolves conflicts and hands visualisation control to the correct source.</p>
-    </div>
-  </div>
-  <div style="margin-top:36px;">
-    <a href="ikandy-smart-auto-prior-art.html" style="display:inline-flex;align-items:center;gap:8px;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(212,168,67,.3);padding-bottom:3px;transition:border-color .2s,color .2s;" onmouseover="this.style.color='#fff';this.style.borderBottomColor='#fff'" onmouseout="this.style.color='';this.style.borderBottomColor=''">
-      ↗ Read the Full Technical Prior Art Disclosure
-    </a>
-  </div>
-</section>
+  function addTaskbarEntry(id, label, iconChar, onClick) {
+    const wrap = $('#taskbar-windows');
+    let task = document.getElementById('task-' + id);
+    if (task) return;
+    task = document.createElement('button');
+    task.className = 'taskbar-task active';
+    task.id = 'task-' + id;
+    task.innerHTML = `<span class="task-icon">${iconChar}</span><span>${label}</span>`;
+    task.addEventListener('click', onClick);
+    wrap.appendChild(task);
+  }
+  function removeTaskbarEntry(id) {
+    const task = document.getElementById('task-' + id);
+    if (task) task.remove();
+  }
 
-<!-- LYRICS -->
-<section style="max-width:1200px;">
-  <p class="section-tag">07 — Lyrics</p>
-  <h2>Synced Lyrics.<br>Three Modes.<br>Your Words Too.</h2>
-  <p class="lead">IKANDY fetches synced lyrics automatically. But if a song has no lyrics — or you wrote your own — you can paste plain text and tap the timestamps live as the music plays.</p>
-  <div style="display:flex;gap:24px;margin-top:48px;flex-wrap:wrap;">
-    <div style="flex:1;min-width:200px;padding:32px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--gold);letter-spacing:.08em;margin-bottom:10px;">Classic</div>
-      <p style="font-size:14px;color:var(--dim);line-height:1.6;">One line at a time, centred. Clean, karaoke-style. Perfect for recording or reading along.</p>
-    </div>
-    <div style="flex:1;min-width:200px;padding:32px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--neon);letter-spacing:.08em;margin-bottom:10px;">Physics</div>
-      <p style="font-size:14px;color:var(--dim);line-height:1.6;">Words explode onto screen, float in zero-gravity, collide and bounce to the beat. Chaotic and beautiful.</p>
-    </div>
-    <div style="flex:1;min-width:200px;padding:32px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--ice);letter-spacing:.08em;margin-bottom:10px;">Tap to Time</div>
-      <p style="font-size:14px;color:var(--dim);line-height:1.6;">Paste any lyrics. Hit play. Tap spacebar on each line as it hits &mdash; IKANDY stamps the timestamp live. Drag dots on the timeline to fine-tune. Save as LRC. Works for any song, any language, any source.</p>
-    </div>
-  </div>
-</section>
+  function setMusicIndicator(playing) {
+    isMusicPlaying = playing;
+    const el = $('#tray-music');
+    if (!el) return;
+    if (playing) el.classList.add('playing'); else el.classList.remove('playing');
+  }
+
+  async function loadWebamp() {
+    if (webampReady) return;
+    if (webampLoading) return new Promise(r => {
+      const check = setInterval(() => { if (webampReady) { clearInterval(check); r(); } }, 100);
+    });
+    webampLoading = true;
+    return new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = 'https://unpkg.com/webamp@1.5.0/built/webamp.bundle.min.js';
+      script.async = true;
+      script.onload = () => { webampReady = true; webampLoading = false; resolve(); };
+      script.onerror = () => {
+        webampLoading = false;
+        reject(new Error('Failed to load Webamp library from CDN'));
+      };
+      document.head.appendChild(script);
+    });
+  }
+
+  async function openIkamp() {
+    if (webampInstance) {
+      // Already open: bring to focus / make sure mount is visible
+      const mount = document.getElementById('ikamp-mount');
+      if (mount) mount.style.display = 'block';
+      return;
+    }
+    try {
+      await loadWebamp();
+    } catch (e) {
+      alert('IKAMP could not load. Check your internet connection.');
+      return;
+    }
+    if (!window.Webamp) {
+      alert('IKAMP library failed to initialize.');
+      return;
+    }
+
+    const mount = document.getElementById('ikamp-mount');
+
+    webampInstance = new window.Webamp({
+      initialTracks: TRACKS,
+      // Optional: classic skin already bundled
+    });
+
+    try {
+      await webampInstance.renderWhenReady(mount);
+    } catch (e) {
+      console.error('IKAMP render failed', e);
+      alert('IKAMP failed to render.');
+      webampInstance = null;
+      return;
+    }
+
+    // Position the Webamp main window into upper-right of desktop area
+    // Webamp positions itself absolutely; we nudge after a tick.
+    setTimeout(() => positionIkamp(), 100);
+
+    // Listen for play/pause/track changes for the tray indicator
+    if (webampInstance.onTrackDidChange) {
+      webampInstance.onTrackDidChange(() => { setMusicIndicator(true); });
+    }
+    if (webampInstance.onMinimize) {
+      webampInstance.onMinimize(() => {
+        const m = document.getElementById('ikamp-mount');
+        if (m) m.style.display = 'none';
+      });
+    }
+    if (webampInstance.onClose) {
+      webampInstance.onClose(() => {
+        webampInstance = null;
+        removeTaskbarEntry('ikamp');
+        setMusicIndicator(false);
+      });
+    }
+
+    // Wrap play/pause methods so we fire indicator updates reliably
+    // (Webamp has no onPlay/onPause events, only onTrackDidChange)
+    try {
+      const origPlay = webampInstance.play.bind(webampInstance);
+      const origPause = webampInstance.pause.bind(webampInstance);
+      webampInstance.play = function() { setMusicIndicator(true); return origPlay(); };
+      webampInstance.pause = function() { setMusicIndicator(false); return origPause(); };
+    } catch(e) { console.warn('Could not wrap Webamp transport methods:', e); }
+
+    // Also watch the .countdown digits for changes; this catches state when
+    // the user clicks Webamp's own play/pause buttons (not our wrapped methods)
+    let lastDigitState = '';
+    let lastChangeAt = 0;
+    const stateInterval = setInterval(() => {
+      if (!webampInstance) { clearInterval(stateInterval); return; }
+      try {
+        const digits = document.querySelectorAll('.webamp-status .countdown .digit, .webamp-status .countdown .digit-2');
+        if (!digits.length) return;
+        const state = [...digits].map(d => d.className).join(',');
+        const now = Date.now();
+        if (state !== lastDigitState) {
+          lastDigitState = state;
+          lastChangeAt = now;
+          setMusicIndicator(true);
+        } else if (now - lastChangeAt > 1200) {
+          // 1.2s without a digit change = paused or stopped
+          setMusicIndicator(false);
+        }
+      } catch (e) {}
+    }, 400);
+
+    addTaskbarEntry('ikamp', 'IKAMP', '&#127911;', () => {
+      const wa = document.getElementById('webamp');
+      if (!wa) return;
+      const isHidden = wa.style.display === 'none';
+      wa.style.display = isHidden ? '' : 'none';
+      const task = document.getElementById('task-ikamp');
+      if (task) task.classList.toggle('active', isHidden);
+    });
+  }
+
+  function positionIkamp() {
+    // Webamp's main window has a known DOM id "main-window"
+    const desk = document.getElementById('desktop');
+    if (!desk) return;
+    // Webamp renders into a #webamp container; we position our mount instead
+    const mount = document.getElementById('ikamp-mount');
+    if (!mount) return;
+    // Place in the upper-right; Webamp's own draggable system takes over after this
+    mount.style.top = '32px';
+    mount.style.right = '32px';
+    mount.style.left = 'auto';
+  }
 
 
-<!-- MOUSE FX -->
-<section style="max-width:1200px;">
-  <p class="section-tag">08 — Mouse &amp; Touch</p>
-  <h2>Your Cursor<br>Is Part of<br>The Show.</h2>
-  <p class="lead">Every mouse action creates a visual effect. Draw on the canvas, send ripples exploding outward, charge a ring and release it — or just move and watch the Aurora scene bend toward you.</p>
-  <div style="display:flex;gap:24px;margin-top:48px;flex-wrap:wrap;">
-    <div style="flex:1;min-width:200px;padding:32px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--gold);letter-spacing:.08em;margin-bottom:10px;">Click Ripples</div>
-      <p style="font-size:14px;color:var(--dim);line-height:1.6;">Left-click spawns an expanding ring. Right-click collapses an implosion. Hold right-click to charge a ring that explodes outward on release — intensity scales with how long you held.</p>
-    </div>
-    <div style="flex:1;min-width:200px;padding:32px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--neon);letter-spacing:.08em;margin-bottom:10px;">Draw Mode</div>
-      <p style="font-size:14px;color:var(--dim);line-height:1.6;">Right-click and drag to paint freehand lines over the visualizer in screen-blend mode. Both buttons simultaneously clears the canvas. Random, White, or Accent color. Brush width 1–40px.</p>
-    </div>
-    <div style="flex:1;min-width:200px;padding:32px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--ice);letter-spacing:.08em;margin-bottom:10px;">Cursor Trail</div>
-      <p style="font-size:14px;color:var(--dim);line-height:1.6;">A fading 28-point streak follows your movement, colored to match the current theme. Middle-click opens a quick-access overlay for presets, scenes, and FX without touching the sidebar.</p>
-    </div>
-  </div>
-</section>
+  function openScores(){var w=document.getElementById('scores-window');if(!w)return;w.classList.add('show');fetchScores();if(!window._scoresTB){addTaskbarEntry('scores','High Scores','&#127942;',function(){var x=document.getElementById('scores-window');if(!x)return;var s=x.classList.contains('show');if(s)x.classList.remove('show');else x.classList.add('show');var t=document.getElementById('task-scores');if(t)t.classList.toggle('active',!s);});window._scoresTB=true;}var t=document.getElementById('task-scores');if(t)t.classList.add('active');}
+  function closeScores(){var w=document.getElementById('scores-window');if(w)w.classList.remove('show');var t=document.getElementById('task-scores');if(t)t.classList.remove('active');}
+  async function fetchScores(){var el=document.getElementById('scores-content');if(!el)return;el.innerHTML='<div class=scores-msg>Loading...</div>';var url=SUPABASE_URL+'/rest/v1/arcade_leaderboard?game=eq.skifree&order=rank&limit=20';var rows;try{var r=await fetch(url,{headers:{apikey:SUPABASE_ANON_KEY,Authorization:'Bearer '+SUPABASE_ANON_KEY,Accept:'application/json'}});if(!r.ok)throw new Error(r.status);rows=await r.json();}catch(e){el.innerHTML='<div class=scores-msg>Could not load scores.</div>';return;}if(!Array.isArray(rows)||!rows.length){el.innerHTML='<div class=scores-msg>No scores yet.</div>';return;}function ft(s){if(!s)return'-';var m=Math.floor(s/60),ss=Math.floor(s%60);return m>0?m+'m '+String(ss).padStart(2,'0')+'s':ss+'s';}function fd(iso){try{return new Date(iso).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});}catch(e){return'-';}}function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}var med=['&#129351;','&#129352;','&#129353;'];var tb=rows.map(function(r){return'<tr><td class=rank-col>'+(r.rank<=3?med[r.rank-1]:'#'+r.rank)+'</td><td>'+esc(r.ikandy_name||'-')+'</td><td class=num>'+Number(r.score).toLocaleString()+'</td><td class=num>'+ft(r.time_sec)+'</td><td class=num>'+fd(r.created_at)+'</td></tr>';}).join('');el.innerHTML='<div class=scores-table-wrap><table class=scores-table><thead><tr><th>#</th><th>Player</th><th class=num>Score</th><th class=num>Time</th><th class=num>Date</th></tr></thead><tbody>'+tb+'</tbody></table></div>';}
+  // -- Actions --------------------------------------------------------
+  function handleAction(action) {
+    switch (action) {
+      case 'open-skifree': location.href = 'skifree.html'; break;
+      case 'open-ikamp':   openIkamp(); break;
+      case 'open-scores':  openScores(); break;
+      case 'close-scores': closeScores(); break;
+      case 'logout':       clearIdentity(); location.href = location.pathname; break;
+      case 'close-welcome':$('#welcome-window').classList.remove('show'); break;
+      case 'back-home':    location.href = '../index.html'; break;
+      case 'get-ikandy':   location.href = '../index.html#download'; break;
+    }
+  }
 
-<!-- AI SHADER STUDIO -->
-<section style="max-width:1200px;">
-  <p class="section-tag">09 — AI Shader Studio</p>
-  <h2>Describe It.<br>IKANDY<br>Builds It.</h2>
-  <p class="lead">Type what you want to see — "neon audio-reactive waves", "underwater bioluminescent jellyfish", anything. IKANDY generates a live GPU shader from your words and plays it immediately. If it fails, IKANDY silently fixes it and tries again. You never see an error.</p>
-  <div style="display:flex;gap:24px;margin-top:48px;flex-wrap:wrap;">
-    <div style="flex:1;min-width:200px;padding:32px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--gold);letter-spacing:.08em;margin-bottom:10px;">GLSL + WebGPU</div>
-      <p style="font-size:14px;color:var(--dim);line-height:1.6;">Generate fragment shaders in both GLSL (WebGL) and WGSL (WebGPU). Each type has its own Bass, Mid, Treble, Speed, and Intensity sliders that tune the shader live.</p>
-    </div>
-    <div style="flex:1;min-width:200px;padding:32px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--neon);letter-spacing:.08em;margin-bottom:10px;">Self-Healing</div>
-      <p style="font-size:14px;color:var(--dim);line-height:1.6;">GPU compile errors are captured and silently fed back to the AI with a fix request — up to 2 automatic retries before asking you to intervene. Most shaders just work first time.</p>
-    </div>
-    <div style="flex:1;min-width:200px;padding:32px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--ice);letter-spacing:.08em;margin-bottom:10px;">.vis Format</div>
-      <p style="font-size:14px;color:var(--dim);line-height:1.6;">Every saved shader stores its original prompt, author, license, and an auto-captured thumbnail — ready to share, import from Shadertoy, or upload to a future community gallery.</p>
-    </div>
-  </div>
-  <div style="margin-top:36px;">
-    <a href="ikandy-ai-error-sandbox.html" style="display:inline-flex;align-items:center;gap:8px;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(212,168,67,.3);padding-bottom:3px;transition:border-color .2s,color .2s;" onmouseover="this.style.color='#fff';this.style.borderBottomColor='#fff'" onmouseout="this.style.color='';this.style.borderBottomColor=''">
-      ↗ Read the Technical Disclosure
-    </a>
-  </div>
-</section>
+  // -- Wire up --------------------------------------------------------
+  document.addEventListener('DOMContentLoaded', async () => {
+    const params = readParams();
+    const stored = loadIdentity();
 
-<!-- TESTIMONIALS -->
-<section id="reviews" style="max-width:1200px;">
-  <p class="section-tag">10 — Word On The Street</p>
-  <h2>What People<br>Are Saying</h2>
-  <p class="lead">Real reactions from real humans who fired it up and let it rip.</p>
+    await runBoot();
 
-  <div class="testimonials">
-    <div class="quote-card">
-      <p class="quote-text">Ohh man this app is making me happy!!! In a world that demands constant attention, this just lets me chill and vibe out! Love it — take me to your leader!</p>
-      <div class="quote-attr">
-        <span class="quote-name">Salt Monkey (Zak)</span>
-        <span class="quote-source">Discord</span>
-      </div>
-    </div>
-    <div class="quote-card">
-      <p class="quote-text">Okay, this thing is f*^&amp;ing awesome. 49 inch curved monitor, just damn.</p>
-      <div class="quote-attr">
-        <span class="quote-name">y0himba</span>
-        <span class="quote-source">Reddit</span>
-      </div>
-    </div>
-  </div>
-</section>
+    if (isValidId(params.id)) {
+      saveIdentity(params.id, params.name || 'Guest');
+      history.replaceState(null, '', location.pathname);
+      showDesktop(params.name || 'Guest');
+    } else if (isValidId(stored.id)) {
+      showDesktop(stored.name || 'Guest');
+    } else {
+      showLogin();
+    }
 
-<!-- DOWNLOAD -->
-<div class="download-section" id="download">
-  <div class="download-title">Get IKANDY</div>
-  <p class="download-sub">Windows 10/11 · No Subscription</p>
-  <a href="https://github.com/IKANDYapp/IKANDY/releases/latest/download/IKANDY.Setup.exe" class="btn-primary pulse" style="display:inline-flex;font-size:22px;padding:20px 56px;position:relative;">
-    ↓ &nbsp;Download for Windows
-  </a>
-  <div style="margin-top:20px;position:relative;">
-    <a href="guide.html" style="display:inline-flex;align-items:center;gap:8px;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(212,168,67,.3);padding-bottom:3px;transition:border-color .2s,color .2s;" onmouseover="this.style.color='#fff';this.style.borderBottomColor='#fff'" onmouseout="this.style.color='';this.style.borderBottomColor=''">
-      📖 Read the User Guide first →
-    </a>
-  </div>
-  <p class="download-note">
-    ~75MB · Windows 10/11 · Free · Open source &mdash; you can read every line on GitHub.<br>
-    You&rsquo;ll need your own free <a href="https://developer.spotify.com/dashboard" target="_blank">Spotify Client ID</a> for Spotify features.
-  </p>
-  <div style="margin-top:48px;display:flex;gap:24px;justify-content:center;flex-wrap:wrap;">
-    <a href="guide.html" style="font-family:'Space Mono',monospace;font-size:11px;color:var(--dim);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;transition:color .2s;" onmouseover="this.style.color='#d4a843'" onmouseout="this.style.color=''">
-      📖 User Guide
-    </a>
-    <a href="https://github.com/IKANDYapp/IKANDY" target="_blank" style="font-family:'Space Mono',monospace;font-size:11px;color:var(--dim);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;transition:color .2s;" onmouseover="this.style.color='#d4a843'" onmouseout="this.style.color=''">
-      ↗ View on GitHub
-    </a>
-    <a href="https://buymeacoffee.com/IKANDY" target="_blank" style="font-family:'Space Mono',monospace;font-size:11px;color:var(--dim);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;transition:color .2s;" onmouseover="this.style.color='#d4a843'" onmouseout="this.style.color=''">
-      ☕ Buy Me a Coffee
-    </a>
-  </div>
-</div>
+    $('#login-submit').addEventListener('click', () => tryLogin($('#login-input').value, ''));
+    $('#login-input').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); tryLogin($('#login-input').value, ''); }
+    });
+    $('#login-help').addEventListener('click', () => {
+      setLoginError('> Install IKANDY at ikandy.app, then open the app menu and click Show My IKANDY ID.');
+    });
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-logo">IKANDY</div>
-  <ul class="footer-links">
-    <li><a href="guide.html">User Guide</a></li>
-    <li><a href="credits.html">Credits</a></li>
-    <li><a href="ikandy-smart-auto-prior-art.html">Smart Auto</a></li>
-    <li><a href="ikandy-ai-error-sandbox.html">AI Sandbox</a></li>
-    <li><a href="ikandy-vis-format.html">.vis Format</a></li>
-    <li><a href="https://github.com/IKANDYapp/IKANDY" target="_blank">GitHub</a></li>
-    <li><a href="https://github.com/IKANDYapp/IKANDY/releases" target="_blank">Releases</a></li>
-    <li><a href="https://buymeacoffee.com/IKANDY" target="_blank">Support</a></li>
-  </ul>
-  <div class="footer-copy">© 2026 L&amp;R Entertainment LLC · IKANDY.app</div>
-</footer>
-<footer style="text-align:center; padding:20px; opacity:0.7;">
-  © 2026 L&amp;R Entertainment LLC · IKANDY.app
-  <a href="mailto:support@ikandy.app">Contact</a>
-</footer>
+    $$('.icon').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (btn.classList.contains('locked')) {
+          alert(btn.dataset.locked || 'Coming soon.');
+          return;
+        }
+        const action = btn.dataset.action;
+        if (action) handleAction(action);
+      });
+      btn.addEventListener('dblclick', () => {
+        if (btn.classList.contains('locked')) return;
+        const action = btn.dataset.action;
+        if (action) handleAction(action);
+      });
+    });
+
+    const startBtn = $('#start-btn');
+    const startMenu = $('#start-menu');
+    function closeStart() { startMenu.classList.remove('show'); startBtn.classList.remove('open'); }
+    startBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (startMenu.classList.contains('show')) closeStart();
+      else { startMenu.classList.add('show'); startBtn.classList.add('open'); }
+    });
+    document.addEventListener('click', (e) => {
+      if (!startMenu.contains(e.target) && !startBtn.contains(e.target)) closeStart();
+    });
+    $$('.start-item').forEach(item => {
+      item.addEventListener('click', () => { closeStart(); handleAction(item.dataset.action); });
+    });
+
+    $$('[data-action="close-welcome"]').forEach(b => {
+      b.addEventListener('click', () => handleAction('close-welcome'));
+    });
+  });
+
+  window.IKANDY_ARCADE = {
+    getName: () => loadIdentity().name,
+  };
+})();
+</script>
 </body>
 </html>
