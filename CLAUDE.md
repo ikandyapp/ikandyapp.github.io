@@ -1,4 +1,4 @@
-﻿# CLAUDE.md — IKANDY Website / Arcade
+# CLAUDE.md — IKANDY Website / Arcade
 
 Project notes for future Claude sessions working on the website + arcade.
 
@@ -92,6 +92,24 @@ Every game ends with the same structure:
 ## Trademark Notes
 - **Winamp** is a registered trademark of Winamp Group SA (formerly Llama Group) — actively litigious. Do not use "Winamp" in any visible UI text. We use **IKAMP**. The Webamp library is MIT and fine to use; we ship a custom skin (`ikamp.wsz`) without "WINAMP" baked into bitmaps.
 - **SkiFree** uses basicallydan/skifree.js (MIT). LICENSE preserved at `arcade/skifree/LICENSE-skifree.md`. Credit visible in in-game HUD.
+
+## Winners & Founder Badge (DEFERRED — design locked, build later)
+
+Design decisions made but not implemented:
+- **6 winners total** (one per game: skifree/snake/pong/breakout/pinball/mentions)
+- Each winner gets **free Pro for life**
+- Spread the Word winner additionally gets the **Founder badge**
+- Winners chosen entirely at user's discretion (leaderboard rank is a signal, not a rule)
+- One win per user (no double-dipping across games)
+- User can disqualify anyone they suspect of cheating; quality bonuses possible on Spread the Word
+- Winners get announced on the main IKANDY site (`ikandy.app` homepage), NOT inside the arcade
+- Build deferred until closer to or after Steam launch — pre-launch leaderboards are too noisy to crown
+
+When ready to build:
+- New `arcade_winners` table (ikandy_id, game, is_founder, awarded_at, notes; unique on both ikandy_id and game)
+- Soft DQ via `disqualified boolean` on `arcade_scores` / `arcade_mentions` (filter from leaderboard views)
+- Quality bonus: either separate `arcade_mention_bonuses` table or just SQL UPDATE on the row
+- Featured Post mechanism (single hand-picked submission shown on the main site) was discussed but not designed in detail
 
 ## Open Items / Deferred
 - IKANDY app: "Open Arcade" deep-link menu item with `?id=<uuid>&name=<handle>` params (eliminates retyping login)
