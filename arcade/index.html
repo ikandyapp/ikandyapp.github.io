@@ -314,6 +314,122 @@ html, body, .desktop, .window, .icon, .start-btn, .taskbar-btn {
 }
 /* Webamp draws its own classic skin - we only constrain placement */
 
+/* ── Wallpaper poster + Geiss tribute visualizer panel ─────────── */
+.desktop-wallpaper {
+  position: absolute;
+  top: 24px; right: 24px; bottom: 60px;
+  width: min(620px, calc(100vw - 200px));
+  max-height: calc(100vh - 110px);
+  pointer-events: none; z-index: 1;
+  font-family: 'VT323', 'Courier New', monospace;
+  color: #ffffff;
+  user-select: none;
+  display: flex; flex-direction: column; gap: 12px;
+  padding: 8px;
+  filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.4));
+  overflow: hidden;
+}
+.wp-poster {
+  background: linear-gradient(180deg, rgba(0,0,40,0.82) 0%, rgba(0,30,60,0.82) 100%);
+  border: 2px solid;
+  border-color: #ff2d8a #5bc8f5 #5bc8f5 #ff2d8a;
+  padding: 12px 16px;
+  box-shadow:
+    inset 1px 1px 0 rgba(255,255,255,0.3),
+    inset -1px -1px 0 rgba(0,0,0,0.3),
+    4px 4px 0 rgba(0,0,0,0.5);
+  position: relative;
+}
+.wp-poster.tilt-left  { transform: rotate(-0.4deg); }
+.wp-poster.tilt-right { transform: rotate(0.3deg); }
+.wp-header {
+  display: flex; justify-content: space-between; align-items: center;
+  border-bottom: 2px dashed #ffff00;
+  padding-bottom: 6px; margin-bottom: 8px;
+}
+.wp-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 14px;
+  color: #ffff00;
+  text-shadow: 2px 2px 0 #ff2d8a, 4px 4px 0 rgba(0,0,0,0.7);
+  letter-spacing: 0.05em;
+}
+.wp-stamp {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: #ff2d8a;
+  border: 2px solid #ff2d8a;
+  padding: 3px 6px;
+  transform: rotate(-3deg);
+  background: rgba(0,0,0,0.4);
+  letter-spacing: 0.1em;
+}
+.wp-section {
+  font-size: 16px; line-height: 1.35; color: #ffffff;
+}
+.wp-section h3 {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px; color: #5bc8f5;
+  margin-bottom: 6px; letter-spacing: 0.05em;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.6);
+}
+.wp-section h3::before { content: '> '; color: #ffff00; }
+.wp-section p { margin-bottom: 4px; }
+.wp-section .accent { color: #1db954; font-weight: bold; }
+.wp-section .warn   { color: #ff5050; font-weight: bold; }
+.wp-section .pts    { color: #ffff00; font-weight: bold; }
+.wp-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 4px 18px;
+  font-size: 15px;
+}
+.wp-grid div { white-space: nowrap; }
+.wp-footer {
+  text-align: center; font-size: 11px;
+  color: rgba(255,255,255,0.55);
+  font-family: 'Press Start 2P', monospace;
+  letter-spacing: 0.15em;
+  margin-top: 4px; padding: 4px;
+  border-top: 1px dotted rgba(255,255,255,0.3);
+}
+.wp-logos {
+  display: flex; justify-content: center; gap: 14px;
+  font-size: 22px; line-height: 1; margin: 4px 0;
+}
+.wp-scanline {
+  position: absolute; inset: 0; pointer-events: none;
+  background: repeating-linear-gradient(180deg,
+    transparent 0px, transparent 2px,
+    rgba(0,0,0,0.08) 3px, rgba(0,0,0,0.08) 4px);
+  z-index: 2; mix-blend-mode: multiply;
+}
+/* Visualizer-era tribute panel (Geiss-era plugin nod, original art) */
+.wp-viz-panel { padding: 8px 10px 6px; }
+.wp-viz-header {
+  display: flex; align-items: center; gap: 8px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px; color: #5bc8f5; margin-bottom: 4px;
+  letter-spacing: 0.05em;
+}
+.wp-viz-led {
+  display: inline-block; width: 6px; height: 6px;
+  background: #1db954; border-radius: 50%;
+  box-shadow: 0 0 4px #1db954;
+  animation: wp-led-blink 1.2s infinite;
+}
+@keyframes wp-led-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+.wp-viz-fft { margin-left: auto; color: #ffff00; }
+.wp-viz-screen {
+  width: 100%; height: 100px; display: block;
+  border: 1px solid #000;
+  box-shadow: inset 0 0 0 1px #5bc8f5, inset 0 0 12px rgba(0,0,0,0.6);
+  background: #000020;
+}
+.wp-viz-credit {
+  font-size: 10px; color: rgba(255,255,255,0.55);
+  text-align: center; margin-top: 4px;
+  font-style: italic; letter-spacing: 0.02em;
+}
+
 @media (max-width: 600px) {
   .boot, .login { padding: 16px 18px; font-size: 18px; }
   .login-banner-title { font-size: 22px; }
@@ -369,6 +485,135 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
 
 <!-- DESKTOP -->
 <div class="desktop" id="desktop">
+
+  <!-- Win98-era wallpaper poster with arcade rules -->
+  <div class="desktop-wallpaper" id="desktop-wallpaper">
+    <div class="wp-poster tilt-left">
+      <div class="wp-header">
+        <div class="wp-title">★ IKANDY ARCADE ★</div>
+        <div class="wp-stamp">EST. 1998</div>
+      </div>
+      <div class="wp-section">
+        <p>You're one of the first. Six games. Six winners. Each wins <span class="accent">IKANDY Pro — FREE FOR LIFE</span> when we launch on Steam. The Spread the Word champion also earns the legendary <span class="pts">FOUNDER badge</span>.</p>
+      </div>
+    </div>
+
+    <div class="wp-poster tilt-right">
+      <div class="wp-section">
+        <h3>THE SIX GAMES</h3>
+        <div class="wp-grid">
+          <div>1. SkiFree &mdash; <span class="pts">distance</span></div>
+          <div>2. Snake &mdash; <span class="pts">length</span></div>
+          <div>3. Pong &mdash; <span class="pts">endless lives</span></div>
+          <div>4. Breakout &mdash; <span class="pts">bricks broken</span></div>
+          <div>5. Pinball &mdash; <span class="pts">score</span></div>
+          <div>6. Spread the Word &mdash; <span class="pts">posts</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wp-poster tilt-left">
+      <div class="wp-section">
+        <h3>SPREAD THE WORD &mdash; POINT SCALE</h3>
+        <div class="wp-grid">
+          <div>YouTube &middot; Blog &middot; Substack</div><div class="pts">+250 pts</div>
+          <div>Reddit &middot; Bluesky &middot; Mastodon</div><div class="pts">+100 pts</div>
+          <div>Hacker News &middot; GitHub</div><div class="pts">+100 pts</div>
+        </div>
+        <p style="margin-top:8px;">Max <span class="accent">3 posts/day</span>, <span class="accent">1 per platform/day</span>. Include both <strong>"IKANDY"</strong> and your <strong>#NNNNN handle</strong> in the post. We auto-verify on submit.</p>
+      </div>
+    </div>
+
+    <div class="wp-poster tilt-right">
+      <div class="wp-section">
+        <h3>HOUSE RULES</h3>
+        <p><span class="warn">&times;</span> Twitter, Insta, TikTok, Threads, Facebook, LinkedIn &mdash; <span class="warn">NOT SUPPORTED</span>. Their pages can't be auto-verified.</p>
+        <p><span class="warn">&times;</span> Duplicate URLs auto-rejected. One canonical post per user, ever.</p>
+        <p><span class="warn">&times;</span> Quality counts. Standout posts earn <span class="pts">bonus points</span>. Junk farms get <span class="warn">disqualified</span>.</p>
+        <p><span class="warn">&times;</span> Winners chosen at our discretion. Cheaters are out. No appeals.</p>
+        <p style="margin-top:6px;color:#1db954;">✓ Winners announced when IKANDY hits Steam.</p>
+      </div>
+    </div>
+
+    <!-- Visualizer-era tribute panel: original SVG, evokes the late-90s plugin aesthetic -->
+    <div class="wp-poster tilt-right wp-viz-panel">
+      <div class="wp-viz-header">
+        <span class="wp-viz-led"></span>
+        <span class="wp-viz-label">VISUALIZER -- LIVE OUTPUT</span>
+        <span class="wp-viz-fft">BPM 128 &middot; FFT 1024 &middot; PSY</span>
+      </div>
+      <svg class="wp-viz-screen" viewBox="0 0 400 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="vizCore" cx="50%" cy="50%" r="60%">
+            <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
+            <stop offset="20%" stop-color="#ffff00" stop-opacity="0.9"/>
+            <stop offset="55%" stop-color="#ff2d8a" stop-opacity="0.7"/>
+            <stop offset="100%" stop-color="#000033" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="vizWave" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#5bc8f5"/>
+            <stop offset="50%" stop-color="#1db954"/>
+            <stop offset="100%" stop-color="#ff2d8a"/>
+          </linearGradient>
+          <filter id="vizBlur"><feGaussianBlur stdDeviation="2"/></filter>
+        </defs>
+        <rect width="400" height="100" fill="#000020"/>
+        <circle cx="200" cy="50" r="44" fill="url(#vizCore)" filter="url(#vizBlur)"/>
+        <circle cx="100" cy="50" r="22" fill="url(#vizCore)" opacity="0.6" filter="url(#vizBlur)"/>
+        <circle cx="300" cy="50" r="22" fill="url(#vizCore)" opacity="0.6" filter="url(#vizBlur)"/>
+        <path d="M0,50 Q25,20 50,50 T100,50 T150,50 T200,50 T250,50 T300,50 T350,50 T400,50" fill="none" stroke="url(#vizWave)" stroke-width="2" opacity="0.85"/>
+        <path d="M0,50 Q25,80 50,50 T100,50 T150,50 T200,50 T250,50 T300,50 T350,50 T400,50" fill="none" stroke="url(#vizWave)" stroke-width="2" opacity="0.5"/>
+        <g fill="#1db954" opacity="0.7">
+          <rect x="10"  y="82" width="6" height="12"/>
+          <rect x="22"  y="72" width="6" height="22"/>
+          <rect x="34"  y="78" width="6" height="16"/>
+          <rect x="46"  y="62" width="6" height="32"/>
+          <rect x="58"  y="74" width="6" height="20"/>
+          <rect x="70"  y="84" width="6" height="10"/>
+          <rect x="82"  y="68" width="6" height="26"/>
+          <rect x="94"  y="58" width="6" height="36"/>
+          <rect x="106" y="74" width="6" height="20"/>
+          <rect x="118" y="78" width="6" height="16"/>
+          <rect x="130" y="64" width="6" height="30"/>
+          <rect x="142" y="72" width="6" height="22"/>
+          <rect x="154" y="56" width="6" height="38"/>
+          <rect x="166" y="68" width="6" height="26"/>
+          <rect x="178" y="60" width="6" height="34"/>
+          <rect x="190" y="50" width="6" height="44"/>
+          <rect x="202" y="58" width="6" height="36"/>
+          <rect x="214" y="64" width="6" height="30"/>
+          <rect x="226" y="72" width="6" height="22"/>
+          <rect x="238" y="60" width="6" height="34"/>
+          <rect x="250" y="68" width="6" height="26"/>
+          <rect x="262" y="74" width="6" height="20"/>
+          <rect x="274" y="64" width="6" height="30"/>
+          <rect x="286" y="78" width="6" height="16"/>
+          <rect x="298" y="72" width="6" height="22"/>
+          <rect x="310" y="60" width="6" height="34"/>
+          <rect x="322" y="68" width="6" height="26"/>
+          <rect x="334" y="74" width="6" height="20"/>
+          <rect x="346" y="78" width="6" height="16"/>
+          <rect x="358" y="64" width="6" height="30"/>
+          <rect x="370" y="72" width="6" height="22"/>
+          <rect x="382" y="82" width="6" height="12"/>
+        </g>
+      </svg>
+      <div class="wp-viz-credit">In tribute to Ryan Geiss &amp; the visualizer pioneers of 1998. Built with respect, not affiliated.</div>
+    </div>
+
+    <div class="wp-poster tilt-left" style="text-align:center;">
+      <div class="wp-logos">
+        <span style="color:#d4a843;">◆</span>
+        <span style="color:#ff2d8a;">◆</span>
+        <span style="color:#1db954;">◆</span>
+        <span style="color:#5bc8f5;">◆</span>
+      </div>
+      <div class="wp-footer">&copy; 1998 IKANDY ARCADE &middot; PLAY HARD &middot; SPREAD WIDE</div>
+    </div>
+
+    <div class="wp-scanline"></div>
+  </div>
+
 
   <div class="icon-grid">
     <button class="icon" data-action="open-skifree">
