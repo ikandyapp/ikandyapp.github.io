@@ -118,6 +118,18 @@ When ready to build:
 - Steam Direct submission
 - Total-mentions meta-leaderboard / IKANDY MVP badge for users holding #1 across multiple games
 
+## Admin Dashboard (local-only)
+
+A standalone admin tool lives at `C:\ikandy-admin\admin.html` — NOT in the git repo. It uses the Supabase service_role key (pasted into the file directly) to manage Spread the Word submissions:
+- Filter/browse all submissions
+- Grant bonus points with required note (stored in `arcade_mentions.bonus_points` + `admin_note`)
+- Reject/un-reject single submissions
+- Ban users entirely (writes to `arcade_banned_users`; Edge Function `arcade-submit-mention` checks this table and refuses banned submissions)
+
+The leaderboard view (`arcade_mentions_leaderboard`) sums `points + bonus_points` for the total.
+
+NEVER commit `admin.html` to git — it contains the service_role key. The file lives outside the repo on purpose.
+
 ## Anti-cheat (current state)
 The score Edge Function validates:
 - UUID format on `ikandyId` and `sessionId`
