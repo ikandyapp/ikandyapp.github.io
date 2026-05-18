@@ -841,7 +841,7 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
     });
     document.querySelectorAll("[data-action=close-scores]").forEach(function(b){b.addEventListener("click",closeScores);});
     document.querySelectorAll(".score-tab").forEach(function(t){t.addEventListener("click",function(){document.querySelectorAll(".score-tab").forEach(function(x){x.classList.remove("active");x.style.background="#c0c0c0";});t.classList.add("active");t.style.background="#fff";fetchScores(t.dataset.game);});});
-    var srb=document.getElementById("scores-refresh-btn");if(srb)srb.addEventListener("click",fetchScores);
+    var srb=document.getElementById("scores-refresh-btn");if(srb)srb.addEventListener("click",function(){var at=document.querySelector(".score-tab.active");fetchScores(at?at.dataset.game:"skifree");});
   });
 
   window.IKANDY_ARCADE = {
