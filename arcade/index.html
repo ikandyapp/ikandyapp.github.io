@@ -372,17 +372,17 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
       <span class="icon-img"><span class="icon-glyph glyph-ski"></span></span>
       <span class="icon-label">SkiFree</span>
     </button>
-    <button class="icon locked" data-locked="Snake is coming soon.">
+    <button class="icon" data-action="open-snake">
       <span class="icon-img"><span class="icon-glyph glyph-snake"></span></span>
-      <span class="icon-label">Snake<br>(soon)</span>
+      <span class="icon-label">Snake</span>
     </button>
-    <button class="icon locked" data-locked="Pong is coming soon.">
+    <button class="icon" data-action="open-pong">
       <span class="icon-img"><span class="icon-glyph glyph-pong"></span></span>
-      <span class="icon-label">Pong<br>(soon)</span>
+      <span class="icon-label">Pong</span>
     </button>
-    <button class="icon locked" data-locked="Breakout is coming soon.">
+    <button class="icon" data-action="open-breakout">
       <span class="icon-img"><span class="icon-glyph glyph-brick"><i></i><i></i><i></i><i></i><i></i><i></i></span></span>
-      <span class="icon-label">Breakout<br>(soon)</span>
+      <span class="icon-label">Breakout</span>
     </button>
     <button class="icon" data-action="open-ikamp">
       <span class="icon-img"><span class="icon-glyph glyph-ikamp"><i style="height:60%"></i><i style="height:90%"></i><i style="height:40%"></i><i style="height:80%"></i><i style="height:55%"></i></span></span>
@@ -750,6 +750,9 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
   function handleAction(action) {
     switch (action) {
       case 'open-skifree': location.href = 'skifree.html'; break;
+      case 'open-snake':    location.href = 'snake.html'; break;
+      case 'open-pong':     location.href = 'pong.html'; break;
+      case 'open-breakout': location.href = 'breakout.html'; break;
       case 'open-ikamp':   openIkamp(); break;
       case 'open-scores':  openScores(); break;
       case 'close-scores': closeScores(); break;
@@ -830,5 +833,6 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
 </script>
 </body>
 </html>
+
 
 
