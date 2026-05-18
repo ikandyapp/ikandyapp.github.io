@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -351,7 +351,9 @@ html, body, .desktop, .window, .icon, .start-btn, .taskbar-btn {
     <input type="text" class="login-input" id="login-input"
       placeholder="xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
       spellcheck="false" autocapitalize="off" autocorrect="off">
-    <div class="login-error" id="login-error"></div>
+    <div class="login-prompt" style="margin-top:16px"><span class="login-prompt-label">&gt; Enter your handle (optional):</span></div>
+      <input type="text" class="login-input" id="login-name-input" placeholder="Mildly-Cursed Earl..." spellcheck="false" maxlength="120">
+      <div class="login-error" id="login-error"></div>
     <div class="login-actions">
       <button type="submit" class="login-btn" id="login-submit">[ ENTER ]</button>
       <button type="button" class="login-btn ghost" id="login-help">[ I DON'T HAVE ONE ]</button>
@@ -795,9 +797,9 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
       showLogin();
     }
 
-    $('#login-submit').addEventListener('click', () => tryLogin($('#login-input').value, ''));
+    $('#login-submit').addEventListener('click', () => tryLogin($('#login-input').value, $('#login-name-input').value));
     $('#login-input').addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') { e.preventDefault(); tryLogin($('#login-input').value, ''); }
+      if (e.key === 'Enter') { e.preventDefault(); tryLogin($('#login-input').value, $('#login-name-input').value); }
     });
     $('#login-help').addEventListener('click', () => {
       setLoginError('> Install IKANDY at ikandy.app, then open the app menu and click Show My IKANDY ID.');
