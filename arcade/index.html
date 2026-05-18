@@ -736,6 +736,23 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
   <!-- IKAMP mount point - Webamp injects into this -->
   <div id="ikamp-mount"></div>
 
+  <!-- IKQ message window -->
+  <div class="ikq-window" id="ikq-window">
+    <div class="titlebar">
+      <span class="titlebar-text"><span class="titlebar-icon"></span>IKQ &mdash; Messages</span>
+      <span class="titlebar-controls">
+        <button class="titlebar-btn" id="ikq-close" title="Close">x</button>
+      </span>
+    </div>
+    <div class="ikq-body" id="ikq-body">
+      <div class="ikq-empty">Loading messages&hellip;</div>
+    </div>
+    <div class="ikq-actions">
+      <span id="ikq-count">&mdash;</span>
+      <button class="win-btn" id="ikq-mark-read" style="font-size:10px;padding:2px 10px;">Mark all read</button>
+    </div>
+  </div>
+
   <!-- Taskbar -->
   <div class="taskbar">
     <button class="start-btn" id="start-btn">
@@ -749,6 +766,19 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
       <span class="tray-music" id="tray-music" title="IKAMP">&#9836;</span>
       <span style="color:#808080;">|</span>
       <span class="tray-help" id="tray-help" title="Welcome / About" style="cursor:pointer;color:#000080;font-weight:bold;">?</span>
+      <span style="color:#808080;">|</span>
+      <span class="tray-ikq" id="tray-ikq" title="IKQ Messages" style="cursor:pointer;position:relative;display:inline-flex;align-items:center;width:18px;height:14px;">
+        <svg viewBox="0 0 16 16" width="16" height="16" style="display:block;">
+          <!-- 5-petal flower, evocative not copied -->
+          <circle cx="8" cy="3"  r="2.6" fill="#1db954"/>
+          <circle cx="13" cy="6" r="2.6" fill="#1db954"/>
+          <circle cx="11" cy="12" r="2.6" fill="#1db954"/>
+          <circle cx="5" cy="12" r="2.6" fill="#1db954"/>
+          <circle cx="3" cy="6"  r="2.6" fill="#1db954"/>
+          <circle cx="8" cy="7.5" r="2.2" fill="#ffff00"/>
+        </svg>
+        <span class="ikq-badge" id="ikq-badge" style="display:none;"></span>
+      </span>
       <span style="color:#808080;">|</span>
       <span class="tray-clock" id="tray-clock">--:-- --</span>
     </div>
@@ -1114,6 +1144,126 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
     document.querySelectorAll(".score-tab").forEach(function(t){t.addEventListener("click",function(){document.querySelectorAll(".score-tab").forEach(function(x){x.classList.remove("active");x.style.background="#c0c0c0";});t.classList.add("active");t.style.background="#fff";fetchScores(t.dataset.game);});});
     var srb=document.getElementById("scores-refresh-btn");if(srb)srb.addEventListener("click",function(){var at=document.querySelector(".score-tab.active");fetchScores(at?at.dataset.game:"skifree");});
     var th=document.getElementById("tray-help");if(th)th.addEventListener("click",function(){$("#welcome-window").classList.add("show");});
+
+    // ─── IKQ: message tray + window ───
+    let ikqMessages = [];
+    let ikqReadIds = new Set();
+    const IKQ_LS_KEY = 'ikq_read_ids_v1';
+
+    function ikqLoadReadIds() {
+      try {
+        const arr = JSON.parse(localStorage.getItem(IKQ_LS_KEY) || '[]');
+        ikqReadIds = new Set(arr);
+      } catch(e) { ikqReadIds = new Set(); }
+    }
+    function ikqSaveReadIds() {
+      try { localStorage.setItem(IKQ_LS_KEY, JSON.stringify([...ikqReadIds])); } catch(e) {}
+    }
+
+    async function ikqFetch() {
+      const ident = loadIdentity();
+      if (!ident.id) return;
+      try {
+        // Fetch: messages for this user OR broadcast messages (ikandy_id is null)
+        const url = SUPABASE_URL + "/rest/v1/arcade_messages"
+          + "?or=(ikandy_id.eq." + ident.id + ",ikandy_id.is.null)"
+          + "&order=created_at.desc&limit=50";
+        const r = await fetch(url, {
+          headers: { apikey: SUPABASE_ANON_KEY, Authorization: "Bearer " + SUPABASE_ANON_KEY }
+        });
+        if (!r.ok) return;
+        ikqMessages = await r.json();
+        ikqRender();
+      } catch(e) { /* ignore */ }
+    }
+
+    function ikqUnreadCount() {
+      return ikqMessages.filter(m => !ikqReadIds.has(m.id)).length;
+    }
+
+    function ikqUpdateTray() {
+      const tray = document.getElementById('tray-ikq');
+      const badge = document.getElementById('ikq-badge');
+      if (!tray || !badge) return;
+      const n = ikqUnreadCount();
+      if (n > 0) {
+        tray.classList.add('has-unread');
+        badge.style.display = 'inline-block';
+        badge.textContent = n > 9 ? '9+' : String(n);
+      } else {
+        tray.classList.remove('has-unread');
+        badge.style.display = 'none';
+      }
+    }
+
+    function ikqFmtTime(iso) {
+      try {
+        const d = new Date(iso);
+        const now = new Date();
+        const sameDay = d.toDateString() === now.toDateString();
+        if (sameDay) return d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+        return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      } catch(e) { return ''; }
+    }
+
+    function ikqEscape(s) {
+      return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function ikqRender() {
+      const body = document.getElementById('ikq-body');
+      const count = document.getElementById('ikq-count');
+      if (!body) return;
+      if (!ikqMessages.length) {
+        body.innerHTML = '<div class="ikq-empty">No messages yet. Keep playing.</div>';
+        if (count) count.textContent = '0 messages';
+        ikqUpdateTray();
+        return;
+      }
+      body.innerHTML = ikqMessages.map(m => {
+        const unread = !ikqReadIds.has(m.id);
+        return '<div class="ikq-msg ' + (unread ? 'unread' : '') + '" data-id="' + m.id + '">'
+          + '<div class="ikq-msg-header"><span class="ikq-msg-from">'
+          + ikqEscape(m.from_handle) + '</span><span class="ikq-msg-time">'
+          + ikqFmtTime(m.created_at) + '</span></div>'
+          + '<div class="ikq-msg-subject">' + ikqEscape(m.subject) + '</div>'
+          + '<div class="ikq-msg-body">' + ikqEscape(m.body) + '</div>'
+          + '</div>';
+      }).join('');
+      if (count) count.textContent = ikqMessages.length + ' message' + (ikqMessages.length === 1 ? '' : 's') + ', ' + ikqUnreadCount() + ' unread';
+      ikqUpdateTray();
+    }
+
+    function ikqOpen() {
+      const w = document.getElementById('ikq-window');
+      if (w) w.classList.add('show');
+      // Mark all as read on open
+      for (const m of ikqMessages) ikqReadIds.add(m.id);
+      ikqSaveReadIds();
+      ikqRender();
+    }
+    function ikqClose() {
+      const w = document.getElementById('ikq-window');
+      if (w) w.classList.remove('show');
+    }
+
+    const ikqTray = document.getElementById('tray-ikq');
+    if (ikqTray) ikqTray.addEventListener('click', function() {
+      const w = document.getElementById('ikq-window');
+      if (w && w.classList.contains('show')) ikqClose(); else ikqOpen();
+    });
+    const ikqCloseBtn = document.getElementById('ikq-close');
+    if (ikqCloseBtn) ikqCloseBtn.addEventListener('click', ikqClose);
+    const ikqMarkBtn = document.getElementById('ikq-mark-read');
+    if (ikqMarkBtn) ikqMarkBtn.addEventListener('click', function() {
+      for (const m of ikqMessages) ikqReadIds.add(m.id);
+      ikqSaveReadIds();
+      ikqRender();
+    });
+
+    ikqLoadReadIds();
+    setTimeout(ikqFetch, 1500);
+    setInterval(ikqFetch, 30000);  // poll every 30s
   });
 
   window.IKANDY_ARCADE = {
