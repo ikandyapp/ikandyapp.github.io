@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -198,9 +198,9 @@ html, body, .desktop, .window, .icon, .start-btn, .taskbar-btn {
   font-size: 11px; background: #c0c0c0;
 }
 .tray-user { color: #000080; font-weight: bold; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.tray-music { font-size: 11px; line-height: 1; }
-.tray-music.playing { color: #1db954; animation: bump 0.6s ease infinite alternate; }
-@keyframes bump { from { transform: scale(1); } to { transform: scale(1.15); } }
+.tray-music { display: inline-block; min-width: 14px; text-align: center; font-size: 13px; line-height: 1; }
+.tray-music.playing { color: #1db954; animation: bump 0.42s ease infinite alternate; font-weight: bold; text-shadow: 0 0 4px rgba(29,185,84,0.6); }
+@keyframes bump { 0% { transform: scale(1) rotate(-10deg); } 100% { transform: scale(1.45) rotate(10deg); } }
 .tray-clock { color: #000; min-width: 56px; text-align: right; }
 
 /* Start menu */
@@ -655,22 +655,44 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
       });
     }
 
-    // Poll the audio state every 500ms for tray indicator
+    // Wrap play/pause methods so we fire indicator updates reliably
+    // (Webamp has no onPlay/onPause events, only onTrackDidChange)
+    try {
+      const origPlay = webampInstance.play.bind(webampInstance);
+      const origPause = webampInstance.pause.bind(webampInstance);
+      webampInstance.play = function() { setMusicIndicator(true); return origPlay(); };
+      webampInstance.pause = function() { setMusicIndicator(false); return origPause(); };
+    } catch(e) { console.warn('Could not wrap Webamp transport methods:', e); }
+
+    // Also watch the .countdown digits for changes; this catches state when
+    // the user clicks Webamp's own play/pause buttons (not our wrapped methods)
+    let lastDigitState = '';
+    let lastChangeAt = 0;
     const stateInterval = setInterval(() => {
       if (!webampInstance) { clearInterval(stateInterval); return; }
       try {
-        const audio = document.querySelector('#ikamp-mount audio');
-        if (audio) {
-          setMusicIndicator(!audio.paused && !audio.ended);
+        const digits = document.querySelectorAll('.webamp-status .countdown .digit, .webamp-status .countdown .digit-2');
+        if (!digits.length) return;
+        const state = [...digits].map(d => d.className).join(',');
+        const now = Date.now();
+        if (state !== lastDigitState) {
+          lastDigitState = state;
+          lastChangeAt = now;
+          setMusicIndicator(true);
+        } else if (now - lastChangeAt > 1200) {
+          // 1.2s without a digit change = paused or stopped
+          setMusicIndicator(false);
         }
       } catch (e) {}
-    }, 500);
+    }, 400);
 
     addTaskbarEntry('ikamp', 'IKAMP', '&#127911;', () => {
-      const m = document.getElementById('ikamp-mount');
-      if (!m) return;
-      const isHidden = m.style.display === 'none';
-      m.style.display = isHidden ? 'block' : 'none';
+      const wa = document.getElementById('webamp');
+      if (!wa) return;
+      const isHidden = wa.style.display === 'none';
+      wa.style.display = isHidden ? '' : 'none';
+      const task = document.getElementById('task-ikamp');
+      if (task) task.classList.toggle('active', isHidden);
     });
   }
 
