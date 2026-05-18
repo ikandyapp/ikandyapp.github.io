@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -86,10 +86,41 @@
   const origSetItem = localStorage.setItem.bind(localStorage);
   localStorage.setItem = function(key, value) {
     origSetItem(key, value);
-    if (key === 'highScore') submitScore(parseFloat(value));
+    if (key === 'highScore') {
+        submitScore(parseFloat(value));
+        var ov = document.getElementById('sf-overlay');
+        var fs = document.getElementById('sf-final-score');
+        if (fs) fs.textContent = Math.round(parseFloat(value) || 0);
+        if (ov) setTimeout(function(){ ov.classList.add('show'); }, 400);
+      }
   };
 })();
 </script>
 <script src="skifree.js"></script>
+<style>
+.sf-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.92); display: none; flex-direction: column; align-items: center; justify-content: center; gap: 18px; padding: 24px; z-index: 10000; font-family: "Courier New", monospace; }
+.sf-overlay.show { display: flex; }
+.sf-overlay h1 { color: #fff; font-size: 44px; letter-spacing: .3em; text-shadow: 0 0 18px rgba(255,255,255,.4); margin: 0; }
+.sf-overlay p { color: #888; font-size: 12px; letter-spacing: .15em; text-transform: uppercase; margin: 0; }
+.sf-overlay .btn-row { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 10px; }
+.sf-overlay button { background: #000; color: #fff; border: 1px solid #fff; font-family: "Courier New", monospace; font-size: 14px; padding: 12px 36px; cursor: pointer; letter-spacing: .3em; }
+.sf-overlay button:hover { background: #fff; color: #000; }
+.sf-overlay button.secondary { color: #888; border-color: #555; }
+.sf-overlay button.secondary:hover { background: #555; color: #fff; }
+</style>
+<div class="sf-overlay" id="sf-overlay">
+  <h1>GAME OVER</h1>
+  <p>FINAL DISTANCE: <strong id="sf-final-score" style="color:#fff">0</strong>m</p>
+  <div class="btn-row">
+    <button id="sf-btn-retry">[ PLAY AGAIN ]</button>
+    <button id="sf-btn-back" class="secondary">[ BACK TO ARCADE ]</button>
+  </div>
+</div>
+<script>
+(function() {
+  document.getElementById('sf-btn-retry').addEventListener('click', function() { location.reload(); });
+  document.getElementById('sf-btn-back').addEventListener('click', function() { location.href = '../index.html'; });
+})();
+</script>
 </body>
 </html>
