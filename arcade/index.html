@@ -577,7 +577,7 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
     try { if (!localStorage.getItem('ikandy_arcade_welcomed_v1')) { $('#welcome-window').classList.add('show'); localStorage.setItem('ikandy_arcade_welcomed_v1', '1'); } } catch(e) { $('#welcome-window').classList.add('show'); }
     startClock();
     // Preload Webamp in the background so first IKAMP click is instant
-    setTimeout(function(){ loadWebamp().catch(function(){}); }, 1500);
+    setTimeout(function(){ openIkamp().catch(function(){}); }, 800);
   }
 
   let clockTimer = null;
@@ -764,9 +764,9 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
     const mount = document.getElementById('ikamp-mount');
     if (!mount) return;
     // Place in the upper-right; Webamp's own draggable system takes over after this
-    mount.style.top = '32px';
-    mount.style.right = '32px';
-    mount.style.left = 'auto';
+    var __w = window.innerWidth, __h = window.innerHeight; mount.style.top = Math.max(40, Math.round(__h / 2 - 240)) + 'px';
+    mount.style.left = Math.max(20, Math.round(__w / 2 - 138)) + 'px';
+    mount.style.right = 'auto';
   }
 
 
