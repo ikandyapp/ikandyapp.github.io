@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -105,6 +105,15 @@ input.txt:focus { outline: 1px dotted #000080; }
   display: flex; justify-content: space-between; align-items: center;
 }
 .daily-meter strong { color: #c00080; }
+.handle-box {
+  background: #fff; border: 1px inset #808080; padding: 8px 12px; margin: 10px 0 14px;
+}
+.handle-row { display: flex; align-items: center; gap: 8px; }
+.handle-row code {
+  flex: 1; font-family: 'Courier New', monospace; font-size: 11px; color: #c00080;
+  background: #f0f0f0; padding: 4px 6px; border: 1px inset #808080;
+  word-break: break-all;
+}
 </style>
 </head>
 <body>
@@ -123,10 +132,19 @@ input.txt:focus { outline: 1px dotted #000080; }
     <p>Posted about IKANDY somewhere? Drop the link below and earn points. The more you spread, the more you score.</p>
 
     <div class="points-table">
-      <div><span>YouTube / Blog post</span> <strong>+250 pts</strong></div>
-      <div><span>Reddit / Instagram</span> <strong>+100 pts</strong></div>
-      <div><span>Twitter / TikTok / Threads</span> <strong>+50 pts</strong></div>
-      <div><span>Press article</span> <strong>+500 pts</strong></div>
+      <div><span>YouTube / Blog / Substack / Medium</span> <strong>+250 pts</strong></div>
+      <div><span>Reddit / Bluesky / Mastodon / HN / GitHub</span> <strong>+100 pts</strong></div>
+    </div>
+
+    <div class="handle-box">
+      <div style="font-size:11px;color:#000080;font-weight:bold;margin-bottom:4px;">Your handle (include this in your post!):</div>
+      <div class="handle-row">
+        <code id="my-handle">&mdash;</code>
+        <button class="win-btn" id="copy-handle-btn" style="padding:2px 10px;min-width:auto;font-size:11px;">Copy</button>
+      </div>
+      <div style="font-size:10px;color:#404040;margin-top:6px;">
+        You can include either the full handle OR just the <strong>#NNNNN</strong> suffix. Both work.
+      </div>
     </div>
 
     <div class="daily-meter">
@@ -136,13 +154,13 @@ input.txt:focus { outline: 1px dotted #000080; }
 
     <div class="form-row">
       <label for="url-input">URL where you mentioned IKANDY:</label>
-      <input type="url" id="url-input" class="txt" placeholder="https://youtube.com/watch?v=... or https://x.com/you/status/..." autocomplete="off" spellcheck="false">
+      <input type="url" id="url-input" class="txt" placeholder="https://youtube.com/watch?v=... or https://reddit.com/r/.../comments/..." autocomplete="off" spellcheck="false">
     </div>
 
     <div class="status-box" id="status"></div>
 
     <p style="font-size: 11px; color: #404040; margin-top: 12px;">
-      <strong>Rules:</strong> Max 3 submissions per day, 1 per platform. Duplicate URLs are rejected. Twitter / Insta / TikTok need manual review. We may spot-check that the link actually mentions IKANDY.
+      <strong>How it works:</strong> Post about IKANDY anywhere we support (YouTube description, blog, Reddit, Bluesky, Mastodon, HN, GitHub). <strong>Include both "IKANDY" and your handle</strong> (or just your <code>#NNNNN</code>) in the post. We fetch the URL and verify automatically. Max 3 submissions per day, 1 per platform. Duplicate URLs are rejected. Twitter, Instagram, TikTok, Threads, and Facebook aren't supported since their content isn't auto-readable.
     </p>
 
     <div class="history">
@@ -279,10 +297,15 @@ input.txt:focus { outline: 1px dotted #000080; }
         $('#url-input').value = '';
         loadHistory();
       } else {
+        const handleHint = (extractSuffix(ikandyName) || ikandyName);
         const reasons = {
           duplicate: 'That URL has already been submitted (by you or someone else).',
           daily_limit: 'You\'ve hit today\'s 3-submission cap. Try again tomorrow.',
           domain_limit: 'You already submitted a link from that platform today. Try a different platform.',
+          unsupported_platform: 'That platform isn\'t supported (Twitter / Instagram / TikTok / Threads / Facebook / LinkedIn). Try YouTube, Reddit, Bluesky, Mastodon, HN, GitHub, or a blog.',
+          no_keyword: 'We fetched the page but didn\'t find "IKANDY" in it. Make sure the post actually mentions IKANDY, then resubmit.',
+          no_handle: 'We found "IKANDY" on the page but not your handle <code>' + handleHint + '</code>. Add it to the post (anywhere visible) and resubmit so we can prove it was you.',
+          fetch_failed: 'We couldn\'t fetch that URL. It might be private, blocked, or temporarily down. Try again later.',
           bad_request: 'Invalid request. ' + (j.detail || ''),
           internal: 'Server error. Try again in a moment.',
         };
@@ -299,6 +322,32 @@ input.txt:focus { outline: 1px dotted #000080; }
   $('#url-input').addEventListener('keydown', e => {
     if (e.key === 'Enter') { e.preventDefault(); submit(); }
   });
+
+    function extractSuffix(handle) {
+    var m = (handle || '').match(/#(\d{4,8})\b/);
+    return m ? '#' + m[1] : null;
+  }
+
+  // Render handle + copy button
+  var handleEl = document.getElementById('my-handle');
+  if (handleEl) handleEl.textContent = ikandyName;
+  var copyBtn = document.getElementById('copy-handle-btn');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', function() {
+      var suffix = extractSuffix(ikandyName);
+      var toCopy = suffix || ikandyName;
+      navigator.clipboard.writeText(toCopy).then(function() {
+        copyBtn.textContent = 'Copied!';
+        setTimeout(function() { copyBtn.textContent = 'Copy'; }, 1500);
+      }).catch(function() {
+        // Fallback
+        var ta = document.createElement('textarea');
+        ta.value = toCopy; document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy'); copyBtn.textContent = 'Copied!'; setTimeout(function() { copyBtn.textContent = 'Copy'; }, 1500); } catch(e) {}
+        document.body.removeChild(ta);
+      });
+    });
+  }
 
   loadHistory();
 })();
