@@ -354,6 +354,60 @@ body::before {
 (() => {
   'use strict';
 
+  // -- Supabase / Arcade identity -------------------------------------------
+  // SUPABASE_ANON_KEY is the publishable anon/public key — safe to ship in
+  // client JS. Replace before deploying; never paste in chat.
+  const SUPABASE_URL      = 'https://grimznincoiujnurhmlx.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdyaW16bmluY29pdWpudXJobWx4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxNDQ5NzAsImV4cCI6MjA5MjcyMDk3MH0.X-eXBp4gF3RthSt10As83Ft4z5rOc929IMdis5BSuxk';
+  const ARCADE_LS_KEY_ID  = 'ikandy_arcade_id_v1';
+  const ARCADE_LS_KEY_NAME = 'ikandy_arcade_name';
+
+  /** Returns {id, name} from localStorage, or {id:null, name:null}. */
+  function getArcadeIdentity() {
+    return {
+      id:   localStorage.getItem(ARCADE_LS_KEY_ID)   || null,
+      name: localStorage.getItem(ARCADE_LS_KEY_NAME) || null
+    };
+  }
+
+  /**
+   * Fire-and-forget score submission to the Supabase Edge Function.
+   * Silent fail on every error path — the game should never block on this.
+   * Only submits when:
+   *   - payload.isClientValid is true
+   *   - the player has an arcade identity (UUID + display name in localStorage)
+   * Standalone visitors without an IKANDY identity get no submission.
+   */
+  async function submitScoreToSupabase(payload) {
+    if (!payload.isClientValid) return;
+    const ident = getArcadeIdentity();
+    if (!ident.id || !ident.name) return;          // no identity → silent skip
+
+    const body = {
+      ikandyId:         ident.id,
+      ikandyName:       ident.name,
+      game:             'skifree',
+      score:            payload.score,
+      timeSec:          payload.timeSec,
+      interactionCount: payload.interactions,
+      sessionId:        payload.sessionId
+    };
+
+    try {
+      await fetch(`${SUPABASE_URL}/functions/v1/arcade-submit-score`, {
+        method:  'POST',
+        headers: {
+          'Content-Type':  'application/json',
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+          'apikey':        SUPABASE_ANON_KEY
+        },
+        body: JSON.stringify(body)
+      });
+    } catch (_) {
+      // Network error — silent fail
+    }
+  }
+
   // -- Canvas setup ----------------------------------------------------------
   const canvas = document.getElementById('game');
   const ctx = canvas.getContext('2d');
@@ -807,10 +861,10 @@ body::before {
   document.getElementById('btn-start').addEventListener('click', startGame);
   document.getElementById('btn-retry').addEventListener('click', startGame);
 
-  // -- ANTI-CHEAT VALIDATION -------------------------------------------------
+  // -- ANTI-CHEAT VALIDATION + SCORE SUBMISSION ---------------------------------
   // Score must be plausible given time elapsed and interaction count.
-  // These checks run client-side for UX feedback, AND should re-run server-side
-  // when integrated with Supabase score submission.
+  // Client-side checks run first for quick rejection; the Edge Function
+  // re-validates everything server-side before inserting into arcade_scores.
   function validateRun(score, timeSec, interactions) {
     const MAX_SPEED = 130;        // hard speed cap in update()
     const BUFFER = 1.08;          // 8% buffer for timing variance
@@ -846,12 +900,15 @@ body::before {
       isClientValid: flags.length === 0
     };
 
+    // Submit to Supabase (fire-and-forget; silent fail on any error)
+    submitScoreToSupabase(runPayload);
+
     if (flags.length > 0) {
       console.warn('[IKANDY-ARCADE] Run failed client validation:', flags);
       // Don't tell the user -- they'll just try harder
     }
 
-    // Stash for future Supabase submission
+    // Stash for post-game inspection
     window.__lastRun = runPayload;
     return runPayload;
   }
