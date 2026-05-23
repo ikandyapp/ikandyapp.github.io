@@ -1249,7 +1249,7 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
         const url = SUPABASE_URL + "/rest/v1/arcade_messages"
           + "?or=(ikandy_id.eq." + ident.id + ",ikandy_id.is.null)"
           + "&order=created_at.desc&limit=50";
-        const r = await fetch(url, {
+        const r = await fetch(url, { cache: "no-store",
           headers: { apikey: SUPABASE_ANON_KEY, Authorization: "Bearer " + SUPABASE_ANON_KEY }
         });
         if (!r.ok) return;
@@ -1334,13 +1334,10 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
     const ikqCloseBtn = document.getElementById('ikq-close');
     if (ikqCloseBtn) ikqCloseBtn.addEventListener('click', ikqClose);
     const ikqRefBtn = document.getElementById('ikq-refresh');
-    if (ikqRefBtn) ikqRefBtn.addEventListener('click', ikqFetch);
+    if (ikqRefBtn) ikqRefBtn.addEventListener('click', async function(){ const o=ikqRefBtn.textContent; ikqRefBtn.textContent='Refreshing...'; ikqRefBtn.disabled=true; try{ await ikqFetch(); } finally { ikqRefBtn.textContent=o; ikqRefBtn.disabled=false; } });
     const ikqMarkBtn = document.getElementById('ikq-mark-read');
-    if (ikqMarkBtn) ikqMarkBtn.addEventListener('click', function() {
-      for (const m of ikqMessages) ikqReadIds.add(m.id);
-      ikqSaveReadIds();
-      ikqRender();
-    });
+    if (ikqMarkBtn) ikqMarkBtn.addEventListener('click', async function() { const o=ikqMarkBtn.textContent; ikqMarkBtn.textContent='Marking...'; ikqMarkBtn.disabled=true; try { await ikqFetch();
+      for (const m of ikqMessages) ikqReadIds.add(m.id); ikqSaveReadIds(); ikqRender(); } finally { ikqMarkBtn.textContent=o; ikqMarkBtn.disabled=false; } });
 
     window.__ikqMarkRead = function(id) {
       ikqReadIds.add(id);
