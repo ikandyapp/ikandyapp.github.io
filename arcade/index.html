@@ -130,6 +130,9 @@ html, body, .desktop, .window, .icon, .start-btn, .taskbar-btn {
 .glyph-brick > i:nth-child(4) { background: #00ff00; }
 .glyph-brick > i:nth-child(5) { background: #00aaff; }
 .glyph-brick > i:nth-child(6) { background: #aa00ff; }
+.glyph-jezz { background: #000080; display: flex; align-items: center; justify-content: center; position: relative; }
+.glyph-jezz::before { content: ''; width: 18px; height: 18px; background: #ffff00; border-radius: 50%; box-shadow: 0 0 4px #ffaa00, inset -2px -2px 0 rgba(0,0,0,0.3); }
+.glyph-jezz::after { content: ''; position: absolute; inset: 4px; border: 1px solid #ff2d8a; pointer-events: none; }
 .glyph-ikamp { background: #1d1d1d; display: flex; align-items: flex-end; justify-content: center; padding: 2px; gap: 1px; }
 .glyph-ikamp > i { display: block; width: 3px; background: #00ff00; }
 .glyph-score { background: #c0c0c0; font-family: 'Press Start 2P', monospace; font-size: 8px; color: #000; padding-top: 6px; }
@@ -560,13 +563,13 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
         <div class="wp-stamp">EST. 1998</div>
       </div>
       <div class="wp-section">
-        <p>You're one of the first. Six games. Six winners. Each wins <span class="accent">IKANDY Pro Γ&mdash; FREE FOR LIFE</span> when we launch on Steam. The Spread the Word champion also earns the legendary <span class="pts">FOUNDER badge</span>.</p>
+        <p>You're one of the first. Seven games. Seven winners. Each wins <span class="accent">IKANDY Pro Γ&mdash; FREE FOR LIFE</span> when we launch on Steam. The Spread the Word champion also earns the legendary <span class="pts">FOUNDER badge</span>.</p>
       </div>
     </div>
 
     <div class="wp-poster tilt-right">
       <div class="wp-section">
-        <h3>THE SIX GAMES</h3>
+        <h3>THE SEVEN GAMES</h3>
         <div class="wp-grid">
           <div>1. SkiFree &mdash; <span class="pts">distance</span></div>
           <div>2. Snake &mdash; <span class="pts">length</span></div>
@@ -574,6 +577,7 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
           <div>4. Breakout &mdash; <span class="pts">bricks broken</span></div>
           <div>5. Pinball &mdash; <span class="pts">high score</span></div>
           <div>6. Spread the Word &mdash; <span class="pts">posts</span></div>
+          <div>7. JezzBall &mdash; <span class="pts">high score</span></div>
         </div>
       </div>
     </div>
@@ -702,6 +706,10 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
       <span class="icon-img"><span class="icon-glyph glyph-brick"><i></i><i></i><i></i><i></i><i></i><i></i></span></span>
       <span class="icon-label">Breakout</span>
     </button>
+    <button class="icon" data-action="open-jezzball">
+      <span class="icon-img"><span class="icon-glyph glyph-jezz"></span></span>
+      <span class="icon-label">JezzBall</span>
+    </button>
     <button class="icon" data-action="open-ikamp">
       <span class="icon-img"><span class="icon-glyph glyph-ikamp"><i style="height:60%"></i><i style="height:90%"></i><i style="height:40%"></i><i style="height:80%"></i><i style="height:55%"></i></span></span>
       <span class="icon-label">IKAMP</span>
@@ -757,6 +765,7 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
         <button class="score-tab" data-game="pong" style="background:#c0c0c0;border:1px solid #808080;border-bottom:none;padding:4px 12px;font-family:inherit;font-size:11px;cursor:pointer;">Pong</button>
         <button class="score-tab" data-game="breakout" style="background:#c0c0c0;border:1px solid #808080;border-bottom:none;padding:4px 12px;font-family:inherit;font-size:11px;cursor:pointer;">Breakout</button>
         <button class="score-tab" data-game="pinball" style="background:#c0c0c0;border:1px solid #808080;border-bottom:none;padding:4px 12px;font-family:inherit;font-size:11px;cursor:pointer;">Pinball</button>
+        <button class="score-tab" data-game="jezzball" style="background:#c0c0c0;border:1px solid #808080;border-bottom:none;padding:4px 12px;font-family:inherit;font-size:11px;cursor:pointer;">JezzBall</button>
         <button class="score-tab" data-game="mentions" style="background:#c0c0c0;border:1px solid #808080;border-bottom:none;padding:4px 12px;font-family:inherit;font-size:11px;cursor:pointer;">Spread</button>
       </div>
       <div id="scores-content"><div class="scores-msg">Loading&hellip;</div></div></div>
@@ -774,6 +783,7 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
       <div class="start-item" data-action="open-snake"><span class="start-item-icon">&#128013;</span>Snake</div>
       <div class="start-item" data-action="open-pong"><span class="start-item-icon">&#127951;</span>Pong</div>
       <div class="start-item" data-action="open-breakout"><span class="start-item-icon">&#127963;</span>Breakout</div>
+      <div class="start-item" data-action="open-jezzball"><span class="start-item-icon">&#127944;</span>JezzBall</div>
       <div class="start-item" data-action="open-skifree"><span class="start-item-icon">&#127935;</span>SkiFree</div>
       <div class="start-item" data-action="open-spread"><span class="start-item-icon">&#128226;</span>Spread the Word</div>
       <div class="start-item" data-action="open-scores"><span class="start-item-icon">&#127942;</span>High Scores</div>
@@ -1131,6 +1141,7 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
       case 'open-snake':    location.href = 'snake.html'; break;
       case 'open-pong':     location.href = 'pong.html'; break;
       case 'open-breakout': location.href = 'breakout.html'; break;
+      case 'open-jezzball': location.href = 'jezzball.html'; break;
       case 'open-pinball':  location.href = 'pinball.html'; break;
       case 'open-ikamp':   openIkamp(); break;
       case 'open-spread':  location.href = 'spread.html'; break;
