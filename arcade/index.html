@@ -138,6 +138,7 @@ html, body, .desktop, .window, .icon, .start-btn, .taskbar-btn {
 .glyph-score { background: #c0c0c0; font-family: 'Press Start 2P', monospace; font-size: 8px; color: #000; padding-top: 6px; }
 .glyph-score::after { content: '#1\A 100K'; white-space: pre; font-size: 7px; line-height: 1.2; }
 .glyph-spread { background: #5bc8f5; font-size: 22px; display: flex; align-items: center; justify-content: center; }
+.icon-emoji { font-size: 26px; line-height: 1; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; background: #c0c0c0; filter: drop-shadow(0 0 0 #000); }
 .glyph-logout { background: #c0c0c0; }
 .glyph-logout::after { content: '&#8617;'; font-size: 22px; color: #c00; font-weight: bold; }
 
@@ -686,44 +687,44 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
 
 
   <div class="icon-grid">
+    <button class="icon" data-action="open-spread">
+      <span class="icon-img"><span class="icon-emoji">&#128226;</span></span>
+      <span class="icon-label">Spread the Word</span>
+    </button>
     <button class="icon" data-action="open-skifree">
-      <span class="icon-img"><span class="icon-glyph glyph-ski"></span></span>
+      <span class="icon-img"><span class="icon-emoji">&#127935;</span></span>
       <span class="icon-label">SkiFree</span>
     </button>
-    <button class="icon" data-action="open-pinball">
-      <span class="icon-img"><span class="icon-glyph glyph-pinball"></span></span>
-      <span class="icon-label">Pinball</span>
-    </button>
     <button class="icon" data-action="open-snake">
-      <span class="icon-img"><span class="icon-glyph glyph-snake"></span></span>
+      <span class="icon-img"><span class="icon-emoji">&#128013;</span></span>
       <span class="icon-label">Snake</span>
     </button>
     <button class="icon" data-action="open-pong">
-      <span class="icon-img"><span class="icon-glyph glyph-pong"></span></span>
+      <span class="icon-img"><span class="icon-emoji">&#127951;</span></span>
       <span class="icon-label">Pong</span>
     </button>
     <button class="icon" data-action="open-breakout">
-      <span class="icon-img"><span class="icon-glyph glyph-brick"><i></i><i></i><i></i><i></i><i></i><i></i></span></span>
+      <span class="icon-img"><span class="icon-emoji">&#127963;</span></span>
       <span class="icon-label">Breakout</span>
     </button>
+    <button class="icon" data-action="open-pinball">
+      <span class="icon-img"><span class="icon-emoji">&#127921;</span></span>
+      <span class="icon-label">Pinball</span>
+    </button>
     <button class="icon" data-action="open-jezzball">
-      <span class="icon-img"><span class="icon-glyph glyph-jezz"></span></span>
+      <span class="icon-img"><span class="icon-emoji">&#127944;</span></span>
       <span class="icon-label">JezzBall</span>
     </button>
     <button class="icon" data-action="open-ikamp">
-      <span class="icon-img"><span class="icon-glyph glyph-ikamp"><i style="height:60%"></i><i style="height:90%"></i><i style="height:40%"></i><i style="height:80%"></i><i style="height:55%"></i></span></span>
+      <span class="icon-img"><span class="icon-emoji">&#127911;</span></span>
       <span class="icon-label">IKAMP</span>
     </button>
-    <button class="icon" data-action="open-spread">
-      <span class="icon-img"><span class="icon-glyph glyph-spread">&#128226;</span></span>
-      <span class="icon-label">Spread the Word</span>
-    </button>
     <button class="icon" data-action="open-scores">
-      <span class="icon-img"><span class="icon-glyph glyph-score"></span></span>
+      <span class="icon-img"><span class="icon-emoji">&#127942;</span></span>
       <span class="icon-label">High Scores</span>
     </button>
     <button class="icon" data-action="logout">
-      <span class="icon-img"><span class="icon-glyph glyph-logout"></span></span>
+      <span class="icon-img"><span class="icon-emoji">&#8617;</span></span>
       <span class="icon-label">Sign Out</span>
     </button>
   </div>
@@ -1125,8 +1126,8 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
     const mount = document.getElementById('ikamp-mount');
     if (!mount) return;
     // Place in the upper-right; Webamp's own draggable system takes over after this
-    var __w = window.innerWidth, __h = window.innerHeight; mount.style.top = Math.max(40, Math.round(__h / 2 - 240)) + 'px';
-    mount.style.left = Math.max(20, Math.round(__w / 2 - 138)) + 'px';
+    mount.style.top = '80px';
+    mount.style.left = '200px';
     mount.style.right = 'auto';
   }
 
