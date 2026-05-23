@@ -1044,6 +1044,11 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
     webampInstance = new window.Webamp({
       initialTracks: TRACKS,
       initialSkin: { url: "ikamp.wsz" },
+      __initialWindowLayout: {
+        main:      { position: { top: 80,  left: 360 } },
+        equalizer: { position: { top: 196, left: 360 } },
+        playlist:  { position: { top: 312, left: 360 } },
+      },
     });
 
     try {
