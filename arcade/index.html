@@ -1295,15 +1295,15 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
       const body = document.getElementById('ikq-body');
       const count = document.getElementById('ikq-count');
       if (!body) return;
-      if (!ikqMessages.length) {
-        body.innerHTML = '<div class="ikq-empty">No messages yet. Keep playing.</div>';
-        if (count) count.textContent = '0 messages';
+      const visible = ikqMessages.filter(m => !ikqReadIds.has(m.id));
+      if (!visible.length) {
+        body.innerHTML = '<div class="ikq-empty">No new messages. Keep playing.</div>';
+        if (count) count.textContent = '0 unread';
         ikqUpdateTray();
         return;
       }
-      body.innerHTML = ikqMessages.map(m => {
-        const unread = !ikqReadIds.has(m.id);
-        return '<div class="ikq-msg ' + (unread ? 'unread' : '') + '" data-id="' + m.id + '" onclick="window.__ikqMarkRead(this.dataset.id)">'
+      body.innerHTML = visible.map(m => {
+        return '<div class="ikq-msg unread" data-id="' + m.id + '" onclick="window.__ikqMarkRead(this.dataset.id)">'
           + '<div class="ikq-msg-header"><span class="ikq-msg-from">'
           + ikqEscape(m.from_handle) + '</span><span class="ikq-msg-time">'
           + ikqFmtTime(m.created_at) + '</span></div>'
@@ -1311,7 +1311,7 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
           + '<div class="ikq-msg-body">' + ikqEscape(m.body) + '</div>'
           + '</div>';
       }).join('');
-      if (count) count.textContent = ikqMessages.length + ' message' + (ikqMessages.length === 1 ? '' : 's') + ', ' + ikqUnreadCount() + ' unread';
+      if (count) count.textContent = visible.length + ' unread';
       ikqUpdateTray();
     }
 
