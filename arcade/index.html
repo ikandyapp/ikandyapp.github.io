@@ -314,7 +314,7 @@ html, body, .desktop, .window, .icon, .start-btn, .taskbar-btn {
 }
 /* Webamp draws its own classic skin - we only constrain placement */
 
-/* ΓöÇΓöÇ Wallpaper poster + Geiss tribute visualizer panel ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
+/* -- Wallpaper poster + Geiss tribute visualizer panel ----------- */
 .desktop-wallpaper {
   position: absolute;
   top: 24px; right: 24px; bottom: 60px;
@@ -438,7 +438,7 @@ html, body, .desktop, .window, .icon, .start-btn, .taskbar-btn {
   .icon { width: 80px; }
   .taskbar-windows .taskbar-task { max-width: 100px; }
 }
-/* ΓöÇΓöÇ Wallpaper readability overrides ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
+/* -- Wallpaper readability overrides ----------------------------- */
 .desktop-wallpaper { width: min(820px, calc(100vw - 180px)) !important; gap: 18px !important; }
 .wp-poster { padding: 18px 24px !important; }
 .wp-section { font-size: 22px !important; line-height: 1.45 !important; }
@@ -556,7 +556,7 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
   <div class="desktop-wallpaper" id="desktop-wallpaper">
     <div class="wp-poster tilt-left">
       <div class="wp-header">
-        <div class="wp-title">Γÿà IKANDY ARCADE Γÿà</div>
+        <div class="wp-title">&#9733; IKANDY ARCADE &#9733;</div>
         <div class="wp-stamp">EST. 1998</div>
       </div>
       <div class="wp-section">
@@ -1207,7 +1207,7 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
     var srb=document.getElementById("scores-refresh-btn");if(srb)srb.addEventListener("click",function(){var at=document.querySelector(".score-tab.active");fetchScores(at?at.dataset.game:"skifree");});
     var th=document.getElementById("tray-help");if(th)th.addEventListener("click",function(){$("#welcome-window").classList.add("show");});
 
-    // ΓöÇΓöÇΓöÇ IKQ: message tray + window ΓöÇΓöÇΓöÇ
+    // --- IKQ: message tray + window ---
     let ikqMessages = [];
     let ikqReadIds = new Set();
     const IKQ_LS_KEY = 'ikq_read_ids_v1';
