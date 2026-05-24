@@ -73,6 +73,13 @@ Gotchas:
 - Multi-line `@'...'@` heredocs use the file's native line endings — mixing CRLF/LF in the file vs anchor causes silent match failures
 - Use single-line `.Replace()` calls on unique substrings instead of multi-line blocks when CRLF/LF gets sketchy
 - Always confirm with `Select-String` after a patch
+- **UTF-8 corruption (bit us once):** the HTML files are UTF-8 (em-dashes `—`, emoji `⛷`, etc.). Do NOT use `Get-Content -Raw` + `Set-Content -Encoding utf8` — PS 5.1 reads no-BOM files as ANSI and re-writes them with a BOM, silently mojibaking every non-ASCII char (`—`→`â€"`). The OK/SKIP script output looks fine; it only shows in the git diff. Use .NET instead:
+  ```powershell
+  $enc = New-Object System.Text.UTF8Encoding($false)   # no BOM
+  $c   = [System.IO.File]::ReadAllText($path, $enc)
+  [System.IO.File]::WriteAllText($path, $c.Replace('<anchor>', $new), $enc)
+  ```
+  Normalize any here-string snippet to LF first (`$s.Replace("`r`n","`n")`) to match the files' endings, and verify after with `grep -rl "â€\|â›" --include="*.html"` (expect 0 files).
 
 ## Win98 Aesthetic Conventions
 - Title bars: `linear-gradient(90deg, #000080 0%, #1084d0 100%)`
