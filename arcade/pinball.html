@@ -1,4 +1,275 @@
-﻿The string is missing the terminator: ".
-    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
-    + FullyQualifiedErrorId : TerminatorExpectedAtEndOfString
- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IKANDY ARCADE — Pinball</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #000; color: #ff0; font-family: "Courier New", monospace; display: flex; flex-direction: column; align-items: center; height: 100vh; overflow: hidden; }
+.topbar { width: 100%; display: flex; justify-content: space-between; padding: 8px 24px; border-bottom: 1px solid #333; }
+.topbar-logo { color: #d4a843; font-size: 13px; letter-spacing: .15em; text-decoration: none; }
+.topbar-back { color: #666; font-size: 11px; text-decoration: none; letter-spacing: .1em; }
+.topbar-back:hover { color: #fff; }
+.game-area { display: flex; gap: 16px; padding: 8px; align-items: flex-start; }
+.sidebar { width: 100px; font-size: 11px; letter-spacing: .08em; padding-top: 4px; }
+.sidebar .lbl { color: #555; margin-top: 10px; }
+.sidebar .val { color: #ff0; font-size: 20px; font-weight: bold; }
+.sidebar .hint { color: #444; font-size: 9px; line-height: 2; margin-top: 16px; }
+canvas { display: block; }
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,.93); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; }
+.overlay.hidden { display: none; }
+.overlay h1 { color: #ff0; font-size: 32px; letter-spacing: .2em; }
+.overlay p { color: #666; font-size: 11px; letter-spacing: .1em; }
+.overlay button { background: #000; color: #ff0; border: 1px solid #ff0; font-family: "Courier New", monospace; font-size: 13px; padding: 10px 28px; cursor: pointer; letter-spacing: .15em; margin-top: 8px; }
+.overlay button:hover { background: #ff0; color: #000; }
+
+/* === Unified arcade opening overlay === */
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,.94); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; padding: 24px; z-index: 100; }
+.overlay.hidden { display: none; }
+.overlay h1 { color: #ff0; font-size: 44px; letter-spacing: .3em; text-shadow: 0 0 18px rgba(255,255,0,.5); margin: 0; font-family: "Courier New", monospace; }
+.overlay p { color: #888; font-size: 12px; letter-spacing: .15em; text-transform: uppercase; margin: 0; max-width: 560px; text-align: center; line-height: 1.6; font-family: "Courier New", monospace; }
+.overlay button { background: #000; color: #ff0; border: 1px solid #ff0; font-family: "Courier New", monospace; font-size: 14px; padding: 12px 36px; cursor: pointer; letter-spacing: .3em; margin-top: 10px; }
+.overlay button:hover { background: #ff0; color: #000; }
+
+/* Back button + row layout */
+.overlay .btn-row { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 10px; }
+.overlay button.secondary { color: #888; border-color: #555; }
+.overlay button.secondary:hover { background: #555; color: #fff; }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <a href="index.html" class="topbar-logo">IKANDY ARCADE</a>
+  <a href="index.html" class="topbar-back">&larr; HOME</a>
+</div>
+<div class="game-area">
+  <div class="sidebar">
+    <div class="lbl">SCORE</div><div class="val" id="score">0</div>
+    <div class="lbl">BEST</div><div class="val" id="best">0</div>
+    <div class="lbl">BALL</div><div class="val" id="ballnum">3</div>
+    <div class="hint">Z = LEFT<br>/ = RIGHT<br><br>HOLD SPACE<br>RELEASE<br>TO LAUNCH</div>
+  </div>
+  <canvas id="game" width="280" height="520"></canvas>
+</div>
+<div class="overlay" id="start-overlay">
+  <h1>PINBALL</h1>
+  <p>Z &mdash; LEFT FLIPPER &nbsp;&nbsp; / &mdash; RIGHT FLIPPER</p>
+  <p>HOLD SPACE TO CHARGE &mdash; RELEASE TO LAUNCH</p>
+  <p>3 BALLS &middot; BUMPERS &middot; SLINGSHOTS</p>
+  <button id="btn-start">[ INSERT COIN ]</button>
+</div>
+<div class="overlay hidden" id="over-overlay">
+  <h1>GAME OVER</h1>
+  <p>FINAL SCORE: <strong id="final-score">0</strong></p>
+  <div class="btn-row"><button id="btn-retry">[ PLAY AGAIN ]</button><button id="btn-back" class="secondary">[ BACK TO ARCADE ]</button></div>
+</div>
+<script>
+(() => {
+  'use strict';
+  const SUPABASE_URL      = 'https://grimznincoiujnurhmlx.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdyaW16bmluY29pdWpudXJobWx4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxNDQ5NzAsImV4cCI6MjA5MjcyMDk3MH0.X-eXBp4gF3RthSt10As83Ft4z5rOc929IMdis5BSuxk';
+  const BEST_KEY = 'ikandy_pinball_best';
+  function getIdent(){ return { id: localStorage.getItem('ikandy_arcade_id_v1')||null, name: localStorage.getItem('ikandy_arcade_name')||null }; }
+  let interactions=0, sessionId='', startTime=0;
+  async function submitScore(score,timeSec){
+    if(!score)return;
+    const id=getIdent();if(!id.id||!id.name)return;
+    try{ await fetch(SUPABASE_URL+'/functions/v1/arcade-submit-score',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+SUPABASE_ANON_KEY,'apikey':SUPABASE_ANON_KEY},body:JSON.stringify({ikandyId:id.id,ikandyName:id.name,game:'pinball',score,timeSec:Math.round(timeSec*1000)/1000,interactionCount:interactions,sessionId})}); }catch(_){}
+  }
+
+  const W=280,H=520,BR=8,GRAV=0.32,SUB=3;
+  const canvas=document.getElementById('game');
+  const ctx=canvas.getContext('2d');
+
+  // Flipper config
+  const LP={x:82,y:460}, RP={x:198,y:460};
+  const FL=56, FREST=0.5, FUP=-0.42, FSPD=0.35;
+
+  const BUMPERS=[
+    {x:84, y:110,r:18,pts:100},
+    {x:196,y:110,r:18,pts:100},
+    {x:56, y:200,r:16,pts:150},
+    {x:140,y:165,r:21,pts:200},
+    {x:224,y:200,r:16,pts:150}
+  ];
+
+  const WALLS=[
+    [0,0,W,0],
+    [0,0,0,440],[W,0,W,440],
+    [0,440,LP.x,LP.y],[W,440,RP.x,RP.y],
+    [0,70,26,30],[W,70,W-26,30]
+  ];
+
+  const SLINGS=[
+    {x1:20,y1:280,x2:52,y2:390,kx:4,ky:-2},
+    {x1:W-20,y1:280,x2:W-52,y2:390,kx:-4,ky:-2}
+  ];
+
+  let ball,ballCount,score,running,animId;
+  let la=FREST,ra=FREST;
+  let blit=BUMPERS.map(()=>0), slit=SLINGS.map(()=>0);
+  let launched=false, charge=0;
+  const K={};
+
+  function getBest(){ return parseInt(localStorage.getItem(BEST_KEY)||'0',10); }
+  function setBest(v){ localStorage.setItem(BEST_KEY,String(Math.max(getBest(),v))); }
+  document.getElementById('best').textContent=getBest();
+
+  function spawnBall(){ ball={x:W/2,y:490,vx:0,vy:0}; launched=false; charge=0; }
+  function addPts(p){ score+=p; document.getElementById('score').textContent=score; }
+
+  function cpSeg(px,py,ax,ay,bx,by){
+    const dx=bx-ax,dy=by-ay,l2=dx*dx+dy*dy;
+    if(l2<1e-6)return{x:ax,y:ay};
+    const t=Math.max(0,Math.min(1,((px-ax)*dx+(py-ay)*dy)/l2));
+    return{x:ax+t*dx,y:ay+t*dy};
+  }
+
+  function resolveWall(x1,y1,x2,y2,rest=0.65){
+    const cp=cpSeg(ball.x,ball.y,x1,y1,x2,y2);
+    const dx=ball.x-cp.x,dy=ball.y-cp.y,d=Math.sqrt(dx*dx+dy*dy);
+    if(d<BR&&d>1e-4){
+      const nx=dx/d,ny=dy/d;
+      ball.x=cp.x+nx*(BR+0.5); ball.y=cp.y+ny*(BR+0.5);
+      const dot=ball.vx*nx+ball.vy*ny;
+      if(dot<0){ball.vx-=(1+rest)*dot*nx;ball.vy-=(1+rest)*dot*ny;}
+      return true;
+    }
+    return false;
+  }
+
+  function flipEnd(piv,ang,side){
+    const s=side==='L'?1:-1;
+    return{x:piv.x+s*Math.cos(ang)*FL, y:piv.y+Math.sin(ang)*FL};
+  }
+
+  function step(dt){
+    ball.vy+=GRAV*dt; ball.x+=ball.vx*dt; ball.y+=ball.vy*dt;
+    const spd=Math.hypot(ball.vx,ball.vy);
+    if(spd>24){ball.vx=ball.vx/spd*24;ball.vy=ball.vy/spd*24;}
+    WALLS.forEach(w=>resolveWall(w[0],w[1],w[2],w[3]));
+    BUMPERS.forEach((b,i)=>{
+      const dx=ball.x-b.x,dy=ball.y-b.y,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<BR+b.r&&d>1e-4){
+        const nx=dx/d,ny=dy/d;
+        ball.x=b.x+nx*(BR+b.r+1); ball.y=b.y+ny*(BR+b.r+1);
+        const sp=Math.max(7,Math.hypot(ball.vx,ball.vy));
+        ball.vx=nx*(sp+5); ball.vy=ny*(sp+5);
+        addPts(b.pts); blit[i]=15; interactions++;
+      }
+    });
+    SLINGS.forEach((s,i)=>{
+      if(resolveWall(s.x1,s.y1,s.x2,s.y2,0.85)){
+        ball.vx+=s.kx; ball.vy+=s.ky;
+        addPts(50); slit[i]=10; interactions++;
+      }
+    });
+  }
+
+  function update(){
+    if(!launched){ if(K[' '])charge=Math.min(charge+0.55,16); return; }
+    ball.vx*=0.9994;
+    for(let i=0;i<SUB;i++)step(1/SUB);
+    const pl=la,pr=ra;
+    const tl=K['z']||K['Z']?FUP:FREST, tr=K['/']?FUP:FREST;
+    la+=(tl-la)*FSPD; ra+=(tr-ra)*FSPD;
+    const avL=pl-la, avR=pr-ra;
+    const le=flipEnd(LP,la,'L'), re=flipEnd(RP,ra,'R');
+    const lh=resolveWall(LP.x,LP.y,le.x,le.y,0.15);
+    if(lh&&avL>0.008){ball.vy-=avL*43;ball.vx+=2;interactions++;}
+    const rh=resolveWall(RP.x,RP.y,re.x,re.y,0.15);
+    if(rh&&avR>0.008){ball.vy-=avR*43;ball.vx-=2;interactions++;}
+    blit=blit.map(v=>Math.max(0,v-1));
+    slit=slit.map(v=>Math.max(0,v-1));
+    if(ball.y>H+40){
+      ballCount--; document.getElementById('ballnum').textContent=ballCount;
+      if(ballCount<=0)endGame(); else spawnBall();
+    }
+  }
+
+  function draw(){
+    ctx.fillStyle='#000'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#444'; ctx.lineWidth=3; ctx.lineCap='round';
+    WALLS.forEach(w=>{ctx.beginPath();ctx.moveTo(w[0],w[1]);ctx.lineTo(w[2],w[3]);ctx.stroke();});
+    SLINGS.forEach((s,i)=>{
+      ctx.strokeStyle=slit[i]>0?'#f55':'#622'; ctx.lineWidth=5;
+      ctx.beginPath();ctx.moveTo(s.x1,s.y1);ctx.lineTo(s.x2,s.y2);ctx.stroke();
+    });
+    BUMPERS.forEach((b,i)=>{
+      const lit=blit[i]>0;
+      ctx.fillStyle=lit?'#fff':'#c80'; ctx.strokeStyle=lit?'#ff0':'#760'; ctx.lineWidth=3;
+      ctx.beginPath();ctx.arc(b.x,b.y,b.r,0,Math.PI*2);ctx.fill();ctx.stroke();
+      ctx.fillStyle='#000'; ctx.font='bold 9px Courier New';
+      ctx.textAlign='center'; ctx.textBaseline='middle';
+      ctx.fillText(b.pts,b.x,b.y);
+    });
+    [{piv:LP,ang:la,side:'L'},{piv:RP,ang:ra,side:'R'}].forEach(f=>{
+      const e=flipEnd(f.piv,f.ang,f.side);
+      ctx.strokeStyle='#ccc'; ctx.lineWidth=9; ctx.lineCap='round';
+      ctx.beginPath();ctx.moveTo(f.piv.x,f.piv.y);ctx.lineTo(e.x,e.y);ctx.stroke();
+      ctx.strokeStyle='#777'; ctx.lineWidth=5;
+      ctx.beginPath();ctx.moveTo(f.piv.x,f.piv.y);ctx.lineTo(e.x,e.y);ctx.stroke();
+    });
+    if(ball){
+      const g=ctx.createRadialGradient(ball.x-2,ball.y-2,1,ball.x,ball.y,BR);
+      g.addColorStop(0,'#fff');g.addColorStop(1,'#888');
+      ctx.fillStyle=g;
+      ctx.beginPath();ctx.arc(ball.x,ball.y,BR,0,Math.PI*2);ctx.fill();
+    }
+    if(ball&&!launched){
+      const pct=charge/16, bx=W/2-24;
+      ctx.fillStyle='#111';ctx.fillRect(bx,H-22,48,12);
+      ctx.fillStyle=pct>0.7?'#f44':pct>0.35?'#fa0':'#0a0';
+      ctx.fillRect(bx,H-22,48*pct,12);
+      ctx.strokeStyle='#444';ctx.lineWidth=1;ctx.strokeRect(bx,H-22,48,12);
+      ctx.fillStyle='#666';ctx.font='8px Courier New';ctx.textAlign='center';
+      ctx.fillText('HOLD SPACE / RELEASE',W/2,H-26);
+    }
+  }
+
+  function loop(){if(!running)return;update();draw();animId=requestAnimationFrame(loop);}
+
+  function endGame(){
+    running=false;cancelAnimationFrame(animId);
+    const ts=(performance.now()-startTime)/1000;
+    setBest(score);
+    document.getElementById('best').textContent=getBest();
+    document.getElementById('final-score').textContent=score;
+    document.getElementById('over-overlay').classList.remove('hidden');
+    submitScore(score,ts);
+  }
+
+  function startGame(){
+    ballCount=3;score=0;running=true;interactions=0;
+    startTime=performance.now();
+    sessionId=crypto.randomUUID?crypto.randomUUID():Date.now().toString(36);
+    la=ra=FREST; blit=BUMPERS.map(()=>0); slit=SLINGS.map(()=>0);
+    document.getElementById('score').textContent=0;
+    document.getElementById('ballnum').textContent=3;
+    document.getElementById('start-overlay').classList.add('hidden');
+    document.getElementById('over-overlay').classList.add('hidden');
+    spawnBall();cancelAnimationFrame(animId);loop();
+  }
+
+  window.addEventListener('keydown',e=>{
+    K[e.key]=true;
+    if([' ','z','Z','/'].includes(e.key))e.preventDefault();
+  });
+  window.addEventListener('keyup',e=>{
+    K[e.key]=false;
+    if(e.key===' '&&!launched){
+      launched=true; ball.vy=-(charge+6); ball.vx=(Math.random()-0.5)*2.5;
+      charge=0;interactions++;
+    }
+  });
+
+  document.getElementById('btn-start').addEventListener('click',startGame);
+  document.getElementById('btn-retry').addEventListener('click',startGame);
+  document.getElementById('btn-back').addEventListener('click', function() { location.href = 'index.html'; });
+  ctx.fillStyle='#000';ctx.fillRect(0,0,W,H);
+})();
+</script>
+</body>
+</html>
+

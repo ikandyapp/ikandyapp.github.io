@@ -1,4 +1,192 @@
-﻿The string is missing the terminator: ".
-    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
-    + FullyQualifiedErrorId : TerminatorExpectedAtEndOfString
- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IKANDY ARCADE — Breakout</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #000; color: #fff; font-family: "Courier New", monospace; display: flex; flex-direction: column; align-items: center; height: 100vh; overflow: hidden; }
+.topbar { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 10px 24px; border-bottom: 1px solid #333; }
+.topbar-logo { color: #d4a843; font-size: 14px; letter-spacing: .15em; text-decoration: none; }
+.topbar-back { color: #888; font-size: 11px; text-decoration: none; letter-spacing: .1em; }
+.topbar-back:hover { color: #fff; }
+.hud { display: flex; gap: 32px; padding: 10px 0; font-size: 16px; letter-spacing: .12em; font-weight: bold; }
+canvas { border: 1px solid #333; }
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,.9); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; }
+.overlay.hidden { display: none; }
+.overlay h1 { font-size: 36px; letter-spacing: .2em; }
+.overlay p { color: #888; font-size: 12px; letter-spacing: .1em; }
+.overlay button { background: #000; color: #fff; border: 1px solid #fff; font-family: "Courier New", monospace; font-size: 14px; padding: 10px 28px; cursor: pointer; letter-spacing: .15em; margin-top: 8px; }
+.overlay button:hover { background: #fff; color: #000; }
+
+/* === Unified arcade opening overlay === */
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,.94); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; padding: 24px; z-index: 100; }
+.overlay.hidden { display: none; }
+.overlay h1 { color: #fff; font-size: 44px; letter-spacing: .3em; text-shadow: 0 0 18px rgba(255,255,255,.4); margin: 0; font-family: "Courier New", monospace; }
+.overlay p { color: #888; font-size: 12px; letter-spacing: .15em; text-transform: uppercase; margin: 0; max-width: 560px; text-align: center; line-height: 1.6; font-family: "Courier New", monospace; }
+.overlay button { background: #000; color: #fff; border: 1px solid #fff; font-family: "Courier New", monospace; font-size: 14px; padding: 12px 36px; cursor: pointer; letter-spacing: .3em; margin-top: 10px; }
+.overlay button:hover { background: #fff; color: #000; }
+
+/* Back button + row layout */
+.overlay .btn-row { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 10px; }
+.overlay button.secondary { color: #888; border-color: #555; }
+.overlay button.secondary:hover { background: #555; color: #fff; }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <a href="index.html" class="topbar-logo">IKANDY ARCADE</a>
+  <a href="index.html" class="topbar-back">&larr; HOME</a>
+</div>
+<div class="hud">
+  <span>SCORE: <strong id="score">0</strong></span>
+  <span>LIVES: <strong id="lives">2</strong></span>
+  <span>BEST: <strong id="best">0</strong></span>
+</div>
+<canvas id="game" width="480" height="400"></canvas>
+<div class="overlay" id="start-overlay">
+  <h1>BREAKOUT</h1>
+  <p>&larr; &rarr; ARROW KEYS &middot; MOUSE TO MOVE PADDLE</p>
+  <p>CLEAR ALL BRICKS TO WIN</p>
+  <button id="btn-start">[ PRESS START ]</button>
+</div>
+<div class="overlay hidden" id="over-overlay">
+  <h1 id="over-title">GAME OVER</h1>
+  <p>SCORE: <strong id="final-score">0</strong></p>
+  <div class="btn-row"><button id="btn-retry">[ PLAY AGAIN ]</button><button id="btn-back" class="secondary">[ BACK TO ARCADE ]</button></div>
+</div>
+<script>
+(() => {
+  'use strict';
+  const SUPABASE_URL      = 'https://grimznincoiujnurhmlx.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdyaW16bmluY29pdWpudXJobWx4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxNDQ5NzAsImV4cCI6MjA5MjcyMDk3MH0.X-eXBp4gF3RthSt10As83Ft4z5rOc929IMdis5BSuxk';
+  const BEST_KEY = 'ikandy_breakout_best';
+
+  function getArcadeIdentity() {
+    return { id: localStorage.getItem('ikandy_arcade_id_v1') || null, name: localStorage.getItem('ikandy_arcade_name') || null };
+  }
+
+  let interactions = 0, sessionId = '', startTime = 0;
+
+  async function submitScore(score, timeSec) {
+    if (score === 0) return;
+    const ident = getArcadeIdentity();
+    if (!ident.id || !ident.name) return;
+    try {
+      await fetch(`${SUPABASE_URL}/functions/v1/arcade-submit-score`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${SUPABASE_ANON_KEY}`, 'apikey': SUPABASE_ANON_KEY },
+        body: JSON.stringify({ ikandyId: ident.id, ikandyName: ident.name, game: 'breakout', score, timeSec: Math.round(timeSec * 1000) / 1000, interactionCount: interactions, sessionId })
+      });
+    } catch (_) {}
+  }
+
+  const canvas = document.getElementById('game');
+  const ctx = canvas.getContext('2d');
+  const W = 480, H = 400;
+
+  const COLS = 12, ROWS = 7;
+  const BW = 38, BH = 14, BPAD = 2, BTOP = 36;
+  const COLORS  = ['#f00','#f60','#ff0','#0c0','#06f','#00f','#a0f'];
+  const POINTS  = [7, 6, 5, 4, 3, 2, 1];
+  const PADDLE_W = 76, PADDLE_H = 8, PADDLE_Y = H - 28;
+  const BALL_R = 5;
+
+  let bricks, ball, paddleX, lives, score, running, animId, keys = {};
+
+  function getBest() { return parseInt(localStorage.getItem(BEST_KEY) || '0', 10); }
+  function setBest(v) { localStorage.setItem(BEST_KEY, String(Math.max(getBest(), v))); }
+  document.getElementById('best').textContent = getBest();
+
+  function initBricks() {
+    bricks = [];
+    for (let r = 0; r < ROWS; r++)
+      for (let c = 0; c < COLS; c++)
+        bricks.push({ x: c * (BW + BPAD) + BPAD, y: BTOP + r * (BH + BPAD), alive: true, color: COLORS[r], pts: POINTS[r] });
+  }
+
+  function resetBall() {
+    ball = { x: W / 2, y: PADDLE_Y - BALL_R - 1, vx: 3.2 * (Math.random() < .5 ? 1 : -1), vy: -3.5 };
+  }
+
+  function startGame() {
+    initBricks(); lives = 2; score = 0; running = true; interactions = 0;
+    startTime = performance.now();
+    sessionId = crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36);
+    paddleX = W / 2 - PADDLE_W / 2;
+    resetBall();
+    document.getElementById('score').textContent = 0;
+    document.getElementById('lives').textContent = 2;
+    document.getElementById('start-overlay').classList.add('hidden');
+    document.getElementById('over-overlay').classList.add('hidden');
+    cancelAnimationFrame(animId); loop();
+  }
+
+  window.addEventListener('keydown', e => { keys[e.key] = true; if (['ArrowLeft','ArrowRight'].includes(e.key)) { e.preventDefault(); interactions++; } });
+  window.addEventListener('keyup', e => { keys[e.key] = false; });
+  canvas.addEventListener('mousemove', e => { const r = canvas.getBoundingClientRect(); paddleX = (e.clientX - r.left) - PADDLE_W / 2; });
+
+  function update() {
+    if (keys['ArrowLeft'])  paddleX -= 5;
+    if (keys['ArrowRight']) paddleX += 5;
+    paddleX = Math.max(0, Math.min(W - PADDLE_W, paddleX));
+
+    ball.x += ball.vx; ball.y += ball.vy;
+
+    if (ball.x - BALL_R < 0) { ball.x = BALL_R; ball.vx *= -1; }
+    if (ball.x + BALL_R > W) { ball.x = W - BALL_R; ball.vx *= -1; }
+    if (ball.y - BALL_R < 0) { ball.y = BALL_R; ball.vy *= -1; }
+
+    if (ball.vy > 0 && ball.y + BALL_R >= PADDLE_Y && ball.y + BALL_R <= PADDLE_Y + PADDLE_H && ball.x >= paddleX && ball.x <= paddleX + PADDLE_W) {
+      ball.vy *= -1;
+      ball.vx = ((ball.x - (paddleX + PADDLE_W / 2)) / (PADDLE_W / 2)) * 5.5;
+    }
+
+    if (ball.y - BALL_R > H) {
+      lives--; document.getElementById('lives').textContent = lives;
+      if (lives <= 0) { endGame(false); return; }
+      resetBall();
+    }
+
+    for (const b of bricks) {
+      if (!b.alive) continue;
+      if (ball.x + BALL_R > b.x && ball.x - BALL_R < b.x + BW && ball.y + BALL_R > b.y && ball.y - BALL_R < b.y + BH) {
+        b.alive = false; ball.vy *= -1; ball.vx *= 1.012; ball.vy *= 1.012;
+        score += b.pts; document.getElementById('score').textContent = score;
+        break;
+      }
+    }
+    if (bricks.every(b => !b.alive)) endGame(true);
+  }
+
+  function draw() {
+    ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H);
+    for (const b of bricks) { if (!b.alive) continue; ctx.fillStyle = b.color; ctx.fillRect(b.x, b.y, BW, BH); }
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(paddleX, PADDLE_Y, PADDLE_W, PADDLE_H);
+    ctx.beginPath(); ctx.arc(ball.x, ball.y, BALL_R, 0, Math.PI * 2); ctx.fill();
+  }
+
+  function loop() { if (!running) return; update(); draw(); animId = requestAnimationFrame(loop); }
+
+  function endGame(won) {
+    running = false; cancelAnimationFrame(animId);
+    const timeSec = (performance.now() - startTime) / 1000;
+    setBest(score);
+    document.getElementById('best').textContent = getBest();
+    document.getElementById('over-title').textContent = won ? 'YOU WIN!' : 'GAME OVER';
+    document.getElementById('final-score').textContent = score;
+    document.getElementById('over-overlay').classList.remove('hidden');
+    submitScore(score, timeSec);
+  }
+
+  document.getElementById('btn-start').addEventListener('click', startGame);
+  document.getElementById('btn-retry').addEventListener('click', startGame);
+  document.getElementById('btn-back').addEventListener('click', function() { location.href = 'index.html'; });
+  ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H);
+})();
+</script>
+</body>
+</html>
+
