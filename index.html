@@ -1189,7 +1189,7 @@
     <li><a href="ikandy-vis-format.html">.vis Format</a></li>
     <li><a href="privacy.html">Privacy</a></li>
     <li><a href="license.html">License</a></li>
-    <li><a href="#download" onclick="document.getElementById('nav-links').classList.remove('open');document.getElementById('nav-toggle').classList.remove('open')">Download</a></li>
+    <li><a href="#download" onclick="gtag('event', 'download_click', {source: 'nav_link', platform: 'windows'}); document.getElementById('nav-links').classList.remove('open');document.getElementById('nav-toggle').classList.remove('open')">Download</a></li>
   </ul>
 </nav>
 
@@ -1203,7 +1203,7 @@
       <h1 class="hero-title">IKANDY</h1>
       <p class="hero-sub">IKANDY listens to whatever you&rsquo;re playing and paints it across your screen &mdash; every beat, every drop, every note, alive in real time. Free. No setup. Just music you can see.</p>
       <div class="hero-cta">
-        <a href="#download" class="btn-primary pulse">
+        <a href="#download" class="btn-primary pulse" onclick="gtag('event', 'download_click', {source: 'hero_cta', platform: 'windows'});">
           ↓ Download Free
         </a>
         <a href="#watch" class="btn-secondary">▶ Watch Demo</a>
@@ -1719,7 +1719,7 @@
 <div class="download-section" id="download">
   <div class="download-title">Get IKANDY</div>
   <p class="download-sub">Windows 10/11 · No Subscription</p>
-  <a href="https://github.com/ikandyapp/ikandyapp.github.io/releases/latest/download/IKANDY.Setup.exe" class="btn-primary pulse" style="display:inline-flex;font-size:22px;padding:20px 56px;position:relative;">
+  <a href="https://github.com/ikandyapp/ikandyapp.github.io/releases/latest/download/IKANDY.Setup.exe" class="btn-primary pulse" style="display:inline-flex;font-size:22px;padding:20px 56px;position:relative;" onclick="gtag('event', 'download_click', {source: 'main_button', platform: 'windows', file_name: 'IKANDY.Setup.exe'});">
     ↓ &nbsp;Download for Windows
   </a>
   <div style="margin-top:20px;position:relative;">
