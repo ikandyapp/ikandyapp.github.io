@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FEJJH5VN5S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-FEJJH5VN5S');
+</script>
+<script defer src="/analytics.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IKANDY — Privacy Policy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #d4a843;
+    --neon: #ff2d8a;
+    --green: #1db954;
+    --ice: #5bc8f5;
+    --bg: #04040a;
+    --bg2: #08080f;
+    --txt: #e8e8e8;
+    --dim: rgba(255,255,255,.45);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--txt);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+    cursor: crosshair;
+    line-height: 1.7;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: .4;
+  }
+
+
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 48px;
+    background: rgba(0,0,0,.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    flex-wrap: wrap;
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: .15em;
+    color: var(--gold);
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 36px; height: 36px;
+    background: none; border: none;
+    cursor: pointer; padding: 4px; flex-shrink: 0;
+  }
+  .nav-toggle span {
+    display: block; width: 22px; height: 2px;
+    background: var(--gold); border-radius: 2px;
+    transition: transform .25s, opacity .25s;
+    transform-origin: center;
+  }
+  .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2) { opacity: 0; }
+  .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
+  .nav-links a {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--dim, rgba(255,255,255,.45));
+    text-decoration: none; transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-links a.active { color: var(--cyan, #00e5ff); }
+
+  @media (max-width: 860px) {
+    nav { padding: 16px 24px; }
+    .nav-toggle { display: flex; }
+    .nav-links {
+      display: none; flex-direction: column; align-items: flex-start;
+      gap: 0; width: 100%; padding: 12px 0 16px;
+      border-top: 1px solid rgba(255,255,255,.06); margin-top: 12px;
+    }
+    .nav-links.open { display: flex; }
+    .nav-links li { width: 100%; }
+    .nav-links a {
+      display: block; padding: 10px 4px; font-size: 13px;
+      border-bottom: 1px solid rgba(255,255,255,.04);
+    }
+    .nav-links li:last-child a { border-bottom: none; }
+  }
+
+  .page-header {
+    padding: 160px 48px 80px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .page-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 24px;
+  }
+
+  .page-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(56px, 9vw, 120px);
+    line-height: .9;
+    letter-spacing: .04em;
+    background: linear-gradient(135deg, #fff 0%, var(--gold) 50%, var(--ice) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 32px;
+  }
+
+  .page-lead {
+    font-size: 18px;
+    color: var(--dim);
+    max-width: 700px;
+    line-height: 1.6;
+  }
+
+  .meta-line {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,.06);
+  }
+
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 48px 120px;
+  }
+
+  section.policy {
+    margin-bottom: 64px;
+  }
+
+  .section-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+
+  h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(32px, 5vw, 48px);
+    line-height: 1;
+    letter-spacing: .04em;
+    color: var(--txt);
+    margin-bottom: 24px;
+  }
+
+  h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: .08em;
+    color: var(--ice);
+    margin: 28px 0 12px;
+  }
+
+  p {
+    font-size: 15px;
+    color: rgba(255,255,255,.8);
+    margin-bottom: 16px;
+  }
+
+  ul {
+    margin: 16px 0 16px 24px;
+  }
+
+  li {
+    font-size: 15px;
+    color: rgba(255,255,255,.8);
+    margin-bottom: 10px;
+  }
+
+  strong { color: var(--txt); font-weight: 500; }
+
+  a.inline-link {
+    color: var(--gold);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(212,168,67,.3);
+    transition: color .2s, border-color .2s;
+  }
+  a.inline-link:hover {
+    color: #fff;
+    border-bottom-color: #fff;
+  }
+
+  .callout {
+    padding: 28px 32px;
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.02);
+    margin: 32px 0;
+  }
+
+  .callout-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: .08em;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+
+  .callout p { font-size: 14px; color: var(--dim); line-height: 1.6; margin-bottom: 0; }
+
+  .quick-summary {
+    border: 1px solid rgba(91,200,245,.2);
+    background: rgba(91,200,245,.04);
+    padding: 32px;
+    margin-bottom: 48px;
+  }
+
+  .quick-summary .callout-title { color: var(--ice); }
+  .quick-summary ul { margin-top: 16px; }
+  .quick-summary li { color: rgba(255,255,255,.85); }
+
+  table.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 24px;
+    font-size: 14px;
+  }
+  table.data-table th, table.data-table td {
+    text-align: left;
+    padding: 12px 14px;
+    border: 1px solid rgba(255,255,255,.08);
+    vertical-align: top;
+  }
+  table.data-table th {
+    background: rgba(255,255,255,.04);
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 400;
+  }
+  table.data-table td { color: rgba(255,255,255,.75); }
+
+  footer {
+    border-top: 1px solid rgba(255,255,255,.06);
+    padding: 48px;
+    text-align: center;
+  }
+
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: .15em;
+    color: var(--gold);
+    margin-bottom: 18px;
+  }
+
+  .footer-links {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+  }
+
+  .footer-links a {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--dim);
+    text-decoration: none;
+    transition: color .2s;
+  }
+  .footer-links a:hover { color: var(--gold); }
+
+  .footer-copy {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .15em;
+    color: var(--dim);
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 700px) {
+    nav { padding: 16px 24px; }
+    .nav-links { gap: 18px; }
+    .page-header { padding: 130px 24px 60px; }
+    main { padding: 0 24px 80px; }
+    .quick-summary { padding: 24px; }
+    .callout { padding: 20px 22px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">IKANDY <span class="beta-badge">BETA</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html#features">Features</a></li>
+    <li><a href="index.html#watch">Watch</a></li>
+    <li><a href="guide.html">Guide</a></li>
+    <li><a href="credits.html">Credits</a></li>
+    <li><a href="ikandy-smart-auto-prior-art.html">Smart Auto</a></li>
+    <li><a href="ikandy-ai-error-sandbox.html">AI Sandbox</a></li>
+    <li><a href="ikandy-vis-format.html">.vis Format</a></li>
+    <li><a href="privacy.html" class="active">Privacy</a></li>
+    <li><a href="license.html">License</a></li>
+    <li><a href="index.html#download">Download</a></li>
+  </ul>
+</nav>
+
+<header class="page-header">
+  <p class="page-tag">Legal — Privacy Policy</p>
+  <h1 class="page-title">Your Data.<br>Your Rules.</h1>
+  <p class="page-lead">A plain-language explanation of what IKANDY collects, what it doesn't, and how you can control or delete your data at any time.</p>
+  <div class="meta-line">Version 1.1 · Effective 2026-05-11</div>
+</header>
+
+<main>
+
+  <div class="quick-summary callout">
+    <div class="callout-title">Quick Summary</div>
+    <ul>
+      <li><strong>Telemetry is off by default.</strong> IKANDY sends no usage or crash data unless you explicitly enable it in Settings → Privacy.</li>
+      <li><strong>We never collect:</strong> your music, listening history, audio content, file names, account credentials, or your real identity.</li>
+      <li><strong>Beta validation requires minimal data:</strong> a random Beta ID and a one-way machine fingerprint hash. That's it.</li>
+      <li><strong>You control everything.</strong> View your anonymous ID, toggle telemetry, and permanently delete your data from inside the app.</li>
+    </ul>
+  </div>
+
+  <section class="policy">
+    <p class="section-tag">01</p>
+    <h2>What This Document Covers</h2>
+    <p>This Privacy Policy explains how IKANDY ("the Software"), operated by L&amp;R Entertainment LLC ("we", "us"), collects and processes data when you install and use the desktop application. It reflects the data practices implemented in IKANDY version 1.0 and later.</p>
+    <p>This policy mirrors Section 5 of the <a href="#" class="inline-link" onclick="alert('The full EULA is shown in-app on first launch. You can also view it from Settings → About.'); return false;">Beta License Agreement</a> in plain language. If there is any ambiguity, the EULA is the legally binding document.</p>
+  </section>
+
+  <section class="policy">
+    <p class="section-tag">02</p>
+    <h2>Data Required to Use IKANDY</h2>
+    <p>Because IKANDY is currently in a controlled beta, every launch validates your access against our server. The following minimal data is sent during validation. This data is required — without it, beta access cannot be confirmed:</p>
+
+    <table class="data-table">
+      <thead>
+        <tr><th>Data</th><th>What it is</th><th>Why we need it</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Beta ID</strong></td>
+          <td>A random UUID generated on first install, stored locally.</td>
+          <td>Identifies your installation for beta access management.</td>
+        </tr>
+        <tr>
+          <td><strong>Machine fingerprint</strong></td>
+          <td>A one-way SHA-256 hash of your MAC address + hostname + CPU model. The original values cannot be recovered from the hash.</td>
+          <td>Prevents beta access from being shared across many machines.</td>
+        </tr>
+        <tr>
+          <td><strong>App version, platform</strong></td>
+          <td>Strings like "1.0.0" and "win32".</td>
+          <td>Routes you to the correct validation logic for your build.</td>
+        </tr>
+        <tr>
+          <td><strong>EULA acceptance record</strong></td>
+          <td>Hash of the agreement you accepted plus a timestamp.</td>
+          <td>Records that you agreed to the current terms.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>None of this data identifies you personally. The fingerprint hash is a one-way transformation that cannot be reversed to reveal your MAC address, hostname, or CPU.</p>
+  </section>
+
+  <section class="policy">
+    <p class="section-tag">03</p>
+    <h2>Optional Telemetry — Off By Default</h2>
+    <p>IKANDY has two telemetry channels. Both are <strong>disabled by default</strong>. You may enable or disable each at any time from <strong>Settings → Privacy</strong>.</p>
+
+    <h3>Anonymous Usage Data</h3>
+    <p>When enabled, IKANDY records the following on each launch:</p>
+    <ul>
+      <li>Launch timestamp</li>
+      <li>App version (e.g. "1.0.0")</li>
+      <li>Platform (e.g. "win32")</li>
+      <li>Session duration (recorded on app close)</li>
+      <li>Your anonymous ID (a random UUID, not tied to your real identity)</li>
+    </ul>
+    <p>That is the complete list. We do not collect playback choices, music library contents, song titles, preset names, or device specifications.</p>
+
+    <h3>Crash Reports</h3>
+    <p>When enabled, IKANDY sends technical error details if the application crashes. Before any crash data leaves your device, it is automatically sanitized:</p>
+    <ul>
+      <li>Your Windows username is replaced with <code>&lt;user&gt;</code></li>
+      <li>File paths from your user directory are stripped or generalized</li>
+      <li>Development paths are masked</li>
+    </ul>
+    <p>The resulting report includes only the error type, a sanitized stack trace, app version, platform, and your anonymous ID. The sanitization happens on your device before transmission — we never see your real username or full file paths.</p>
+  </section>
+
+  <section class="policy">
+    <p class="section-tag">04</p>
+    <h2>What We Do Not Collect</h2>
+    <p>IKANDY never transmits any of the following to any server:</p>
+    <ul>
+      <li>The contents of audio playing on your computer</li>
+      <li>The names of songs, artists, or albums you play</li>
+      <li>Your music library or playlists</li>
+      <li>Your Spotify, foobar2000, VLC, or any other account credentials</li>
+      <li>Your real name or email address</li>
+      <li>The names of files on your computer</li>
+      <li>Screenshots or video</li>
+      <li>Biometric data of any kind</li>
+    </ul>
+  </section>
+
+  <section class="policy">
+    <p class="section-tag">05</p>
+    <h2>About Your IP Address</h2>
+    <p>Like every internet service, IKANDY makes HTTPS connections that include your IP address at the network level. We do not store your IP address in our database tables and we do not log it for analytics purposes.</p>
+    <p>Your IP address may appear transiently in standard Supabase infrastructure logs — these are governed by <a href="https://supabase.com/privacy" target="_blank" rel="noopener" class="inline-link">Supabase's privacy policy</a>.</p>
+  </section>
+
+  <section class="policy">
+    <p class="section-tag">06</p>
+    <h2>Where Your Data Is Stored</h2>
+    <p>All data collected by IKANDY is stored on <a href="https://supabase.com" target="_blank" rel="noopener" class="inline-link">Supabase</a>, a SOC 2 Type II-certified backend platform. Your data is held under their privacy policy and security commitments.</p>
+    <p>We do not share, sell, or rent your data to third parties for advertising, marketing, or any other purpose.</p>
+  </section>
+
+  <section class="policy">
+    <p class="section-tag">07</p>
+    <h2>Your Rights</h2>
+
+    <h3>Access</h3>
+    <p>Open <strong>Settings → Privacy</strong> in IKANDY to view your anonymous ID at any time.</p>
+
+    <h3>Withdraw Consent</h3>
+    <p>Disable either telemetry toggle at any time. Future events will not be transmitted. Past records remain unless you also request deletion.</p>
+
+    <h3>Delete Your Data</h3>
+    <p>Use the <strong>"Delete my data from IKANDY servers"</strong> button in <strong>Settings → Privacy</strong>. This permanently:</p>
+    <ul>
+      <li>Deletes all usage and crash report records tied to your installation</li>
+      <li>Anonymizes your beta installation record (removes personal identifiers while keeping the row to prevent beta-slot recycling)</li>
+      <li>Generates a fresh anonymous ID locally so future sessions start clean</li>
+    </ul>
+
+    <h3>Rejoin After Deletion</h3>
+    <p>If you delete your data and later wish to rejoin the IKANDY beta, contact <a href="mailto:support@ikandy.app?subject=Rejoin Beta" class="inline-link">support@ikandy.app</a> with your Beta ID. Reactivation is processed manually and typically completes within several days.</p>
+  </section>
+
+  <section class="policy">
+    <p class="section-tag">08</p>
+    <h2>Children's Privacy</h2>
+    <p>IKANDY is not directed at children under the age of 16. We do not knowingly collect data from anyone under 16. If you believe a child has used IKANDY and provided data, contact us immediately and we will remove the relevant records.</p>
+  </section>
+
+  <section class="policy">
+    <p class="section-tag">09</p>
+    <h2>Changes to This Policy</h2>
+    <p>If we materially change what data is collected or how it is processed, the version number at the top of this page will be incremented and you will be required to accept an updated agreement in-app before continuing to use IKANDY.</p>
+  </section>
+
+  <section class="policy">
+    <p class="section-tag">10</p>
+    <h2>Contact</h2>
+    <p>For questions about this policy, data deletion requests, or to rejoin the beta after deletion:</p>
+    <div class="callout">
+      <p style="margin-bottom:8px;"><strong>Email:</strong> <a href="mailto:support@ikandy.app" class="inline-link">support@ikandy.app</a></p>
+      <p style="margin-bottom:8px;"><strong>Discord:</strong> <a href="https://discord.gg/xYUmSPbve" target="_blank" rel="noopener" class="inline-link">discord.gg/xYUmSPbve</a></p>
+      
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-logo">IKANDY</div>
+  <ul class="footer-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="guide.html">User Guide</a></li>
+    <li><a href="privacy.html">Privacy</a></li>
+    
+    <li><a href="mailto:support@ikandy.app">Contact</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 L&R Entertainment LLC · IKANDY.app</div>
+</footer>
+
+</body>
+</html>

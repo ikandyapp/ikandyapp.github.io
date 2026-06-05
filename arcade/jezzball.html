@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FEJJH5VN5S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-FEJJH5VN5S');
+</script>
+<script defer src="/analytics.js"></script>
+<meta charset="UTF-8">
+<title>JezzBall — IKANDY Arcade</title>
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #000; color: #fff; min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 16px; padding: 20px;
+  font-family: 'Courier New', monospace;
+}
+h1 {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 18px; letter-spacing: 0.2em;
+  color: #5bc8f5; margin-bottom: 4px;
+}
+.hud {
+  display: flex; gap: 32px; font-size: 14px;
+  font-family: 'Press Start 2P', monospace;
+  letter-spacing: 0.1em; color: #fff;
+}
+.hud .label { color: #5bc8f5; font-size: 10px; }
+.hud .val { color: #ffff00; font-size: 14px; margin-left: 6px; }
+canvas {
+  border: 2px solid #5bc8f5;
+  background: #001020;
+  cursor: crosshair;
+  box-shadow: 0 0 20px rgba(91,200,245,0.3);
+}
+.hint {
+  font-size: 12px; color: #808080; letter-spacing: 0.1em;
+  text-transform: uppercase; text-align: center;
+}
+.overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,.94);
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 18px; padding: 24px; z-index: 100;
+}
+.overlay.hidden { display: none; }
+.overlay h2 {
+  color: #fff; font-size: 44px; letter-spacing: .3em;
+  text-shadow: 0 0 18px rgba(255,255,255,.4); margin: 0;
+  font-family: "Courier New", monospace;
+}
+.overlay p {
+  color: #888; font-size: 12px; letter-spacing: .15em;
+  text-transform: uppercase; max-width: 560px; text-align: center;
+  line-height: 1.6;
+}
+.btn-row { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 10px; }
+.overlay button {
+  background: #000; color: #fff; border: 1px solid #fff;
+  font-family: "Courier New", monospace; font-size: 14px;
+  padding: 12px 36px; cursor: pointer; letter-spacing: .3em;
+}
+.overlay button:hover { background: #fff; color: #000; }
+.overlay button.secondary { color: #888; border-color: #555; }
+.overlay button.secondary:hover { background: #555; color: #fff; }
+</style>
+</head>
+<body>
+
+<h1>★ JEZZBALL ★</h1>
+<div class="hud">
+  <span><span class="label">SCORE</span><span class="val" id="score">0</span></span>
+  <span><span class="label">LEVEL</span><span class="val" id="level">1</span></span>
+  <span><span class="label">AREA</span><span class="val" id="area">0%</span></span>
+  <span><span class="label">LIVES</span><span class="val" id="lives">3</span></span>
+</div>
+<canvas id="game" width="600" height="400"></canvas>
+<div class="hint">LEFT CLICK: VERTICAL WALL &middot; RIGHT CLICK: HORIZONTAL WALL &middot; CLEAR 75% TO ADVANCE</div>
+
+<div class="overlay hidden" id="overlay">
+  <h2 id="overlay-title">GAME OVER</h2>
+  <p id="overlay-sub">FINAL SCORE: 0</p>
+  <div class="btn-row">
+    <button id="play-again">[ PLAY AGAIN ]</button>
+    <button class="secondary" onclick="location.href='index.html'">[ BACK TO ARCADE ]</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  const canvas = document.getElementById('game');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const CELL = 8;
+  const COLS = W / CELL, ROWS = H / CELL;
+
+  // 0 = empty, 1 = claimed, 2 = wall
+  let grid;
+  let balls;
+  let walls;  // active growing walls
+  let score = 0, level = 1, lives = 3;
+  let claimedPct = 0;
+  let running = false;
+  let levelStartTime = 0;
+  let totalOpenCells = 0;
+
+  function resetGrid() {
+    grid = new Uint8Array(COLS * ROWS);
+    // Border
+    for (let x = 0; x < COLS; x++) { grid[x] = 2; grid[(ROWS-1)*COLS + x] = 2; }
+    for (let y = 0; y < ROWS; y++) { grid[y*COLS] = 2; grid[y*COLS + COLS-1] = 2; }
+    totalOpenCells = (COLS-2) * (ROWS-2);
+  }
+
+  function spawnBalls(n) {
+    balls = [];
+    for (let i = 0; i < n; i++) {
+      balls.push({
+        x: 60 + Math.random() * (W - 120),
+        y: 60 + Math.random() * (H - 120),
+        vx: (Math.random() < 0.5 ? -1 : 1) * (1.5 + Math.random() * 0.5),
+        vy: (Math.random() < 0.5 ? -1 : 1) * (1.5 + Math.random() * 0.5),
+        r: 7
+      });
+    }
+  }
+
+  function startLevel() {
+    resetGrid();
+    spawnBalls(1 + level);
+    walls = [];
+    claimedPct = 0;
+    levelStartTime = performance.now();
+    document.getElementById('level').textContent = level;
+    document.getElementById('area').textContent = '0%';
+    running = true;
+  }
+
+  function startGame() {
+    score = 0; level = 1; lives = 3;
+    document.getElementById('score').textContent = '0';
+    document.getElementById('lives').textContent = '3';
+    document.getElementById('overlay').classList.add('hidden');
+    startLevel();
+    requestAnimationFrame(loop);
+  }
+
+  // Cell helpers
+  function cellAt(px, py) { return [Math.floor(px / CELL), Math.floor(py / CELL)]; }
+  function cellEmpty(cx, cy) {
+    if (cx < 0 || cx >= COLS || cy < 0 || cy >= ROWS) return false;
+    return grid[cy * COLS + cx] === 0;
+  }
+  function cellSolid(cx, cy) {
+    if (cx < 0 || cx >= COLS || cy < 0 || cy >= ROWS) return true;
+    return grid[cy * COLS + cx] !== 0;
+  }
+
+  // Wall building
+  canvas.addEventListener('contextmenu', e => e.preventDefault());
+  canvas.addEventListener('mousedown', e => {
+    if (!running) return;
+    const rect = canvas.getBoundingClientRect();
+    const px = e.clientX - rect.left, py = e.clientY - rect.top;
+    const [cx, cy] = cellAt(px, py);
+    if (!cellEmpty(cx, cy)) return;
+    const vertical = (e.button === 0);
+    walls.push({
+      cx, cy, vertical,
+      // Two heads growing outward
+      a: vertical ? cy : cx,  // upper/left head position
+      b: vertical ? cy : cx,  // lower/right head position
+      doneA: false, doneB: false,
+      speed: 0.5 // cells per frame
+    });
+  });
+
+  // Flood fill — returns a Set of cells reachable from (cx,cy) AND whether any ball is inside
+  function flood(cx, cy, visited) {
+    const stack = [[cx, cy]];
+    const region = [];
+    let hasBall = false;
+    while (stack.length) {
+      const [x, y] = stack.pop();
+      const k = y * COLS + x;
+      if (visited.has(k)) continue;
+      if (x < 0 || x >= COLS || y < 0 || y >= ROWS) continue;
+      if (grid[k] !== 0) continue;
+      visited.add(k);
+      region.push(k);
+      // Check if any ball is in this cell
+      for (const b of balls) {
+        const [bcx, bcy] = cellAt(b.x, b.y);
+        if (bcx === x && bcy === y) hasBall = true;
+      }
+      stack.push([x+1,y],[x-1,y],[x,y+1],[x,y-1]);
+    }
+    return { region, hasBall };
+  }
+
+  function fillEnclosedRegions() {
+    const visited = new Set();
+    let newlyClaimed = 0;
+    for (let y = 1; y < ROWS-1; y++) {
+      for (let x = 1; x < COLS-1; x++) {
+        const k = y * COLS + x;
+        if (visited.has(k) || grid[k] !== 0) continue;
+        const { region, hasBall } = flood(x, y, visited);
+        if (!hasBall) {
+          for (const idx of region) {
+            grid[idx] = 1;
+            newlyClaimed++;
+          }
+        }
+      }
+    }
+    return newlyClaimed;
+  }
+
+  function updateWalls() {
+    for (const w of walls) {
+      // Grow head A (up or left)
+      if (!w.doneA) {
+        const newA = w.a - w.speed;
+        const checkCell = Math.floor(newA);
+        const [tx, ty] = w.vertical ? [w.cx, checkCell] : [checkCell, w.cy];
+        if (cellSolid(tx, ty)) {
+          w.doneA = true;
+        } else {
+          w.a = newA;
+        }
+      }
+      // Grow head B (down or right)
+      if (!w.doneB) {
+        const newB = w.b + w.speed;
+        const checkCell = Math.floor(newB);
+        const [tx, ty] = w.vertical ? [w.cx, checkCell] : [checkCell, w.cy];
+        if (cellSolid(tx, ty)) {
+          w.doneB = true;
+        } else {
+          w.b = newB;
+        }
+      }
+    }
+
+    // Convert completed walls to grid
+    const remaining = [];
+    for (const w of walls) {
+      if (w.doneA && w.doneB) {
+        // Lay down the wall in the grid
+        const start = Math.ceil(w.a), end = Math.floor(w.b);
+        for (let i = start; i <= end; i++) {
+          const [tx, ty] = w.vertical ? [w.cx, i] : [i, w.cy];
+          if (tx >= 0 && tx < COLS && ty >= 0 && ty < ROWS && grid[ty*COLS+tx] === 0) {
+            grid[ty*COLS+tx] = 2;
+          }
+        }
+        const claimed = fillEnclosedRegions();
+        if (claimed > 0) {
+          score += claimed * level;
+          document.getElementById('score').textContent = score;
+        }
+      } else {
+        remaining.push(w);
+      }
+    }
+    walls = remaining;
+  }
+
+  function checkBallWallCollisions() {
+    // A ball hitting a growing wall destroys that wall AND costs a life
+    for (let i = walls.length - 1; i >= 0; i--) {
+      const w = walls[i];
+      for (const b of balls) {
+        // Wall's current bounds in pixels
+        let wx1, wy1, wx2, wy2;
+        if (w.vertical) {
+          wx1 = w.cx * CELL; wx2 = wx1 + CELL;
+          wy1 = w.a * CELL; wy2 = (w.b + 1) * CELL;
+        } else {
+          wx1 = w.a * CELL; wx2 = (w.b + 1) * CELL;
+          wy1 = w.cy * CELL; wy2 = wy1 + CELL;
+        }
+        // Circle-rect collision
+        const closestX = Math.max(wx1, Math.min(b.x, wx2));
+        const closestY = Math.max(wy1, Math.min(b.y, wy2));
+        const dx = b.x - closestX, dy = b.y - closestY;
+        if (dx*dx + dy*dy < b.r * b.r) {
+          walls.splice(i, 1);
+          lives--;
+          document.getElementById('lives').textContent = lives;
+          if (lives <= 0) {
+            endGame();
+          }
+          return;
+        }
+      }
+    }
+  }
+
+  function updateBalls() {
+    for (const b of balls) {
+      let nx = b.x + b.vx, ny = b.y + b.vy;
+      // Check grid collision on next position
+      const [ncxX, ncyX] = cellAt(nx + Math.sign(b.vx) * b.r, b.y);
+      if (cellSolid(ncxX, ncyX)) { b.vx = -b.vx; nx = b.x; }
+      const [ncxY, ncyY] = cellAt(b.x, ny + Math.sign(b.vy) * b.r);
+      if (cellSolid(ncxY, ncyY)) { b.vy = -b.vy; ny = b.y; }
+      b.x = b.x + b.vx;
+      b.y = b.y + b.vy;
+    }
+  }
+
+  function updateClaimedPct() {
+    let claimed = 0;
+    for (let i = 0; i < grid.length; i++) if (grid[i] === 1) claimed++;
+    claimedPct = Math.floor(claimed / totalOpenCells * 100);
+    document.getElementById('area').textContent = claimedPct + '%';
+    if (claimedPct >= 75) {
+      // Level complete bonus
+      const timeBonus = Math.max(0, 60 - Math.floor((performance.now() - levelStartTime) / 1000));
+      const livesBonus = lives * 200;
+      score += timeBonus * 10 + livesBonus + level * 500;
+      document.getElementById('score').textContent = score;
+      level++;
+      startLevel();
+    }
+  }
+
+  function draw() {
+    ctx.fillStyle = '#001020';
+    ctx.fillRect(0, 0, W, H);
+    // Grid (claimed + walls)
+    for (let y = 0; y < ROWS; y++) {
+      for (let x = 0; x < COLS; x++) {
+        const v = grid[y*COLS+x];
+        if (v === 1) { ctx.fillStyle = '#1db954'; ctx.fillRect(x*CELL, y*CELL, CELL, CELL); }
+        else if (v === 2) { ctx.fillStyle = '#5bc8f5'; ctx.fillRect(x*CELL, y*CELL, CELL, CELL); }
+      }
+    }
+    // Active walls
+    ctx.fillStyle = '#ffff00';
+    for (const w of walls) {
+      let wx1, wy1, wx2, wy2;
+      if (w.vertical) {
+        wx1 = w.cx * CELL; wy1 = w.a * CELL;
+        wx2 = wx1 + CELL; wy2 = (w.b + 1) * CELL;
+      } else {
+        wx1 = w.a * CELL; wy1 = w.cy * CELL;
+        wx2 = (w.b + 1) * CELL; wy2 = wy1 + CELL;
+      }
+      ctx.fillRect(wx1, wy1, wx2-wx1, wy2-wy1);
+    }
+    // Balls
+    ctx.fillStyle = '#ff2d8a';
+    for (const b of balls) {
+      ctx.beginPath();
+      ctx.arc(b.x, b.y, b.r, 0, Math.PI*2);
+      ctx.fill();
+    }
+  }
+
+  function loop() {
+    if (!running) return;
+    updateBalls();
+    updateWalls();
+    checkBallWallCollisions();
+    updateClaimedPct();
+    draw();
+    requestAnimationFrame(loop);
+  }
+
+  let gameStartTime = 0;
+  let interactionCount = 0;
+  canvas.addEventListener('mousedown', () => interactionCount++);
+
+  function endGame() {
+    running = false;
+    document.getElementById('overlay-title').textContent = 'GAME OVER';
+    document.getElementById('overlay-sub').textContent = 'FINAL SCORE: ' + score;
+    document.getElementById('overlay').classList.remove('hidden');
+    submitScore();
+  }
+
+  function submitScore() {
+    try {
+      const id = localStorage.getItem('ikandy_arcade_id_v1');
+      const name = localStorage.getItem('ikandy_arcade_name');
+      if (!id || !name) return;
+      const timeSec = Math.max(1, (performance.now() - gameStartTime) / 1000);
+      const sessionId = crypto.randomUUID();
+      fetch('https://grimznincoiujnurhmlx.supabase.co/functions/v1/arcade-submit-score', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ikandyId: id, ikandyName: name, sessionId,
+          game: 'jezzball', score, timeSec, interactionCount
+        })
+      }).catch(()=>{});
+    } catch(e) {}
+  }
+
+  document.getElementById('play-again').addEventListener('click', () => {
+    gameStartTime = performance.now();
+    interactionCount = 0;
+    startGame();
+  });
+
+  // Start
+  gameStartTime = performance.now();
+  startGame();
+})();
+</script>
+</body>
+</html>
