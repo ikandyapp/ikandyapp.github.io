@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FEJJH5VN5S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-FEJJH5VN5S');
+</script>
+<script defer src="/analytics.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arcade Leaderboard — IKANDY</title>
+<meta name="description" content="Top scores from the IKANDY Arcade. SkiFree leaderboard — metres skied, time survived, ranked by run. Can you make the board?">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --gold:  #d4a843;
+  --neon:  #ff2d8a;
+  --green: #1db954;
+  --ice:   #5bc8f5;
+  --bg:    #04040a;
+  --bg2:   #08080f;
+  --txt:   #e8e8e8;
+  --dim:   rgba(255,255,255,.45);
+  --border: rgba(255,255,255,.07);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--txt);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Noise overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: .35;
+  mix-blend-mode: overlay;
+}
+
+/* NAV */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 48px;
+  background: rgba(4,4,10,.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: .18em;
+  color: var(--gold);
+  text-decoration: none;
+}
+.nav-logo span { color: var(--neon); }
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+}
+.nav-links a {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--dim);
+  text-decoration: none;
+  transition: color .2s;
+}
+.nav-links a:hover { color: var(--gold); }
+.nav-links a.active { color: var(--gold); }
+
+/* HERO */
+.hero {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 80px 32px 40px;
+  text-align: center;
+}
+
+.hero-eyebrow {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .35em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 20px;
+}
+
+.hero-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(56px, 9vw, 96px);
+  line-height: .9;
+  letter-spacing: .04em;
+  background: linear-gradient(135deg, #e8f4ff 0%, var(--gold) 45%, var(--ice) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 16px;
+}
+
+.hero-sub {
+  font-size: 15px;
+  color: var(--dim);
+  line-height: 1.65;
+  max-width: 520px;
+  margin: 0 auto 40px;
+}
+
+/* CTA link to arcade */
+.cta-row {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 64px;
+}
+
+.btn {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 17px;
+  letter-spacing: .15em;
+  padding: 14px 32px;
+  border: 1px solid var(--gold);
+  background: var(--gold);
+  color: #0a0a0a;
+  cursor: pointer;
+  transition: transform .15s, box-shadow .2s;
+  text-decoration: none;
+  display: inline-block;
+}
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 32px rgba(212,168,67,.35);
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--txt);
+  border-color: var(--border);
+}
+.btn-ghost:hover {
+  background: rgba(255,255,255,.05);
+  color: var(--gold);
+  border-color: var(--gold);
+  box-shadow: none;
+}
+
+/* LEADERBOARD SECTION */
+.board-section {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 32px 80px;
+}
+
+.board-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.board-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px;
+  letter-spacing: .08em;
+  color: var(--gold);
+}
+
+.board-meta {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+/* Table */
+.board-wrap {
+  border: 1px solid var(--border);
+  background: rgba(8,8,15,.7);
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+thead th {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--dim);
+  text-align: left;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+thead th.num { text-align: right; }
+
+tbody tr {
+  border-bottom: 1px solid rgba(255,255,255,.04);
+  transition: background .15s;
+}
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: rgba(255,255,255,.03); }
+
+/* Gold/silver/bronze top 3 */
+tbody tr.rank-1 td.rank-cell { color: var(--gold); }
+tbody tr.rank-2 td.rank-cell { color: #b0b8c8; }
+tbody tr.rank-3 td.rank-cell { color: #b07040; }
+
+tbody td {
+  padding: 14px 20px;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+td.rank-cell {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  letter-spacing: .04em;
+  color: var(--dim);
+  width: 52px;
+}
+
+td.name-cell {
+  font-size: 14px;
+  color: var(--txt);
+  max-width: 240px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+td.score-cell {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: .04em;
+  color: var(--ice);
+  text-align: right;
+}
+
+td.time-cell {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  color: var(--dim);
+  text-align: right;
+}
+
+td.date-cell {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: rgba(255,255,255,.28);
+  text-align: right;
+}
+
+/* Loading / error / empty states */
+.board-state {
+  padding: 60px 20px;
+  text-align: center;
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+.board-state.loading::after {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: var(--gold);
+  border-radius: 50%;
+  margin-left: 10px;
+  animation: blink 1s ease-in-out infinite;
+  vertical-align: middle;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: .1; }
+}
+
+.board-state.error { color: var(--neon); }
+
+/* FOOTER */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 32px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.footer-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  letter-spacing: .18em;
+  color: var(--gold);
+  text-decoration: none;
+}
+.footer-logo span { color: var(--neon); }
+
+.footer-copy {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .1em;
+  color: rgba(255,255,255,.2);
+}
+
+@media (max-width: 640px) {
+  nav { padding: 14px 20px; }
+  .nav-links { gap: 20px; }
+  .hero { padding: 56px 20px 32px; }
+  .board-section { padding: 0 16px 60px; }
+  footer { padding: 24px 20px; }
+  .footer-logo { display: none; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">IKANDY <span>APP</span></a>
+  <ul class="nav-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/guide.html">Guide</a></li>
+    <li><a href="/artists.html">Artists</a></li>
+    <li><a href="/arcade/">Arcade</a></li>
+    <li><a href="/scores.html" class="active">Scores</a></li>
+  </ul>
+</nav>
+
+<main>
+  <section class="hero">
+    <p class="hero-eyebrow">⛷ IKANDY ARCADE</p>
+    <h1 class="hero-title">Leaderboard</h1>
+    <p class="hero-sub">Top 20 SkiFree runs — ranked by metres skied. Each entry is a player's personal best. Can you make the board?</p>
+    <div class="cta-row">
+      <a href="/arcade/skifree.html" class="btn">Play SkiFree</a>
+      <a href="/arcade/" class="btn btn-ghost">Open Arcade</a>
+    </div>
+  </section>
+
+  <section class="board-section">
+    <div class="board-header">
+      <div class="board-title">⛷ SkiFree</div>
+      <div class="board-meta" id="board-meta">Loading…</div>
+    </div>
+    <div class="board-wrap" id="board-wrap">
+      <div class="board-state loading" id="board-state">Fetching scores</div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <a href="/" class="footer-logo">IKANDY <span>APP</span></a>
+  <span class="footer-copy">L&amp;R Entertainment LLC &mdash; All rights reserved</span>
+</footer>
+
+<script>
+(() => {
+  'use strict';
+
+  // -- Supabase config -------------------------------------------------------
+  // Same anon key used everywhere — publishable, read-only access to the
+  // arcade_leaderboard view (RLS: only is_valid=true rows, no raw table access).
+  const SUPABASE_URL      = 'https://grimznincoiujnurhmlx.supabase.co';
+  const SUPABASE_ANON_KEY = 'REPLACE_WITH_YOUR_ANON_KEY';
+
+  // -- DOM refs --------------------------------------------------------------
+  const boardWrap  = document.getElementById('board-wrap');
+  const boardState = document.getElementById('board-state');
+  const boardMeta  = document.getElementById('board-meta');
+
+  // -- Helpers ---------------------------------------------------------------
+  function fmtTime(sec) {
+    if (sec == null || isNaN(sec)) return '—';
+    const m = Math.floor(sec / 60);
+    const s = Math.floor(sec % 60);
+    return m > 0
+      ? `${m}m ${String(s).padStart(2,'0')}s`
+      : `${s}s`;
+  }
+
+  function fmtDate(iso) {
+    if (!iso) return '—';
+    try {
+      return new Date(iso).toLocaleDateString('en-US', {
+        month: 'short', day: 'numeric', year: 'numeric'
+      });
+    } catch (_) { return '—'; }
+  }
+
+  function rankLabel(r) {
+    if (r === 1) return '🥇';
+    if (r === 2) return '🥈';
+    if (r === 3) return '🥉';
+    return `#${r}`;
+  }
+
+  // -- Fetch scores ----------------------------------------------------------
+  async function loadLeaderboard() {
+    const url = new URL(`${SUPABASE_URL}/rest/v1/arcade_leaderboard`);
+    url.searchParams.set('game',  'eq.skifree');
+    url.searchParams.set('order', 'rank');
+    url.searchParams.set('limit', '20');
+
+    let rows;
+    try {
+      const res = await fetch(url.toString(), {
+        headers: {
+          'apikey':        SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+          'Accept':        'application/json'
+        }
+      });
+
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      rows = await res.json();
+    } catch (err) {
+      boardState.textContent  = 'Could not load scores — try again later';
+      boardState.className    = 'board-state error';
+      boardMeta.textContent   = '';
+      console.error('[IKANDY scores]', err);
+      return;
+    }
+
+    if (!Array.isArray(rows) || rows.length === 0) {
+      boardState.textContent = 'No scores yet — be the first on the board';
+      boardState.className   = 'board-state';
+      boardMeta.textContent  = 'Top 20 · Updated live';
+      return;
+    }
+
+    // Build table
+    const table = document.createElement('table');
+    table.innerHTML = `
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Player</th>
+          <th class="num">Score (m)</th>
+          <th class="num">Time</th>
+          <th class="num">Date</th>
+        </tr>
+      </thead>
+      <tbody id="board-tbody"></tbody>
+    `;
+
+    const tbody = table.querySelector('#board-tbody');
+    rows.forEach(row => {
+      const tr = document.createElement('tr');
+      if (row.rank <= 3) tr.classList.add(`rank-${row.rank}`);
+      tr.innerHTML = `
+        <td class="rank-cell">${rankLabel(row.rank)}</td>
+        <td class="name-cell">${escHtml(row.ikandy_name || '—')}</td>
+        <td class="score-cell">${Number(row.score).toLocaleString()}</td>
+        <td class="time-cell">${fmtTime(row.time_sec)}</td>
+        <td class="date-cell">${fmtDate(row.created_at)}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    // Swap state div for real table
+    boardWrap.innerHTML = '';
+    boardWrap.appendChild(table);
+
+    const ts = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    boardMeta.textContent = `Top 20 · Updated ${ts}`;
+  }
+
+  function escHtml(s) {
+    return String(s)
+      .replace(/&/g,  '&amp;')
+      .replace(/</g,  '&lt;')
+      .replace(/>/g,  '&gt;')
+      .replace(/"/g,  '&quot;')
+      .replace(/'/g,  '&#39;');
+  }
+
+  // Load on page ready, refresh every 60 seconds
+  loadLeaderboard();
+  setInterval(loadLeaderboard, 60_000);
+})();
+</script>
+
+</body>
+</html>

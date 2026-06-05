@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FEJJH5VN5S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-FEJJH5VN5S');
+</script>
+<script defer src="/analytics.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scene Contract — IKANDY</title>
+<meta name="description" content="The technical contract for IKANDY scenes: audio surface, lifecycle, color space, and the audio-reactivity requirement. Read this before submitting audio-reactive art to IKANDY.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --gold:#d4a843; --neon:#ff2d8a; --green:#1db954; --ice:#5bc8f5;
+  --bg:#04040a; --bg2:#08080f; --code:#0d0d18; --txt:#e8e8e8;
+  --dim:rgba(255,255,255,.45); --border:rgba(255,255,255,.07);
+}
+html { scroll-behavior: smooth; }
+body { background:var(--bg); color:var(--txt); font-family:'DM Sans',sans-serif; min-height:100vh; overflow-x:hidden; -webkit-font-smoothing:antialiased; }
+body::before { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events:none; z-index:9999; opacity:.35; mix-blend-mode:overlay; }
+nav { position:sticky; top:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:18px 48px; background:rgba(4,4,10,.85); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border-bottom:1px solid var(--border); flex-wrap:wrap; }
+.nav-logo { font-family:'Bebas Neue',sans-serif; font-size:26px; letter-spacing:2px; color:var(--txt); text-decoration:none; }
+.nav-logo span { color:var(--gold); }
+.nav-links { list-style:none; display:flex; gap:26px; align-items:center; }
+.nav-links a { color:var(--dim); text-decoration:none; font-size:14px; letter-spacing:.5px; transition:color .2s; }
+.nav-links a:hover, .nav-links a.active { color:var(--txt); }
+.nav-toggle { display:none; background:none; border:0; flex-direction:column; gap:5px; cursor:pointer; }
+.nav-toggle span { width:24px; height:2px; background:var(--txt); display:block; }
+main.doc { max-width:920px; margin:0 auto; padding:56px 28px 100px; line-height:1.72; font-weight:300; }
+.doc h1 { font-family:'Bebas Neue',sans-serif; font-size:clamp(42px,7vw,68px); letter-spacing:1.5px; line-height:1; margin:8px 0 28px; }
+.doc h2 { font-family:'Bebas Neue',sans-serif; font-size:30px; letter-spacing:1px; margin:54px 0 16px; padding-top:22px; border-top:1px solid var(--border); color:var(--gold); }
+.doc h3 { font-family:'Space Mono',monospace; font-size:18px; font-weight:700; margin:34px 0 12px; color:var(--ice); }
+.doc h4 { font-family:'Space Mono',monospace; font-size:15px; font-weight:700; margin:24px 0 10px; color:var(--txt); }
+.doc p { margin:0 0 16px; color:#cfcfd6; }
+.doc a { color:var(--ice); text-decoration:none; border-bottom:1px solid rgba(91,200,245,.3); }
+.doc a:hover { color:var(--txt); border-bottom-color:var(--neon); }
+.doc strong { color:var(--txt); font-weight:500; }
+.doc em { color:#cfcfd6; }
+.doc ul, .doc ol { margin:0 0 16px; padding-left:24px; }
+.doc li { margin:6px 0; color:#cfcfd6; }
+.doc code { font-family:'Space Mono',monospace; font-size:.86em; background:rgba(91,200,245,.10); color:#9fe0ff; padding:2px 6px; border-radius:4px; }
+.doc pre { font-family:'Space Mono',monospace; background:var(--code); border:1px solid var(--border); border-left:3px solid var(--neon); border-radius:8px; padding:16px 18px; overflow-x:auto; margin:0 0 20px; font-size:13px; line-height:1.55; }
+.doc pre code { background:none; color:#d8d8e0; padding:0; border-radius:0; font-size:13px; }
+.doc table { border-collapse:collapse; width:100%; margin:0 0 22px; font-family:'Space Mono',monospace; font-size:12.5px; display:block; overflow-x:auto; }
+.doc th, .doc td { border:1px solid var(--border); padding:8px 12px; text-align:left; vertical-align:top; }
+.doc th { background:rgba(212,168,67,.10); color:var(--gold); font-weight:700; white-space:nowrap; }
+.doc td { color:#cfcfd6; }
+.doc td code, .doc th code { font-size:12px; }
+.doc blockquote { border-left:3px solid var(--neon); background:rgba(255,45,138,.06); padding:12px 18px; margin:0 0 20px; border-radius:0 6px 6px 0; }
+.doc blockquote p { margin:0; color:#e0e0e6; }
+.doc hr { border:0; border-top:1px solid var(--border); margin:40px 0; }
+.doc-tag { font-family:'Space Mono',monospace; font-size:12px; letter-spacing:2px; text-transform:uppercase; color:var(--neon); display:block; margin-bottom:4px; }
+.back-link { display:inline-block; margin-top:8px; font-family:'Space Mono',monospace; font-size:13px; color:var(--dim); text-decoration:none; }
+.back-link:hover { color:var(--txt); }
+footer { display:flex; align-items:center; justify-content:space-between; padding:30px 48px; border-top:1px solid var(--border); flex-wrap:wrap; gap:12px; }
+.footer-logo { font-family:'Bebas Neue',sans-serif; font-size:22px; letter-spacing:2px; color:var(--txt); text-decoration:none; }
+.footer-logo span { color:var(--gold); }
+.footer-copy { font-family:'Space Mono',monospace; font-size:12px; color:var(--dim); }
+@media (max-width:720px){
+  nav { padding:16px 22px; }
+  .nav-toggle { display:flex; }
+  .nav-links { display:none; flex-basis:100%; flex-direction:column; gap:14px; margin-top:14px; }
+  .nav-links.open { display:flex; }
+  main.doc { padding:36px 18px 80px; }
+  footer { padding:24px 22px; }
+}</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">IKANDY <span>APP</span></a>
+  <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" onclick="this.classList.toggle('open');document.getElementById('nav-links').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index.html#features">Features</a></li>
+    <li><a href="index.html#watch">Watch</a></li>
+    <li><a href="guide.html">Guide</a></li>
+    <li><a href="artists.html" class="active">Artists</a></li>
+    <li><a href="credits.html">Credits</a></li>
+    <li><a href="ikandy-smart-auto-prior-art.html">Smart Auto</a></li>
+    <li><a href="ikandy-ai-error-sandbox.html">AI Sandbox</a></li>
+    <li><a href="ikandy-vis-format.html">.vis Format</a></li>
+    <li><a href="index.html#download">Download</a></li>
+  </ul>
+</nav>
+
+<main class="doc">
+<span class="doc-tag">Artist Program · Technical Reference</span>
+<h1>IKANDY Scene Contract</h1>
+<p><strong>Status:</strong> v2 — drafted Phase 2.3 (2026-05-21), revised 2026-05-26 to fold in
+the <strong>WebGPU compute category</strong> as a first-class, fully-built category. The v1
+draft listed <code>webgpu</code> as &quot;reserved but not implemented&quot;; that is now stale — the
+<code>ComputeRuntime</code> (dispatch orchestrator, audio UBO, storage-buffer pool, pipeline
+manager) is live and 8 compute scenes ship on it. Documents the architectural
+contract the curated pipeline scenes implement collectively.</p>
+<p><strong>Relationship to <code>scene-schema.md</code>:</strong> that doc is the <em>data spec</em> — what
+fields a scene may declare. This doc is the <em>runtime contract</em> — what a
+scene must do behind those fields, how it relates to the pipeline runtime,
+who owns which GPU resources, and what each category&#39;s render pattern
+looks like in code. Read both for a complete picture; a scene that
+satisfies the schema but violates the contract still won&#39;t ship.</p>
+<hr>
+<h2>Section 0 — Foundational principle</h2>
+<p><strong>IKANDY is a music visualizer. Every scene must be demonstrably audio-reactive.</strong></p>
+<p>Time-only animations, static visuals, and ambient backdrops are out of scope by
+definition — not &quot;discouraged&quot; or &quot;low priority,&quot; but <strong>not part of the product
+category.</strong> A beautiful scene that doesn&#39;t visibly respond to audio belongs in
+ShaderToy, not IKANDY.</p>
+<p>This principle drives downstream decisions:</p>
+<ul>
+<li>Every scene declares <code>audio: {…}</code> consuming at least one audio signal (<code>bass</code>, <code>mid</code>, <code>treble</code>, <code>intensity</code>, <code>fft</code>, <code>timeDomain</code>, or an event like <code>beat</code>).</li>
+<li>Every scene declares <code>hints.audioReactive: true</code> (or the harness skips its reactivity test, which is itself a sign the scene shouldn&#39;t ship).</li>
+<li>Reactivity is <strong>enforced</strong>, not requested — see Section 9 (Audio-reactivity enforcement) for the harness check that gates new scenes.</li>
+<li>The library is curated against this rule. The 18 v1 scenes all pass; new scenes that fail are rejected.</li>
+</ul>
+<p>The remaining sections describe the engineering contract that lets a scene satisfy this rule without breaking the runtime.</p>
+<hr>
+<h2>Section 1 — What &quot;compliant&quot; means</h2>
+<p>A scene is contract-compliant when it:</p>
+<ol>
+<li>Satisfies Section 0 — visibly responds to audio under the harness reactivity check</li>
+<li>Declares the required identity fields (<code>id</code>, <code>name</code>, <code>credit</code>, <code>category</code>, <code>schema</code>)</li>
+<li>Implements an <code>init(runtime) → SceneInstance</code> matching its category&#39;s pattern</li>
+<li>Returns a <code>SceneInstance</code> with the required lifecycle methods (<code>update</code>, <code>resize</code>, <code>dispose</code>)</li>
+<li>Renders into <code>runtime.hdrTarget</code> (or the appropriate bridge for its category)</li>
+<li>Respects the declared color-space contract (<code>selfTonemapped</code> flag truthfully describes its output)</li>
+<li>Cleans up the GPU resources it created on <code>dispose()</code></li>
+<li>Does not retain references to the runtime, GL context, or HDR target after <code>dispose()</code> returns</li>
+<li>Does not touch any DOM element outside its own offscreen canvas (canvas2d) or render target (three)</li>
+</ol>
+<p>The pipeline runtime trusts items 2–9. Item 1 is enforced by the harness, not the runtime. Violating 2–9 silently corrupts state across scene transitions or leaks GPU resources; violating 1 means the scene isn&#39;t an IKANDY scene at all and shouldn&#39;t have been merged.</p>
+<hr>
+<h2>Section 2 — Lifecycle (all categories)</h2>
+<blockquote>
+<p><strong>Compute (<code>category: &#39;webgpu&#39;</code>) scenes use a <code>frame(ctx)</code> hook, not <code>update(audio, dt)</code> — see §5.</strong> The flow below is the pipeline categories (fragment / canvas2d / three).</p>
+</blockquote>
+<pre><code>register(scene)            ← module load
+  ↓
+setActive(id)              ← user picks scene (or harness drives)
+  → instance = scene.init(runtimeApi)   // sync OR async; runtime awaits
+  ↓
+loop:
+  instance.update(audio, dt)            // ~once per frame
+  ↓
+resize(w, h)               ← viewport change
+  → instance.resize(w, h)
+  ↓
+clearActive() / setActive(otherId)
+  → instance.dispose()
+</code></pre>
+<p><strong>Once <code>dispose()</code> returns, the runtime treats the scene as fully gone.</strong> It may then activate the next scene and reuse the GL context for new programs/textures/FBOs without any state cleanup. If your scene leaks (uncleared <code>gl.useProgram</code>, dangling textures bound to active units, modified blend/depth state without restore), the next scene inherits the corruption.</p>
+<p><strong>The Three.js runtime is the one exception</strong> — it calls <code>_renderer.resetState()</code> after every <code>update()</code> to fence Three.js&#39;s internal state changes from leaking. Fragment and canvas2d scenes don&#39;t get this safety net; they must leave GL state clean themselves. In practice the adapters handle this — see &quot;Per-category patterns&quot; below.</p>
+<hr>
+<h2>Section 3 — The <code>runtime</code> object passed to <code>init()</code></h2>
+<p>Source: <code>src/render/pipeline-runtime.js</code> near L879.</p>
+<pre><code class="language-js">runtime = {
+  gl,                  // WebGL2RenderingContext, shared with every scene
+  canvas,              // the pipeline canvas (#pipeline-canvas); category:&#39;three&#39;
+                       // scenes wrap this with THREE.WebGLRenderer
+  hdrTarget,           // { fbo, tex, width, height } — the HDR FBO scenes render INTO
+  width, height,       // backing-pixel dimensions (CSS px × dpr)
+  dpr,                 // devicePixelRatio used to size the FBO
+  audioGetter: () =&gt; _audio,   // CURRENT audio frame; canvas2d scenes typically
+                               // don&#39;t call this — audio arrives via update(audio, dt)
+  helpers,             // { VS_FULLSCREEN, compileShader, makeProgram, drawFullscreen,
+                       //   bindTargetForDraw } — minimal GL utilities scenes can use
+  bindHDR(),           // shortcut for bindTargetForDraw(gl, hdrTarget)
+  controls,            // schema:2 — current values keyed by ControlSpec.target
+                       // (populated from defaults + localStorage before init runs)
+};
+</code></pre>
+<p><strong><code>gl</code> is shared.</strong> Every scene uses the same WebGL2 context. There is no second context for a scene to opt into. (Pre-Phase-1.4 each scene owned its own context; the Chromium ~16-context cap was the architectural ceiling that motivated the pipeline.)</p>
+<p><strong><code>hdrTarget</code> is a RGBA16F half-float FBO in linear color space.</strong> Scenes write linear-light values; the pipeline tonemaps + applies sRGB at the output pass (passes 3 + 9 of the chain). Exception: <code>selfTonemapped: true</code> scenes write sRGB-encoded <code>[0,1]</code> directly into the same FBO and the pipeline&#39;s tonemap pass is bypassed for them. See &quot;Color space&quot; below.</p>
+<p><strong><code>helpers.makeProgram(gl, fragmentSource [, vertexSource])</code></strong> compiles a fragment shader against the shared fullscreen vertex shader (<code>VS_FULLSCREEN</code>). Scenes that need a custom vertex shader pass it as the third arg; the GLSL adapter handles this transparently for the 14 fragment scenes.</p>
+<hr>
+<h2>Section 4 — The <code>SceneInstance</code> returned from <code>init()</code></h2>
+<p>Every category returns the same shape:</p>
+<pre><code class="language-ts">interface SceneInstance {
+  update(audio: AudioFrame, dt: number): void;
+  resize(w: number, h: number): void;
+  dispose(): void;
+}
+</code></pre>
+<p><code>audio</code> shape is defined in <code>scene-schema.md</code> § AudioFrame. <code>dt</code> is wall-clock seconds since the previous tick; scenes that want time scaled by the user&#39;s speed slider should use <code>audio.scaledDt</code> instead (already <code>= dt × audio.speed</code>).</p>
+<p><strong><code>update()</code> must:</strong></p>
+<ul>
+<li>Render to the HDR FBO (directly for fragment, via the bridge for canvas2d, via <code>renderToSceneTarget</code> + <code>blitToHdr</code> for three)</li>
+<li>Not modify pipeline-owned GL state without restoring it (current FBO binding, viewport, blend/depth enables)</li>
+<li>Be fast — target ~16ms total budget shared with the post-FX chain</li>
+</ul>
+<p><strong><code>resize(w, h)</code> may be a no-op</strong> if the scene has nothing to resize. Most fragment scenes return <code>resize() {}</code>; canvas2d scenes typically call <code>bridge.resize(w, h)</code>; three scenes update their render target.</p>
+<p><strong><code>dispose()</code> must free everything <code>init()</code> allocated.</strong> This is the only hard rule that the runtime cannot enforce for you. Audit a scene&#39;s <code>init()</code> for each <code>gl.create*()</code>/<code>new THREE.*()</code>/<code>document.createElement(&#39;canvas&#39;)</code> and ensure each has a matching cleanup in <code>dispose()</code>.</p>
+<hr>
+<h2>Section 5 — Per-category patterns</h2>
+<p>The curated scenes fall into <strong>four</strong> categories — <code>fragment</code>, <code>canvas2d</code>, <code>three</code>, and <code>webgpu</code> (WebGPU compute). Each has a different runtime relationship; new scenes must implement the same pattern as the existing scenes in their category.</p>
+<p><strong>One structural distinction up front:</strong> the first three categories render <em>into</em> <code>runtime.hdrTarget</code> (directly for fragment, via a bridge for canvas2d/three) on the shared WebGL2 context. The fourth — <code>webgpu</code> — runs on a <strong>separate <code>GPUDevice</code></strong> and renders to its own <code>#wgpu-canvas</code>; the pipeline pulls that canvas in as a <em>source</em> (<code>setWgpuSourceCanvas()</code>) rather than receiving FBO writes. Read its subsection for why the contract there is shaped differently.</p>
+<h3><code>category: &#39;fragment&#39;</code> — GLSL (13 scenes — 12 fullscreen-quad + ferrofluid, a 3D mesh; see §11)</h3>
+<p>Scenes: aurora, eeu, fic, hol, hypnotise, ikandy-eye, jaf, lmi, prism, singularity, sw, voyager, ferrofluid, plus the four canvas2d <em>adjacent</em> scenes that are GLSL-rendered (see canvas2d section).</p>
+<p><strong>Pattern:</strong> never write a fragment scene by hand. Use the GLSL adapter.</p>
+<pre><code class="language-js">import { createGlslScene } from &#39;./glsl-adapter.js&#39;;
+
+export const myScene = createGlslScene({
+  id:       &#39;my-scene&#39;,
+  name:     &#39;My Scene&#39;,
+  credit:   &#39;Author Name&#39;,
+  category: &#39;fragment&#39;,
+  schema:   2,
+  hints:    { selfTonemapped: true, audioReactive: true, /* … */ },
+  audio:    { bass: true, mid: true, treble: true, intensity: true, time: true },
+  controls: [ /* ControlSpec[] */ ],
+  fragmentSource: `#version 300 es
+    precision highp float;
+    uniform float u_time;
+    uniform float u_bass;
+    // …
+    out vec4 outColor;
+    void main() { outColor = vec4(/* … */); }
+  `,
+});
+</code></pre>
+<p>The adapter (<code>src/render/scenes/glsl-adapter.js</code>) handles:</p>
+<ul>
+<li>Compiling the shader against the shared fullscreen vertex shader</li>
+<li>Looking up every standard uniform (<code>u_time</code>, <code>u_bass</code>, <code>u_intensity</code>, etc.) and silently skipping those the shader doesn&#39;t declare</li>
+<li>Binding declared schema:2 control uniforms (<code>u_density</code>, etc.) each frame</li>
+<li>Maintaining per-scene smoothed bass/mid/treble state (<code>u_bassSmooth</code> etc., instant attack with band-specific exponential release)</li>
+<li>Loading + binding declared image textures (Phase 2.11) at <code>u_&lt;name&gt;Tex</code> with a <code>u_&lt;name&gt;Loaded</code> flag for fallback rendering during async decode</li>
+<li>Pinning time + mouse + audio to deterministic values when <code>window.__IKANDY_HARNESS__</code> is set</li>
+<li>Disposing the GL program + textures on <code>dispose()</code></li>
+</ul>
+<p><strong>Standard uniforms the adapter binds</strong> (declared = bound; absent = skipped):</p>
+<table>
+<thead>
+<tr>
+<th>Uniform</th>
+<th>Source</th>
+<th>Range</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>iTime</code> / <code>u_time</code></td>
+<td>scaledTime accumulator (<code>+= dt × audio.speed</code>)</td>
+<td>seconds</td>
+</tr>
+<tr>
+<td><code>iResolution</code> / <code>u_res</code></td>
+<td><code>vec2(hdrTarget.width, hdrTarget.height)</code></td>
+<td>backing px</td>
+</tr>
+<tr>
+<td><code>iMouse</code> / <code>u_mouse</code></td>
+<td>mouse position × dpr, Y-flipped to GL bottom-origin</td>
+<td>px</td>
+</tr>
+<tr>
+<td><code>u_bass</code> / <code>u_mid</code> / <code>u_treble</code></td>
+<td><code>audio.bass/mid/treble</code></td>
+<td>[0, 1]</td>
+</tr>
+<tr>
+<td><code>u_intensity</code> / <code>u_sensitivity</code></td>
+<td><code>audio.intensity</code></td>
+<td>[0, ~2]</td>
+</tr>
+<tr>
+<td><code>u_volume</code></td>
+<td>volume slider value</td>
+<td>[0, 2]</td>
+</tr>
+<tr>
+<td><code>u_bassSmooth</code> / <code>u_midSmooth</code> / <code>u_trebSmooth</code></td>
+<td>smoothed bands</td>
+<td>[0, 1]</td>
+</tr>
+<tr>
+<td><code>u_beat</code> / <code>u_transient</code> / <code>u_onset</code> / <code>u_energy</code> / <code>u_tempo</code></td>
+<td>audio events (Phase 2.7)</td>
+<td>[0, 1]</td>
+</tr>
+</tbody></table>
+<p>Two naming conventions are accepted in parallel: <code>iTime</code>/<code>iResolution</code>/<code>iMouse</code> (ShaderToy / mrange CC0 ports) and <code>u_time</code>/<code>u_res</code>/<code>u_mouse</code> (IKANDY originals). Declare either; both routes write the same value.</p>
+<p><strong>Don&#39;t write a fragment scene that bypasses the adapter.</strong> A scene that compiles its own shader, binds uniforms directly, and writes to the FBO outside the adapter loses harness time-pinning, the smoothed-bands state, persistent control plumbing, and texture-load fallback. Future contract changes (new standard uniforms, new validation, new compile-time checks) will land in the adapter and miss bypassed scenes.</p>
+<h3><code>category: &#39;canvas2d&#39;</code> — Canvas 2D drawn into HDR FBO (4 scenes)</h3>
+<p>Scenes: fire, pawrticles, ripple, waveray.</p>
+<p><strong>Pattern:</strong> use the canvas2d bridge.</p>
+<pre><code class="language-js">import { createCanvas2dBridge } from &#39;../runtimes/canvas2d-runtime.js&#39;;
+
+export const myScene = {
+  id: &#39;my-scene&#39;, name: &#39;My Scene&#39;, credit: &#39;Author&#39;,
+  category: &#39;canvas2d&#39;, schema: 2,
+  hints: { selfTonemapped: true, audioReactive: true },
+  audio: { /* … */ },
+  controls: [ /* … */ ],
+
+  init(runtime) {
+    const { gl, helpers, hdrTarget } = runtime;
+    const bridge = createCanvas2dBridge(gl, helpers, hdrTarget.width, hdrTarget.height);
+    const ctx = bridge.ctx;
+    return {
+      update(audio, dt) {
+        // Draw with ctx (CanvasRenderingContext2D)
+        ctx.fillStyle = &#39;rgba(0,0,0,0.5)&#39;;
+        ctx.fillRect(0, 0, bridge.canvas.width, bridge.canvas.height);
+        // … scene-specific drawing …
+        bridge.blitToHdr(runtime.hdrTarget);   // upload + sample into HDR FBO
+      },
+      resize(w, h) { bridge.resize(w, h); },
+      dispose()    { bridge.dispose(); },
+    };
+  },
+};
+</code></pre>
+<p>The bridge (<code>src/render/runtimes/canvas2d-runtime.js</code>) handles:</p>
+<ul>
+<li>Allocating a per-scene offscreen <code>&lt;canvas&gt;</code> (not in DOM) sized to the HDR FBO</li>
+<li>Allocating a GPU texture matching the canvas</li>
+<li>Each <code>blitToHdr()</code> uploads the current canvas contents to the GPU texture, then draws a fullscreen quad sampling it into the HDR FBO</li>
+<li><code>UNPACK_FLIP_Y_WEBGL = true</code> on upload so the canvas&#39;s top-left maps to the FBO&#39;s top-left</li>
+<li>One shared blit program across all canvas2d scenes (compiled once, reused)</li>
+<li>Reallocating canvas + texture on <code>resize()</code></li>
+<li>Releasing the GPU texture on <code>dispose()</code></li>
+</ul>
+<p><strong>Per-scene canvases are intentional</strong> (vs. one shared canvas). Two canvas2d scenes might want different blend modes / composite operations / global alpha; isolated canvases prevent cross-contamination.</p>
+<p><strong>Canvas2d scenes are always <code>selfTonemapped: true</code>.</strong> Canvas 2D outputs sRGB pixels by design; the bridge uploads them as-is and the pipeline&#39;s tonemap pass is bypassed. Writing linear values via a canvas2d scene is not supported.</p>
+<p><strong><code>audio.scaledDt</code> vs <code>dt</code>:</strong> canvas2d scenes accumulate time manually for animation (no equivalent of the adapter&#39;s <code>_scaledTime</code>). Use <code>audio.scaledDt ?? dt</code> for animation that should respond to the speed slider; use raw <code>dt</code> for physics that should stay wall-clock.</p>
+<h3><code>category: &#39;three&#39;</code> — Three.js scene + camera (1 scene)</h3>
+<p>Scenes: trails.</p>
+<p><strong>Pattern:</strong> use the three runtime.</p>
+<pre><code class="language-js">import * as THREE from &#39;three&#39;;
+import {
+  ensureRenderer, ensureSceneTarget,
+  renderToSceneTarget, blitToHdr,
+} from &#39;../runtimes/three-runtime.js&#39;;
+
+export const myScene = {
+  id: &#39;my-scene&#39;, name: &#39;My Scene&#39;, credit: &#39;Author&#39;,
+  category: &#39;three&#39;, schema: 2,
+  hints: { selfTonemapped: false, /* see Color Space */ },
+  audio: { /* … */ },
+  controls: [ /* … */ ],
+
+  init(runtime) {
+    const { gl, canvas, helpers, hdrTarget } = runtime;
+    const renderer = ensureRenderer(gl, canvas, helpers);
+    const target = ensureSceneTarget(hdrTarget.width, hdrTarget.height);
+
+    const scene  = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(50, hdrTarget.width / hdrTarget.height, 0.1, 1000);
+
+    // sRGB-authored colors MUST be converted to linear at construction —
+    // see &quot;Color input contract&quot; below for the full rationale.
+    const mat = new THREE.MeshBasicMaterial({
+      color: new THREE.Color(&#39;#ff5900&#39;).convertSRGBToLinear(),
+    });
+    // … build scene graph using `mat`, other geometries, etc. …
+
+    return {
+      update(audio, dt) {
+        // animate scene graph using audio + dt
+        renderToSceneTarget(scene, camera);       // renders into the shared HalfFloat target
+        blitToHdr(runtime.hdrTarget, helpers);    // copies that target into the pipeline FBO
+      },
+      resize(w, h) {
+        ensureSceneTarget(w, h);
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+      },
+      dispose() {
+        // Free YOUR geometries / materials / textures here. Do NOT call
+        // renderer.dispose() — the renderer is shared across three scenes
+        // and lives for the lifetime of the pipeline runtime.
+        scene.traverse(obj =&gt; {
+          if (obj.geometry) obj.geometry.dispose();
+          if (obj.material) {
+            const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
+            for (const m of mats) m.dispose();
+          }
+        });
+      },
+    };
+  },
+};
+</code></pre>
+<p>The three runtime (<code>src/render/runtimes/three-runtime.js</code>) handles:</p>
+<ul>
+<li>Constructing one shared <code>THREE.WebGLRenderer</code> wrapping the pipeline&#39;s <code>gl</code> + <code>canvas</code> (so Three.js renders into the SAME WebGL2 context — no second canvas, no DOM-level compositing)</li>
+<li>Renderer configured with <code>toneMapping: NoToneMapping</code> + <code>outputColorSpace: LinearSRGBColorSpace</code> so the pipeline&#39;s ACES tonemap is the only one</li>
+<li>One shared HalfFloat render target every three scene draws into</li>
+<li>After <code>renderer.render()</code>, calling <code>renderer.resetState()</code> so Three.js&#39;s internal GL state mutations don&#39;t leak into the post-FX chain</li>
+<li>A blit program that copies the render target&#39;s texture handle into the pipeline&#39;s HDR FBO</li>
+<li>Full dispose only happens when the pipeline itself disposes — scene <code>dispose()</code> only frees its own geometries/materials</li>
+</ul>
+<p><strong>The renderer is shared. Do not call <code>renderer.dispose()</code> from a scene.</strong> That would tear down the pipeline&#39;s GL context.</p>
+<p><strong>Color space for three scenes is special.</strong> With renderer <code>toneMapping: NoToneMapping</code> + <code>outputColorSpace: LinearSRGBColorSpace</code>, the scene writes linear values to the HalfFloat target. The blit copies them into the HDR FBO unchanged, where the pipeline&#39;s ACES pass tonemaps + sRGBs them. So three scenes are <code>selfTonemapped: false</code>. Trails sets this; future three scenes should as well. (Setting <code>selfTonemapped: true</code> on a three scene means the pipeline will skip its tonemap pass, leaving linear values in an sRGB output — wrong, and visually obvious as washed-out shadows.)</p>
+<h4>Color input contract — read this before writing a three scene</h4>
+<p><strong>DO NOT pass sRGB-encoded hex colors directly into <code>THREE.Color</code> and use them as material inputs.</strong> Under our renderer&#39;s <code>outputColorSpace: LinearSRGBColorSpace</code> configuration, Three.js does NOT auto-convert <code>THREE.Color</code> values from sRGB to linear during shader uniform binding (it would under the default <code>SRGBColorSpace</code>). An unconverted sRGB hex triplet flows into the shader as if it were already linear — quietly wrong, and downstream tonemap + bloom math compounds the error.</p>
+<p>This is the specific bug that almost shipped with trails. The original port (Phase 2.9) carried 5 hex color constants (<code>&#39;#004c94&#39;</code>, <code>&#39;#2e89ff&#39;</code>, <code>&#39;#003994&#39;</code>, <code>&#39;#004bad&#39;</code>, <code>&#39;#ff5900&#39;</code>) authored as sRGB by the original CodePen artist. They were passed straight to <code>new THREE.Color(hex)</code> and bound as <code>uColor</code> uniforms. With <code>LinearSRGBColorSpace</code> the green channel of <code>#ff5900</code> rode into the shader at <strong>3.5× its correct linear value</strong> (<code>0.349</code> instead of <code>0.099</code>); the compensating overbright was buried in <code>CONFIG.brightness = 4.0131</code> and inflated <code>hints.bloomHint</code> calibration. The math was wrong; the output happened to look approximately right because of accidental tuning. Phase 3 (2026-05-22) corrected this — trails now reads better than the empirically-tuned version because the natural character of the scene comes through once the underlying math is correct.</p>
+<h5>The canonical pattern — copy this for every new three scene</h5>
+<pre><code class="language-js">// sRGB-authored hex (artist-readable, e.g. from a CodePen / Figma)
+const COLOR_HEX = &#39;#ff5900&#39;;
+
+// At material construction — decode sRGB to linear at uniform-bind time:
+const uColor = new THREE.Color(COLOR_HEX).convertSRGBToLinear();
+
+// Inside the material:
+material.uniforms.uColor = { value: uColor };
+
+// Equivalent (Three.js r152+ idiomatic form):
+const uColorAlt = new THREE.Color().setHex(0xff5900, THREE.SRGBColorSpace);
+
+// If you author colors as linear values directly (rare — designers think in sRGB):
+const uColorLinear = new THREE.Color(1.0, 0.099, 0.0);  // no conversion needed
+</code></pre>
+<p>Use the same pattern for <code>material.color</code> on <code>MeshBasicMaterial</code> / <code>MeshStandardMaterial</code> / etc:</p>
+<pre><code class="language-js">const mat = new THREE.MeshBasicMaterial({
+  color: new THREE.Color(&#39;#ff5900&#39;).convertSRGBToLinear(),
+});
+</code></pre>
+<h5>What this does NOT apply to</h5>
+<ul>
+<li><strong>Pure black or pure white</strong> (<code>#000000</code> / <code>#ffffff</code>) are identical in sRGB and linear — no conversion needed (but converting them is also harmless)</li>
+<li><strong>Linear-authored values</strong> (decimal triplets like <code>new THREE.Color(1.0, 0.099, 0.0)</code>) already ARE linear — don&#39;t double-convert</li>
+<li><strong>Texture maps with <code>colorSpace: THREE.SRGBColorSpace</code></strong> — Three.js handles colorspace for textures separately via the <code>colorSpace</code> property; that&#39;s already correct in the sRGB → linear direction. Different topic from <code>THREE.Color</code>.</li>
+</ul>
+<h5>Why this matters now (and not in classic Three.js workflows)</h5>
+<p>In a &quot;default&quot; Three.js setup (<code>outputColorSpace: SRGBColorSpace</code>, no custom render targets), Three.js handles sRGB → linear → light-math → sRGB conversion transparently in the standard shader chunks. Authors pass sRGB hex, get sRGB-correct output, never think about it.</p>
+<p>We&#39;re not in that setup. We use <code>LinearSRGBColorSpace</code> because the renderer writes to a HalfFloat target the pipeline tonemaps later — the renderer must NOT pre-encode to sRGB (that would double-encode after the pipeline&#39;s ACES + linear-to-sRGB). The price is that the automatic color-space handling Three.js does for material colors is also off — every sRGB color the scene declares needs explicit <code>.convertSRGBToLinear()</code> to land correctly in the linear render path.</p>
+<p><strong>See <code>src/render/scenes/trails.js:281</code> for the working pattern</strong> (<code>new THREE.Color(CONFIG[\</code>color${colorIdx}`]).convertSRGBToLinear()`). New three scenes should match this idiom.</p>
+<h3><code>category: &#39;webgpu&#39;</code> — WebGPU compute (8 scenes)</h3>
+<p>Scenes: compute-chromosphere, compute-fluid, compute-gravity, compute-membrane,
+compute-particles, compute-spectra, compute-tesla-orb (Plasma Globe),
+compute-tesseract. (<code>compute-grid</code> and <code>compute-smoke</code> are dev/test entry points
+— <code>IKANDY_COMPUTE_GRID()</code> / <code>IKANDY_COMPUTE_SMOKE()</code> — not user-facing scenes.)</p>
+<p><strong>This is no longer speculative.</strong> WebGPU compute is a first-class category with
+its own runtime stack:</p>
+<ul>
+<li><strong><code>ComputeRuntime</code></strong> (<code>src/render/runtimes/compute-runtime.js</code>) — the category&#39;s
+peer to <code>ThreeRuntime</code>. Owns a single shared <code>GPUDevice</code> (acquired once, lazily),
+the <code>#wgpu-canvas</code> + its <code>GPUCanvasContext</code>, the per-scene activation loop, and
+the per-frame <code>dt</code>/<code>time</code>/Speed handling. Public API mirrors <code>ThreeRuntime</code>:
+<code>register(name, factory)</code>, <code>setActive(name)</code>, <code>clearActive()</code>, <code>resize(w,h)</code>,
+<code>setAudio(...)</code>, <code>setSpectrum(...)</code>, <code>setSpeed(mul)</code>, <code>getAudioDebug()</code>.</li>
+<li><strong><code>DispatchOrchestrator</code></strong> (<code>runtimes/dispatch-orchestrator.js</code>) — drives the
+declarative path: per frame it opens a <strong>compute encoder</strong>, runs each declared
+compute pass in <code>order</code>, ping-pong-<strong>swaps</strong> the storage buffers, then opens a
+<strong>render encoder</strong> that draws the freshly-swapped buffers. Split encoders are
+deliberate (compute results must be visible to the render pass).</li>
+<li><strong><code>AudioUBO</code></strong> (<code>runtimes/audio-ubo.js</code>) — one GPU uniform buffer written once
+per frame, bound at <code>@group(0) @binding(0)</code> of <strong>every</strong> compute and render pass.
+Packs <code>time, bass, mid, treble, intensity, dt, kick, energy, lo, midBand, hi</code>
+plus the 32-bin FFT. This is how WGSL shaders read audio (see Section 7).</li>
+<li><strong><code>StorageBufferPool</code></strong> (<code>runtimes/storage-buffer-pool.js</code>) — per-scene; a fresh
+pool is created on <code>setActive</code> and disposed on <code>clearActive</code>, so scene buffers
+are freed cleanly. Holds the ping-pong slots (<code>&#39;pos&#39;</code>/<code>&#39;pos:out&#39;</code>, etc.).</li>
+<li><strong><code>ComputePipelineManager</code></strong> (<code>runtimes/compute-pipeline-manager.js</code>) — per-device;
+caches compiled WGSL modules + pipelines across scene switches.</li>
+</ul>
+<p><strong>Two authoring paths.</strong> A scene factory <code>factory(runtimeApi) → instance</code> returns
+either a <strong>declarative</strong> instance (no <code>frame()</code>, but declares
+<code>storageBuffers</code> + <code>computePasses</code> + <code>renderPass</code> — the orchestrator runs the
+compute-pass→swap→render-pass chain for you) <strong>or</strong> an <strong>imperative</strong> instance
+(implements <code>frame(ctx)</code> and records/submits its own encoders by hand). Prefer
+declarative; reach for imperative only when the pass graph is irregular
+(compute-tesla-orb and compute-fluid are imperative; the rest are declarative).</p>
+<p><strong>Lifecycle</strong> (parallels every other category&#39;s <code>init → SceneInstance</code> outer shape):</p>
+<pre><code>register(name, factory)                     ← module load
+  ↓
+setActive(name)                             ← user picks scene (or harness)
+  → bufferPool = new StorageBufferPool(device)
+  → instance = await factory(runtimeApi)    // sync OR async; runtime awaits
+     runtimeApi = { device, queue, format, context, canvas, width, height,
+                    audio, bufferPool, audioUBO, pipelines }
+  ↓
+loop (per frame):
+  instance.update?(audio, dt, frameIndex)   // optional CPU-side per-frame logic
+  instance.frame(ctx)                       // REQUIRED — record GPU work
+     ctx = { device, queue, view, format, width, height,
+             time, dt, frameIndex, audio, bufferPool, audioUBO, pipelines }
+  ↓
+resize(w, h) → instance.resize?(w, h)
+  ↓
+clearActive() / setActive(other)
+  → instance.dispose?()                     // free buffers/textures/pipelines;
+                                            //   do NOT destroy the device
+  → bufferPool.dispose()
+</code></pre>
+<p><code>audio</code> on <code>runtimeApi</code>/<code>ctx</code> is the same live object each frame — read it inside
+<code>frame()</code>/<code>update()</code>; never cache values across frames. <code>ctx.audio.kick</code> is the
+runtime-derived hybrid kick (Section 7).</p>
+<p><strong>Declarative pattern</strong> — copy compute-particles.js:</p>
+<pre><code class="language-js">export function createMyComputeScene(/* api */) {
+  return {
+    id: &#39;my-compute&#39;, name: &#39;My Compute&#39;, credit: &#39;Author&#39;,
+    category: &#39;webgpu&#39;, schema: 2,
+    hints: { selfTonemapped: true, audioReactive: true },
+    audio: { bass: true, mid: true, treble: true, time: true },
+
+    // Ping-pong storage buffers; the pool allocates &#39;name&#39; (front) + &#39;name:out&#39; (back).
+    storageBuffers: [
+      { name: &#39;pos&#39;, count: &#39;particleCount&#39;, stride: 16, usage: [&#39;storage&#39;],
+        pingPong: true, init: &#39;random-cube&#39; },
+      { name: &#39;vel&#39;, count: &#39;particleCount&#39;, stride: 16, usage: [&#39;storage&#39;],
+        pingPong: true, init: &#39;zero&#39; },
+    ],
+
+    // Compute pass(es): read front (&#39;pos&#39;/&#39;vel&#39;), write back (&#39;pos:out&#39;/&#39;vel:out&#39;).
+    computePasses: [
+      { name: &#39;integrate&#39;, order: 0, workgroupSize: 64,
+        dispatch: { x: &#39;particleCount&#39; },
+        storageBuffers: [&#39;pos&#39;, &#39;vel&#39;, &#39;pos:out&#39;, &#39;vel:out&#39;],
+        shader: PHYS_WGSL },
+    ],
+
+    // Render pass: reads buffers POST-swap (fresh), draws into #wgpu-canvas.
+    renderPass: {
+      shader: RENDER_WGSL, topology: &#39;triangle-list&#39;,
+      vertexCount: 6, instanceCount: &#39;particleCount&#39;,
+      storageBuffers: [&#39;pos&#39;, &#39;vel&#39;],
+      blend: &#39;additive&#39;, clear: [0, 0, 0, 1],
+    },
+  };
+}
+</code></pre>
+<p><strong>Imperative pattern</strong> — copy compute-tesla-orb.js when the graph is irregular:</p>
+<pre><code class="language-js">init(runtimeApi) {
+  // allocate buffers/pipelines here (or let the scene own them directly)
+  return {
+    frame(ctx) {
+      const { device, queue, view, audio, audioUBO } = ctx;
+      // CPU-side per-frame work: read audio.kick / audio.bass etc., write scene UBO
+      // ... beat-onset detection, physics impulses, control packing ...
+      const enc = device.createCommandEncoder();
+      const cpass = enc.beginComputePass(); /* dispatch */ cpass.end();
+      const rpass = enc.beginRenderPass({ colorAttachments: [{ view, /* ... */ }] });
+      /* draw */ rpass.end();
+      queue.submit([enc.finish()]);   // imperative scenes own submission
+    },
+    resize(w, h) { /* reallocate size-dependent targets */ },
+    dispose() { /* destroy your buffers/textures/pipelines — NOT the device */ },
+  };
+}
+</code></pre>
+<p><strong>How the output reaches the screen.</strong> Compute scenes do <strong>not</strong> write into
+<code>runtime.hdrTarget</code>. They render to <code>#wgpu-canvas</code> (a screen-blended overlay), and
+<code>PipelineRuntime.setWgpuSourceCanvas(canvas, selfTonemapped, renderFn, edgeTaper)</code>
+registers that canvas as the pipeline&#39;s source — the post-FX chain (bloom, CA,
+LUT, grain, vignette…) then runs over it each tick, just as it does for the FBO
+categories. Two args matter for compute authors:</p>
+<ul>
+<li><strong><code>selfTonemapped</code></strong> — same contract as every other category (Section 6). All
+current compute scenes set <code>hints.selfTonemapped: true</code> (they tonemap internally
+/ are LDR), so the pipeline&#39;s tonemap pass is bypassed.</li>
+<li><strong><code>edgeTaper</code></strong> — the 4th arg to <code>setWgpuSourceCanvas</code>, set <strong><code>true</code> for compute
+scenes</strong>. Compute scenes render bright content to the literal frame edge; the CA
+pass&#39;s radial R/B shift fringes that hard edge. <code>edgeTaper: true</code> tells the CA
+pass to fade its scale → 0 across the outer border band. GLSL/WGSL fragment
+scenes leave it false (<code>pipeline-runtime.js:990</code> / <code>:1518</code>).</li>
+</ul>
+<p><strong>Resource ownership.</strong> <code>dispose()</code> must free every <code>GPUBuffer</code> / <code>GPUTexture</code> /
+pipeline the scene created, but must <strong>never</strong> call <code>device.destroy()</code> — the
+device is shared and owned by <code>ComputeRuntime</code> for the lifetime of the runtime
+(same rule as &quot;don&#39;t call <code>renderer.dispose()</code>&quot; for three scenes). The per-scene
+<code>StorageBufferPool</code> is disposed by the runtime on <code>clearActive</code>.</p>
+<p><strong>Color hazard.</strong> Compute scenes commonly composite with <code>blend: &#39;additive&#39;</code>.
+Additive blending into a non-tonemapped 8-bit target silently clamps to white —
+see Section 6&#39;s <strong>v8 additive-blend hazard</strong> and the per-channel diagnostic before
+shipping any layered-additive compute scene.</p>
+<p><strong>Reference scenes:</strong> compute-particles.js (canonical <em>declarative</em> scene),
+compute-tesla-orb.js (canonical <em>imperative</em> scene — see Section 11 for why it&#39;s
+the heavily-iterated reference point).</p>
+<h3><code>category: &#39;milkdrop&#39;</code> — not a pipeline category</h3>
+<p>Butterchurn owns its own preset lifecycle, render loop, post-FX, and DOM canvas (<code>#viz</code> + <code>#mdpp-canvas</code>). It runs as a peer to the pipeline, not under it. See <code>CLAUDE.md → Scene engines</code> for the full architecture.</p>
+<hr>
+<h2>Section 6 — Color space</h2>
+<p>Two output modes, declared by <code>hints.selfTonemapped</code>.</p>
+<h3><code>selfTonemapped: true</code> (17 of 18 scenes)</h3>
+<p>Scene writes sRGB-encoded <code>[0, 1]</code> pixels into the HDR FBO. The pipeline&#39;s tonemap pass (position 3) is bypassed; output pass (position 9) bypasses <code>linearToSRGB()</code>. Effectively: what the scene draws is what reaches the screen, after intermediate passes (bloom, LUT, grain, CA, scanlines, vignette).</p>
+<p>Use this when the scene was authored to look right at full brightness in sRGB — i.e., it has its own tonemap baked in, or it&#39;s a low-dynamic-range design (canvas2d).</p>
+<p>All 13 fragment scenes (ferrofluid included — the 3D-mesh exception, §11) and all 4 canvas2d scenes set this true (13 + 4 = 17). The fragment scenes were ported from ShaderToy / CodePen sources that author for sRGB display; canvas2d output is inherently sRGB.</p>
+<h3><code>selfTonemapped: false</code> (or absent) (1 of 18 scenes — trails)</h3>
+<p>Scene writes linear-light HDR values into the FBO. Bright pixels are allowed above 1.0 (bloom uses this headroom). The pipeline&#39;s ACES tonemap pass curves them down to display range, then the output pass applies sRGB encoding.</p>
+<p>Use this for new physically-based scenes that want the pipeline&#39;s bloom + tonemap to handle their highlights correctly.</p>
+<p><strong>Why bloom looks different across the two modes:</strong> the bloom pass runs <em>before</em> tonemap (position 0). It thresholds at 1.0 by default. For <code>selfTonemapped: true</code> scenes, bloom is thresholding already-tonemapped sRGB values — so most pixels are below 1.0 and only the brightest get bloomed. For <code>selfTonemapped: false</code> scenes, bloom is thresholding linear values — so HDR highlights well above 1.0 get bloomed naturally. Per-scene <code>bloomHint.threshold</code> adjustments compensate. (Phase 8.1 documented these per-scene; Phase 2.2 spot-check confirmed the library reads coherent.)</p>
+<h3>The v8 additive-blend hazard (compute / layered-additive scenes)</h3>
+<p><strong>8-bit additive blending into a non-tonemapped target silently clamps to white.</strong>
+When a scene composites many bright contributions with <code>blend: &#39;additive&#39;</code>
+(<code>one, one, add</code>) into an 8-bit (u8) render target that the pipeline does <em>not</em>
+tonemap, overlapping hues sum past 255 in each channel and clamp to
+<code>(255, 255, 255)</code>. The result <em>looks</em> lit, animated, and audio-reactive — but
+every overlapping element has collapsed into a white blob, destroying all hue
+information. This is the <strong>v8 hazard</strong> (named for the Tesla Orb v8 regression:
+the shockwave&#39;s intended rainbow burst read as a featureless white ring).</p>
+<p>The failure is insidious because it passes every coarse check: pixels are
+non-zero, the frame changes with audio, brightness tracks the beat. Only the
+<em>color</em> is wrong. Mitigations live in the scene&#39;s WGSL, not the runtime:</p>
+<ul>
+<li>Keep additive hues <strong>saturated</strong>, not white — e.g. <code>hsv2rgb(vec3(hue, 0.95*falloff, 1.0))</code> rather than summing toward <code>vec3(1,1,1)</code> (compute-tesla-orb.js:487–499).</li>
+<li>Use a <strong>thin, sharp bright front</strong> (pow falloff) so fewer hues sum additively at any pixel — narrows a wide white band into a narrow rainbow arc (<code>pow(1.0 - wt, 2.5)</code>, compute-tesla-orb.js:487).</li>
+<li>Bound total energy with distance + age falloff so the additive sum can&#39;t run away.</li>
+</ul>
+<p><strong>Recommended verification — the per-color-channel diagnostic.</strong> A pixel-count or
+mean-diff smoke test cannot catch this (a white blob has plenty of non-zero,
+audio-varying pixels). Use the pattern in <code>src/test/compute-tesla-orb-diag.html</code>:
+render the scene, force the worst-case strike frame (max bolts + kick), read the
+frame back from the GPU, and <strong>classify every pixel by per-channel ratios</strong> —
+count &quot;bright&quot;, &quot;white&quot; (all channels &gt; 200), and the scene&#39;s signature hue (e.g.
+magenta = R &amp; B high, G much lower). A regression of this class shows up as the
+signature-hue pixel count collapsing toward zero while &quot;white&quot; climbs. Any compute
+scene using layered additive composition should pass a per-channel check like this
+before shipping (Section 10).</p>
+<hr>
+<h2>Section 7 — Standard uniforms / audio surface</h2>
+<p>The audio surface is documented in detail in <code>scene-schema.md</code> § AudioFrame and § Uniform contract. Quick reference:</p>
+<ul>
+<li><strong>Bands</strong> (<code>audio.bass</code>, <code>audio.mid</code>, <code>audio.treble</code>): pre-multiplied by the user&#39;s per-band gain sliders, <code>[0, 1]</code> typical range</li>
+<li><strong>Master scalars</strong> (<code>audio.intensity</code>, <code>audio.volume</code>, <code>audio.speed</code>): user-facing slider values, <code>[0, 2]</code> range</li>
+<li><strong>Time</strong> (<code>audio.time</code>, <code>audio.scaledDt</code>): monotonic seconds and per-frame Δt × speed</li>
+<li><strong>Bulk data</strong> (<code>audio.fft</code>, <code>audio.timeDomain</code>): <code>Uint8Array</code> snapshots, may be <code>null</code> until first audio frame arrives</li>
+<li><strong>Smoothed bands</strong> (<code>audio.bassSmooth</code>, <code>audio.midSmooth</code>, <code>audio.trebSmooth</code>): instant attack, exponential decay (<code>0.82 / 0.85 / 0.78</code> release factors)</li>
+<li><strong>Events</strong> (<code>audio.beat</code>, <code>audio.transient</code>, <code>audio.onset</code>, <code>audio.energy</code>, <code>audio.tempo</code>): decaying <code>[0, 1]</code> signals from the audio-events detector (<code>src/render/audio-events.js</code>)</li>
+</ul>
+<h3>Kick + the audio debug surface (WebGPU compute path)</h3>
+<p>The compute path derives a beat signal in <code>AudioUBO</code> and exposes a debug probe via
+<code>ComputeRuntime.getAudioDebug()</code> (console: <code>IKANDY_COMPUTE_RUNTIME.getAudioDebug()</code>,
+delegates to <code>AudioUBO.getDebug()</code>). The fields it surfaces:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>bass</code></td>
+<td><strong>RAW</strong> detection signal (pre-user-slider, clamped <code>[0,1]</code>) — what the kick detector runs on</td>
+</tr>
+<tr>
+<td><code>bassVisual</code></td>
+<td>the visual bass value scenes actually render (post-slider)</td>
+</tr>
+<tr>
+<td><code>mid</code> / <code>treble</code></td>
+<td>visual band values</td>
+</tr>
+<tr>
+<td><code>mainKick</code></td>
+<td><strong>Path 1</strong> — transient (rectified bass rise above its slow EMA) <strong>OR</strong> beat-onset cadence during sustained-loud sections (≤145 BPM, ×0.6 weight)</td>
+</tr>
+<tr>
+<td><code>subKick</code></td>
+<td><strong>Path 2</strong> — sharp bass-derivative hits on their own latch (~600 BPM ceiling, capped 0.7) for EDM fills / drum-roll subdivisions</td>
+</tr>
+<tr>
+<td><code>kick</code></td>
+<td><strong>combined</strong> — <code>max(mainKick, subKick)</code>; the value exposed to scenes as <code>audio.kick</code></td>
+</tr>
+<tr>
+<td><code>energy</code>, <code>lo</code>, <code>midBand</code>, <code>hi</code></td>
+<td>mean of all / low / mid / high thirds of the 32-bin FFT</td>
+</tr>
+<tr>
+<td><code>window</code></td>
+<td>min/max/peak of bass/mid/kick/energy since the previous <code>getDebug()</code> call (the right instrument for catching a brief kick spike a one-shot read misses)</td>
+</tr>
+</tbody></table>
+<p><strong>Dual-mode kick detection contract.</strong> <code>kick</code> is the max of two independent
+detectors with separate refractory latches, so they can&#39;t lock each other out:
+<code>mainKick</code> catches musical beats (clean transients + sustained-section cadence),
+<code>subKick</code> catches fast subdivisions. Either path firing wins. The detector runs on
+the <strong>raw</strong> band (<code>bassRaw</code>), never the visual band — a hot bass-gain slider
+(e.g. 2.0) must not shift the detector&#39;s operating point or break beat timing.</p>
+<p><strong>What scenes should read.</strong> Read <code>audio.kick</code> for beats, and
+<code>audio.bass</code> / <code>audio.mid</code> / <code>audio.treble</code> for band amplitude (these are the
+<em>visual</em>, slider-scaled values). <strong><code>bassRaw</code> / <code>midRaw</code> / <code>trebleRaw</code> are
+detection-internal</strong> — fed to the kick detector, not for scenes to render. Don&#39;t
+re-implement beat detection off the raw bands in a scene; consume the
+runtime-derived <code>audio.kick</code>.</p>
+<p>Fragment scenes consume all of these via standard uniform names (<code>u_bass</code>, <code>u_time</code>, <code>u_beat</code>, etc.). Canvas2d/three scenes read them from the <code>audio</code> object passed to <code>update()</code>.</p>
+<p><strong>Declare what you read</strong> in the <code>audio:</code> field of the scene metadata. The runtime delivers every field regardless, but the declaration tells the harness what to synthesize during capture and tells the UI which gain sliders are load-bearing.</p>
+<hr>
+<h2>Section 8 — Resource ownership</h2>
+<p>The simplest way to stay compliant: <strong>every <code>gl.create*()</code> / <code>new THREE.*()</code> / <code>document.createElement(&#39;canvas&#39;)</code> in <code>init()</code> must have a matching cleanup in <code>dispose()</code></strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>Allocated by</th>
+<th>Disposed by</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>WebGL context (<code>gl</code>)</td>
+<td>pipeline runtime</td>
+<td>pipeline runtime</td>
+</tr>
+<tr>
+<td>HDR FBO + texture</td>
+<td>pipeline runtime</td>
+<td>pipeline runtime</td>
+</tr>
+<tr>
+<td>GLSL program (fragment scene)</td>
+<td>glsl-adapter via <code>helpers.makeProgram()</code></td>
+<td>glsl-adapter on <code>dispose()</code></td>
+</tr>
+<tr>
+<td>Image texture (fragment scene)</td>
+<td>glsl-adapter when scene declares <code>textures: {…}</code></td>
+<td>glsl-adapter on <code>dispose()</code></td>
+</tr>
+<tr>
+<td>Schema:2 control state</td>
+<td>pipeline runtime</td>
+<td>pipeline runtime</td>
+</tr>
+<tr>
+<td>Offscreen canvas + GPU texture (canvas2d)</td>
+<td><code>createCanvas2dBridge()</code></td>
+<td><code>bridge.dispose()</code></td>
+</tr>
+<tr>
+<td><code>THREE.WebGLRenderer</code></td>
+<td>three-runtime, lazily on first three scene activation</td>
+<td>three-runtime on pipeline dispose</td>
+</tr>
+<tr>
+<td>Shared <code>WebGLRenderTarget</code> (three)</td>
+<td>three-runtime via <code>ensureSceneTarget()</code></td>
+<td>three-runtime on pipeline dispose</td>
+</tr>
+<tr>
+<td><code>THREE.Scene</code> / <code>Camera</code> / geometries / materials</td>
+<td>the scene&#39;s <code>init()</code></td>
+<td>the scene&#39;s <code>dispose()</code></td>
+</tr>
+<tr>
+<td>Custom render targets (e.g. trails&#39; floor blur)</td>
+<td>the scene&#39;s <code>init()</code></td>
+<td>the scene&#39;s <code>dispose()</code></td>
+</tr>
+<tr>
+<td><code>setTimeout</code> / <code>setInterval</code> / event listeners</td>
+<td>the scene&#39;s <code>init()</code></td>
+<td>the scene&#39;s <code>dispose()</code></td>
+</tr>
+</tbody></table>
+<p><strong>The <code>~16-context cap</code></strong> is no longer at risk under the pipeline (one shared context). But texture and buffer counts still matter — a scene that allocates a 10K-particle position texture in <code>init()</code> and forgets to dispose it accumulates ~1MB per scene activation. Over a day of scene cycling that adds up.</p>
+<hr>
+<h2>Section 9 — Audio-reactivity enforcement</h2>
+<p>Section 0 says every scene must be audio-reactive. This section says how that&#39;s
+checked — automatically, before merge, for every scene.</p>
+<h3>Existing mechanism: harness <code>audio-reactive</code> check</h3>
+<p><code>src/test/visual-harness.js</code> already runs a silent-vs-loud pixel-diff per scene:</p>
+<ul>
+<li>Capture two frames at <code>t=1.0</code> with identical mouse + time, differing only in
+audio input: silent (<code>bass=mid=treble=intensity=0</code>) vs. loud
+(<code>bass=1.0, mid=0.5, treble=0.5, intensity=0.67</code>)</li>
+<li>Compute mean per-pixel diff between the two frames</li>
+<li>Pass requires <code>diff ≥ AUDIO_DIFF_MIN</code> (default <code>1.5</code>)</li>
+<li>Per-scene override via <code>hints.audioReactive: false</code> skips the check; this
+should be considered a code smell for any scene in the curated library</li>
+</ul>
+<p><strong>This is the enforcement mechanism.</strong> A scene that ships without satisfying it
+is a bug — either the scene isn&#39;t actually reactive (rejected from the library)
+or the test is wrong (fix the test). Both are blockers.</p>
+<p>Look at any recent <code>npm run test:visual</code> log: each scene&#39;s report includes a line
+like <code>v audio-reactive: diff(silent,audio)=49.38</code> (passing scenes show <code>v</code> with
+the actual diff magnitude). The check has been live since Phase 2.12.</p>
+<h3>Wire-band sweeps (additional reactivity coverage)</h3>
+<p>The harness also runs per-band sweeps (<code>wire-bass</code>, <code>wire-mid</code>, <code>wire-treble</code>,
+<code>wire-intensity</code>, <code>wire-volume</code>) that vary each audio band min→max with the
+others held constant. A scene that responds only to <code>bass</code> but declares
+<code>audio: { mid: true }</code> will fail the <code>wire-mid</code> check even if it passes the
+overall <code>audio-reactive</code> check — catches mis-declared audio surfaces.</p>
+<p>Pass requires per-band <code>pixel-diff ≥ WIRE_AUDIO_MIN</code> (default <code>1.5</code>).</p>
+<h3>Visible-effect smoke test (compute scenes — complement to pixel-diff)</h3>
+<p><strong>Pixel-diff alone is insufficient for compute scenes.</strong> A flat white blob passes
+the silent-vs-loud diff (and the wire sweeps) as easily as a correct render — it
+has plenty of non-zero, audio-varying pixels while being visually broken (the v8
+hazard, Section 6). The diff confirms <em>something changed</em>, not that the <em>right
+thing</em> changed.</p>
+<p>The complement is a <strong>visible-effect smoke test</strong> that drives real control levers
+through the live <code>ComputeRuntime</code> and asserts the rendered frame <em>changes in the
+expected way</em> — see <code>src/test/compute-audio-controls-page.html</code>. It runs each
+lever and checks a magnitude:</p>
+<ul>
+<li><strong>Band magnitude lever</strong> — render with low bands vs high bands; the two frames
+must differ by mean-absolute-difference above a threshold (band-reactive scenes
+show a large frame delta between quiet and loud).</li>
+<li><strong>Speed lever</strong> — render at slow vs fast Speed; the evolution rate must change
+(motion ratio above a floor), proving the scene actually consumes <code>dt</code>/time.</li>
+<li><strong>Smoke floor</strong> — a minimum non-zero pixel count, so a black/dead frame fails
+outright.</li>
+</ul>
+<p>It runs across both authoring paths (imperative Tesla Orb + declarative Particles
+/ Gravity) so the <em>contract</em> — not just &quot;did anything render&quot; — is what&#39;s verified.
+Treat this as the compute-scene analogue of the fragment-scene <code>audio-reactive</code>
+check: pixel-diff proves reactivity exists; the visible-effect test proves the
+output is the intended visual rather than a degenerate blob. Pair it with the
+per-channel diagnostic (Section 6) for any layered-additive scene.</p>
+<h3>v1.x extensions to the reactivity gate</h3>
+<p>The existing harness covers the curated 18 scenes well. v1.x extensibility
+work needs richer enforcement:</p>
+<ul>
+<li><strong><code>test:capture:reactivity</code> for import path</strong> — when users import their own
+GLSL via the schema:2 template, the same silent-vs-loud diff must run before
+the scene enters their library. Failing scenes get a &quot;this scene doesn&#39;t
+respond to audio — IKANDY only accepts audio-reactive visuals&quot; rejection in
+the import UI. Estimated 1-2 hours wrapping the existing harness check.</li>
+<li><strong>Reactivity gate on AI-generated scenes</strong> — the AI generation path runs the
+same check against its output. A generated scene that fails goes back to the
+generator with the failure reason (e.g., &quot;diff was 0.4, threshold 1.5;
+ensure the shader actually samples u_bass / u_intensity&quot;). Foundation for
+the v1.x AI work that&#39;s currently undecided.</li>
+<li><strong><code>test:capture:milkdrop</code> reactivity scoring</strong> — same idea applied to the
+~717 MilkDrop presets. Already on the v1.x backlog (<code>CLAUDE.md → MilkDrop preset reactivity scoring</code>). Outputs a CSV ranking; presets failing the
+threshold are hidden from default rotation or surfaced as an &quot;ambient&quot;
+category.</li>
+<li><strong>Stochastic-scene reactivity verification</strong> — the simple pixel-diff is
+defeated by per-frame randomness. See &quot;Stochastic scenes&quot; under Section 11.</li>
+</ul>
+<p>All four extensions are documented in the v1.x backlog. None block the v1
+launch — the curated library is fully verified by the existing harness check.</p>
+<hr>
+<h2>Section 10 — Validation checklist for new scenes</h2>
+<p>Before merging a new scene, confirm:</p>
+<ul>
+<li><input disabled="" type="checkbox"> <strong>Section 0 — audio-reactive.</strong> Scene visibly responds to audio. The
+harness <code>audio-reactive</code> check produces a <code>diff(silent,audio) ≥ 1.5</code>
+result for it. If not, the scene isn&#39;t an IKANDY scene — reject.</li>
+<li><input disabled="" type="checkbox"> <strong>Wire-band coverage.</strong> Every audio band the scene reads passes its
+per-band sweep check (<code>wire-bass</code>, <code>wire-mid</code>, <code>wire-treble</code>,
+<code>wire-intensity</code>, <code>wire-volume</code> — whichever are declared in <code>audio: {…}</code>).</li>
+<li><input disabled="" type="checkbox"> Metadata: <code>id</code>, <code>name</code>, <code>credit</code>, <code>category</code>, <code>schema: 2</code></li>
+<li><input disabled="" type="checkbox"> Hints: <code>selfTonemapped</code> set truthfully for the category (true for fragment/canvas2d and current webgpu scenes, false for three)</li>
+<li><input disabled="" type="checkbox"> Hints: <code>audioReactive: true</code> declared; <code>mouseReactive</code> / <code>timeAnimated</code> set if applicable</li>
+<li><input disabled="" type="checkbox"> Audio: every field consumed in <code>update()</code> is declared in <code>audio: {…}</code></li>
+<li><input disabled="" type="checkbox"> Controls (schema:2): every user-tunable parameter has a <code>ControlSpec</code> (range, default, target)</li>
+<li><input disabled="" type="checkbox"> Lifecycle: <code>init()</code> returns <code>{ update, resize, dispose }</code></li>
+<li><input disabled="" type="checkbox"> <code>update()</code> renders into the HDR FBO via the category&#39;s standard pattern (adapter / bridge / three runtime), not by calling <code>gl.bindFramebuffer()</code> directly</li>
+<li><input disabled="" type="checkbox"> <code>dispose()</code> frees every resource <code>init()</code> allocated (audit <code>gl.create*</code>, <code>new THREE.*</code>, <code>setTimeout</code>, event listeners)</li>
+<li><input disabled="" type="checkbox"> Harness: <code>npm run test:visual</code> passes for the new scene end-to-end</li>
+<li><input disabled="" type="checkbox"> Live: a scene-cycling session shows no console errors when activating/deactivating the scene repeatedly</li>
+</ul>
+<p><strong>WebGPU compute scenes (<code>category: &#39;webgpu&#39;</code>) additionally:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Declares <code>category: &#39;webgpu&#39;</code> (the current label — never <code>&#39;compute&#39;</code>)</li>
+<li><input disabled="" type="checkbox"> Implements the right authoring path: declarative (<code>storageBuffers</code> + <code>computePasses</code> + <code>renderPass</code>) or imperative (<code>frame(ctx)</code> owning its own encoder + submission)</li>
+<li><input disabled="" type="checkbox"> <code>dispose()</code> frees every <code>GPUBuffer</code> / <code>GPUTexture</code> / pipeline it created and <strong>never</strong> calls <code>device.destroy()</code></li>
+<li><input disabled="" type="checkbox"> <code>edgeTaper: true</code> passed in the <code>setWgpuSourceCanvas(...)</code> runtime call when the scene renders bright content to the frame edge (kills the CA edge fringe) — the default for compute scenes</li>
+<li><input disabled="" type="checkbox"> Passes the <strong>visible-effect smoke test</strong> (<code>compute-audio-controls-page.html</code>), not just pixel-diff — band + speed levers produce the expected frame change</li>
+<li><input disabled="" type="checkbox"> If it uses layered <strong>additive</strong> composition: passes <strong>per-channel diagnostic verification</strong> (<code>compute-tesla-orb-diag.html</code> pattern) — signature hues survive, no white-blob clamp (Section 6 v8 hazard)</li>
+</ul>
+<hr>
+<h2>Section 11 — Open issues and category exceptions</h2>
+<p>This section lists deviations from the canonical pattern. Each entry says
+whether it&#39;s a permanent exception or an open issue with a planned resolution.</p>
+<h3>Stochastic scenes (pawrticles, fire) — open issue, special verification needed</h3>
+<p>These scenes use <code>Math.random()</code> for per-frame particle state (ember spawn
+positions, ripple-burst seeds, etc.). The harness currently sets
+<code>hints.stochasticRender: true</code> on them, which skips the <strong>pixel-diff
+comparison against the reference PNG</strong> — because two identical runs produce
+different per-pixel output, so any reference comparison hits noise.</p>
+<p><strong>This is an escape hatch from the pixel-diff method, NOT from the
+music-visualizer requirement.</strong> The scenes <em>might be</em> reactive — the simple
+pixel-diff just can&#39;t prove it. The wire-band sweeps + the <code>audio-reactive</code>
+check still run against them, and currently pass (recent harness output:
+fire <code>audio-reactive=85.31</code>, pawrticles <code>audio-reactive=172.23</code>). So they do
+satisfy Section 0 today.</p>
+<p>The gap is that we don&#39;t have a <em>robust</em> verification method for stochastic
+scenes — a scene could be reactive in non-stochastic content (bar heights,
+overall brightness) while the stochastic layer (embers, particles) drowns
+the diff in noise. v1.x reactivity work needs one of:</p>
+<ul>
+<li><strong>Frame-averaged diff</strong> — average N frames of silent + N frames of loud,
+compare the averages. Per-frame randomness cancels out in the mean.</li>
+<li><strong>Energy-of-motion comparison</strong> — compute total optical flow magnitude
+per frame, compare distributions. Reactive scenes show different motion
+energy between silent and loud.</li>
+<li><strong>Region-of-interest diff</strong> — declare a non-stochastic region (e.g., fire&#39;s
+bar baseline at <code>y &gt; 0.7</code>) and run pixel-diff only there.</li>
+</ul>
+<p>None is implemented yet. For v1 launch, the existing wire + simple-diff
+checks are good enough — stochastic scenes pass them. The richer method
+is v1.x.</p>
+<h3>Ferrofluid — permanent exception (3D mesh in <code>category: &#39;fragment&#39;</code>)</h3>
+<p><code>src/render/scenes/ferrofluid.js</code> declares <code>category: &#39;fragment&#39;</code> but does
+not use <code>createGlslScene</code>. Instead it builds its own GL pipeline directly:
+two compiled programs (background fullscreen quad + foreground 3D mesh), a
+256×256 vertex grid with indexed draws, a depth renderbuffer attached to
+the pipeline FBO at init and detached at dispose, per-vertex sampling of
+a 128-bin R8 audio texture, and mouse drag-to-rotate event listeners on
+<code>runtime.canvas</code>. Seven <code>gl.create*</code> calls live in <code>init()</code>.</p>
+<p><strong>Why the bypass is correct:</strong> the GLSL adapter is designed for fullscreen-
+quad fragment shaders. Ferrofluid is a <em>mesh</em> visual — 3D geometry with
+depth testing, two cooperating programs, and per-vertex (not per-fragment)
+audio data. None of that fits the adapter&#39;s surface. The scene file&#39;s
+header comment (lines 1–32) documents the rationale explicitly.</p>
+<p><strong>Why <code>category: &#39;fragment&#39;</code> instead of inventing <code>&#39;mesh&#39;</code>:</strong> the category
+is a semantic best-fit until we have a second mesh-style scene. The scene
+still produces sRGB pixels into the standard pipeline path with
+<code>selfTonemapped: true</code>, so the post-FX chain treats it identically to a
+fragment scene. Inventing a single-instance <code>&#39;mesh&#39;</code> category +
+<code>createMeshScene</code> adapter for one scene is over-engineering.</p>
+<p><strong>Resource cleanup is still compliant.</strong> <code>dispose()</code> deletes both programs,
+both buffers, the audio texture, the depth renderbuffer attachment, and
+removes the canvas event listeners. Audit this when changing the scene.</p>
+<p><strong>Trigger condition for revisiting:</strong> when (if) a second mesh-style scene
+is proposed, that&#39;s the point to formalize. Pattern: invent
+<code>category: &#39;mesh&#39;</code>, extract the shared mesh-runtime bits from ferrofluid&#39;s
+init into a <code>createMeshScene</code> adapter (mirroring <code>createGlslScene</code> and
+<code>createCanvas2dBridge</code>), migrate ferrofluid as the reference scene, then
+the new scene plugs into the same adapter. Until then, ferrofluid is a
+one-off and the bypass stays documented here.</p>
+<h3>MilkDrop — permanent exception (not a category)</h3>
+<p>Butterchurn owns its own preset lifecycle, render loop, post-FX, and DOM
+canvas (<code>#viz</code> + <code>#mdpp-canvas</code>). It runs as a peer system to the pipeline,
+not a category under it. Future MilkDrop integration extensions (mdpp
+post-FX, texture injection) belong in <code>src/mdpp/*</code> and <code>main/*</code>, not in this
+contract.</p>
+<p>The reactivity gate still applies to MilkDrop <em>presets</em> — they ARE music
+visualizer content. The v1.x <code>test:capture:milkdrop</code> work is the
+enforcement mechanism there.</p>
+<h3>WebGPU compute (<code>category: &#39;webgpu&#39;</code>) — built (was: reserved)</h3>
+<p><strong>No longer an open item.</strong> The <code>ComputeRuntime</code> stack is live and 8 compute
+scenes ship on it — see Section 5&#39;s <code>category: &#39;webgpu&#39;</code> subsection for the full
+contract. This entry now only tracks the residual deviations.</p>
+<p><strong>Legacy WGSL scenes — open issue, planned unification.</strong> Three older WGSL scenes
+(nebula, ikandy-singularity, ikandy-aurora) still run their <em>own</em> device +
+start/stop loops on <code>#wgpu-canvas</code>, <strong>not</strong> through <code>ComputeRuntime</code>. Their loop
+and the <code>ComputeRuntime</code> loop are mutually exclusive (the host page stops one
+before starting the other), so reconfiguring the canvas context per <code>setActive</code>
+is safe. Folding them onto the single shared device/context owner is the planned
+unification goal (<code>compute-runtime.js</code> header, &quot;Day-7&quot;). Until then they bypass
+the harness/visible-effect gates because they aren&#39;t <code>ComputeRuntime</code> scenes — the
+reactivity requirement still applies to them in principle.</p>
+<h3>Plasma Globe (compute-tesla-orb) — canonical heavily-iterated compute scene</h3>
+<p><code>src/render/scenes/compute-tesla-orb.js</code> (<code>id: &#39;compute-tesla-orb&#39;</code>,
+<code>name: &#39;Plasma Globe&#39;</code>, <code>category: &#39;webgpu&#39;</code>, imperative <code>frame(ctx)</code>) is the
+<strong>reference point</strong> for a heavily-iterated compute scene — shipped through ~v9 with
+behavior that goes well past the declarative template. Look here when authoring a
+compute scene that needs custom reactivity:</p>
+<ul>
+<li><strong>Custom audio reactivity</strong> — bass → tube displacement + attractor pull; mid →
+ripple detail + rotation/swirl; treble → bolt count (1–3) + core flicker; kick →
+explosion impulse + shockwave brightness. Reads the runtime-derived
+<code>ctx.audio.kick</code> rather than re-detecting beats.</li>
+<li><strong>Beat-onset detection</strong> — fires on a substantial rise <em>above a stable baseline</em>
+(<code>_kickFloor</code> snaps down fast, creeps up slow, sitting in the between-beats
+trough), gated by a hard refractory interval (<code>MIN_BOLT_INTERVAL</code>). This is what
+stops the decay tail&#39;s micro-rises from re-firing 3–6 bolts per beat
+(compute-tesla-orb.js:721–729).</li>
+<li><strong>Shockwave physics</strong> — on a strike, particles within a radius get a kick-scaled
+radial impulse; each reassigns its wave phase to the most-recent strike; a wave
+front sweeps outward at constant speed with a thin saturated-hue rainbow burst
+(Section 6 v8 mitigation), then spring-damper settles back home
+(compute-tesla-orb.js:227 + 235–242 impulse/spring-damper pass, 487–499 wave burst).</li>
+</ul>
+<p>It&#39;s also the scene that motivated the <strong>v8 additive-blend hazard</strong> documentation
+(Section 6) and its <strong>per-channel diagnostic</strong> (<code>compute-tesla-orb-diag.html</code>). When
+in doubt about how far a compute scene may deviate while staying compliant, this is
+the high-water mark: imperative encoding, bespoke detection, and physics are all
+fine — resource cleanup (Section 8), the color contract (Section 6), and the
+reactivity gates (Section 9) still bind.</p>
+<hr>
+<h2>Section 11.5 — Post-FX pass authoring requirements</h2>
+<p>Different scope from scene authoring — this section is for contributors writing new entries in <code>src/render/passes/*.js</code> (Bloom, CA, Vignette, etc.). Captured here because post-FX passes and scenes interact through the same runtime contract and bugs in one class affect the other.</p>
+<h3>Visibility floor</h3>
+<p>Every post-FX pass MUST produce a CLEARLY visible effect at <code>slMul=1.0</code> on at least one reference scene. Subtle is fine; invisible is a bug.</p>
+<p>The perceptual minimums for &quot;user can register that the slider does something&quot;:</p>
+<ul>
+<li><strong>Positional effects</strong> (CA chromatic shift, FXAA edge sample offsets, lens distortion): <strong>8–15 pixels</strong> of UV displacement at 1080p. Anything ≤ 5 pixels reads as &quot;the slider does nothing&quot; to the typical viewer.</li>
+<li><strong>Intensity effects</strong> (Vignette darkening, Bloom intensity, Grain amount, LUT mix): <strong>20–40% change</strong> in pixel brightness or color saturation at the affected region. Anything ≤ 5% reads as no change.</li>
+<li><strong>Region effects</strong> (Vignette spread, scanline density): <strong>affect at least 50% of visible area</strong>. A vignette confined to the literal four corners reads as &quot;no vignette&quot; to most users — the eye dwells on the middle of the frame.</li>
+</ul>
+<h3>Authoring checklist</h3>
+<ul>
+<li><input disabled="" type="checkbox"> Test at <code>slMul=0</code> and <code>slMul=1.0</code> side-by-side on hol, fire, and aurora (sharp content + bright content + volumetric content). Visible difference at all three.</li>
+<li><input disabled="" type="checkbox"> Run <code>npm run test:visual</code> — the post-FX visibility harness section asserts mean-diff &gt; 0.5 between slMul=0 and slMul=1.0 for the tested pass. Add your new pass to that harness check (see <code>src/test/visual-harness.js</code>, <code>passesToCheck</code> array). New passes that don&#39;t pass the visibility harness can&#39;t merge.</li>
+<li><input disabled="" type="checkbox"> Compare to mdpp&#39;s equivalent — <code>src/render/passes/mdpp.js</code> contains the working reference for CA, Vignette, Bloom, Grain, Scanlines as visibility magnitudes. If your pass produces less visible effect than mdpp&#39;s at equivalent slider values, the tuning is too conservative.</li>
+<li><input disabled="" type="checkbox"> Calibrate the magic numbers against pixel-space expectations, not against the individual values in the per-scene hint × pass-default × slider math. The FINAL product is what hits the screen.</li>
+<li><input disabled="" type="checkbox"> Document the magic numbers inline with what they target. Example: <code>* 0.20  // produces ~8-15 px UV offset at slMul=1, caHint=0.10, 1080p</code> — leaves a paper trail for the next contributor.</li>
+</ul>
+<h3>What NOT to do</h3>
+<ul>
+<li><strong>Don&#39;t infer visibility from a single screenshot.</strong> If you can only TELL the pass is on by toggling it and watching for change, the pass is sub-perceptual. The pre-Thread-1 CA and Vignette both passed this test (they &quot;looked the same&quot; with and without, because they were invisible).</li>
+<li><strong>Don&#39;t tune against a single reference scene.</strong> Hol&#39;s heart edges, fire&#39;s bars, and aurora&#39;s curtains all have different content characteristics. A pass tuned only against one scene may be invisible on the others.</li>
+<li><strong>Don&#39;t trust math-based reasoning that the pass should work.</strong> The original <code>* 0.030</code> in CA was correctly producing the math it was authored to produce — but the math itself was producing sub-pixel offsets that no human could see. Always validate visually.</li>
+<li><strong>Don&#39;t quote code identifiers with backticks inside shader-source comments.</strong> The shader is a JS template literal; backticks terminate it early. Use parens, quotes, or bare words. (Cost one investigation round during Thread 1.)</li>
+</ul>
+<h3>v1.x extension</h3>
+<p>When the import / AI authoring paths land, user-uploaded and AI-generated post-FX passes (if we allow them — currently out of scope) must satisfy this section. The harness post-FX visibility check is the enforcement.</p>
+<hr>
+<h2>Section 12 — Future contract evolution</h2>
+<p>When v1.x extensibility work (import templates, AI generation) begins, this is the target. Specifically:</p>
+<ul>
+<li><strong>Import UI:</strong> a user-uploaded scene file must satisfy this contract. The import path likely wraps user code in a <code>createGlslScene</code> / <code>createCanvas2dBridge</code>-style adapter so user-written code can be minimal.</li>
+<li><strong>AI generation:</strong> the generator&#39;s prompts must reference this contract. A generated scene that misses <code>dispose()</code> or violates color space is a regression worth catching in the generator.</li>
+<li><strong>WebGPU bring-in:</strong> ✅ done — the <code>category: &#39;webgpu&#39;</code> contract is built and documented in Section 5 (<code>ComputeRuntime</code> + dispatch orchestrator + audio UBO, same <code>factory → instance</code> outer shape, declarative + imperative paths). Remaining: migrate the three legacy WGSL scenes (nebula, ikandy-singularity, ikandy-aurora) off their standalone loops onto the shared <code>ComputeRuntime</code> device/context (Section 11).</li>
+<li><strong>Schema:3 (if ever):</strong> any new top-level metadata field or runtime API addition lands first in <code>scene-schema.md</code>, with this doc updated to document the runtime relationship for it.</li>
+</ul>
+<p>Compliance audits should re-run after each major contract change.</p>
+
+
+<a href="artists.html" class="back-link">&larr; Back to the Artist Program</a>
+</main>
+
+<footer>
+  <a href="index.html" class="footer-logo">IKANDY <span>APP</span></a>
+  <span class="footer-copy">&copy; 2026 L&amp;R Entertainment LLC &middot; IKANDY.app</span>
+</footer>
+
+</body>
+</html>

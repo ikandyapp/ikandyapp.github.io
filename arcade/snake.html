@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FEJJH5VN5S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-FEJJH5VN5S');
+</script>
+<script defer src="/analytics.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IKANDY ARCADE — Snake</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #000; color: #0f0; font-family: "Courier New", monospace; display: flex; flex-direction: column; align-items: center; height: 100vh; overflow: hidden; }
+.topbar { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 10px 24px; border-bottom: 1px solid #0f0; }
+.topbar-logo { color: #d4a843; font-size: 14px; letter-spacing: .15em; text-decoration: none; }
+.topbar-back { color: #0f0; font-size: 11px; text-decoration: none; letter-spacing: .1em; }
+.topbar-back:hover { color: #fff; }
+.hud { display: flex; gap: 32px; padding: 10px 0; font-size: 16px; letter-spacing: .12em; font-weight: bold; }
+canvas { border: 2px solid #0f0; box-shadow: 0 0 24px #0f04; }
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,.88); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; }
+.overlay.hidden { display: none; }
+.overlay h1 { color: #0f0; font-size: 36px; letter-spacing: .2em; }
+.overlay p { color: #090; font-size: 12px; letter-spacing: .1em; }
+.overlay button { background: #000; color: #0f0; border: 1px solid #0f0; font-family: "Courier New", monospace; font-size: 14px; padding: 10px 28px; cursor: pointer; letter-spacing: .15em; margin-top: 8px; }
+.overlay button:hover { background: #0f0; color: #000; }
+
+/* === Unified arcade opening overlay === */
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,.94); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; padding: 24px; z-index: 100; }
+.overlay.hidden { display: none; }
+.overlay h1 { color: #0f0; font-size: 44px; letter-spacing: .3em; text-shadow: 0 0 18px rgba(0,255,0,.5); margin: 0; font-family: "Courier New", monospace; }
+.overlay p { color: #888; font-size: 12px; letter-spacing: .15em; text-transform: uppercase; margin: 0; max-width: 560px; text-align: center; line-height: 1.6; font-family: "Courier New", monospace; }
+.overlay button { background: #000; color: #0f0; border: 1px solid #0f0; font-family: "Courier New", monospace; font-size: 14px; padding: 12px 36px; cursor: pointer; letter-spacing: .3em; margin-top: 10px; }
+.overlay button:hover { background: #0f0; color: #000; }
+
+/* Back button + row layout */
+.overlay .btn-row { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 10px; }
+.overlay button.secondary { color: #888; border-color: #555; }
+.overlay button.secondary:hover { background: #555; color: #fff; }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <a href="index.html" class="topbar-logo">IKANDY ARCADE</a>
+  <a href="index.html" class="topbar-back">&larr; HOME</a>
+</div>
+<div class="hud">
+  <span>SCORE: <strong id="score">0</strong></span>
+  <span>BEST: <strong id="best">0</strong></span>
+</div>
+<canvas id="game" width="400" height="400"></canvas>
+<div class="overlay" id="start-overlay">
+  <h1>SNAKE</h1>
+  <p>ARROW KEYS OR WASD TO STEER</p>
+  <p>SPEEDS UP EVERY 3 PELLETS &middot; NO MERCY</p>
+  <button id="btn-start">[ PRESS START ]</button>
+</div>
+<div class="overlay hidden" id="over-overlay">
+  <h1>GAME OVER</h1>
+  <p>SCORE: <strong id="final-score">0</strong></p>
+  <div class="btn-row"><button id="btn-retry">[ PLAY AGAIN ]</button><button id="btn-back" class="secondary">[ BACK TO ARCADE ]</button></div>
+</div>
+<script>
+(() => {
+  'use strict';
+  const SUPABASE_URL      = 'https://grimznincoiujnurhmlx.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdyaW16bmluY29pdWpudXJobWx4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxNDQ5NzAsImV4cCI6MjA5MjcyMDk3MH0.X-eXBp4gF3RthSt10As83Ft4z5rOc929IMdis5BSuxk';
+  const BEST_KEY = 'ikandy_snake_best';
+
+  function getArcadeIdentity() {
+    return { id: localStorage.getItem('ikandy_arcade_id_v1') || null, name: localStorage.getItem('ikandy_arcade_name') || null };
+  }
+
+  let interactions = 0, sessionId = '', startTime = 0;
+
+  async function submitScore(score, timeSec) {
+    if (score === 0) return;
+    const ident = getArcadeIdentity();
+    if (!ident.id || !ident.name) return;
+    try {
+      await fetch(`${SUPABASE_URL}/functions/v1/arcade-submit-score`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${SUPABASE_ANON_KEY}`, 'apikey': SUPABASE_ANON_KEY },
+        body: JSON.stringify({ ikandyId: ident.id, ikandyName: ident.name, game: 'snake', score, timeSec: Math.round(timeSec * 1000) / 1000, interactionCount: interactions, sessionId })
+      });
+    } catch (_) {}
+  }
+
+  const CELL = 20, COLS = 20, ROWS = 20;
+  const canvas = document.getElementById('game');
+  const ctx = canvas.getContext('2d');
+  let snake, dir, nextDir, food, score, running, tickMs;
+  let gameLoop;
+
+  function getBest() { return parseInt(localStorage.getItem(BEST_KEY) || '0', 10); }
+  function setBest(v) { localStorage.setItem(BEST_KEY, String(Math.max(getBest(), v))); }
+  document.getElementById('best').textContent = getBest();
+
+  function randCell() { return { x: Math.floor(Math.random() * COLS), y: Math.floor(Math.random() * ROWS) }; }
+  function placeFood() { let f; do { f = randCell(); } while (snake.some(s => s.x === f.x && s.y === f.y)); food = f; }
+
+  function startGame() {
+    snake = [{ x: 10, y: 10 }, { x: 9, y: 10 }, { x: 8, y: 10 }, { x: 7, y: 10 }, { x: 6, y: 10 }];
+    dir = { x: 1, y: 0 }; nextDir = { x: 1, y: 0 };
+    score = 0; running = true; interactions = 0;
+    tickMs = 90;
+    startTime = performance.now();
+    sessionId = crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36);
+    placeFood();
+    document.getElementById('score').textContent = 0;
+    document.getElementById('start-overlay').classList.add('hidden');
+    document.getElementById('over-overlay').classList.add('hidden');
+    clearInterval(gameLoop);
+    gameLoop = setInterval(tick, tickMs);
+  }
+
+  function tick() {
+    if (!running) return;
+    dir = nextDir;
+    const head = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
+    if (head.x < 0 || head.x >= COLS || head.y < 0 || head.y >= ROWS || snake.some(s => s.x === head.x && s.y === head.y)) { endGame(); return; }
+    snake.unshift(head);
+    if (head.x === food.x && head.y === food.y) {
+      score++;
+      document.getElementById('score').textContent = score;
+      placeFood();
+      if (score % 3 === 0 && tickMs > 50) {
+        tickMs -= 5;
+        clearInterval(gameLoop);
+        gameLoop = setInterval(tick, tickMs);
+      }
+    } else {
+      snake.pop();
+    }
+    draw();
+  }
+
+  function draw() {
+    ctx.fillStyle = '#000'; ctx.fillRect(0, 0, 400, 400);
+    ctx.strokeStyle = '#010'; ctx.lineWidth = 0.5;
+    for (let i = 0; i <= COLS; i++) { ctx.beginPath(); ctx.moveTo(i * CELL, 0); ctx.lineTo(i * CELL, 400); ctx.stroke(); }
+    for (let i = 0; i <= ROWS; i++) { ctx.beginPath(); ctx.moveTo(0, i * CELL); ctx.lineTo(400, i * CELL); ctx.stroke(); }
+    ctx.fillStyle = '#f00';
+    ctx.fillRect(food.x * CELL + 3, food.y * CELL + 3, CELL - 6, CELL - 6);
+    snake.forEach((s, i) => { ctx.fillStyle = i === 0 ? '#0f0' : '#070'; ctx.fillRect(s.x * CELL + 1, s.y * CELL + 1, CELL - 2, CELL - 2); });
+  }
+
+  function endGame() {
+    running = false; clearInterval(gameLoop);
+    const timeSec = (performance.now() - startTime) / 1000;
+    setBest(score);
+    document.getElementById('best').textContent = getBest();
+    document.getElementById('final-score').textContent = score;
+    document.getElementById('over-overlay').classList.remove('hidden');
+    submitScore(score, timeSec);
+  }
+
+  window.addEventListener('keydown', e => {
+    const map = { ArrowUp: { x: 0, y: -1 }, w: { x: 0, y: -1 }, ArrowDown: { x: 0, y: 1 }, s: { x: 0, y: 1 }, ArrowLeft: { x: -1, y: 0 }, a: { x: -1, y: 0 }, ArrowRight: { x: 1, y: 0 }, d: { x: 1, y: 0 } };
+    if (map[e.key]) { e.preventDefault(); interactions++; const d = map[e.key]; if (!(d.x === -dir.x && d.y === -dir.y)) nextDir = d; }
+  });
+
+  document.getElementById('btn-start').addEventListener('click', startGame);
+  document.getElementById('btn-retry').addEventListener('click', startGame);
+  document.getElementById('btn-back').addEventListener('click', function() { location.href = 'index.html'; });
+  ctx.fillStyle = '#000'; ctx.fillRect(0, 0, 400, 400);
+})();
+</script>
+</body>
+</html>

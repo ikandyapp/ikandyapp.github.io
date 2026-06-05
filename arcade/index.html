@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FEJJH5VN5S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-FEJJH5VN5S');
+</script>
+<script defer src="/analytics.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IKANDY OS</title>
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  font-family: 'MS Sans Serif', 'Tahoma', 'Segoe UI', sans-serif;
+  user-select: none;
+  -webkit-user-select: none;
+  color: #000;
+}
+
+html, body, .desktop, .window, .icon, .start-btn, .taskbar-btn {
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><polygon points='1,1 1,21 6.5,15.5 9.5,22 13,20.5 10,14 17,14' fill='white' stroke='black' stroke-width='1.2' stroke-linejoin='miter' stroke-linecap='butt'/></svg>") 1 1, default;
+}
+.icon, .start-btn, .taskbar-btn, .titlebar, .login-btn, .login-input {
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><path d='M9,3 L9,18 L13,18 L13,21 L11,21 L11,28 L17,28 L17,21 L15,21 L15,18 L19,18 L19,12 L23,12 L23,8 L19,8 L19,3 L15,3 L15,8 L11,8 L11,3 Z' fill='white' stroke='black' stroke-width='1.2'/></svg>") 14 3, pointer;
+}
+
+/* Boot screen */
+.boot {
+  position: fixed; inset: 0; background: #000; color: #c0c0c0;
+  font-family: 'VT323', 'Courier New', monospace;
+  font-size: 22px; line-height: 1.4; padding: 24px 32px;
+  z-index: 10000; overflow: hidden; white-space: pre;
+}
+.boot.hide { display: none; }
+.boot-line { opacity: 0; }
+.boot-line.show { opacity: 1; }
+.boot-cursor {
+  display: inline-block; width: 12px; height: 18px; background: #c0c0c0;
+  vertical-align: text-bottom; animation: blink 1s steps(2) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* Login terminal */
+.login {
+  position: fixed; inset: 0; background: #000; color: #c0c0c0;
+  font-family: 'VT323', 'Courier New', monospace;
+  padding: 24px 32px; z-index: 9000; display: none;
+}
+.login.show { display: block; }
+.login-banner { font-size: 20px; color: #c0c0c0; margin-bottom: 28px; white-space: pre; line-height: 1.2; }
+.login-banner-title { color: #ffffff; font-size: 28px; letter-spacing: 0.04em; margin-bottom: 8px; }
+.login-banner-sub { color: #808080; font-size: 18px; }
+.login-prompt { font-size: 22px; margin-top: 24px; margin-bottom: 8px; }
+.login-prompt-label { color: #5bc8f5; margin-right: 6px; }
+.login-input {
+  background: #000; border: 1px solid #c0c0c0; color: #ffffff;
+  font-family: 'VT323', 'Courier New', monospace; font-size: 22px;
+  padding: 6px 10px; width: 100%; max-width: 520px; outline: none;
+}
+.login-input:focus { border-color: #5bc8f5; }
+.login-hint { font-size: 18px; color: #808080; margin-top: 12px; max-width: 720px; line-height: 1.5; }
+.login-hint a { color: #5bc8f5; text-decoration: underline; }
+.login-error { font-size: 20px; color: #ff5050; margin-top: 16px; min-height: 24px; }
+.login-actions { margin-top: 20px; display: flex; gap: 12px; flex-wrap: wrap; }
+.login-btn {
+  font-family: 'VT323', 'Courier New', monospace; font-size: 20px;
+  background: #c0c0c0; color: #000;
+  border: 2px solid; border-color: #ffffff #404040 #404040 #ffffff;
+  box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf;
+  padding: 6px 18px;
+}
+.login-btn:active {
+  border-color: #404040 #ffffff #ffffff #404040;
+  box-shadow: inset 1px 1px 0 #808080, inset -1px -1px 0 #dfdfdf;
+}
+.login-btn.ghost { background: transparent; color: #c0c0c0; border-color: #c0c0c0 #404040 #404040 #c0c0c0; box-shadow: none; }
+
+/* Desktop */
+.desktop {
+  position: fixed; inset: 0; background: #008080;
+  display: none; overflow: hidden;
+}
+.desktop.show { display: block; }
+.desktop::before {
+  content: ''; position: absolute; inset: 0;
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(0,0,0,.15) 1px, transparent 0),
+    radial-gradient(circle at 1px 1px, rgba(255,255,255,.06) 1px, transparent 0);
+  background-size: 6px 6px, 6px 6px;
+  background-position: 0 0, 3px 3px;
+  pointer-events: none;
+}
+
+.icon-grid {
+  position: absolute; top: 16px; left: 16px;
+  display: grid; grid-template-columns: 88px; gap: 14px;
+}
+.icon {
+  width: 88px; padding: 6px 4px 4px; text-align: center;
+  color: white; font-size: 11px;
+  font-family: 'MS Sans Serif', Tahoma, sans-serif;
+  text-shadow: 1px 1px 0 #000, 1px 1px 1px #000;
+  border: 1px dotted transparent; background: transparent;
+}
+.icon.locked .icon-img, .icon.locked .icon-label { filter: grayscale(1) brightness(0.6); }
+.icon:focus, .icon:active { border-color: rgba(255,255,255,.5); background: rgba(0,0,128,.35); }
+.icon-img {
+  width: 36px; height: 36px; margin: 0 auto 4px;
+  background: #c0c0c0;
+  border: 2px solid; border-color: #ffffff #404040 #404040 #ffffff;
+  box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf;
+  display: flex; align-items: center; justify-content: center;
+  image-rendering: pixelated; position: relative; overflow: hidden;
+}
+.icon-glyph { font-family: 'Press Start 2P', monospace; font-size: 11px; color: #000080; letter-spacing: 0; line-height: 1; }
+.icon-label { display: block; padding: 1px 3px; word-wrap: break-word; line-height: 1.25; }
+
+.glyph-ski   { background: linear-gradient(180deg, #c0c0c0 0%, #c0c0c0 60%, #ffffff 60%, #ffffff 100%); }
+.glyph-ski::after { content: '&#127935;'; font-size: 22px; filter: grayscale(0.3); }
+.glyph-snake { background: #002800; }
+.glyph-snake::after { content: ''; width: 24px; height: 6px; background: #00ff00; box-shadow: 8px 6px 0 #00ff00, 14px 6px 0 #00ff00, 14px 12px 0 #ff0000; }
+.glyph-pong  { background: #000; display: flex; align-items: center; justify-content: space-between; padding: 4px; }
+.glyph-pong::before { content: ''; width: 4px; height: 16px; background: #fff; box-shadow: 26px 8px 0 -8px #fff; }
+.glyph-pong::after  { content: ''; width: 4px; height: 4px; background: #fff; align-self: center; }
+.glyph-brick { background: #000080; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; padding: 3px; }
+.glyph-brick > i { display: block; background: #ff0000; }
+.glyph-brick > i:nth-child(2) { background: #ffaa00; }
+.glyph-brick > i:nth-child(3) { background: #ffff00; }
+.glyph-brick > i:nth-child(4) { background: #00ff00; }
+.glyph-brick > i:nth-child(5) { background: #00aaff; }
+.glyph-brick > i:nth-child(6) { background: #aa00ff; }
+.glyph-jezz { background: #000080; display: flex; align-items: center; justify-content: center; position: relative; }
+.glyph-jezz::before { content: ''; width: 18px; height: 18px; background: #ffff00; border-radius: 50%; box-shadow: 0 0 4px #ffaa00, inset -2px -2px 0 rgba(0,0,0,0.3); }
+.glyph-jezz::after { content: ''; position: absolute; inset: 4px; border: 1px solid #ff2d8a; pointer-events: none; }
+.glyph-ikamp { background: #1d1d1d; display: flex; align-items: flex-end; justify-content: center; padding: 2px; gap: 1px; }
+.glyph-ikamp > i { display: block; width: 3px; background: #00ff00; }
+.glyph-score { background: #c0c0c0; font-family: 'Press Start 2P', monospace; font-size: 8px; color: #000; padding-top: 6px; }
+.glyph-score::after { content: '#1\A 100K'; white-space: pre; font-size: 7px; line-height: 1.2; }
+.glyph-spread { background: #5bc8f5; font-size: 22px; display: flex; align-items: center; justify-content: center; }
+.icon-emoji { font-size: 26px; line-height: 1; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; background: #c0c0c0; filter: drop-shadow(0 0 0 #000); }
+.glyph-logout { background: #c0c0c0; }
+.glyph-logout::after { content: '&#8617;'; font-size: 22px; color: #c00; font-weight: bold; }
+
+/* Taskbar */
+.taskbar {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 28px;
+  background: #c0c0c0;
+  border-top: 2px solid; border-color: #ffffff #404040 #404040 #ffffff;
+  box-shadow: inset 0 1px 0 #dfdfdf;
+  display: flex; align-items: center; padding: 2px; gap: 4px;
+  z-index: 500;
+}
+.start-btn {
+  display: flex; align-items: center; gap: 4px;
+  padding: 2px 6px 2px 4px;
+  border: 2px solid; border-color: #ffffff #404040 #404040 #ffffff;
+  box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf;
+  background: #c0c0c0;
+  font-family: 'MS Sans Serif', Tahoma, sans-serif;
+  font-size: 12px; font-weight: bold; color: #000; height: 22px;
+}
+.start-btn:active, .start-btn.open {
+  border-color: #404040 #ffffff #ffffff #404040;
+  box-shadow: inset 1px 1px 0 #808080, inset -1px -1px 0 #dfdfdf;
+}
+.start-btn-logo {
+  width: 16px; height: 16px; display: inline-block;
+  background:
+    linear-gradient(135deg, #d4a843 0%, #d4a843 50%, transparent 50%) top left / 8px 8px no-repeat,
+    linear-gradient(135deg, #ff2d8a 0%, #ff2d8a 50%, transparent 50%) top right / 8px 8px no-repeat,
+    linear-gradient(135deg, #1db954 0%, #1db954 50%, transparent 50%) bottom left / 8px 8px no-repeat,
+    linear-gradient(135deg, #5bc8f5 0%, #5bc8f5 50%, transparent 50%) bottom right / 8px 8px no-repeat,
+    #000;
+}
+
+.taskbar-windows {
+  display: flex; gap: 2px; flex: 1; padding-left: 6px;
+}
+.taskbar-task {
+  display: flex; align-items: center; gap: 4px;
+  height: 22px; padding: 0 8px;
+  background: #c0c0c0;
+  border: 1px solid; border-color: #ffffff #404040 #404040 #ffffff;
+  box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf;
+  font-family: 'MS Sans Serif', Tahoma, sans-serif;
+  font-size: 11px; max-width: 180px; overflow: hidden;
+  text-overflow: ellipsis; white-space: nowrap;
+}
+.taskbar-task.active {
+  border-color: #404040 #ffffff #ffffff #404040;
+  box-shadow: inset 1px 1px 0 #808080, inset -1px -1px 0 #dfdfdf;
+  background: #909090;
+}
+.taskbar-task .task-icon { font-size: 11px; }
+
+.taskbar-tray {
+  display: flex; align-items: center; gap: 6px;
+  padding: 0 8px; height: 22px;
+  border: 1px solid; border-color: #404040 #ffffff #ffffff #404040;
+  box-shadow: inset 1px 1px 0 #808080;
+  font-family: 'MS Sans Serif', Tahoma, sans-serif;
+  font-size: 11px; background: #c0c0c0;
+}
+.tray-user { color: #000080; font-weight: bold; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tray-music { display: inline-block; min-width: 14px; text-align: center; font-size: 13px; line-height: 1; }
+.tray-music.playing { color: #1db954; animation: bump 0.42s ease infinite alternate; font-weight: bold; text-shadow: 0 0 4px rgba(29,185,84,0.6); }
+@keyframes bump { 0% { transform: scale(1) rotate(-10deg); } 100% { transform: scale(1.45) rotate(10deg); } }
+.tray-clock { color: #000; min-width: 56px; text-align: right; }
+
+/* Start menu */
+.start-menu {
+  position: absolute; left: 2px; bottom: 30px; width: 220px;
+  background: #c0c0c0;
+  border: 2px solid; border-color: #ffffff #404040 #404040 #ffffff;
+  box-shadow: 1px 1px 0 #000, inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf;
+  display: none; z-index: 600;
+  font-family: 'MS Sans Serif', Tahoma, sans-serif;
+}
+.start-menu.show { display: flex; }
+.start-menu-side {
+  width: 24px;
+  background: linear-gradient(180deg, #000080 0%, #4040a0 100%);
+  color: #c0c0c0; font-weight: bold; font-size: 16px;
+  writing-mode: vertical-rl; transform: rotate(180deg);
+  padding: 8px 4px; letter-spacing: 0.1em; text-align: left;
+}
+.start-menu-side b { color: #fff; }
+.start-menu-items { flex: 1; padding: 2px; }
+.start-item { display: flex; align-items: center; gap: 8px; padding: 4px 8px; font-size: 12px; color: #000; }
+.start-item:hover { background: #000080; color: #ffffff; }
+.start-item-icon { font-size: 14px; width: 16px; text-align: center; }
+.start-divider { height: 1px; background: #808080; border-bottom: 1px solid #ffffff; margin: 4px 2px; }
+
+/* Welcome window */
+.welcome-window {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: min(420px, 90vw);
+  background: #c0c0c0;
+  border: 2px solid; border-color: #ffffff #404040 #404040 #ffffff;
+  box-shadow: 2px 2px 0 #000000, inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf;
+  z-index: 400; display: none;
+}
+.welcome-window.show { display: block; }
+.titlebar {
+  background: linear-gradient(90deg, #000080 0%, #1084d0 100%);
+  color: white; padding: 3px 4px 3px 6px;
+  display: flex; align-items: center; justify-content: space-between;
+  font-weight: bold; font-size: 11px; height: 20px;
+  font-family: 'MS Sans Serif', Tahoma, sans-serif;
+}
+.titlebar-text { display: flex; align-items: center; gap: 6px; }
+.titlebar-icon {
+  width: 14px; height: 14px; display: inline-block;
+  background:
+    linear-gradient(135deg, #d4a843 0%, #d4a843 50%, transparent 50%) top left / 7px 7px no-repeat,
+    linear-gradient(135deg, #ff2d8a 0%, #ff2d8a 50%, transparent 50%) top right / 7px 7px no-repeat,
+    linear-gradient(135deg, #1db954 0%, #1db954 50%, transparent 50%) bottom left / 7px 7px no-repeat,
+    linear-gradient(135deg, #5bc8f5 0%, #5bc8f5 50%, transparent 50%) bottom right / 7px 7px no-repeat,
+    #000;
+}
+.titlebar-controls { display: flex; gap: 2px; }
+.titlebar-btn {
+  width: 16px; height: 14px; background: #c0c0c0; color: #000;
+  border: 1px solid; border-color: #ffffff #404040 #404040 #ffffff;
+  box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf;
+  font-family: 'Marlett', 'MS Sans Serif', monospace;
+  font-size: 9px; font-weight: bold;
+  display: flex; align-items: center; justify-content: center;
+  line-height: 1; padding: 0;
+}
+.window-body {
+  padding: 18px 20px 14px;
+  font-family: 'MS Sans Serif', Tahoma, sans-serif;
+  font-size: 12px; color: #000; line-height: 1.5;
+}
+.welcome-greeting { font-size: 14px; font-weight: bold; margin-bottom: 12px; color: #000080; }
+.welcome-name {
+  font-family: 'Press Start 2P', monospace; font-size: 11px; color: #c00080;
+  background: #ffffff; border: 1px solid #808080;
+  padding: 6px 8px; margin: 8px 0 14px;
+  word-break: break-word; line-height: 1.4;
+}
+.window-buttons {
+  display: flex; justify-content: flex-end; gap: 6px;
+  padding: 8px 12px 12px; background: #c0c0c0;
+}
+.win-btn {
+  font-family: 'MS Sans Serif', Tahoma, sans-serif;
+  font-size: 12px; padding: 4px 16px; min-width: 70px;
+  background: #c0c0c0; color: #000;
+  border: 2px solid; border-color: #ffffff #404040 #404040 #ffffff;
+  box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf;
+}
+.win-btn:active {
+  border-color: #404040 #ffffff #ffffff #404040;
+  box-shadow: inset 1px 1px 0 #808080, inset -1px -1px 0 #dfdfdf;
+}
+.win-btn.default { border-color: #000; outline: 1px dotted #000; outline-offset: -4px; }
+
+.scores-window{position:absolute;top:36px;left:50%;transform:translateX(-50%);width:min(720px,96vw);max-height:calc(100vh - 80px);background:#c0c0c0;border:2px solid;border-color:#fff #404040 #404040 #fff;box-shadow:2px 2px 0 #000,inset -1px -1px 0 #808080,inset 1px 1px 0 #dfdfdf;z-index:410;display:none;flex-direction:column}
+.scores-window.show{display:flex}
+.scores-window .window-body{padding:8px 8px 4px;overflow-y:auto;flex:1;min-height:0}
+.scores-table-wrap{overflow-y:auto;max-height:520px;border:2px inset #808080;background:#fff;margin-bottom:4px}
+.scores-table{width:100%;border-collapse:collapse;font-family:'MS Sans Serif',Tahoma,sans-serif;font-size:12px;color:#000}
+.scores-table thead th{background:#000080;color:#fff;padding:4px 8px;text-align:left;font-weight:bold;position:sticky;top:0;z-index:1;font-size:11px;border-right:1px solid #0000a0}
+.scores-table thead th.num{text-align:right}
+.scores-table tbody td{padding:3px 8px;border-bottom:1px solid #e0e0e0}
+.scores-table tbody tr:nth-child(even) td{background:#f4f4f4}
+.scores-table tbody tr:hover td{background:#000080;color:#fff}
+.scores-table td.num{text-align:right}
+.scores-table td.rank-col{font-weight:bold;text-align:center;width:38px;color:#000080}
+.scores-table tbody tr:hover td.rank-col{color:#fff}
+.scores-msg{padding:24px 16px;text-align:center;font-family:'MS Sans Serif',Tahoma,sans-serif;font-size:12px;color:#808080}
+/* Webamp / IKAMP overrides - force Win98 title chrome to match desktop */
+#ikamp-mount {
+  position: absolute; z-index: 350;
+}
+/* Webamp draws its own classic skin - we only constrain placement */
+
+/* -- Wallpaper poster + Geiss tribute visualizer panel ----------- */
+.desktop-wallpaper {
+  position: absolute;
+  top: 24px; right: 24px; bottom: 60px;
+  width: min(820px, calc(100vw - 180px));
+  max-height: calc(100vh - 110px);
+  overflow-y: auto;
+  pointer-events: none; z-index: 1;
+  font-family: 'VT323', 'Courier New', monospace;
+  color: #ffffff;
+  user-select: none;
+  display: flex; flex-direction: column; gap: 16px;
+  padding: 8px;
+  filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.4));
+  overflow: hidden;
+}
+.wp-poster {
+  background: linear-gradient(180deg, rgba(0,0,40,0.82) 0%, rgba(0,30,60,0.82) 100%);
+  border: 2px solid;
+  border-color: #ff2d8a #5bc8f5 #5bc8f5 #ff2d8a;
+  padding: 16px 22px;
+  box-shadow:
+    inset 1px 1px 0 rgba(255,255,255,0.3),
+    inset -1px -1px 0 rgba(0,0,0,0.3),
+    4px 4px 0 rgba(0,0,0,0.5);
+  position: relative;
+}
+.wp-poster.tilt-left  { transform: rotate(-0.4deg); }
+.wp-poster.tilt-right { transform: rotate(0.3deg); }
+.wp-header {
+  display: flex; justify-content: space-between; align-items: center;
+  border-bottom: 2px dashed #ffff00;
+  padding-bottom: 6px; margin-bottom: 8px;
+}
+.wp-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 14px;
+  color: #ffff00;
+  text-shadow: 2px 2px 0 #ff2d8a, 4px 4px 0 rgba(0,0,0,0.7);
+  letter-spacing: 0.05em;
+}
+.wp-stamp {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: #ff2d8a;
+  border: 2px solid #ff2d8a;
+  padding: 3px 6px;
+  transform: rotate(-3deg);
+  background: rgba(0,0,0,0.4);
+  letter-spacing: 0.1em;
+}
+.wp-section {
+  font-size: 16px; line-height: 1.35; color: #ffffff;
+}
+.wp-section h3 {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px; color: #5bc8f5;
+  margin-bottom: 6px; letter-spacing: 0.05em;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.6);
+}
+.wp-section h3::before { content: '> '; color: #ffff00; }
+.wp-section p { margin-bottom: 4px; }
+.wp-section .accent { color: #1db954; font-weight: bold; }
+.wp-section .warn   { color: #ff5050; font-weight: bold; }
+.wp-section .pts    { color: #ffff00; font-weight: bold; }
+.wp-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 4px 18px;
+  font-size: 15px;
+}
+.wp-grid div { white-space: nowrap; }
+.wp-footer {
+  text-align: center; font-size: 11px;
+  color: rgba(255,255,255,0.55);
+  font-family: 'Press Start 2P', monospace;
+  letter-spacing: 0.15em;
+  margin-top: 4px; padding: 4px;
+  border-top: 1px dotted rgba(255,255,255,0.3);
+}
+.wp-logos {
+  display: flex; justify-content: center; gap: 14px;
+  font-size: 22px; line-height: 1; margin: 4px 0;
+}
+.wp-scanline {
+  position: absolute; inset: 0; pointer-events: none;
+  background: repeating-linear-gradient(180deg,
+    transparent 0px, transparent 2px,
+    rgba(0,0,0,0.08) 3px, rgba(0,0,0,0.08) 4px);
+  z-index: 2; mix-blend-mode: multiply;
+}
+/* Visualizer-era tribute panel (Geiss-era plugin nod, original art) */
+.wp-viz-panel { padding: 8px 10px 6px; }
+.wp-viz-header {
+  display: flex; align-items: center; gap: 8px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px; color: #5bc8f5; margin-bottom: 6px;
+  letter-spacing: 0.05em;
+}
+.wp-viz-led {
+  display: inline-block; width: 6px; height: 6px;
+  background: #1db954; border-radius: 50%;
+  box-shadow: 0 0 4px #1db954;
+  animation: wp-led-blink 1.2s infinite;
+}
+@keyframes wp-led-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+.wp-viz-fft { margin-left: auto; color: #ffff00; }
+.wp-viz-screen {
+  width: 100%; height: 100px; display: block;
+  border: 1px solid #000;
+  box-shadow: inset 0 0 0 1px #5bc8f5, inset 0 0 12px rgba(0,0,0,0.6);
+  background: #000020;
+}
+.wp-viz-credit {
+  font-size: 10px; color: rgba(255,255,255,0.55);
+  text-align: center; margin-top: 4px;
+  font-style: italic; letter-spacing: 0.02em;
+}
+
+@media (max-width: 600px) {
+  .boot, .login { padding: 16px 18px; font-size: 18px; }
+  .login-banner-title { font-size: 22px; }
+  .icon-grid { grid-template-columns: 80px; gap: 10px; }
+  .icon { width: 80px; }
+  .taskbar-windows .taskbar-task { max-width: 100px; }
+}
+/* -- Wallpaper readability overrides ----------------------------- */
+.desktop-wallpaper { width: min(820px, calc(100vw - 180px)) !important; gap: 18px !important; }
+.wp-poster { padding: 18px 24px !important; }
+.wp-section { font-size: 22px !important; line-height: 1.45 !important; }
+.wp-section h3 { font-size: 14px !important; margin-bottom: 10px !important; }
+.wp-grid { font-size: 21px !important; gap: 8px 28px !important; }
+.wp-title { font-size: 20px !important; }
+.wp-stamp { font-size: 12px !important; }
+.wp-viz-header { font-size: 11px !important; }
+.wp-viz-credit { font-size: 14px !important; }
+.wp-footer { font-size: 14px !important; }
+
+/* ── IKQ messages: task tray + window (re-applied after recovery) ── */
+.tray-ikq svg { transition: filter 0.15s; }
+.tray-ikq:hover svg { filter: brightness(1.3); }
+.tray-ikq.has-unread svg { animation: ikq-blink 0.6s infinite alternate; }
+@keyframes ikq-blink {
+  0%   { filter: brightness(1); }
+  100% { filter: brightness(1.7) drop-shadow(0 0 4px #ffff00); }
+}
+.ikq-badge {
+  position: absolute; top: -3px; right: -5px;
+  min-width: 14px; height: 14px; padding: 0 3px;
+  background: #ff0000; color: #ffffff;
+  border: 1px solid #ffffff; border-radius: 7px;
+  font-family: 'MS Sans Serif', Tahoma, sans-serif;
+  font-size: 9px; font-weight: bold;
+  line-height: 12px; text-align: center;
+  box-shadow: 1px 1px 0 rgba(0,0,0,0.5);
+}
+.ikq-window {
+  position: fixed !important;
+  top: 60px !important; right: 60px !important; left: auto !important;
+  width: 380px !important; max-width: calc(100vw - 80px);
+  max-height: 480px;
+  background: #c0c0c0;
+  border: 2px solid; border-color: #fff #404040 #404040 #fff;
+  box-shadow: 2px 2px 0 #000, inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf;
+  z-index: 450; display: none; flex-direction: column;
+  font-family: 'MS Sans Serif', Tahoma, sans-serif;
+}
+.ikq-window.show { display: flex !important; }
+.ikq-body { padding: 6px; flex: 1; overflow-y: auto; max-height: 360px; }
+.ikq-empty { padding: 30px 12px; text-align: center; color: #808080; font-size: 11px; font-style: italic; }
+.ikq-msg {
+  background: #fff; border: 1px solid #808080;
+  margin-bottom: 6px; padding: 8px 10px;
+  font-size: 12px; cursor: pointer;
+}
+.ikq-msg.unread { border-left: 4px solid #ff2d8a; background: #fffff0; }
+.ikq-msg-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 4px;
+}
+.ikq-msg-from { font-weight: bold; color: #000080; font-size: 11px; }
+.ikq-msg-time { color: #808080; font-size: 10px; }
+.ikq-msg-subject { font-weight: bold; color: #000; margin-bottom: 3px; font-size: 11px; }
+.ikq-msg-body { color: #303030; line-height: 1.4; font-size: 11px; white-space: pre-wrap; }
+.ikq-actions {
+  background: #c0c0c0; padding: 6px 10px;
+  border-top: 1px solid #808080;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 10px; color: #404040;
+}
+
+</style>
+</head>
+<body>
+
+<!-- BOOT -->
+<div class="boot" id="boot">
+<div class="boot-line" id="boot-1">IKANDY BIOS v1.0.18  Copyright (C) 2026 L&amp;R Entertainment LLC</div>
+<div class="boot-line" id="boot-2">Pentium-class CPU detected at 3.40 GHz</div>
+<div class="boot-line" id="boot-3">Memory test: 32768K OK</div>
+<div class="boot-line" id="boot-4">&nbsp;</div>
+<div class="boot-line" id="boot-5">Loading audio subsystem.................. OK</div>
+<div class="boot-line" id="boot-6">Loading visualizer kernel................. OK</div>
+<div class="boot-line" id="boot-7">Initializing arcade modules............... OK</div>
+<div class="boot-line" id="boot-8">Mounting identity store................... OK</div>
+<div class="boot-line" id="boot-9">&nbsp;</div>
+<div class="boot-line" id="boot-10">Starting IKANDY OS<span class="boot-cursor"></span></div>
+</div>
+
+<!-- LOGIN -->
+<div class="login" id="login">
+  <div class="login-banner">
+<div class="login-banner-title">IKANDY OS</div>
+<div class="login-banner-sub">Identity required to access the arcade.</div>
+  </div>
+  <form id="login-form" autocomplete="off" onsubmit="return false;">
+    <div class="login-prompt">
+      <span class="login-prompt-label">&gt; Enter your IKANDY ID:</span>
+    </div>
+    <input type="text" class="login-input" id="login-input"
+      placeholder="xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
+      spellcheck="false" autocapitalize="off" autocorrect="off">
+    <div class="login-prompt" style="margin-top:16px;display:none"><span class="login-prompt-label">&gt; Enter your handle (optional):</span></div>
+      <input type="text" class="login-input" id="login-name-input" placeholder="Mildly-Cursed Earl..." spellcheck="false" maxlength="120" style="display:none">
+      <div class="login-error" id="login-error"></div>
+    <div class="login-actions">
+      <button type="submit" class="login-btn" id="login-submit">[ ENTER ]</button>
+      <button type="button" class="login-btn ghost" id="login-help">[ I DON'T HAVE ONE ]</button>
+    </div>
+    <div class="login-hint">
+Your IKANDY ID is the authorId UUID generated when you picked your name in the IKANDY app.
+Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or click the
+<strong>Open Arcade</strong> menu item to log in automatically.
+    </div>
+  </form>
+</div>
+
+<!-- DESKTOP -->
+<div class="desktop" id="desktop">
+
+  <!-- Win98-era wallpaper poster with arcade rules -->
+  <div class="desktop-wallpaper" id="desktop-wallpaper">
+    <div class="wp-poster tilt-left">
+      <div class="wp-header">
+        <div class="wp-title">&#9733; IKANDY ARCADE &#9733;</div>
+        <div class="wp-stamp">EST. 1998</div>
+      </div>
+      <div class="wp-section">
+        <p>You're one of the first. Seven games. Seven winners. Each wins <span class="accent">IKANDY Pro Γ&mdash; FREE FOR LIFE</span> when we launch on Steam. The Spread the Word champion also earns the legendary <span class="pts">FOUNDER badge</span>.</p>
+      </div>
+    </div>
+
+    <div class="wp-poster tilt-right">
+      <div class="wp-section">
+        <h3>THE SEVEN GAMES</h3>
+        <div class="wp-grid">
+          <div>1. SkiFree &mdash; <span class="pts">distance</span></div>
+          <div>2. Snake &mdash; <span class="pts">length</span></div>
+          <div>3. Pong &mdash; <span class="pts">high score</span></div>
+          <div>4. Breakout &mdash; <span class="pts">bricks broken</span></div>
+          <div>5. Pinball &mdash; <span class="pts">high score</span></div>
+          <div>6. Spread the Word &mdash; <span class="pts">posts</span></div>
+          <div>7. JezzBall &mdash; <span class="pts">high score</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wp-poster tilt-left">
+      <div class="wp-section">
+        <h3>SPREAD THE WORD &mdash; POINT SCALE</h3>
+        <div class="wp-grid">
+          <div>YouTube &middot; Blog &middot; Substack</div><div class="pts">+250 pts</div>
+          <div>Reddit &middot; Bluesky &middot; Mastodon</div><div class="pts">+100 pts</div>
+          <div>Hacker News &middot; GitHub</div><div class="pts">+100 pts</div>
+        </div>
+        <p style="margin-top:8px;">Max <span class="accent">3 posts/day</span>, <span class="accent">1 per platform/day</span>. Include both <strong>"IKANDY"</strong> and your <strong>#NNNNN handle</strong> in the post. We auto-verify on submit.</p>
+      </div>
+    </div>
+
+    <div class="wp-poster tilt-right">
+      <div class="wp-section">
+        <h3>HOUSE RULES</h3>
+        <p><span class="warn">&times;</span> Twitter, Insta, TikTok, Threads, Facebook, LinkedIn &mdash; <span class="warn">NOT SUPPORTED</span>. Their pages can't be auto-verified.</p>
+        <p><span class="warn">&times;</span> Duplicate URLs auto-rejected. One canonical post per user, ever.</p>
+        <p><span class="warn">&times;</span> Quality counts. Standout posts earn <span class="pts">bonus points</span>. Junk farms get <span class="warn">disqualified</span>.</p>
+        <p><span class="warn">&times;</span> Winners chosen at our discretion. Cheaters are out. No appeals.</p>
+        <p style="margin-top:6px;color:#1db954;">Γ£ô Winners announced when IKANDY hits Steam.</p>
+      </div>
+    </div>
+
+    <!-- Visualizer-era tribute panel: original SVG, evokes the late-90s plugin aesthetic -->
+    <div class="wp-poster tilt-right wp-viz-panel">
+      <div class="wp-viz-header">
+        <span class="wp-viz-led"></span>
+        <span class="wp-viz-label">VISUALIZER -- LIVE OUTPUT</span>
+        <span class="wp-viz-fft">BPM 128 &middot; FFT 1024 &middot; PSY</span>
+      </div>
+      <svg class="wp-viz-screen" viewBox="0 0 400 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="vizCore" cx="50%" cy="50%" r="60%">
+            <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
+            <stop offset="20%" stop-color="#ffff00" stop-opacity="0.9"/>
+            <stop offset="55%" stop-color="#ff2d8a" stop-opacity="0.7"/>
+            <stop offset="100%" stop-color="#000033" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="vizWave" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#5bc8f5"/>
+            <stop offset="50%" stop-color="#1db954"/>
+            <stop offset="100%" stop-color="#ff2d8a"/>
+          </linearGradient>
+          <filter id="vizBlur"><feGaussianBlur stdDeviation="2"/></filter>
+        </defs>
+        <rect width="400" height="100" fill="#000020"/>
+        <circle cx="200" cy="50" r="44" fill="url(#vizCore)" filter="url(#vizBlur)"/>
+        <circle cx="100" cy="50" r="22" fill="url(#vizCore)" opacity="0.6" filter="url(#vizBlur)"/>
+        <circle cx="300" cy="50" r="22" fill="url(#vizCore)" opacity="0.6" filter="url(#vizBlur)"/>
+        <path d="M0,50 Q25,20 50,50 T100,50 T150,50 T200,50 T250,50 T300,50 T350,50 T400,50" fill="none" stroke="url(#vizWave)" stroke-width="2" opacity="0.85"/>
+        <path d="M0,50 Q25,80 50,50 T100,50 T150,50 T200,50 T250,50 T300,50 T350,50 T400,50" fill="none" stroke="url(#vizWave)" stroke-width="2" opacity="0.5"/>
+        <g fill="#1db954" opacity="0.7">
+          <rect x="10"  y="82" width="6" height="12"/>
+          <rect x="22"  y="72" width="6" height="22"/>
+          <rect x="34"  y="78" width="6" height="16"/>
+          <rect x="46"  y="62" width="6" height="32"/>
+          <rect x="58"  y="74" width="6" height="20"/>
+          <rect x="70"  y="84" width="6" height="10"/>
+          <rect x="82"  y="68" width="6" height="26"/>
+          <rect x="94"  y="58" width="6" height="36"/>
+          <rect x="106" y="74" width="6" height="20"/>
+          <rect x="118" y="78" width="6" height="16"/>
+          <rect x="130" y="64" width="6" height="30"/>
+          <rect x="142" y="72" width="6" height="22"/>
+          <rect x="154" y="56" width="6" height="38"/>
+          <rect x="166" y="68" width="6" height="26"/>
+          <rect x="178" y="60" width="6" height="34"/>
+          <rect x="190" y="50" width="6" height="44"/>
+          <rect x="202" y="58" width="6" height="36"/>
+          <rect x="214" y="64" width="6" height="30"/>
+          <rect x="226" y="72" width="6" height="22"/>
+          <rect x="238" y="60" width="6" height="34"/>
+          <rect x="250" y="68" width="6" height="26"/>
+          <rect x="262" y="74" width="6" height="20"/>
+          <rect x="274" y="64" width="6" height="30"/>
+          <rect x="286" y="78" width="6" height="16"/>
+          <rect x="298" y="72" width="6" height="22"/>
+          <rect x="310" y="60" width="6" height="34"/>
+          <rect x="322" y="68" width="6" height="26"/>
+          <rect x="334" y="74" width="6" height="20"/>
+          <rect x="346" y="78" width="6" height="16"/>
+          <rect x="358" y="64" width="6" height="30"/>
+          <rect x="370" y="72" width="6" height="22"/>
+          <rect x="382" y="82" width="6" height="12"/>
+        </g>
+      </svg>
+      <div class="wp-viz-credit">In tribute to Ryan Geiss &amp; the visualizer pioneers of 1998. Built with respect, not affiliated.</div>
+    </div>
+
+    <div class="wp-poster tilt-left" style="text-align:center;">
+      <div class="wp-logos">
+        <span style="color:#d4a843;">Γùå</span>
+        <span style="color:#ff2d8a;">Γùå</span>
+        <span style="color:#1db954;">Γùå</span>
+        <span style="color:#5bc8f5;">Γùå</span>
+      </div>
+      <div class="wp-footer">&copy; 1998 IKANDY ARCADE &middot; PLAY HARD &middot; SPREAD WIDE</div>
+    </div>
+
+    <div class="wp-scanline"></div>
+  </div>
+
+
+  <div class="icon-grid">
+    <button class="icon" data-action="open-spread">
+      <span class="icon-img"><span class="icon-emoji">&#128226;</span></span>
+      <span class="icon-label">Spread the Word</span>
+    </button>
+    <button class="icon" data-action="open-skifree">
+      <span class="icon-img"><span class="icon-emoji">&#127935;</span></span>
+      <span class="icon-label">SkiFree</span>
+    </button>
+    <button class="icon" data-action="open-snake">
+      <span class="icon-img"><span class="icon-emoji">&#128013;</span></span>
+      <span class="icon-label">Snake</span>
+    </button>
+    <button class="icon" data-action="open-pong">
+      <span class="icon-img"><span class="icon-emoji">&#127951;</span></span>
+      <span class="icon-label">Pong</span>
+    </button>
+    <button class="icon" data-action="open-breakout">
+      <span class="icon-img"><span class="icon-emoji">&#127963;</span></span>
+      <span class="icon-label">Breakout</span>
+    </button>
+    <button class="icon" data-action="open-pinball">
+      <span class="icon-img"><span class="icon-emoji">&#127921;</span></span>
+      <span class="icon-label">Pinball</span>
+    </button>
+    <button class="icon" data-action="open-jezzball">
+      <span class="icon-img"><span class="icon-emoji">&#128993;</span></span>
+      <span class="icon-label">JezzBall</span>
+    </button>
+    <button class="icon" data-action="open-ikamp">
+      <span class="icon-img"><span class="icon-emoji">&#127911;</span></span>
+      <span class="icon-label">IKAMP</span>
+    </button>
+    <button class="icon" data-action="open-scores">
+      <span class="icon-img"><span class="icon-emoji">&#127942;</span></span>
+      <span class="icon-label">High Scores</span>
+    </button>
+    <button class="icon" data-action="logout">
+      <span class="icon-img"><span class="icon-emoji">&#8617;</span></span>
+      <span class="icon-label">Sign Out</span>
+    </button>
+  </div>
+
+  <!-- Welcome window -->
+  <div class="welcome-window" id="welcome-window">
+    <div class="titlebar">
+      <span class="titlebar-text"><span class="titlebar-icon"></span>Welcome to IKANDY OS</span>
+      <span class="titlebar-controls">
+        <button class="titlebar-btn" data-action="close-welcome" title="Close">x</button>
+      </span>
+    </div>
+    <div class="window-body">
+      <div class="welcome-greeting">Welcome.</div>
+      <div>You are signed in as:</div>
+      <div class="welcome-name" id="welcome-name">&mdash;</div>
+      <div style="margin-top:12px;line-height:1.5;">
+        This is a quick trip back to where it all started. IKANDY isn't just a music visualizer, it's an experience, with a few surprises along the way.
+        <br><br>
+        No email. No tracking. No bullshit. You got a random handle because anonymity matters here. If we're doing this, we play by different rules.
+        <br><br>
+        You're one of the first. These games are your shot at a free Pro version when IKANDY launches on Steam &mdash; <strong>targeting end of Q3 2026</strong>. Top each game's leaderboard at that moment and Pro is yours for life. The Spread the Word champion also earns the legendary Founder badge. Don't cheat, think of the kids&hellip; Have fun and good luck.
+      </div>
+    </div>
+    <div class="window-buttons">
+      <button class="win-btn default" data-action="close-welcome">OK</button>
+    </div>
+  </div>
+
+  <!-- High Scores window -->
+  <div class="scores-window" id="scores-window">
+    <div class="titlebar">
+      <span class="titlebar-text"><span class="titlebar-icon"></span>High Scores</span>
+      <span class="titlebar-controls"><button class="titlebar-btn" data-action="close-scores" title="Close">x</button></span>
+    </div>
+    <div class="window-body"><div id="scores-tabs" style="display:flex;gap:2px;padding:6px 8px 0 8px;border-bottom:1px solid #808080;background:#c0c0c0;">
+        <button class="score-tab active" data-game="skifree" style="background:#fff;border:1px solid #808080;border-bottom:none;padding:4px 12px;font-family:inherit;font-size:11px;cursor:pointer;">SkiFree</button>
+        <button class="score-tab" data-game="snake" style="background:#c0c0c0;border:1px solid #808080;border-bottom:none;padding:4px 12px;font-family:inherit;font-size:11px;cursor:pointer;">Snake</button>
+        <button class="score-tab" data-game="pong" style="background:#c0c0c0;border:1px solid #808080;border-bottom:none;padding:4px 12px;font-family:inherit;font-size:11px;cursor:pointer;">Pong</button>
+        <button class="score-tab" data-game="breakout" style="background:#c0c0c0;border:1px solid #808080;border-bottom:none;padding:4px 12px;font-family:inherit;font-size:11px;cursor:pointer;">Breakout</button>
+        <button class="score-tab" data-game="pinball" style="background:#c0c0c0;border:1px solid #808080;border-bottom:none;padding:4px 12px;font-family:inherit;font-size:11px;cursor:pointer;">Pinball</button>
+        <button class="score-tab" data-game="jezzball" style="background:#c0c0c0;border:1px solid #808080;border-bottom:none;padding:4px 12px;font-family:inherit;font-size:11px;cursor:pointer;">JezzBall</button>
+        <button class="score-tab" data-game="mentions" style="background:#c0c0c0;border:1px solid #808080;border-bottom:none;padding:4px 12px;font-family:inherit;font-size:11px;cursor:pointer;">Spread</button>
+        <button class="score-tab" data-game="leaders" style="background:#c0c0c0;border:1px solid #808080;border-bottom:none;padding:4px 12px;font-family:inherit;font-size:11px;cursor:pointer;">Leaders</button>
+      </div>
+      <div id="scores-content"><div class="scores-msg">Loading&hellip;</div></div></div>
+    <div class="window-buttons">
+      <button class="win-btn" id="scores-refresh-btn">Refresh</button>
+      <button class="win-btn default" data-action="close-scores">Close</button>
+    </div>
+  </div>
+
+  <!-- Start menu -->
+  <div class="start-menu" id="start-menu">
+    <div class="start-menu-side">IKANDY<b> OS</b></div>
+    <div class="start-menu-items">
+      <div class="start-item" data-action="open-pinball"><span class="start-item-icon">&#127921;</span>Pinball</div>
+      <div class="start-item" data-action="open-snake"><span class="start-item-icon">&#128013;</span>Snake</div>
+      <div class="start-item" data-action="open-pong"><span class="start-item-icon">&#127951;</span>Pong</div>
+      <div class="start-item" data-action="open-breakout"><span class="start-item-icon">&#127963;</span>Breakout</div>
+      <div class="start-item" data-action="open-jezzball"><span class="start-item-icon">&#128993;</span>JezzBall</div>
+      <div class="start-item" data-action="open-skifree"><span class="start-item-icon">&#127935;</span>SkiFree</div>
+      <div class="start-item" data-action="open-spread"><span class="start-item-icon">&#128226;</span>Spread the Word</div>
+      <div class="start-item" data-action="open-scores"><span class="start-item-icon">&#127942;</span>High Scores</div>
+      <div class="start-item" data-action="open-ikamp"><span class="start-item-icon">&#127911;</span>IKAMP Player</div>
+      <div class="start-divider"></div>
+      <div class="start-item" data-action="back-home"><span class="start-item-icon">&#127968;</span>Back to ikandy.app</div>
+      <div class="start-item" data-action="get-ikandy"><span class="start-item-icon">&#8675;</span>Download IKANDY</div>
+      <div class="start-divider"></div>
+      <div class="start-item" data-action="logout"><span class="start-item-icon">&#8617;</span>Sign Out</div>
+    </div>
+  </div>
+
+  <!-- IKAMP mount point - Webamp injects into this -->
+  <div id="ikamp-mount"></div>
+
+  <!-- IKQ message window -->
+  <div class="ikq-window" id="ikq-window">
+    <div class="titlebar">
+      <span class="titlebar-text"><span class="titlebar-icon"></span>IKQ &mdash; Messages</span>
+      <span class="titlebar-controls">
+        <button class="titlebar-btn" id="ikq-close" title="Close">x</button>
+      </span>
+    </div>
+    <div class="ikq-body" id="ikq-body">
+      <div class="ikq-empty">Loading messages&hellip;</div>
+    </div>
+    <div class="ikq-actions">
+      <span id="ikq-count">&mdash;</span>
+      <span style="display:flex;gap:4px;"><button class="win-btn" id="ikq-refresh" style="font-size:10px;padding:2px 10px;">Refresh</button><button class="win-btn" id="ikq-mark-read" style="font-size:10px;padding:2px 10px;">Mark all read</button></span>
+    </div>
+  </div>
+
+  <!-- Taskbar -->
+  <div class="taskbar">
+    <button class="start-btn" id="start-btn">
+      <span class="start-btn-logo"></span>
+      <span>Start</span>
+    </button>
+    <div class="taskbar-windows" id="taskbar-windows"></div>
+    <div class="taskbar-tray">
+      <span class="tray-user" id="tray-user">&mdash;</span>
+      <span style="color:#808080;">|</span>
+      <span class="tray-music" id="tray-music" title="IKAMP">&#9836;</span>
+      <span style="color:#808080;">|</span>
+      <span class="tray-help" id="tray-help" title="Welcome / About" style="cursor:pointer;color:#000080;font-weight:bold;">?</span>
+      <span style="color:#808080;">|</span>
+      <span class="tray-ikq" id="tray-ikq" title="IKQ Messages" style="cursor:pointer;position:relative;display:inline-flex;align-items:center;width:18px;height:14px;">
+        <svg viewBox="0 0 16 16" width="16" height="16" style="display:block;">
+          <!-- 5-petal flower, evocative not copied -->
+          <circle cx="8" cy="3"  r="2.6" fill="#1db954"/>
+          <circle cx="13" cy="6" r="2.6" fill="#1db954"/>
+          <circle cx="11" cy="12" r="2.6" fill="#1db954"/>
+          <circle cx="5" cy="12" r="2.6" fill="#1db954"/>
+          <circle cx="3" cy="6"  r="2.6" fill="#1db954"/>
+          <circle cx="8" cy="7.5" r="2.2" fill="#ffff00"/>
+        </svg>
+        <span class="ikq-badge" id="ikq-badge" style="display:none;"></span>
+      </span>
+      <span style="color:#808080;">|</span>
+      <span class="tray-clock" id="tray-clock">--:-- --</span>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  'use strict';
+
+  // -- State / helpers ------------------------------------------------
+  const LS_KEY_NAME = 'ikandy_arcade_name';
+  const LS_KEY_ID   = 'ikandy_arcade_id_v1';
+  const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+  const SUPABASE_URL="https://grimznincoiujnurhmlx.supabase.co";
+  const SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdyaW16bmluY29pdWpudXJobWx4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxNDQ5NzAsImV4cCI6MjA5MjcyMDk3MH0.X-eXBp4gF3RthSt10As83Ft4z5rOc929IMdis5BSuxk";
+
+  function $(s) { return document.querySelector(s); }
+  function $$(s) { return [...document.querySelectorAll(s)]; }
+
+  function readParams() {
+    const p = new URLSearchParams(location.search);
+    return { id: (p.get('id') || '').trim(), name: (p.get('name') || '').trim() };
+  }
+  function isValidId(id) { return typeof id === 'string' && UUID_REGEX.test(id); }
+  function saveIdentity(id, name) {
+    try {
+      localStorage.setItem(LS_KEY_ID, id);
+      localStorage.setItem(LS_KEY_NAME, name || 'Guest');
+    } catch (e) {}
+  }
+  function loadIdentity() {
+    try {
+      return { id: localStorage.getItem(LS_KEY_ID) || '', name: localStorage.getItem(LS_KEY_NAME) || '' };
+    } catch (e) { return { id: '', name: '' }; }
+  }
+  function clearIdentity() {
+    try { localStorage.removeItem(LS_KEY_ID); localStorage.removeItem(LS_KEY_NAME); } catch (e) {}
+  }
+
+  // -- IKAMP music tracks ---------------------------------------------
+  const TRACKS = [
+    { url: 'music/01-synthwave-drive.mp3',     metaData: { artist: 'monume',         title: 'Synthwave Drive'     } },
+    { url: 'music/02-synthwave-cruise.mp3',    metaData: { artist: 'monume',         title: 'Synthwave Cruise'    } },
+    { url: 'music/03-neon-pulse.mp3',          metaData: { artist: 'ronaldoreyz',    title: 'Neon Pulse'          } },
+    { url: 'music/04-midnight-synthwave.mp3',  metaData: { artist: 'the_mountain',   title: 'Midnight Synthwave'  } },
+    { url: 'music/05-deep-synthwave.mp3',      metaData: { artist: 'the_mountain',   title: 'Deep Synthwave'      } }
+  ];
+
+  // -- Boot sequence --------------------------------------------------
+  function runBoot() {
+    return new Promise(resolve => {
+      const lines = [
+        { id: 'boot-1', d: 300 }, { id: 'boot-2', d: 200 }, { id: 'boot-3', d: 200 },
+        { id: 'boot-4', d: 100 }, { id: 'boot-5', d: 280 }, { id: 'boot-6', d: 240 },
+        { id: 'boot-7', d: 260 }, { id: 'boot-8', d: 220 }, { id: 'boot-9', d: 100 },
+        { id: 'boot-10', d: 400 }
+      ];
+      let acc = 200;
+      for (const ln of lines) {
+        acc += ln.d;
+        setTimeout(() => {
+          const el = document.getElementById(ln.id);
+          if (el) el.classList.add('show');
+        }, acc);
+      }
+      setTimeout(resolve, acc + 700);
+    });
+  }
+
+  function showLogin() {
+    $('#boot').classList.add('hide');
+    $('#login').classList.add('show');
+    const params = readParams();
+    if (params.id) $('#login-input').value = params.id;
+    if (params.name) $('#login-name-input').value = params.name;
+    setTimeout(() => {
+      if (params.id && params.name) {
+        tryLogin(params.id, params.name);
+      } else {
+        $('#login-input').focus();
+      }
+    }, 50);
+  }
+  function setLoginError(msg) { $('#login-error').textContent = msg || ''; }
+
+  function showDesktop(name) {
+    $('#boot').classList.add('hide');
+    $('#login').classList.remove('show');
+    $('#desktop').classList.add('show');
+    $('#tray-user').textContent = name || 'Guest';
+    $('#welcome-name').textContent = name || 'Guest';
+    try { if (!localStorage.getItem('ikandy_arcade_welcomed_v1')) { $('#welcome-window').classList.add('show'); localStorage.setItem('ikandy_arcade_welcomed_v1', '1'); } } catch(e) { $('#welcome-window').classList.add('show'); }
+    startClock();
+    // Preload Webamp in the background so first IKAMP click is instant
+    setTimeout(function(){ openIkamp().catch(function(){}); }, 800);
+  }
+
+  let clockTimer = null;
+  function startClock() {
+    function tick() {
+      const d = new Date();
+      let h = d.getHours();
+      const m = d.getMinutes();
+      const ampm = h >= 12 ? 'PM' : 'AM';
+      h = h % 12 || 12;
+      const mm = m.toString().padStart(2, '0');
+      const el = $('#tray-clock');
+      if (el) el.textContent = `${h}:${mm} ${ampm}`;
+    }
+    tick();
+    if (clockTimer) clearInterval(clockTimer);
+    clockTimer = setInterval(tick, 30000);
+  }
+
+  function tryLogin(idRaw, nameRaw) {
+    const id = (idRaw || '').trim();
+    const name = (nameRaw || '').trim();
+    if (!id) { setLoginError('> ERROR: ID is required.'); return false; }
+    if (!isValidId(id)) {
+      setLoginError('> ERROR: Invalid ID format. Must be a UUID like xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx.');
+      return false;
+    }
+    saveIdentity(id, name || 'Guest');
+    setLoginError('');
+    showDesktop(name || 'Guest');
+    return true;
+  }
+
+  // -- IKAMP (Webamp) -------------------------------------------------
+  let webampInstance = null;
+  let webampReady = false;
+  let webampLoading = false;
+  let isMusicPlaying = false;
+
+  function addTaskbarEntry(id, label, iconChar, onClick) {
+    const wrap = $('#taskbar-windows');
+    let task = document.getElementById('task-' + id);
+    if (task) return;
+    task = document.createElement('button');
+    task.className = 'taskbar-task active';
+    task.id = 'task-' + id;
+    task.innerHTML = `<span class="task-icon">${iconChar}</span><span>${label}</span>`;
+    task.addEventListener('click', onClick);
+    wrap.appendChild(task);
+  }
+  function removeTaskbarEntry(id) {
+    const task = document.getElementById('task-' + id);
+    if (task) task.remove();
+  }
+
+  function setMusicIndicator(playing) {
+    isMusicPlaying = playing;
+    const el = $('#tray-music');
+    if (!el) return;
+    if (playing) el.classList.add('playing'); else el.classList.remove('playing');
+  }
+
+  async function loadWebamp() {
+    if (webampReady) return;
+    if (webampLoading) return new Promise(r => {
+      const check = setInterval(() => { if (webampReady) { clearInterval(check); r(); } }, 100);
+    });
+    webampLoading = true;
+    return new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = 'https://unpkg.com/webamp@1.5.0/built/webamp.bundle.min.js';
+      script.async = true;
+      script.onload = () => { webampReady = true; webampLoading = false; resolve(); };
+      script.onerror = () => {
+        webampLoading = false;
+        reject(new Error('Failed to load Webamp library from CDN'));
+      };
+      document.head.appendChild(script);
+    });
+  }
+
+  async function openIkamp() {
+    if (webampInstance) {
+      // Already open: bring to focus / make sure mount is visible
+      const mount = document.getElementById('ikamp-mount');
+      if (mount) mount.style.display = 'block';
+      return;
+    }
+    try {
+      await loadWebamp();
+    } catch (e) {
+      alert('IKAMP could not load. Check your internet connection.');
+      return;
+    }
+    if (!window.Webamp) {
+      alert('IKAMP library failed to initialize.');
+      return;
+    }
+
+    const mount = document.getElementById('ikamp-mount');
+
+    webampInstance = new window.Webamp({
+      initialTracks: TRACKS,
+      initialSkin: { url: "ikamp.wsz" },
+      __initialWindowLayout: {
+        main:      { position: { top: 80,  left: 360 } },
+        equalizer: { position: { top: 196, left: 360 } },
+        playlist:  { position: { top: 312, left: 360 } },
+      },
+    });
+
+    try {
+      await webampInstance.renderWhenReady(mount);
+    } catch (e) {
+      console.error('IKAMP render failed', e);
+      alert('IKAMP failed to render.');
+      webampInstance = null;
+      return;
+    }
+
+    // Position the Webamp main window into upper-right of desktop area
+    // Webamp positions itself absolutely; we nudge after a tick.
+    setTimeout(() => positionIkamp(), 100);
+
+    // Listen for play/pause/track changes for the tray indicator
+    if (webampInstance.onTrackDidChange) {
+      webampInstance.onTrackDidChange(() => { setMusicIndicator(true); });
+    }
+    if (webampInstance.onMinimize) {
+      webampInstance.onMinimize(() => {
+        const m = document.getElementById('ikamp-mount');
+        if (m) m.style.display = 'none';
+      });
+    }
+    if (webampInstance.onClose) {
+      webampInstance.onClose(() => {
+        webampInstance = null;
+        removeTaskbarEntry('ikamp');
+        setMusicIndicator(false);
+      });
+    }
+
+    // Wrap play/pause methods so we fire indicator updates reliably
+    // (Webamp has no onPlay/onPause events, only onTrackDidChange)
+    try {
+      const origPlay = webampInstance.play.bind(webampInstance);
+      const origPause = webampInstance.pause.bind(webampInstance);
+      webampInstance.play = function() { setMusicIndicator(true); return origPlay(); };
+      webampInstance.pause = function() { setMusicIndicator(false); return origPause(); };
+    } catch(e) { console.warn('Could not wrap Webamp transport methods:', e); }
+
+    // Also watch the .countdown digits for changes; this catches state when
+    // the user clicks Webamp's own play/pause buttons (not our wrapped methods)
+    let lastDigitState = '';
+    let lastChangeAt = 0;
+    const stateInterval = setInterval(() => {
+      if (!webampInstance) { clearInterval(stateInterval); return; }
+      try {
+        const digits = document.querySelectorAll('.webamp-status .countdown .digit, .webamp-status .countdown .digit-2');
+        if (!digits.length) return;
+        const state = [...digits].map(d => d.className).join(',');
+        const now = Date.now();
+        if (state !== lastDigitState) {
+          lastDigitState = state;
+          lastChangeAt = now;
+          setMusicIndicator(true);
+        } else if (now - lastChangeAt > 1200) {
+          // 1.2s without a digit change = paused or stopped
+          setMusicIndicator(false);
+        }
+      } catch (e) {}
+    }, 400);
+
+    addTaskbarEntry('ikamp', 'IKAMP', '&#127911;', () => {
+      const wa = document.getElementById('webamp');
+      if (!wa) return;
+      const isHidden = wa.style.display === 'none';
+      wa.style.display = isHidden ? '' : 'none';
+      const task = document.getElementById('task-ikamp');
+      if (task) task.classList.toggle('active', isHidden);
+    });
+  }
+
+  function positionIkamp() {
+    // Webamp's main window has a known DOM id "main-window"
+    const desk = document.getElementById('desktop');
+    if (!desk) return;
+    // Webamp renders into a #webamp container; we position our mount instead
+    const mount = document.getElementById('ikamp-mount');
+    if (!mount) return;
+    // Place in the upper-right; Webamp's own draggable system takes over after this
+    mount.style.top = '80px';
+    mount.style.left = '360px';
+    mount.style.right = 'auto';
+  }
+
+
+  function openScores(){var w=document.getElementById('scores-window');if(!w)return;w.classList.add('show');document.querySelectorAll('.score-tab').forEach(function(x){x.classList.remove('active');x.style.background='#c0c0c0';});var st=document.querySelector('.score-tab[data-game=skifree]');if(st){st.classList.add('active');st.style.background='#fff';}fetchScores('skifree');if(!window._scoresTB){addTaskbarEntry('scores','High Scores','&#127942;',function(){var x=document.getElementById('scores-window');if(!x)return;var s=x.classList.contains('show');if(s)x.classList.remove('show');else x.classList.add('show');var t=document.getElementById('task-scores');if(t)t.classList.toggle('active',!s);});window._scoresTB=true;}var t=document.getElementById('task-scores');if(t)t.classList.add('active');}
+  function closeScores(){var w=document.getElementById('scores-window');if(w)w.classList.remove('show');var t=document.getElementById('task-scores');if(t)t.classList.remove('active');}
+  async function fetchScores(game){game=game||'skifree';if(game==='mentions'){return fetchMentions();}if(game==='leaders'){return fetchLeaders();}var el=document.getElementById('scores-content');if(!el)return;el.innerHTML='<div class=scores-msg>Loading...</div>';var url=SUPABASE_URL+'/rest/v1/arcade_leaderboard?game=eq.'+game+'&order=rank&limit=20';var rows;try{var r=await fetch(url,{headers:{apikey:SUPABASE_ANON_KEY,Authorization:'Bearer '+SUPABASE_ANON_KEY,Accept:'application/json'}});if(!r.ok)throw new Error(r.status);rows=await r.json();}catch(e){el.innerHTML='<div class=scores-msg>Could not load scores.</div>';return;}if(!Array.isArray(rows)||!rows.length){el.innerHTML='<div class=scores-msg>No scores yet.</div>';return;}function ft(s){if(!s)return'-';var m=Math.floor(s/60),ss=Math.floor(s%60);return m>0?m+'m '+String(ss).padStart(2,'0')+'s':ss+'s';}function fd(iso){try{return new Date(iso).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});}catch(e){return'-';}}function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}var med=['&#129351;','&#129352;','&#129353;'];var tb=rows.map(function(r){return'<tr><td class=rank-col>'+(r.rank<=3?med[r.rank-1]:'#'+r.rank)+'</td><td>'+esc(r.ikandy_name||'-')+'</td><td class=num>'+Number(r.score).toLocaleString()+'</td><td class=num>'+ft(r.time_sec)+'</td><td class=num>'+fd(r.created_at)+'</td></tr>';}).join('');el.innerHTML='<div class=scores-table-wrap><table class=scores-table><thead><tr><th>#</th><th>Player</th><th class=num>Score</th><th class=num>Time</th><th class=num>Date</th></tr></thead><tbody>'+tb+'</tbody></table></div>';}
+  async function fetchMentions(){var el=document.getElementById('scores-content');if(!el)return;el.innerHTML='<div class=scores-msg>Loading...</div>';var url=SUPABASE_URL+'/rest/v1/arcade_mentions_leaderboard?order=rank&limit=20';var rows;try{var r=await fetch(url,{headers:{apikey:SUPABASE_ANON_KEY,Authorization:'Bearer '+SUPABASE_ANON_KEY,Accept:'application/json'}});if(!r.ok)throw new Error(r.status);rows=await r.json();}catch(e){el.innerHTML='<div class=scores-msg>Could not load mentions.</div>';return;}if(!Array.isArray(rows)||!rows.length){el.innerHTML='<div class=scores-msg>No mentions yet. Be the first to spread the word!</div>';return;}function fd(iso){try{return new Date(iso).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});}catch(e){return'-';}}function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}var med=['&#129351;','&#129352;','&#129353;'];var tb=rows.map(function(r){return'<tr><td class=rank-col>'+(r.rank<=3?med[r.rank-1]:'#'+r.rank)+'</td><td>'+esc(r.ikandy_name||'-')+'</td><td class=num>'+Number(r.total_points).toLocaleString()+'</td><td class=num>'+r.mention_count+'</td><td class=num>'+fd(r.last_mention_at)+'</td></tr>';}).join('');el.innerHTML='<div class=scores-table-wrap><table class=scores-table><thead><tr><th>#</th><th>Player</th><th class=num>Total Points</th><th class=num>Mentions</th><th class=num>Last Post</th></tr></thead><tbody>'+tb+'</tbody></table></div>';}
+  async function fetchLeaders(){var el=document.getElementById("scores-content");if(!el)return;el.innerHTML="<div class=scores-msg>Loading...</div>";function fd(iso){try{return new Date(iso).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});}catch(e){return "-";}}function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;");}var H={apikey:SUPABASE_ANON_KEY,Authorization:"Bearer "+SUPABASE_ANON_KEY,Accept:"application/json"};var games=[["skifree","SkiFree"],["snake","Snake"],["pong","Pong"],["breakout","Breakout"],["pinball","Pinball"],["jezzball","JezzBall"]];var gp=games.map(function(g){return fetch(SUPABASE_URL+"/rest/v1/arcade_leaderboard?game=eq."+g[0]+"&order=rank&limit=1",{headers:H}).then(function(r){return r.ok?r.json():[];}).catch(function(){return[];});});var mp=fetch(SUPABASE_URL+"/rest/v1/arcade_mentions_leaderboard?order=rank&limit=1",{headers:H}).then(function(r){return r.ok?r.json():[];}).catch(function(){return[];});var results;try{results=await Promise.all(gp.concat([mp]));}catch(e){el.innerHTML="<div class=scores-msg>Could not load leaders.</div>";return;}var rowsHtml="";var EMPTY="<td style='color:#808080;font-style:italic'>(no scores yet)</td><td class=num>&mdash;</td><td class=num>&mdash;</td>";games.forEach(function(g,i){var rows=results[i];if(Array.isArray(rows)&&rows.length){var r=rows[0];rowsHtml+="<tr><td><b>"+esc(g[1])+"</b></td><td>"+esc(r.ikandy_name||"-")+"</td><td class=num>"+Number(r.score).toLocaleString()+"</td><td class=num>"+fd(r.created_at)+"</td></tr>";}else{rowsHtml+="<tr><td><b>"+esc(g[1])+"</b></td>"+EMPTY+"</tr>";}});var mrows=results[results.length-1];if(Array.isArray(mrows)&&mrows.length){var m=mrows[0];rowsHtml+="<tr><td><b>Spread the Word</b></td><td>"+esc(m.ikandy_name||"-")+"</td><td class=num>"+Number(m.total_points).toLocaleString()+" pts</td><td class=num>"+fd(m.last_mention_at)+"</td></tr>";}else{rowsHtml+="<tr><td><b>Spread the Word</b></td>"+EMPTY+"</tr>";}el.innerHTML="<div class=scores-table-wrap><table class=scores-table><thead><tr><th>Game</th><th>Leader</th><th class=num>Score</th><th class=num>Date</th></tr></thead><tbody>"+rowsHtml+"</tbody></table></div>";}
+  // -- Actions --------------------------------------------------------
+  function handleAction(action) {
+    switch (action) {
+      case 'open-skifree': location.href = 'skifree/index.html'; break;
+      case 'open-snake':    location.href = 'snake.html'; break;
+      case 'open-pong':     location.href = 'pong.html'; break;
+      case 'open-breakout': location.href = 'breakout.html'; break;
+      case 'open-jezzball': location.href = 'jezzball.html'; break;
+      case 'open-pinball':  location.href = 'pinball.html'; break;
+      case 'open-ikamp':   openIkamp(); break;
+      case 'open-spread':  location.href = 'spread.html'; break;
+      case 'open-scores':  openScores(); break;
+      case 'close-scores': closeScores(); break;
+      case 'logout':       clearIdentity(); location.href = location.pathname; break;
+      case 'close-welcome':$('#welcome-window').classList.remove('show'); break;
+      case 'back-home':    location.href = '../index.html'; break;
+      case 'get-ikandy':   location.href = '../index.html#download'; break;
+    }
+  }
+
+  // -- Wire up --------------------------------------------------------
+  document.addEventListener('DOMContentLoaded', async () => {
+    const params = readParams();
+    const stored = loadIdentity();
+
+    await runBoot();
+
+    if (isValidId(params.id)) {
+      saveIdentity(params.id, params.name || 'Guest');
+      history.replaceState(null, '', location.pathname);
+      showDesktop(params.name || 'Guest');
+    } else if (isValidId(stored.id)) {
+      showDesktop(stored.name || 'Guest');
+    } else {
+      showLogin();
+    }
+
+    $('#login-submit').addEventListener('click', () => tryLogin($('#login-input').value, $('#login-name-input').value));
+    $('#login-input').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); tryLogin($('#login-input').value, $('#login-name-input').value); }
+    });
+    $('#login-help').addEventListener('click', () => {
+      setLoginError('> Install IKANDY at ikandy.app, then open the app menu and click Show My IKANDY ID.');
+    });
+
+    $$('.icon').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (btn.classList.contains('locked')) {
+          alert(btn.dataset.locked || 'Coming soon.');
+          return;
+        }
+        const action = btn.dataset.action;
+        if (action) handleAction(action);
+      });
+      btn.addEventListener('dblclick', () => {
+        if (btn.classList.contains('locked')) return;
+        const action = btn.dataset.action;
+        if (action) handleAction(action);
+      });
+    });
+
+    const startBtn = $('#start-btn');
+    const startMenu = $('#start-menu');
+    function closeStart() { startMenu.classList.remove('show'); startBtn.classList.remove('open'); }
+    startBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (startMenu.classList.contains('show')) closeStart();
+      else { startMenu.classList.add('show'); startBtn.classList.add('open'); }
+    });
+    document.addEventListener('click', (e) => {
+      if (!startMenu.contains(e.target) && !startBtn.contains(e.target)) closeStart();
+    });
+    $$('.start-item').forEach(item => {
+      item.addEventListener('click', () => { closeStart(); handleAction(item.dataset.action); });
+    });
+
+    $$('[data-action="close-welcome"]').forEach(b => {
+      b.addEventListener('click', () => handleAction('close-welcome'));
+    });
+    document.querySelectorAll("[data-action=close-scores]").forEach(function(b){b.addEventListener("click",closeScores);});
+    document.querySelectorAll(".score-tab").forEach(function(t){t.addEventListener("click",function(){document.querySelectorAll(".score-tab").forEach(function(x){x.classList.remove("active");x.style.background="#c0c0c0";});t.classList.add("active");t.style.background="#fff";fetchScores(t.dataset.game);});});
+    var srb=document.getElementById("scores-refresh-btn");if(srb)srb.addEventListener("click",function(){var at=document.querySelector(".score-tab.active");fetchScores(at?at.dataset.game:"skifree");});
+    var th=document.getElementById("tray-help");if(th)th.addEventListener("click",function(){$("#welcome-window").classList.add("show");});
+
+    // --- IKQ: message tray + window ---
+    let ikqMessages = [];
+    let ikqReadIds = new Set();
+    const IKQ_LS_KEY = 'ikq_read_ids_v1';
+
+    function ikqLoadReadIds() {
+      try {
+        const arr = JSON.parse(localStorage.getItem(IKQ_LS_KEY) || '[]');
+        ikqReadIds = new Set(arr);
+      } catch(e) { ikqReadIds = new Set(); }
+    }
+    function ikqSaveReadIds() {
+      try { localStorage.setItem(IKQ_LS_KEY, JSON.stringify([...ikqReadIds])); } catch(e) {}
+    }
+
+    async function ikqFetch() {
+      const ident = loadIdentity();
+      if (!ident.id) return;
+      try {
+        // Fetch: messages for this user OR broadcast messages (ikandy_id is null)
+        const url = SUPABASE_URL + "/rest/v1/arcade_messages"
+          + "?or=(ikandy_id.eq." + ident.id + ",ikandy_id.is.null)"
+          + "&order=created_at.desc&limit=50";
+        const r = await fetch(url, { cache: "no-store",
+          headers: { apikey: SUPABASE_ANON_KEY, Authorization: "Bearer " + SUPABASE_ANON_KEY }
+        });
+        if (!r.ok) return;
+        ikqMessages = await r.json();
+        ikqRender();
+      } catch(e) { /* ignore */ }
+    }
+
+    function ikqUnreadCount() {
+      return ikqMessages.filter(m => !ikqReadIds.has(m.id)).length;
+    }
+
+    function ikqUpdateTray() {
+      const tray = document.getElementById('tray-ikq');
+      const badge = document.getElementById('ikq-badge');
+      if (!tray || !badge) return;
+      const n = ikqUnreadCount();
+      if (n > 0) {
+        tray.classList.add('has-unread');
+        badge.style.display = 'inline-block';
+        badge.textContent = n > 9 ? '9+' : String(n);
+      } else {
+        tray.classList.remove('has-unread');
+        badge.style.display = 'none';
+      }
+    }
+
+    function ikqFmtTime(iso) {
+      try {
+        const d = new Date(iso);
+        const now = new Date();
+        const sameDay = d.toDateString() === now.toDateString();
+        if (sameDay) return d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+        return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      } catch(e) { return ''; }
+    }
+
+    function ikqEscape(s) {
+      return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function ikqRender() {
+      const body = document.getElementById('ikq-body');
+      const count = document.getElementById('ikq-count');
+      if (!body) return;
+      const visible = ikqMessages.filter(m => !ikqReadIds.has(m.id));
+      if (!visible.length) {
+        body.innerHTML = '<div class="ikq-empty">No new messages. Keep playing.</div>';
+        if (count) count.textContent = '0 unread';
+        ikqUpdateTray();
+        return;
+      }
+      body.innerHTML = visible.map(m => {
+        return '<div class="ikq-msg unread" data-id="' + m.id + '" onclick="window.__ikqMarkRead(this.dataset.id)">'
+          + '<div class="ikq-msg-header"><span class="ikq-msg-from">'
+          + ikqEscape(m.from_handle) + '</span><span class="ikq-msg-time">'
+          + ikqFmtTime(m.created_at) + '</span></div>'
+          + '<div class="ikq-msg-subject">' + ikqEscape(m.subject) + '</div>'
+          + '<div class="ikq-msg-body">' + ikqEscape(m.body) + '</div>'
+          + '</div>';
+      }).join('');
+      if (count) count.textContent = visible.length + ' unread';
+      ikqUpdateTray();
+    }
+
+    function ikqOpen() {
+      const w = document.getElementById('ikq-window');
+      if (w) w.classList.add('show');
+      ikqRender();
+      ikqFetch();
+    }
+    function ikqClose() {
+      const w = document.getElementById('ikq-window');
+      if (w) w.classList.remove('show');
+    }
+
+    const ikqTray = document.getElementById('tray-ikq');
+    if (ikqTray) ikqTray.addEventListener('click', function() {
+      const w = document.getElementById('ikq-window');
+      if (w && w.classList.contains('show')) ikqClose(); else ikqOpen();
+    });
+    const ikqCloseBtn = document.getElementById('ikq-close');
+    if (ikqCloseBtn) ikqCloseBtn.addEventListener('click', ikqClose);
+    const ikqRefBtn = document.getElementById('ikq-refresh');
+    if (ikqRefBtn) ikqRefBtn.addEventListener('click', async function(){ const o=ikqRefBtn.textContent; ikqRefBtn.textContent='Refreshing...'; ikqRefBtn.disabled=true; try{ await ikqFetch(); } finally { ikqRefBtn.textContent=o; ikqRefBtn.disabled=false; } });
+    const ikqMarkBtn = document.getElementById('ikq-mark-read');
+    if (ikqMarkBtn) ikqMarkBtn.addEventListener('click', async function() { const o=ikqMarkBtn.textContent; ikqMarkBtn.textContent='Marking...'; ikqMarkBtn.disabled=true; try { await ikqFetch();
+      for (const m of ikqMessages) ikqReadIds.add(m.id); ikqSaveReadIds(); ikqRender(); } finally { ikqMarkBtn.textContent=o; ikqMarkBtn.disabled=false; } });
+
+    window.__ikqMarkRead = function(id) {
+      ikqReadIds.add(id);
+      ikqSaveReadIds();
+      ikqRender();
+    };
+    ikqLoadReadIds();
+    setTimeout(ikqFetch, 1500);
+    setInterval(ikqFetch, 30000);  // poll every 30s
+  });
+
+  window.IKANDY_ARCADE = {
+    getName: () => loadIdentity().name,
+  };
+})();
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+

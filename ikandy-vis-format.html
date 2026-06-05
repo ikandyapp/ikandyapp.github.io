@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FEJJH5VN5S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-FEJJH5VN5S');
+</script>
+<script defer src="/analytics.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IKANDY — .vis Format: Provenance-Preserving AI Shader Package</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --border: #1e1e2e;
+    --cyan: #00e5ff;
+    --violet: #9b5de5;
+    --gold: #d4a843;
+    --text: #c8c8d8;
+    --muted: #5a5a7a;
+    --white: #eeeef8;
+    --dim: rgba(255,255,255,.45);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    line-height: 1.85;
+  }
+
+  .scan-line {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,229,255,0.012) 2px,
+      rgba(0,229,255,0.012) 4px
+    );
+    pointer-events: none;
+    z-index: 50;
+  }
+
+
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 48px;
+    background: rgba(0,0,0,.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    flex-wrap: wrap;
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: .15em;
+    color: var(--gold);
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 36px; height: 36px;
+    background: none; border: none;
+    cursor: pointer; padding: 4px; flex-shrink: 0;
+  }
+  .nav-toggle span {
+    display: block; width: 22px; height: 2px;
+    background: var(--gold); border-radius: 2px;
+    transition: transform .25s, opacity .25s;
+    transform-origin: center;
+  }
+  .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2) { opacity: 0; }
+  .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
+  .nav-links a {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--dim, rgba(255,255,255,.45));
+    text-decoration: none; transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-links a.active { color: var(--cyan, #00e5ff); }
+
+  @media (max-width: 860px) {
+    nav { padding: 16px 24px; }
+    .nav-toggle { display: flex; }
+    .nav-links {
+      display: none; flex-direction: column; align-items: flex-start;
+      gap: 0; width: 100%; padding: 12px 0 16px;
+      border-top: 1px solid rgba(255,255,255,.06); margin-top: 12px;
+    }
+    .nav-links.open { display: flex; }
+    .nav-links li { width: 100%; }
+    .nav-links a {
+      display: block; padding: 10px 4px; font-size: 13px;
+      border-bottom: 1px solid rgba(255,255,255,.04);
+    }
+    .nav-links li:last-child a { border-bottom: none; }
+  }
+
+  .beta-badge {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 3px 7px;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .15em;
+    color: var(--gold);
+    background: rgba(212,168,67,.08);
+    border: 1px solid rgba(212,168,67,.4);
+    border-radius: 3px;
+    vertical-align: 4px;
+  }
+
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 120px 0 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    top: 40px; left: -80px;
+    width: 350px; height: 350px;
+    background: radial-gradient(circle, rgba(0,229,255,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .container { max-width: 780px; margin: 0 auto; padding: 0 32px; }
+
+  .label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(22px, 4vw, 36px);
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.15;
+    margin-bottom: 20px;
+  }
+
+  h1 span { color: var(--cyan); }
+
+  .meta { font-size: 11px; color: var(--muted); letter-spacing: 0.05em; }
+  .meta strong { color: var(--violet); }
+
+  main { padding: 56px 0; }
+  section { margin-bottom: 56px; }
+
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  p { margin-bottom: 16px; color: var(--text); }
+
+  code {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--cyan);
+    padding: 2px 7px;
+    border-radius: 3px;
+  }
+
+  pre {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--cyan);
+    padding: 20px 24px;
+    overflow-x: auto;
+    margin: 24px 0;
+    font-size: 12px;
+    color: #a8d8e8;
+    line-height: 1.7;
+  }
+
+  pre .comment { color: var(--muted); font-style: italic; }
+  pre .key { color: var(--violet); }
+  pre .val { color: var(--cyan); }
+  pre .str { color: #f0c070; }
+  pre .num { color: #ff9e6d; }
+
+  .callout {
+    background: rgba(0,229,255,0.04);
+    border: 1px solid rgba(0,229,255,0.2);
+    border-radius: 4px;
+    padding: 20px 24px;
+    margin: 24px 0;
+  }
+
+  .callout.violet {
+    background: rgba(155,93,229,0.06);
+    border-color: rgba(155,93,229,0.25);
+  }
+
+  .callout p { margin-bottom: 0; }
+
+  /* Package anatomy diagram */
+  .package-diagram {
+    margin: 24px 0;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .pkg-header {
+    background: rgba(0,229,255,0.06);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 20px;
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--cyan);
+    text-transform: uppercase;
+  }
+
+  .pkg-file {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 14px 20px;
+    border-bottom: 1px solid rgba(30,30,46,0.5);
+  }
+
+  .pkg-file:last-child { border-bottom: none; }
+
+  .pkg-ext {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: rgba(155,93,229,0.15);
+    color: var(--violet);
+    border: 1px solid rgba(155,93,229,0.3);
+    padding: 3px 8px;
+    border-radius: 2px;
+    white-space: nowrap;
+    min-width: 80px;
+    text-align: center;
+    align-self: flex-start;
+    margin-top: 2px;
+  }
+
+  .pkg-ext.cyan {
+    background: rgba(0,229,255,0.1);
+    color: var(--cyan);
+    border-color: rgba(0,229,255,0.25);
+  }
+
+  .pkg-ext.gold {
+    background: rgba(212,168,67,0.1);
+    color: var(--gold);
+    border-color: rgba(212,168,67,0.3);
+  }
+
+  .pkg-desc { flex: 1; }
+  .pkg-name { color: var(--white); font-size: 12px; margin-bottom: 4px; font-weight: 700; }
+  .pkg-detail { font-size: 11px; color: var(--text); margin: 0; line-height: 1.6; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 24px 0;
+    font-size: 12px;
+  }
+
+  th {
+    text-align: left;
+    color: var(--cyan);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    font-size: 11px;
+    text-transform: uppercase;
+  }
+
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(30,30,46,0.6);
+    color: var(--text);
+    vertical-align: top;
+  }
+
+  td:first-child { color: var(--white); }
+  tr:last-child td { border-bottom: none; }
+
+  .tag {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: rgba(0,229,255,0.1);
+    color: var(--cyan);
+    border: 1px solid rgba(0,229,255,0.25);
+    padding: 2px 8px;
+    border-radius: 2px;
+    margin-right: 6px;
+  }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 0;
+    font-size: 11px;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  @media (max-width: 700px) {
+    nav { padding: 16px 20px; }
+    .nav-links { gap: 16px; }
+    .nav-links li:nth-child(n+4) { display: none; }
+    header { padding: 100px 0 40px; }
+  }
+</style>
+</head>
+<body>
+<div class="scan-line"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo">IKANDY <span class="beta-badge">BETA</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html#features">Features</a></li>
+    <li><a href="index.html#watch">Watch</a></li>
+    <li><a href="guide.html">Guide</a></li>
+    <li><a href="credits.html">Credits</a></li>
+    <li><a href="ikandy-smart-auto-prior-art.html">Smart Auto</a></li>
+    <li><a href="ikandy-ai-error-sandbox.html">AI Sandbox</a></li>
+    <li><a href="ikandy-vis-format.html" class="active">.vis Format</a></li>
+    <li><a href="privacy.html">Privacy</a></li>
+    <li><a href="license.html">License</a></li>
+    <li><a href="index.html#download">Download</a></li>
+  </ul>
+</nav>
+
+<header>
+  <div class="container">
+    <span class="label">Technical Disclosure — Prior Art Publication</span>
+    <h1>IKANDY <span>.vis Format</span>:<br>Provenance-Preserving AI Shader Package<br>for Community Distribution</h1>
+    <p class="meta">
+      <strong>Author:</strong> IKANDY / ikandyapp &nbsp;·&nbsp;
+      <strong>Published:</strong> May 14, 2026 &nbsp;·&nbsp;
+      <strong>Project:</strong> IKANDY Music Visualizer
+    </p>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <section>
+      <h2>Abstract</h2>
+      <p>
+        This document discloses a novel portable package format — the <strong>.vis package</strong> — implemented in IKANDY for bundling AI-generated or user-authored GPU shaders (GLSL and WGSL) together with their complete creation provenance: the original natural-language prompt, shader type classification, auto-generated thumbnail, attribution metadata, and creation timestamp. The format is designed for lossless redistribution, community sharing, and Steam Workshop integration without loss of creative origin information.
+      </p>
+      <div class="callout">
+        <p>This publication is intended to establish prior art. Any subsequent patent claim covering this method or substantially similar methods is anticipated by this disclosure.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Background &amp; Problem Statement</h2>
+      <p>
+        Real-time GPU shader communities (Shadertoy, Bonzomatic, Processing, ISF) distribute shaders as raw source code files. These files carry no structured record of:
+      </p>
+      <table>
+        <tr>
+          <th>Missing Metadata</th>
+          <th>Consequence</th>
+        </tr>
+        <tr>
+          <td>Original generative prompt</td>
+          <td>AI-generated shaders lose the instruction that produced them — reproduction is impossible</td>
+        </tr>
+        <tr>
+          <td>Attribution (author, license)</td>
+          <td>Redistribution strips credit; license compliance is manual and error-prone</td>
+        </tr>
+        <tr>
+          <td>Thumbnail preview</td>
+          <td>Community browsers require running the shader to assess it; GPU cost before preview</td>
+        </tr>
+        <tr>
+          <td>Shader type / target runtime</td>
+          <td>GLSL and WGSL files are indistinguishable without inspection; wrong-runtime loads fail silently</td>
+        </tr>
+        <tr>
+          <td>Creation timestamp</td>
+          <td>Version ordering and provenance dating rely entirely on filesystem metadata, which is fragile</td>
+        </tr>
+      </table>
+      <p>
+        No prior shader distribution format bundles generative prompt provenance, auto-captured thumbnail, and runtime type classification as a first-class structural concern alongside source code.
+      </p>
+    </section>
+
+    <section>
+      <h2>The .vis Package Structure</h2>
+      <p>
+        A <strong>.vis package</strong> consists of three co-located files sharing a common base name. Together they form a complete, self-describing shader unit:
+      </p>
+
+      <div class="package-diagram">
+        <div class="pkg-header">📦 MyScene.vis — package contents</div>
+        <div class="pkg-file">
+          <div class="pkg-ext">. glsl<br>or .wgsl</div>
+          <div class="pkg-desc">
+            <div class="pkg-name">MyScene.glsl / MyScene.wgsl</div>
+            <p class="pkg-detail">The GPU fragment shader source. GLSL targets WebGL via an inline renderer; WGSL targets WebGPU via the <code>_wgpuUserScene()</code> factory. Boilerplate (uniform struct, vertex stage, bindings) is managed by the host — the file contains only the fragment function body.</p>
+          </div>
+        </div>
+        <div class="pkg-file">
+          <div class="pkg-ext cyan">. vis .json</div>
+          <div class="pkg-desc">
+            <div class="pkg-name">MyScene.vis.json</div>
+            <p class="pkg-detail">JSON sidecar. Contains: <code>prompt</code> (original natural-language instruction), <code>shaderType</code> (<code>"glsl"</code> or <code>"wgsl"</code>), <code>code</code> (snapshot of fragment source at save time), <code>thumbPath</code> (relative path to the thumbnail), <code>specFlags</code> (AI generation parameters), <code>author</code>, <code>license</code>, <code>sourceUrl</code>, <code>createdAt</code> (ISO 8601).</p>
+          </div>
+        </div>
+        <div class="pkg-file">
+          <div class="pkg-ext gold">.thumb .png</div>
+          <div class="pkg-desc">
+            <div class="pkg-name">MyScene.thumb.png</div>
+            <p class="pkg-detail">160×90 PNG auto-captured from the live canvas 3 seconds after first successful shader mount. Stored as a base64 data URL decoded server-side before write. Displayed as the card background in the preset browser without requiring the shader to re-run. Size-capped at 512 KB by the IPC handler.</p>
+          </div>
+        </div>
+      </div>
+
+      <pre><span class="comment">// MyScene.vis.json — canonical structure</span>
+{
+  <span class="key">"prompt"</span>:      <span class="str">"neon audio-reactive waves with bass bloom"</span>,
+  <span class="key">"shaderType"</span>:  <span class="str">"wgsl"</span>,
+  <span class="key">"code"</span>:        <span class="str">"@fragment fn fs_main(...) { ... }"</span>,
+  <span class="key">"thumbPath"</span>:   <span class="str">"MyScene.thumb.png"</span>,
+  <span class="key">"specFlags"</span>:   { <span class="key">"mode"</span>: <span class="str">"wgsl"</span>, <span class="key">"audioReactive"</span>: <span class="val">true</span> },
+  <span class="key">"author"</span>:      <span class="str">"IKANDY"</span>,
+  <span class="key">"license"</span>:     <span class="str">"CC0"</span>,
+  <span class="key">"sourceUrl"</span>:   <span class="str">""</span>,
+  <span class="key">"createdAt"</span>:   <span class="str">"2026-05-14T19:43:22.000Z"</span>
+}</pre>
+    </section>
+
+    <section>
+      <h2>Thumbnail Capture Method</h2>
+      <p>
+        Thumbnail generation is fully automatic and requires no user action:
+      </p>
+      <p>
+        <strong>Step 1</strong> — On successful shader mount, a 3-second timer is started against the active canvas reference and the scene name.<br>
+        <strong>Step 2</strong> — After 3 seconds, the system confirms the user has not navigated away (scene name still matches). If confirmed, the canvas is drawn into a 160×90 offscreen canvas via <code>drawImage()</code>.<br>
+        <strong>Step 3</strong> — <code>toDataURL('image/png')</code> encodes the frame. The data URL is transmitted to the Electron main process via IPC, decoded from base64, and written to disk as <code>[basename].thumb.png</code>.<br>
+        <strong>Step 4</strong> — The in-memory thumbnail cache is updated immediately. Open preset browser cards update without requiring a panel close/reopen.
+      </p>
+      <div class="callout violet">
+        <p>On next application launch, <code>_refreshUserScenes()</code> issues parallel <code>loadThumb()</code> IPC calls for each scene entry and primes the thumbnail cache from disk. Cards show their saved previews on first panel open with no shader execution required.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Distribution &amp; Workshop Readiness</h2>
+      <p>
+        The three-file triple (<code>.glsl</code>/<code>.wgsl</code> + <code>.vis.json</code> + <code>.thumb.png</code>) is designed for lossless packaging into a distributable archive. To produce a shareable <code>.vis</code> bundle, the host application zips the triple:
+      </p>
+      <pre><span class="comment"># Canonical .vis bundle structure</span>
+MyScene.zip (renamed to MyScene.vis)
+├── MyScene.wgsl         <span class="comment"># fragment source</span>
+├── MyScene.vis.json     <span class="comment"># provenance + metadata</span>
+└── MyScene.thumb.png    <span class="comment"># 160×90 preview</span></pre>
+      <p>
+        A receiving IKANDY instance unzips the bundle, validates filename structure against the same regex used for local saves, applies the shader scrub pipeline (<code>scrubGLSL</code> / <code>scrubWGSL</code>) on import, and adds the scene to the user's local library. Attribution and prompt from <code>.vis.json</code> are displayed in the preset card without re-generation.
+      </p>
+      <div class="callout">
+        <p>The format is designed to be the payload unit for a Steam Workshop integration. Each Workshop item is one <code>.vis</code> bundle. No server-side transformation is required — the bundle is self-describing at every stage of the distribution pipeline.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>What Makes This Novel</h2>
+      <div class="callout violet">
+        <p>
+          Existing shader distribution systems (Shadertoy export, ISF format, Processing sketches, Bonzomatic session files) distribute source code only. No prior format bundles <strong>generative prompt provenance + auto-captured GPU-rendered thumbnail + runtime type classification + attribution metadata</strong> as co-equal first-class fields alongside the shader source in a single distributable unit.
+        </p>
+      </div>
+      <p>The combination of these elements constitutes the novel format:</p>
+      <p>
+        <span class="tag">1</span> Generative prompt stored as a first-class provenance field<br>
+        <span class="tag">2</span> Runtime type classification (<code>glsl</code> / <code>wgsl</code>) embedded in sidecar<br>
+        <span class="tag">3</span> Auto-captured GPU-rendered thumbnail at fixed resolution and timing<br>
+        <span class="tag">4</span> Attribution and license as structured fields, not free-text comments<br>
+        <span class="tag">5</span> ISO 8601 creation timestamp independent of filesystem metadata<br>
+        <span class="tag">6</span> Three-file co-location pattern enabling atomic zip-based distribution
+      </p>
+    </section>
+
+    <section>
+      <h2>Security Constraints</h2>
+      <p>
+        The IPC handlers enforcing the <code>.vis</code> package write path implement the following safeguards: filename regex (<code>/^[a-zA-Z0-9 _\-]+\.(thumb\.png|vis\.json)$/</code>) rejects double-extension smuggling; path traversal (<code>..</code>) is blocked; <code>.thumb.png</code> writes are capped at 512 KB; <code>.vis.json</code> writes are capped at 256 KB; thumbnail payloads must be valid <code>data:image/png;base64,…</code> data URLs decoded server-side before disk write. Shader source imported from a <code>.vis</code> bundle passes through the same <code>scrubGLSL</code> / <code>scrubWGSL</code> pipeline used for all user-submitted code, which rejects <code>fetch</code>, <code>XMLHttpRequest</code>, <code>eval</code>, <code>import</code>, <code>document</code>, and <code>window</code> references.
+      </p>
+    </section>
+
+    <section>
+      <h2>Implementation Context</h2>
+      <p>
+        The <code>.vis</code> package format is implemented in IKANDY, an Electron 30-based music visualizer running on Windows. Sidecar writes are handled by <code>main.js</code> IPC handlers <code>ikandy:customscenes:saveVis</code>, <code>:loadVis</code>, <code>:saveThumb</code>, and <code>:loadThumb</code>. The preset browser reads sidecar data via <code>preload.js</code> bridge methods exposed as <code>customScenes.saveVis()</code>, <code>.loadVis()</code>, <code>.saveThumb()</code>, <code>.loadThumb()</code>.
+      </p>
+      <p>
+        This technical disclosure was published at ikandy.app and constitutes prior art as of its effective date.
+      </p>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    Published May 14, 2026 · IKANDY / ikandyapp · This document constitutes a public prior art disclosure.
+  </div>
+</footer>
+
+</body>
+</html>

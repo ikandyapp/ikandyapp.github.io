@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FEJJH5VN5S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-FEJJH5VN5S');
+</script>
+<script defer src="/analytics.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+<title>IKANDY ARCADE &mdash; SkiFree</title>
+<link rel="apple-touch-icon-precomposed" href="apple-touch-icon.png">
+<link rel="shortcut icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="css/normalize.css">
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/skifree.css">
+<style>
+.ikandy-topbar {
+  position: fixed; top: 0; left: 0;
+  z-index: 9999;
+  display: flex; gap: 16px; align-items: center;
+  background: rgba(0,0,0,0.6);
+  padding: 6px 14px;
+  font-family: "Courier New", monospace;
+  border-bottom-right-radius: 4px;
+}
+.ikandy-topbar a { text-decoration: none; letter-spacing: .15em; }
+.ikandy-topbar .logo { color: #d4a843; font-size: 12px; }
+.ikandy-topbar .back { color: #fff; font-size: 10px; letter-spacing: .1em; }
+.ikandy-topbar .back:hover { color: #d4a843; }
+</style>
+</head>
+<body>
+<div class="ikandy-topbar">
+  <a href="../index.html" class="logo">IKANDY ARCADE</a>
+  <a href="../index.html" class="back">&larr; HOME</a>
+</div>
+<canvas id="skifree-canvas" tabindex="0"></canvas>
+<script>
+(() => {
+  'use strict';
+  const SUPABASE_URL      = 'https://grimznincoiujnurhmlx.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdyaW16bmluY29pdWpudXJobWx4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxNDQ5NzAsImV4cCI6MjA5MjcyMDk3MH0.X-eXBp4gF3RthSt10As83Ft4z5rOc929IMdis5BSuxk';
+
+  function getIdent(){
+    return {
+      id:   localStorage.getItem('ikandy_arcade_id_v1') || null,
+      name: localStorage.getItem('ikandy_arcade_name')  || null
+    };
+  }
+
+  let sessionId    = crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36);
+  let runStartTime = performance.now();
+  let interactions = 0;
+
+  document.addEventListener('keydown',    () => interactions++);
+  document.addEventListener('click',      () => interactions++);
+  document.addEventListener('touchstart', () => interactions++);
+
+  async function submitScore(score){
+    if (!score || score <= 0) return;
+    const ident = getIdent();
+    if (!ident.id || !ident.name) return;
+    const timeSec = (performance.now() - runStartTime) / 1000;
+    try {
+      await fetch(SUPABASE_URL + '/functions/v1/arcade-submit-score', {
+        method: 'POST',
+        headers: {
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+          'apikey':        SUPABASE_ANON_KEY
+        },
+        body: JSON.stringify({
+          ikandyId:         ident.id,
+          ikandyName:       ident.name,
+          game:             'skifree',
+          score:            Math.round(score),
+          timeSec:          Math.round(timeSec * 1000) / 1000,
+          interactionCount: interactions,
+          sessionId
+        })
+      });
+    } catch(_) {}
+    // Reset for next run
+    runStartTime = performance.now();
+    interactions = 0;
+    sessionId    = crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36);
+  }
+
+  // Poll for game-over: basicallydan's bundle writes localStorage.highScore exactly once on death.
+  // We snapshot the value at start, then poll every 300ms — when it changes, the player died.
+  // More reliable than wrapping localStorage.setItem (which can be bypassed by Storage.prototype calls).
+  var __sfStartHighScore = localStorage.getItem('highScore');
+  var __sfShown = false;
+  var __sfPoll = setInterval(function() {
+    if (__sfShown) { clearInterval(__sfPoll); return; }
+    var cur = localStorage.getItem('highScore');
+    if (cur !== __sfStartHighScore && cur !== null) {
+      __sfShown = true;
+      clearInterval(__sfPoll);
+      var distance = parseFloat(cur) || 0;
+      submitScore(distance);
+      var ov = document.getElementById('sf-overlay');
+      var fs = document.getElementById('sf-final-score');
+      if (fs) fs.textContent = Math.round(distance);
+      if (ov) setTimeout(function(){ ov.classList.add('show'); }, 400);
+    }
+  }, 300);
+})();
+</script>
+<script src="skifree.js"></script>
+<style>
+.sf-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.92); display: none; flex-direction: column; align-items: center; justify-content: center; gap: 18px; padding: 24px; z-index: 10000; font-family: "Courier New", monospace; }
+.sf-overlay.show { display: flex; }
+.sf-overlay h1 { color: #fff; font-size: 44px; letter-spacing: .3em; text-shadow: 0 0 18px rgba(255,255,255,.4); margin: 0; }
+.sf-overlay p { color: #888; font-size: 12px; letter-spacing: .15em; text-transform: uppercase; margin: 0; }
+.sf-overlay .btn-row { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 10px; }
+.sf-overlay button { background: #000; color: #fff; border: 1px solid #fff; font-family: "Courier New", monospace; font-size: 14px; padding: 12px 36px; cursor: pointer; letter-spacing: .3em; }
+.sf-overlay button:hover { background: #fff; color: #000; }
+.sf-overlay button.secondary { color: #888; border-color: #555; }
+.sf-overlay button.secondary:hover { background: #555; color: #fff; }
+</style>
+<div class="sf-overlay" id="sf-overlay">
+  <h1>GAME OVER</h1>
+  <p>FINAL DISTANCE: <strong id="sf-final-score" style="color:#fff">0</strong>m</p>
+  <div class="btn-row">
+    <button id="sf-btn-retry">[ PLAY AGAIN ]</button>
+    <button id="sf-btn-back" class="secondary">[ BACK TO ARCADE ]</button>
+  </div>
+</div>
+<script>
+(function() {
+  document.getElementById('sf-btn-retry').addEventListener('click', function() { location.reload(); });
+  document.getElementById('sf-btn-back').addEventListener('click', function() { location.href = '../index.html'; });
+})();
+</script>
+</body>
+</html>
