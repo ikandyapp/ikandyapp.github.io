@@ -1,13 +1,30 @@
-# IKANDY
+﻿# IKANDY
 
-Real-time music visualizer for Windows.
+**Real-time music visualizer for Windows.** Reacts to Spotify, VLC, foobar2000, and any audio app on your PC.
 
-**Download:** [ikandy.app](https://ikandy.app) · [GitHub Releases](https://github.com/ikandyapp/ikandyapp.github.io/releases)  
-**Support:** [buymeacoffee.com/ikandy](https://buymeacoffee.com/ikandy)  
-**Community:** [Discord](https://discord.gg/Vrj36jaGu)
+**Website:** [ikandy.app](https://ikandy.app) · **Support:** support@ikandy.app
 
 ---
 
-IKANDY reacts to Spotify, VLC, foobar2000, and any audio app on your PC. Powered by Butterchurn WebGL (MilkDrop) with cinematic post-processing, per-process audio capture, and multi-monitor support.
+IKANDY turns whatever you're listening to into living, cinematic visuals - hundreds of audio-reactive scenes with modern, polished post-processing, multi-monitor support, and a deep library of classic MilkDrop presets reimagined in WebGL.
 
-For setup and usage, see the [User Guide](https://ikandy.app/guide.html).
+## Features
+
+- Hundreds of reactive visuals - MilkDrop presets plus original 2D and 3D scenes
+- Cinematic post-processing - bloom, film grain, color grading, and more
+- Per-app audio - react to one specific app's sound, independent of the system mix
+- Multi-monitor - mirror or span across displays
+- Metadata sources - Spotify, foobar2000, VLC, and Windows Now Playing
+- Synced lyrics support
+
+## Download
+
+Get the latest release at [ikandy.app](https://ikandy.app).
+
+## About
+
+IKANDY is developed by L&R Entertainment LLC.
+
+For help, feature requests, or bug reports, contact support@ikandy.app.
+
+(c) 2026 L&R Entertainment LLC. All rights reserved.
