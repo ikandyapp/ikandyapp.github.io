@@ -16,18 +16,19 @@
 <meta name="description" content="The full IKANDY user guide. Setup, audio sources, presets, custom scenes, FX, lyrics, troubleshooting.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=Space+Mono&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&display=swap" rel="stylesheet">
+<link rel="icon" href="/icon.ico">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --gold: #d4a843;
-    --neon: #ff2d8a;
-    --green: #1db954;
-    --ice: #5bc8f5;
-    --bg: #04040a;
-    --bg2: #08080f;
-    --txt: #e8e8e8;
+    --gold: #00e0d6;
+    --neon: #ff3da6;
+    --green: #46d39a;
+    --ice: #7eecff;
+    --bg: #06080b;
+    --bg2: #0c1217;
+    --txt: #eef4f6;
     --dim: rgba(255,255,255,.45);
   }
 
@@ -36,9 +37,8 @@
   body {
     background: var(--bg);
     color: var(--txt);
-    font-family: 'DM Sans', sans-serif;
+    font-family: -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
     overflow-x: hidden;
-    cursor: crosshair;
   }
 
   /* ── NOISE OVERLAY ── */
@@ -69,7 +69,7 @@ nav {
   }
 
   .nav-logo {
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: 'Unbounded', sans-serif;
     font-size: 28px;
     letter-spacing: .15em;
     color: var(--gold);
@@ -98,13 +98,13 @@ nav {
 
   .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
   .nav-links a {
-    font-family: 'Space Mono', monospace;
+    font-family: ui-monospace,'Cascadia Code',Consolas,Menlo,monospace;
     font-size: 11px; letter-spacing: .1em;
     text-transform: uppercase; color: var(--dim, rgba(255,255,255,.45));
     text-decoration: none; transition: color .2s;
   }
   .nav-links a:hover { color: var(--gold); }
-  .nav-links a.active { color: var(--cyan, #00e5ff); }
+  .nav-links a.active { color: var(--gold); }
 
   @media (max-width: 860px) {
     nav { padding: 16px 24px; }
@@ -129,13 +129,13 @@ nav {
     display: inline-block;
     margin-left: 6px;
     padding: 3px 7px;
-    font-family: 'Space Mono', monospace;
+    font-family: ui-monospace,'Cascadia Code',Consolas,Menlo,monospace;
     font-size: 9px;
     font-weight: 700;
     letter-spacing: .15em;
     color: var(--gold);
-    background: rgba(212,168,67,.08);
-    border: 1px solid rgba(212,168,67,.4);
+    background: rgba(0,224,214,.08);
+    border: 1px solid rgba(0,224,214,.4);
     border-radius: 3px;
     vertical-align: 4px;
     cursor: help;
@@ -153,9 +153,9 @@ nav {
   .page-header::after {
     content: 'GUIDE';
     position: absolute;
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: 'Unbounded', sans-serif;
     font-size: 22vw;
-    color: rgba(212,168,67,.025);
+    color: rgba(0,224,214,.025);
     top: 50%;
     right: 48px;
     transform: translateY(-50%);
@@ -166,7 +166,7 @@ nav {
   }
 
   .page-eyebrow {
-    font-family: 'Space Mono', monospace;
+    font-family: ui-monospace,'Cascadia Code',Consolas,Menlo,monospace;
     font-size: 11px;
     letter-spacing: .25em;
     text-transform: uppercase;
@@ -176,7 +176,7 @@ nav {
   }
 
   .page-title {
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: 'Unbounded', sans-serif;
     font-size: clamp(64px, 10vw, 120px);
     line-height: .9;
     letter-spacing: .04em;
@@ -221,15 +221,15 @@ nav {
     font-size: 13px;
     color: var(--dim);
     text-decoration: none;
-    font-family: 'DM Sans', sans-serif;
+    font-family: -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
     border-bottom: 1px solid transparent;
     transition: color .2s, border-color .2s;
   }
 
-  .toc a:hover { color: var(--gold); border-bottom-color: rgba(212,168,67,.3); }
+  .toc a:hover { color: var(--gold); border-bottom-color: rgba(0,224,214,.3); }
 
   .toc-num {
-    font-family: 'Space Mono', monospace;
+    font-family: ui-monospace,'Cascadia Code',Consolas,Menlo,monospace;
     font-size: 10px;
     letter-spacing: .15em;
     color: var(--neon);
@@ -244,7 +244,7 @@ nav {
   }
 
   .section-tag {
-    font-family: 'Space Mono', monospace;
+    font-family: ui-monospace,'Cascadia Code',Consolas,Menlo,monospace;
     font-size: 11px;
     letter-spacing: .2em;
     text-transform: uppercase;
@@ -253,7 +253,7 @@ nav {
   }
 
   h2 {
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: 'Unbounded', sans-serif;
     font-size: clamp(48px, 6vw, 80px);
     letter-spacing: .04em;
     line-height: 1;
@@ -261,7 +261,7 @@ nav {
   }
 
   h3 {
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: 'Unbounded', sans-serif;
     font-size: 28px;
     letter-spacing: .08em;
     color: var(--gold);
@@ -315,7 +315,7 @@ nav {
     position: absolute;
     left: 16px;
     top: 16px;
-    font-family: 'Space Mono', monospace;
+    font-family: ui-monospace,'Cascadia Code',Consolas,Menlo,monospace;
     font-size: 11px;
     letter-spacing: .12em;
     color: var(--neon);
@@ -355,7 +355,7 @@ nav {
 
   /* ── CODE / KBD ── */
   code {
-    font-family: 'Space Mono', monospace;
+    font-family: ui-monospace,'Cascadia Code',Consolas,Menlo,monospace;
     font-size: 13px;
     background: rgba(255,255,255,.05);
     color: var(--ice);
@@ -365,13 +365,13 @@ nav {
   }
 
   kbd {
-    font-family: 'Space Mono', monospace;
+    font-family: ui-monospace,'Cascadia Code',Consolas,Menlo,monospace;
     font-size: 11px;
     background: rgba(255,255,255,.06);
     color: var(--gold);
     padding: 3px 9px;
     border-radius: 2px;
-    border: 1px solid rgba(212,168,67,.3);
+    border: 1px solid rgba(0,224,214,.3);
     border-bottom-width: 2px;
     letter-spacing: .05em;
   }
@@ -381,7 +381,7 @@ nav {
     margin: 24px 0;
     padding: 20px 24px;
     border-left: 3px solid var(--gold);
-    background: rgba(212,168,67,.04);
+    background: rgba(0,224,214,.04);
     max-width: 720px;
     font-size: 14px;
     line-height: 1.7;
@@ -391,7 +391,7 @@ nav {
 
   .callout.warn {
     border-left-color: var(--neon);
-    background: rgba(255,45,138,.04);
+    background: rgba(255,61,166,.04);
   }
 
   .callout.tip {
@@ -400,7 +400,7 @@ nav {
   }
 
   .callout-label {
-    font-family: 'Space Mono', monospace;
+    font-family: ui-monospace,'Cascadia Code',Consolas,Menlo,monospace;
     font-size: 10px;
     letter-spacing: .2em;
     text-transform: uppercase;
@@ -442,7 +442,7 @@ nav {
   }
 
   .source-block-name {
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: 'Unbounded', sans-serif;
     font-size: 36px;
     letter-spacing: .08em;
     color: var(--c, var(--gold));
@@ -462,7 +462,7 @@ nav {
     object-fit: cover;
   }
   .guide-screenshot-caption {
-    font-family: 'Space Mono', monospace;
+    font-family: ui-monospace,'Cascadia Code',Consolas,Menlo,monospace;
     font-size: 10px;
     color: var(--dim);
     margin-top: 6px;
@@ -470,7 +470,7 @@ nav {
   }
 
   .source-block-meta {
-    font-family: 'Space Mono', monospace;
+    font-family: ui-monospace,'Cascadia Code',Consolas,Menlo,monospace;
     font-size: 10px;
     letter-spacing: .15em;
     text-transform: uppercase;
@@ -504,7 +504,7 @@ nav {
   }
 
   .ld-tag {
-    font-family: 'Space Mono', monospace;
+    font-family: ui-monospace,'Cascadia Code',Consolas,Menlo,monospace;
     font-size: 9px;
     letter-spacing: .18em;
     text-transform: uppercase;
@@ -513,7 +513,7 @@ nav {
   }
 
   .ld-name {
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: 'Unbounded', sans-serif;
     font-size: 18px;
     letter-spacing: .08em;
     color: var(--gold);
@@ -531,8 +531,8 @@ nav {
   .ld-top { grid-column: 1 / -1; }
   .ld-stage {
     background:
-      radial-gradient(ellipse at 50% 50%, rgba(212,168,67,.06), transparent 60%),
-      radial-gradient(ellipse at 70% 30%, rgba(255,45,138,.05), transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(0,224,214,.06), transparent 60%),
+      radial-gradient(ellipse at 70% 30%, rgba(255,61,166,.05), transparent 50%),
       rgba(255,255,255,.015);
     text-align: center;
     align-items: center;
@@ -552,8 +552,8 @@ nav {
 
   .cd-stage {
     background:
-      radial-gradient(ellipse at 50% 50%, rgba(212,168,67,.06), transparent 60%),
-      radial-gradient(ellipse at 70% 30%, rgba(255,45,138,.05), transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(0,224,214,.06), transparent 60%),
+      radial-gradient(ellipse at 70% 30%, rgba(255,61,166,.05), transparent 50%),
       rgba(255,255,255,.015);
     border: 1px solid rgba(255,255,255,.06);
     padding: 48px 24px 32px;
@@ -571,7 +571,7 @@ nav {
     top: 18px;
     left: 50%;
     transform: translateX(-50%);
-    font-family: 'Space Mono', monospace;
+    font-family: ui-monospace,'Cascadia Code',Consolas,Menlo,monospace;
     font-size: 9px;
     letter-spacing: .14em;
     text-transform: uppercase;
@@ -600,7 +600,7 @@ nav {
   }
 
   .cdz-label {
-    font-family: 'Space Mono', monospace;
+    font-family: ui-monospace,'Cascadia Code',Consolas,Menlo,monospace;
     font-size: 9px;
     letter-spacing: .1em;
     text-transform: uppercase;
@@ -609,7 +609,7 @@ nav {
   }
 
   .cdz-desc {
-    font-family: 'DM Sans', sans-serif;
+    font-family: -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
     font-size: 10px;
     color: var(--dim);
     text-align: center;
@@ -639,7 +639,7 @@ nav {
   }
 
   .fx-item-name {
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: 'Unbounded', sans-serif;
     font-size: 18px;
     letter-spacing: .08em;
     color: var(--c, var(--gold));
@@ -664,7 +664,7 @@ nav {
   }
 
   details.tr[open] {
-    border-color: rgba(212,168,67,.3);
+    border-color: rgba(0,224,214,.3);
     background: rgba(255,255,255,.03);
   }
 
@@ -672,7 +672,7 @@ nav {
     list-style: none;
     cursor: pointer;
     padding: 16px 24px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
     font-size: 15px;
     color: var(--txt);
     position: relative;
@@ -685,7 +685,7 @@ nav {
 
   details.tr summary::before {
     content: '+';
-    font-family: 'Space Mono', monospace;
+    font-family: ui-monospace,'Cascadia Code',Consolas,Menlo,monospace;
     font-size: 18px;
     color: var(--gold);
     width: 16px;
@@ -712,9 +712,9 @@ nav {
 
   /* ── DOWNLOAD-LIKE FOOTER CTA ── */
   .help-section {
-    background: linear-gradient(135deg, rgba(212,168,67,.08) 0%, rgba(255,45,138,.06) 100%);
-    border-top: 1px solid rgba(212,168,67,.2);
-    border-bottom: 1px solid rgba(212,168,67,.2);
+    background: linear-gradient(135deg, rgba(0,224,214,.08) 0%, rgba(255,61,166,.06) 100%);
+    border-top: 1px solid rgba(0,224,214,.2);
+    border-bottom: 1px solid rgba(0,224,214,.2);
     padding: 96px 48px;
     text-align: center;
     position: relative;
@@ -724,9 +724,9 @@ nav {
   .help-section::before {
     content: 'HELP';
     position: absolute;
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: 'Unbounded', sans-serif;
     font-size: 26vw;
-    color: rgba(212,168,67,.03);
+    color: rgba(0,224,214,.03);
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
@@ -736,7 +736,7 @@ nav {
   }
 
   .help-title {
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: 'Unbounded', sans-serif;
     font-size: clamp(40px, 6vw, 80px);
     letter-spacing: .06em;
     line-height: 1;
@@ -771,7 +771,7 @@ nav {
     padding: 14px 28px;
     border: 1px solid rgba(255,255,255,.2);
     color: var(--txt);
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: 'Unbounded', sans-serif;
     font-size: 16px;
     letter-spacing: .1em;
     text-decoration: none;
@@ -794,7 +794,7 @@ nav {
   }
 
   .footer-logo {
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: 'Unbounded', sans-serif;
     font-size: 24px;
     letter-spacing: .15em;
     color: var(--gold);
@@ -810,7 +810,7 @@ nav {
     font-size: 12px;
     color: var(--dim);
     text-decoration: none;
-    font-family: 'Space Mono', monospace;
+    font-family: ui-monospace,'Cascadia Code',Consolas,Menlo,monospace;
     transition: color .2s;
   }
   .footer-links a:hover { color: var(--gold); }
@@ -818,7 +818,7 @@ nav {
   .footer-copy {
     font-size: 11px;
     color: rgba(255,255,255,.2);
-    font-family: 'Space Mono', monospace;
+    font-family: ui-monospace,'Cascadia Code',Consolas,Menlo,monospace;
   }
 
   /* ── SCROLLBAR ── */
@@ -846,6 +846,15 @@ nav {
   @media (max-width: 600px) {
     .nav-links li:nth-child(n+3) { display: none; }
   }
+
+  /* — Unbounded display sizing (replaces condensed Bebas metrics) — */
+  .nav-logo { font-size: 17px; letter-spacing: .06em; font-weight: 700; }
+  .page-title { font-size: clamp(34px, 6vw, 68px); line-height: 1.05; letter-spacing: -.01em; }
+  h2 { font-size: clamp(25px, 3.4vw, 42px); letter-spacing: -.01em; line-height: 1.12; }
+  .help-title { font-size: clamp(24px, 3.6vw, 44px); letter-spacing: -.01em; }
+  .source-block-name { font-size: 20px; letter-spacing: .01em; }
+  .ld-name, .fx-item-name { font-size: 13px; letter-spacing: .02em; }
+  .help-section::before { font-size: 17vw; }
 </style>
 </head>
 <body>
@@ -853,6 +862,7 @@ nav {
 <!-- NAV -->
 <nav>
   <a href="index.html" class="nav-logo">IKANDY <span class="beta-badge" title="IKANDY is in beta. Code-signing certificate is in verification — Windows may show a SmartScreen warning on first launch until that completes.">BETA</span></a>
+  <button class="nav-toggle" aria-label="Menu" aria-expanded="false" onclick="this.classList.toggle('open');var l=document.querySelector('.nav-links');l.classList.toggle('open');this.setAttribute('aria-expanded',l.classList.contains('open'))"><span></span><span></span><span></span></button>
   <ul class="nav-links">
     <li><a href="#sources">Sources</a></li>
     <li><a href="#presets">Presets</a></li>
@@ -958,7 +968,7 @@ nav {
   <ul class="b">
     <li><strong>Now Playing</strong> — album art, track title, artist name. Click the album art to open the lyrics overlay.</li>
     <li><strong>Playback</strong> — play/pause, skip, shuffle, seek bar. Drag the bar to seek anywhere in the track.</li>
-    <li><strong>Visualiser</strong> — <strong>Browse (⊞)</strong> opens the full preset browser. The live preset count (<em>ALL · 745</em>) and shuffle status are shown here.</li>
+    <li><strong>Visualiser</strong> — <strong>Browse (⊞)</strong> opens the full preset browser. The live preset count (<em>ALL · 868</em>) and shuffle status are shown here.</li>
     <li><strong>Utility</strong> — <strong>✦</strong> opens the Scene popover (7 scenes + Intensity slider); <strong>≡</strong> opens Viz Config (MILKDROP / IMAGE / LYRICS tabs); multi-monitor toggle.</li>
     <li><strong>Settings (⚙)</strong> — source selector, theme palette, reconnect audio, about.</li>
   </ul>
@@ -1003,7 +1013,7 @@ nav {
       <li>Paste the Client ID into IKANDY's Spotify settings and click <strong>Connect</strong>. Spotify opens in your browser to authorise. Done.</li>
     </ol>
 
-    <img class="guide-screenshot" src="assets/screenshots/spotify-setup.png" alt="Spotify BYOK setup — Client ID field in IKANDY settings">
+    <img class="guide-screenshot" onerror="this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='none'" src="assets/screenshots/spotify-setup.png" alt="Spotify BYOK setup — Client ID field in IKANDY settings">
     <p class="guide-screenshot-caption">IKANDY's Spotify settings panel showing the Client ID field and Redirect URI</p>
 
     <div class="callout">
@@ -1033,7 +1043,7 @@ nav {
       <li>Tick <strong>Enable HTTP server</strong> (default port <code>8880</code>). Optionally set a password. Click Apply.</li>
       <li>In IKANDY, choose <strong>foobar2000</strong>, leave port at <code>8880</code>, enter the password if set, and click <strong>Connect</strong>.</li>
     </ol>
-    <img class="guide-screenshot" src="assets/screenshots/foobar-beefweb.png" alt="foo_beefweb preferences in foobar2000">
+    <img class="guide-screenshot" onerror="this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='none'" src="assets/screenshots/foobar-beefweb.png" alt="foo_beefweb preferences in foobar2000">
     <p class="guide-screenshot-caption">foobar2000 → Preferences → Tools → Beefweb Remote Control</p>
   </div>
 
@@ -1053,7 +1063,7 @@ nav {
       <li>Expand <strong>Main interfaces → Lua</strong>, set a <strong>Lua HTTP password</strong>, and save.</li>
       <li>Restart VLC. In IKANDY, choose <strong>VLC</strong>, paste the password, and click <strong>Connect</strong>.</li>
     </ol>
-    <img class="guide-screenshot" src="assets/screenshots/vlc-web-interface.png" alt="VLC Preferences showing Web interface enabled">
+    <img class="guide-screenshot" onerror="this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='none'" src="assets/screenshots/vlc-web-interface.png" alt="VLC Preferences showing Web interface enabled">
     <p class="guide-screenshot-caption">VLC → Preferences → All → Interface → Main interfaces → Web (ticked)</p>
 
     <div class="callout tip">
@@ -1130,8 +1140,8 @@ nav {
 <!-- 04 PRESETS -->
 <section id="presets">
   <p class="section-tag">04 — Visualizer &amp; Presets</p>
-  <h2>745 MilkDrop<br>Presets</h2>
-  <p class="lead">The core visualiser is built on Butterchurn 3.0 — a WebGL port of Winamp's legendary MilkDrop engine. IKANDY ships with 745 presets — the base library, extra curated packs, and an <strong>Image</strong> category that layers especially well over a background photo.</p>
+  <h2>868 MilkDrop<br>Presets</h2>
+  <p class="lead">The core visualiser is built on Butterchurn 3.0 — a WebGL port of Winamp's legendary MilkDrop engine. IKANDY ships with 868 presets — the base library, extra curated packs, and an <strong>Image</strong> category that layers especially well over a background photo.</p>
 
   <h3>Cycling presets</h3>
   <p class="body">IKANDY auto-cycles through presets at a fixed interval with a smooth blend between each one. Controls in <strong>Viz Config (≡) → MILKDROP tab</strong>:</p>
@@ -1148,10 +1158,10 @@ nav {
 
   <h3>Reactivity scan</h3>
   <p class="body">On first launch, IKANDY silently scans all presets in the background (after 30 seconds of keyboard/mouse idle) and rates each one for audio reactivity. The results are cached — future launches don't re-scan unless you add presets.</p>
-  <p class="body">Once the scan is complete, a <strong>Hide non-reactive</strong> toggle appears in the console's visualiser zone. Enable it to filter the auto-cycle pool to only presets that visibly respond to beats. To run a manual scan or check progress, click <strong>Run Scan</strong> — it shows live progress (<em>Scanning… 42/745</em>) and a completion summary when done.</p>
+  <p class="body">Once the scan is complete, a <strong>Hide non-reactive</strong> toggle appears in the console's visualiser zone. Enable it to filter the auto-cycle pool to only presets that visibly respond to beats. To run a manual scan or check progress, click <strong>Run Scan</strong> — it shows live progress (<em>Scanning… 42/868</em>) and a completion summary when done.</p>
 
   <h3>The preset browser</h3>
-  <p class="body">Click <strong>Browse (⊞)</strong> in the console's visualiser zone to open the full preset browser. All 745 are listed with thumbnail previews — hover any thumbnail for a live preview, click to load it immediately. Thumbnails are pre-cached on first launch.</p>
+  <p class="body">Click <strong>Browse (⊞)</strong> in the console's visualiser zone to open the full preset browser. All 868 are listed with thumbnail previews — hover any thumbnail for a live preview, click to load it immediately. Thumbnails are pre-cached on first launch.</p>
 
   <h3>Custom preset folder</h3>
   <p class="body">In the preset browser, switch to the <strong>CUSTOM</strong> tab. If no folder is loaded, the empty state shows a <strong>Load Folder</strong> button — click it to pick a directory of Butterchurn preset files. The folder merges into the browser alongside the bundled library and persists across restarts.</p>
