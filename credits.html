@@ -13,356 +13,87 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>IKANDY — Credits &amp; Open Source Notices</title>
+<meta name="description" content="Every third-party component, library, shader, and preset collection used in IKANDY, with licenses and authors.">
+<link rel="icon" href="/icon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #04040a;
-    --surface: #0d0d14;
-    --border: #1a1a28;
-    --gold: #d4a843;
-    --cyan: #00e5ff;
-    --violet: #9b5de5;
-    --neon: #ff2d8a;
-    --green: #1db954;
-    --text: #c8c8d8;
-    --muted: #5a5a7a;
-    --white: #eeeef8;
-    --dim: rgba(255,255,255,.45);
-  }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --stage:#06080b; --panel:#0c1217; --line:#1b252d;
+  --ink:#eef4f6; --dim:#8696a1; --text:#c6d2da;
+  --cyan:#00e0d6; --candy:#ff3da6; --gold:#ffd96b;
+  --muted:#8696a1; --border:#1b252d;
+  --mono:ui-monospace,'Cascadia Code',Consolas,Menlo,monospace;
+  --body:-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --disp:'Unbounded',var(--body);
+}
+body{background:var(--stage);color:var(--text);font:15px/1.7 var(--body);-webkit-font-smoothing:antialiased}
+a{color:var(--cyan);text-decoration:none}
+a:hover{text-decoration:underline}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;border-radius:4px}
+::selection{background:var(--candy);color:#fff}
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+nav{position:fixed;inset:0 0 auto;z-index:40;display:flex;align-items:center;gap:22px;padding:14px 22px;
+  background:rgba(6,8,11,.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav .nav-logo{font:700 17px var(--disp);letter-spacing:.06em;color:var(--ink)}
+nav .nav-logo b{color:var(--cyan);font-weight:700}
+nav .nav-links{display:flex;gap:18px;margin-left:auto;list-style:none;font:500 13px var(--body)}
+nav .nav-links a{color:var(--dim)}
+nav .nav-links a:hover{color:var(--ink);text-decoration:none}
+nav .nav-links a.active{color:var(--cyan)}
+@media(max-width:680px){nav .nav-links{display:none}}
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Space Mono', monospace;
-    font-size: 14px;
-    line-height: 1.85;
-  }
+.container{max-width:880px;margin:0 auto;padding:0 22px}
+header{padding:128px 0 30px}
+header .label{font:600 11px var(--mono);letter-spacing:.28em;color:var(--cyan);text-transform:uppercase}
+h1{font:700 clamp(28px,4.5vw,44px)/1.12 var(--disp);letter-spacing:-.01em;color:var(--ink);margin:12px 0 12px}
+h1 span{color:var(--cyan)}
+.header-lead{color:var(--dim);max-width:640px}
 
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 9999;
-    opacity: .4;
-  }
+.notice{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;
+  padding:16px 20px;font-size:14px;margin:18px 0 6px}
+.notice strong{color:var(--ink)}
 
-  /* ── NAV ── */
+.section,.credit-section{margin:46px 0 0}
+.section-heading,.section-tag{font:600 12px var(--mono);letter-spacing:.24em;text-transform:uppercase;color:var(--cyan);
+  padding-bottom:10px;border-bottom:1px solid var(--line);margin-bottom:18px}
+.credit-card{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--stripe,var(--cyan));
+  border-radius:0 12px 12px 0;padding:20px 24px;margin:14px 0}
+.credit-top{display:flex;align-items:flex-start;gap:14px;justify-content:space-between;flex-wrap:wrap;margin-bottom:8px}
+.credit-name,.credit-title{font:600 16px var(--body);color:var(--ink)}
+.credit-author,.credit-meta{font:500 12.5px var(--mono);color:var(--dim);margin-top:3px}
+.license-badge{font:600 10.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;padding:5px 10px;border-radius:6px;
+  border:1px solid var(--line);color:var(--dim);white-space:nowrap}
+.badge-mit{color:var(--cyan);border-color:rgba(0,224,214,.4);background:rgba(0,224,214,.07)}
+.badge-cc0{color:#46d39a;border-color:rgba(70,211,154,.4);background:rgba(70,211,154,.07)}
+.badge-comm{color:var(--candy);border-color:rgba(255,61,166,.4);background:rgba(255,61,166,.07)}
+.badge-bsd{color:var(--u,#7eb8ff);border-color:rgba(126,184,255,.4);background:rgba(126,184,255,.07)}
+.badge-perm{color:#a78bfa;border-color:rgba(167,139,250,.4);background:rgba(167,139,250,.07)}
+.badge-prop{color:var(--gold);border-color:rgba(255,217,107,.4);background:rgba(255,217,107,.07)}
+.credit-body p{margin:8px 0;font-size:14px}
+.scene-list{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.scene-tag{font:600 11px var(--mono);letter-spacing:.08em;color:var(--ink);background:rgba(255,255,255,.04);
+  border:1px solid var(--line);border-radius:999px;padding:5px 12px}
+.inline-link{color:var(--cyan)}
+.npm-table{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0}
+.npm-table th,.npm-table td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line)}
+.npm-table th{font:600 10.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
 
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 48px;
-    background: rgba(0,0,0,.6);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255,255,255,.06);
-    flex-wrap: wrap;
-  }
-
-  .nav-logo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 28px;
-    letter-spacing: .15em;
-    color: var(--gold);
-    text-decoration: none;
-    flex-shrink: 0;
-  }
-
-  .nav-toggle {
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    gap: 5px;
-    width: 36px; height: 36px;
-    background: none; border: none;
-    cursor: pointer; padding: 4px; flex-shrink: 0;
-  }
-  .nav-toggle span {
-    display: block; width: 22px; height: 2px;
-    background: var(--gold); border-radius: 2px;
-    transition: transform .25s, opacity .25s;
-    transform-origin: center;
-  }
-  .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  .nav-toggle.open span:nth-child(2) { opacity: 0; }
-  .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-  .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
-  .nav-links a {
-    font-family: 'Space Mono', monospace;
-    font-size: 11px; letter-spacing: .1em;
-    text-transform: uppercase; color: var(--dim, rgba(255,255,255,.45));
-    text-decoration: none; transition: color .2s;
-  }
-  .nav-links a:hover { color: var(--gold); }
-  .nav-links a.active { color: var(--cyan, #00e5ff); }
-
-  @media (max-width: 860px) {
-    nav { padding: 16px 24px; }
-    .nav-toggle { display: flex; }
-    .nav-links {
-      display: none; flex-direction: column; align-items: flex-start;
-      gap: 0; width: 100%; padding: 12px 0 16px;
-      border-top: 1px solid rgba(255,255,255,.06); margin-top: 12px;
-    }
-    .nav-links.open { display: flex; }
-    .nav-links li { width: 100%; }
-    .nav-links a {
-      display: block; padding: 10px 4px; font-size: 13px;
-      border-bottom: 1px solid rgba(255,255,255,.04);
-    }
-    .nav-links li:last-child a { border-bottom: none; }
-  }
-
-  /* ── HEADER ── */
-  header {
-    padding: 120px 0 56px;
-    border-bottom: 1px solid var(--border);
-    position: relative;
-    overflow: hidden;
-  }
-
-  header::before {
-    content: '';
-    position: absolute;
-    top: 0; right: 0;
-    width: 500px; height: 500px;
-    background: radial-gradient(circle, rgba(212,168,67,.05) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  .container { max-width: 860px; margin: 0 auto; padding: 0 40px; }
-
-  .label {
-    font-size: 10px;
-    letter-spacing: .2em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 16px;
-    display: block;
-  }
-
-  h1 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(28px, 5vw, 48px);
-    font-weight: 800;
-    color: var(--white);
-    line-height: 1.1;
-    margin-bottom: 20px;
-  }
-
-  h1 span { color: var(--gold); }
-
-  .header-lead {
-    font-size: 14px;
-    color: var(--muted);
-    max-width: 620px;
-    line-height: 1.8;
-  }
-
-  /* ── CONTENT ── */
-  main { padding: 64px 0 80px; }
-
-  .section { margin-bottom: 64px; }
-
-  .section-heading {
-    font-family: 'Syne', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: .2em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 24px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  /* Credit card */
-  .credit-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 28px 32px;
-    margin-bottom: 16px;
-    position: relative;
-  }
-
-  .credit-card::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 3px;
-    border-radius: 4px 0 0 4px;
-    background: var(--stripe, var(--gold));
-  }
-
-  .credit-top {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 16px;
-    flex-wrap: wrap;
-    margin-bottom: 12px;
-  }
-
-  .credit-name {
-    font-family: 'Syne', sans-serif;
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--white);
-  }
-
-  .credit-author {
-    font-size: 12px;
-    color: var(--muted);
-    margin-top: 2px;
-  }
-
-  .credit-author a {
-    color: var(--cyan);
-    text-decoration: none;
-  }
-  .credit-author a:hover { text-decoration: underline; }
-
-  .license-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 10px;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    padding: 4px 10px;
-    border-radius: 3px;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-
-  .badge-mit    { background: rgba(29,185,84,.12);  color: #1db954; border: 1px solid rgba(29,185,84,.3); }
-  .badge-bsd    { background: rgba(91,200,245,.12); color: #5bc8f5; border: 1px solid rgba(91,200,245,.3); }
-  .badge-cc0    { background: rgba(155,93,229,.12); color: #9b5de5; border: 1px solid rgba(155,93,229,.3); }
-  .badge-perm   { background: rgba(212,168,67,.12); color: #d4a843; border: 1px solid rgba(212,168,67,.3); }
-  .badge-comm   { background: rgba(255,45,138,.12); color: #ff2d8a; border: 1px solid rgba(255,45,138,.3); }
-  .badge-prop   { background: rgba(255,107,53,.12); color: #ff6b35; border: 1px solid rgba(255,107,53,.3); }
-
-  .credit-body {
-    font-size: 13px;
-    color: var(--text);
-    line-height: 1.75;
-  }
-
-  .credit-body a { color: var(--cyan); text-decoration: none; }
-  .credit-body a:hover { text-decoration: underline; }
-
-  .credit-body p { margin-bottom: 10px; }
-  .credit-body p:last-child { margin-bottom: 0; }
-
-  /* Scene list within a card */
-  .scene-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 12px;
-  }
-
-  .scene-tag {
-    font-size: 10px;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    background: rgba(255,255,255,.05);
-    border: 1px solid rgba(255,255,255,.1);
-    color: var(--muted);
-    padding: 3px 10px;
-    border-radius: 2px;
-  }
-
-  /* Notice box */
-  .notice {
-    background: rgba(212,168,67,.05);
-    border: 1px solid rgba(212,168,67,.2);
-    border-radius: 4px;
-    padding: 20px 24px;
-    margin-bottom: 32px;
-    font-size: 13px;
-    color: var(--text);
-    line-height: 1.75;
-  }
-
-  .notice strong { color: var(--gold); }
-
-  /* npm table */
-  .npm-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 12px;
-    margin-top: 8px;
-  }
-
-  .npm-table th {
-    text-align: left;
-    font-size: 10px;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    padding: 8px 12px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .npm-table td {
-    padding: 9px 12px;
-    border-bottom: 1px solid rgba(26,26,40,.8);
-    color: var(--text);
-    vertical-align: top;
-  }
-
-  .npm-table td:first-child { color: var(--white); font-weight: 700; }
-  .npm-table td:nth-child(2) { color: var(--muted); font-size: 11px; }
-  .npm-table td a { color: var(--cyan); text-decoration: none; }
-  .npm-table td a:hover { text-decoration: underline; }
-  .npm-table tr:last-child td { border-bottom: none; }
-
-  /* Footer */
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 32px 0;
-    text-align: center;
-    font-size: 11px;
-    color: var(--muted);
-  }
-
-  @media (max-width: 700px) {
-    nav { padding: 16px 20px; }
-    .nav-links { gap: 16px; }
-    .nav-links li:nth-child(n+5) { display: none; }
-    header { padding: 100px 0 40px; }
-    .container { padding: 0 20px; }
-    .credit-card { padding: 20px; }
-  }
+footer{margin-top:80px;border-top:1px solid var(--line);padding:30px 0 56px;font:500 12px var(--mono);color:var(--dim)}
+footer a{color:var(--dim)}
 </style>
 </head>
 <body>
 
-<nav>
-  <a href="index.html" class="nav-logo">IKANDY</a>
+<nav aria-label="Main">
+  <a href="index.html" class="nav-logo">IKAND<b>Y</b></a>
   <ul class="nav-links">
-    <li><a href="index.html#features">Features</a></li>
+    <li><a href="index.html#who">Who it's for</a></li>
     <li><a href="index.html#watch">Watch</a></li>
     <li><a href="guide.html">Guide</a></li>
     <li><a href="credits.html" class="active">Credits</a></li>
-    <li><a href="ikandy-smart-auto-prior-art.html">Smart Auto</a></li>
-    <li><a href="ikandy-ai-error-sandbox.html">AI Sandbox</a></li>
-    <li><a href="ikandy-vis-format.html">.vis Format</a></li>
-    <li><a href="privacy.html">Privacy</a></li>
-    <li><a href="license.html">License</a></li>
     <li><a href="index.html#download">Download</a></li>
   </ul>
 </nav>
@@ -395,7 +126,7 @@
           <span class="license-badge badge-mit">MIT License</span>
         </div>
         <div class="credit-body">
-          <p>The WebGL port of Winamp's legendary MilkDrop music visualizer. Butterchurn powers all 745+ MilkDrop preset renders in IKANDY, converting the legacy per-frame and per-pixel math equations into real-time WebGL shaders.</p>
+          <p>The WebGL port of Winamp's legendary MilkDrop music visualizer. Butterchurn powers all 868 MilkDrop preset renders in IKANDY, converting the legacy per-frame and per-pixel math equations into real-time WebGL shaders.</p>
           <p><a href="https://github.com/jberg/butterchurn" target="_blank" rel="noopener">github.com/jberg/butterchurn</a></p>
         </div>
       </div>
@@ -423,7 +154,7 @@
           <span class="license-badge badge-comm">Community</span>
         </div>
         <div class="credit-body">
-          <p>MilkDrop was created by Ryan Geiss in 2001 as a Winamp plugin. The 745+ presets bundled with IKANDY were contributed over more than two decades by Flexi, Martin, Geiss, and hundreds of community authors. These presets are redistributed in good faith consistent with their long-standing public availability across Winamp, foobar2000, MilkDrop2, projectM, Webamp, and Kodi.</p>
+          <p>MilkDrop was created by Ryan Geiss in 2001 as a Winamp plugin. The 868 presets bundled with IKANDY were contributed over more than two decades by Flexi, Martin, Geiss, and hundreds of community authors. These presets are redistributed in good faith consistent with their long-standing public availability across Winamp, foobar2000, MilkDrop2, projectM, Webamp, and Kodi.</p>
           <p>If you are a preset author and wish your work removed from IKANDY, please contact <a href="mailto:support@ikandy.app">support@ikandy.app</a>.</p>
         </div>
       </div>
@@ -851,7 +582,7 @@
 
 <footer>
   <div class="container">
-    © 2026 L&amp;R Entertainment LLC · IKANDY.app · <a href="mailto:support@ikandy.app" style="color:var(--muted);text-decoration:none;">support@ikandy.app</a>
+    © 2026 L&amp;R Entertainment LLC · IKANDY.app · <a href="mailto:support@ikandy.app">support@ikandy.app</a>
   </div>
 </footer>
 
