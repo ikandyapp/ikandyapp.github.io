@@ -1,0 +1,36 @@
+{
+  "_comment": "BYOK generation pricing manifest — the HOSTED SOURCE OF TRUTH, served at ikandy.app/pricing/byok-ai-pricing.json and fetched at runtime (see PRICING_MANIFEST_URL in the IKANDY app's src/ai/cost/cost-estimator.js). The app's baked FALLBACK_MANIFEST is the dated offline fallback used only if this file is unreachable. Prices are per MILLION tokens, USD. visionPerMTok prices image/vision input (these providers bill images as input tokens, so it equals inPerMTok); perImage is for any provider that bills flat per image (none here). To change prices: edit THIS file and redeploy the site, no app rebuild.",
+  "version": 1,
+  "lastUpdated": "2026-06-21",
+  "currency": "USD",
+  "providers": {
+    "claude": {
+      "_default": { "inPerMTok": 5.0, "outPerMTok": 25.0, "visionPerMTok": 5.0 },
+      "claude-opus-4-8": { "inPerMTok": 5.0, "outPerMTok": 25.0, "visionPerMTok": 5.0 },
+      "claude-opus-4-7": { "inPerMTok": 5.0, "outPerMTok": 25.0, "visionPerMTok": 5.0 },
+      "claude-opus-4-6": { "inPerMTok": 5.0, "outPerMTok": 25.0, "visionPerMTok": 5.0 },
+      "claude-sonnet-4-6": { "inPerMTok": 3.0, "outPerMTok": 15.0, "visionPerMTok": 3.0 },
+      "claude-sonnet-4-5": { "inPerMTok": 3.0, "outPerMTok": 15.0, "visionPerMTok": 3.0 },
+      "claude-haiku-4-5": { "inPerMTok": 1.0, "outPerMTok": 5.0, "visionPerMTok": 1.0 },
+      "claude-fable-5": { "inPerMTok": 10.0, "outPerMTok": 50.0, "visionPerMTok": 10.0 }
+    },
+    "openai": {
+      "_default": { "inPerMTok": 2.5, "outPerMTok": 10.0, "visionPerMTok": 2.5 },
+      "gpt-4o": { "inPerMTok": 2.5, "outPerMTok": 10.0, "visionPerMTok": 2.5 },
+      "gpt-4o-mini": { "inPerMTok": 0.15, "outPerMTok": 0.6, "visionPerMTok": 0.15 }
+    },
+    "gemini": {
+      "_default": { "inPerMTok": 0.3, "outPerMTok": 2.5, "visionPerMTok": 0.3 },
+      "gemini-2.5-flash": { "inPerMTok": 0.3, "outPerMTok": 2.5, "visionPerMTok": 0.3 },
+      "gemini-2.5-pro": { "inPerMTok": 1.25, "outPerMTok": 10.0, "visionPerMTok": 1.25 }
+    },
+    "xai": {
+      "_default": { "inPerMTok": 3.0, "outPerMTok": 15.0, "visionPerMTok": 3.0 },
+      "grok-4.3": { "inPerMTok": 3.0, "outPerMTok": 15.0, "visionPerMTok": 3.0 }
+    },
+    "ollama": {
+      "_default": { "inPerMTok": 0.0, "outPerMTok": 0.0, "visionPerMTok": 0.0 },
+      "llama3.1": { "inPerMTok": 0.0, "outPerMTok": 0.0, "visionPerMTok": 0.0 }
+    }
+  }
+}
