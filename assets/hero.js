@@ -28,7 +28,7 @@
   /* ---------------- state ---------------- */
   var S = {
     mode: 0,              // 0 molten, 1 fluid, 2 storm
-    react: 0.8, glow: 0.55, vol: 0.8, speed: 0.5, hue: 0.0,
+    react: 0.5, glow: 0.5, vol: 0.8, speed: 0.5, hue: 0.0,
     bass: 0, mid: 0, treb: 0,
     t: 0, ph: 12.0, last: 0, running: true, visible: true
   };
@@ -331,7 +331,12 @@
     });
     el.addEventListener('dblclick', function () { setV(def); });
     el.addEventListener('wheel', function (e) {
-      e.preventDefault(); setV(S[key] + (e.deltaY < 0 ? 0.04 : -0.04));
+      e.preventDefault();
+      // one notch = exactly 1, shift = 5; snap to whole units so every value,
+      // including 50, is reachable no matter where a drag left the knob
+      var stp = e.shiftKey ? 5 : 1;
+      var pct = Math.round(S[key] * 100) + (e.deltaY < 0 ? stp : -stp);
+      setV(pct / 100);
     }, { passive: false });
     el.addEventListener('keydown', function (e) {
       var step = e.shiftKey ? 0.02 : 0.05;
