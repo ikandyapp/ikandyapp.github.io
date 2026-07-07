@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Controls, themes, tips : IKANDY user guide</title>
+<meta name="description" content="Reactivity, seek and volume, three theme layers, UI size, workflow tips.">
+<link rel="icon" href="../icon.ico">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FEJJH5VN5S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-FEJJH5VN5S');
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders:wght@600;700;800&family=Archivo:wght@400;500;600;700&family=Martian+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/ik.css">
+<link rel="stylesheet" href="../assets/guide.css">
+<style>
+body{padding-top:var(--nav-h)}
+nav.rail{position:fixed!important;top:0!important;left:0!important;right:0!important;
+  display:block!important;padding:0!important;height:var(--nav-h)!important;
+  background:linear-gradient(180deg,#191920,var(--rail))!important;
+  border-bottom:1px solid #000!important;max-width:none!important}
+nav.rail .rail-in{max-width:var(--maxw);margin:0 auto;height:100%;padding:0 24px;
+  display:flex;align-items:center;gap:22px}
+footer.ftr{display:block!important;text-align:left!important;padding:0!important;margin:0!important;
+  background:var(--chassis-deep)!important;border-top:1px solid #000!important;max-width:none!important}
+.wiki-wrap{max-width:880px;margin:0 auto;padding:56px 24px 80px}
+.crumb{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink-3);margin-bottom:22px;display:flex;gap:10px;align-items:center}
+.crumb a{color:var(--ink-3)} .crumb a:hover{color:var(--vu-amber)}
+.crumb .hueled{width:7px;height:7px;border-radius:50%;background:var(--hue);
+  box-shadow:0 0 8px var(--hue)}
+.wiki-wrap h1{font-family:var(--display);font-weight:800;text-transform:uppercase;
+  font-size:clamp(34px,6vw,54px);line-height:1;margin:0 0 14px;letter-spacing:.01em}
+.wiki-lead{color:var(--ink-2);font-size:16.5px;max-width:640px;margin:0 0 34px}
+.wiki-wrap section{padding:34px 0 6px}
+.pn{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:56px}
+.pn a{border:1px solid var(--rule);border-radius:5px;padding:16px 18px;display:block;
+  background:var(--panel);transition:border-color .18s,transform .18s}
+.pn a:hover{text-decoration:none;border-color:var(--hue,#8f3512);transform:translateY(-2px)}
+.pn .lbl{font-family:var(--mono);font-size:9px;letter-spacing:.2em;color:var(--ink-3);
+  text-transform:uppercase}
+.pn .ttl{color:var(--ink);font-weight:600;margin-top:4px}
+.pn .nxt{text-align:right}
+@media(max-width:640px){.pn{grid-template-columns:1fr}}
+.wiki-note{border:1px solid var(--rule);border-left:3px solid var(--vu-amber);
+  border-radius:3px;background:var(--panel);padding:14px 18px;color:var(--ink-2);
+  font-size:14px;margin:26px 0}
+</style>
+</head>
+<body>
+<nav class="rail" aria-label="Main">
+  <div class="rail-in">
+    <a class="rail-logo" href="../index.html"><span class="rail-led" aria-hidden="true"></span>IKANDY</a>
+    <button class="rail-toggle" aria-label="Menu">MENU</button>
+    <div class="rail-links">
+      <a href="../index.html#rooms">Who it's for</a>
+      <a href="../index.html#spec">Engine</a>
+      <a href="../pricing/index.html">Pricing</a>
+      <a href="../guide.html" class="active">Guide</a>
+      <a href="../artists.html">Artists</a>
+    </div>
+    <a class="btn-steam rail-cta" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam</a>
+  </div>
+</nav>
+<main class="wiki-wrap" style="--hue:#33e0ff">
+  <div class="crumb"><a href="../guide.html">User guide</a><span>/</span><span class="hueled" aria-hidden="true"></span><span style="color:var(--ink-2)">Controls, themes, tips</span></div>
+  <h1>Controls, themes, tips</h1>
+  <p class="wiki-lead">Reactivity, seek and volume, three theme layers, UI size, workflow tips.</p>
+  <section>
+  <p class="section-tag">Controls &amp; Themes</p>
+  <h2>Tune The<br>Whole Thing</h2>
+  <p class="lead">The console is the control surface; this page is the small print around it.</p>
+
+  <h3>Reactivity, everywhere it matters</h3>
+  <p>Every engine carries a <strong>Reactivity</strong> control: turn it down and the visuals settle into calm ambient motion, turn it up and they snap to the beat. The master audio popover goes further with <strong>bass, mid, and treble drive</strong>, a Mix control, and the master intensity fader. Sensible defaults sit in the middle and work for most music.</p>
+
+  <h3>The seek bar</h3>
+  <p>The progress bar in the Playback zone is draggable: click and drag anywhere on it to seek, on every source that supports seeking. Volume lives right next to it for sources that allow control; anything that does not is greyed with a hint, not hidden.</p>
+
+  <h3>Three layers of theme</h3>
+  <ul class="include-list">
+    <li><strong>Console material</strong>: <strong>Black</strong>, a matte powder-coat, or <strong>Chrome</strong>, liquid metal with dark text. The whole board, browser, and playlist panel change together.</li>
+    <li><strong>Accent color</strong>: swatches like Gold, Neon, Forest, Ember, Lavender, and Crimson, plus a custom picker and a Random that surprises you. The accent runs through every knob, tab, and LED.</li>
+    <li><strong>Panel background</strong>: schemes including Slate and the light Cloud, plus a Panel Opacity slider so the chrome can float over the show as much or as little as you like.</li>
+  </ul>
+  <p>Add the <strong>Knobs / Sliders</strong> switch for how the board's controls render, and a <strong>UI size</strong> setting for readability at couch distance. Themes change the chrome, never the visuals.</p>
+
+  <h3>Set it once, forget it</h3>
+  <p>Everything persists across sessions: reactivity, theme, accent, source preferences, custom preset folders, the last-used look. Close it, reopen it, it is your rig.</p>
+
+  <h3>Workflow tips</h3>
+  <ul class="include-list">
+    <li><strong>Spotlight a scene or image</strong>: drop the MilkDrop opacity in its settings popover to 30 to 50 percent and let the layer underneath breathe through. Scenes and FX shaders run at the same time.</li>
+    <li><strong>For recording or streaming</strong>: classic lyric mode over a clean scene with a subtle analog FX reads beautifully on video, and the broadcast overlay switches keep the feed intentional.</li>
+    <li><strong>Lyrics need honest metadata</strong>: correct artist and title fetch the right words. If lyrics look wrong, check the tags on the playing source first.</li>
+  </ul>
+</section>
+  <div class="pn"><a href="ai-generation.html" style="--hue:#33e0ff"><span class="lbl">&larr; Previous</span><span class="ttl" style="display:block">AI scene generation</span></a><a class="nxt" href="troubleshooting.html" style="--hue:#ff3dd8"><span class="lbl">Next &rarr;</span><span class="ttl" style="display:block">Troubleshooting + help</span></a></div>
+</main>
+<footer class="ftr">
+  <div class="ftr-in">
+    <div class="ftr-grid">
+      <div>
+        <p class="ftr-brand">IKANDY</p>
+        <p class="ftr-note">Audio-reactive visualizer and VJ instrument for Windows 10 / 11. Runs fully offline.</p>
+        <p style="margin-top:18px"><a class="btn-steam" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam</a></p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="../guide.html">User guide</a></li>
+          <li><a href="../pricing/index.html">Pricing</a></li>
+          <li><a href="../artists.html">Artist program</a></li>
+          <li><a href="../arcade/index.html">Arcade</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Technical disclosures</h4>
+        <ul>
+          <li><a href="../ikandy-smart-auto-prior-art.html">Smart Auto prior art</a></li>
+          <li><a href="../ikandy-ai-error-sandbox.html">AI error sandbox</a></li>
+          <li><a href="../ikandy-vis-format.html">.vis format</a></li>
+          <li><a href="../scene-contract.html">Scene contract</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal + contact</h4>
+        <ul>
+          <li><a href="../privacy.html">Privacy policy</a></li>
+          <li><a href="../license.html">License</a></li>
+          <li><a href="../eula.html">EULA</a></li>
+          <li><a href="../credits.html">Credits</a></li>
+          <li><a href="mailto:support@ikandy.app">support@ikandy.app</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ftr-plate">
+      <span>MODEL IKANDY &middot; REV 2026.2 &middot; <span class="amber">SHIPS 2026-07-31 ON STEAM</span></span>
+      <span>Made by a human who likes loud music. &copy; 2026 L&amp;R Entertainment LLC &middot; IKANDY&trade;</span>
+    </div>
+  </div>
+</footer>
+<script src="../analytics.js" defer></script>
+<script>(function(){var t=document.querySelector('.rail-toggle'),l=document.querySelector('.rail-links');
+if(t&&l)t.addEventListener('click',function(){l.classList.toggle('open')});})();</script>
+</body>
+</html>

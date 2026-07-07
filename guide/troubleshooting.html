@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Troubleshooting + help : IKANDY user guide</title>
+<meta name="description" content="Fixes for the common snags, and where to reach a human.">
+<link rel="icon" href="../icon.ico">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FEJJH5VN5S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-FEJJH5VN5S');
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders:wght@600;700;800&family=Archivo:wght@400;500;600;700&family=Martian+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/ik.css">
+<link rel="stylesheet" href="../assets/guide.css">
+<style>
+body{padding-top:var(--nav-h)}
+nav.rail{position:fixed!important;top:0!important;left:0!important;right:0!important;
+  display:block!important;padding:0!important;height:var(--nav-h)!important;
+  background:linear-gradient(180deg,#191920,var(--rail))!important;
+  border-bottom:1px solid #000!important;max-width:none!important}
+nav.rail .rail-in{max-width:var(--maxw);margin:0 auto;height:100%;padding:0 24px;
+  display:flex;align-items:center;gap:22px}
+footer.ftr{display:block!important;text-align:left!important;padding:0!important;margin:0!important;
+  background:var(--chassis-deep)!important;border-top:1px solid #000!important;max-width:none!important}
+.wiki-wrap{max-width:880px;margin:0 auto;padding:56px 24px 80px}
+.crumb{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink-3);margin-bottom:22px;display:flex;gap:10px;align-items:center}
+.crumb a{color:var(--ink-3)} .crumb a:hover{color:var(--vu-amber)}
+.crumb .hueled{width:7px;height:7px;border-radius:50%;background:var(--hue);
+  box-shadow:0 0 8px var(--hue)}
+.wiki-wrap h1{font-family:var(--display);font-weight:800;text-transform:uppercase;
+  font-size:clamp(34px,6vw,54px);line-height:1;margin:0 0 14px;letter-spacing:.01em}
+.wiki-lead{color:var(--ink-2);font-size:16.5px;max-width:640px;margin:0 0 34px}
+.wiki-wrap section{padding:34px 0 6px}
+.pn{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:56px}
+.pn a{border:1px solid var(--rule);border-radius:5px;padding:16px 18px;display:block;
+  background:var(--panel);transition:border-color .18s,transform .18s}
+.pn a:hover{text-decoration:none;border-color:var(--hue,#8f3512);transform:translateY(-2px)}
+.pn .lbl{font-family:var(--mono);font-size:9px;letter-spacing:.2em;color:var(--ink-3);
+  text-transform:uppercase}
+.pn .ttl{color:var(--ink);font-weight:600;margin-top:4px}
+.pn .nxt{text-align:right}
+@media(max-width:640px){.pn{grid-template-columns:1fr}}
+.wiki-note{border:1px solid var(--rule);border-left:3px solid var(--vu-amber);
+  border-radius:3px;background:var(--panel);padding:14px 18px;color:var(--ink-2);
+  font-size:14px;margin:26px 0}
+</style>
+</head>
+<body>
+<nav class="rail" aria-label="Main">
+  <div class="rail-in">
+    <a class="rail-logo" href="../index.html"><span class="rail-led" aria-hidden="true"></span>IKANDY</a>
+    <button class="rail-toggle" aria-label="Menu">MENU</button>
+    <div class="rail-links">
+      <a href="../index.html#rooms">Who it's for</a>
+      <a href="../index.html#spec">Engine</a>
+      <a href="../pricing/index.html">Pricing</a>
+      <a href="../guide.html" class="active">Guide</a>
+      <a href="../artists.html">Artists</a>
+    </div>
+    <a class="btn-steam rail-cta" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam</a>
+  </div>
+</nav>
+<main class="wiki-wrap" style="--hue:#ff3dd8">
+  <div class="crumb"><a href="../guide.html">User guide</a><span>/</span><span class="hueled" aria-hidden="true"></span><span style="color:var(--ink-2)">Troubleshooting + help</span></div>
+  <h1>Troubleshooting + help</h1>
+  <p class="wiki-lead">Fixes for the common snags, and where to reach a human.</p>
+  <section>
+  <p class="section-tag">Troubleshooting</p>
+  <h2>When Things<br>Get Weird</h2>
+  <p class="lead">The most common issues people run into, and how to fix them. Click any item to expand.</p>
+
+  <div style="margin-top:32px;">
+
+    <details class="tr">
+      <summary>Now Playing says "Nothing is playing"</summary>
+      <div class="tr-body">
+        <p>Windows reports no app is currently registered as the SMTC owner. Simply <strong>start playing music in any app</strong> and the message will disappear within a second.</p>
+        <p>If music is playing and Now Playing still doesn&rsquo;t see it:</p>
+        <ul style="margin-top:8px;">
+          <li><strong>Firefox</strong> : open <code>about:config</code>, set <code>media.hardwaremediakeys.enabled</code> to <strong>true</strong>, restart Firefox.</li>
+          <li><strong>Chrome / Edge</strong> : check <code>chrome://flags</code> for <em>Hardware Media Key Handling</em> and set it to <strong>Enabled</strong>.</li>
+          <li><strong>Apple Music for Windows</strong> : can be inconsistent. Try pausing/resuming, or use a dedicated source instead.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="tr">
+      <summary>Now Playing controls grey out / Next or Previous don't work</summary>
+      <div class="tr-body">
+        <p>By design. IKANDY queries the active app for which transport commands it actually exposes: some apps (single YouTube videos, podcasts) don&rsquo;t advertise Next or Previous, so IKANDY locks those buttons.</p>
+        <p>Hover any greyed-out button to see the reason. For full transport, use a YouTube Mix or playlist URL, or Spotify desktop/web player.</p>
+      </div>
+    </details>
+
+    <details class="tr">
+      <summary>"Could not start audio source" / no audio reactivity</summary>
+      <div class="tr-body">
+        <p>Windows treats system audio capture the same as microphone access for privacy purposes.</p>
+        <p><strong>Fix:</strong> <strong>Settings → Privacy &amp; security → Microphone</strong> → toggle <strong>Let desktop apps access your microphone</strong> on. Restart IKANDY.</p>
+        <p>If that doesn&rsquo;t help, click <strong>🎤 Reconnect Audio</strong> in <strong>Settings (⚙) → SOURCE tab</strong>.</p>
+      </div>
+    </details>
+
+    <details class="tr">
+      <summary>Spotify playback controls are greyed out</summary>
+      <div class="tr-body">
+        <p>Spotify only allows external playback control for <strong>Premium</strong> subscribers: this is a Spotify API restriction. Free accounts still get track info, album art, and synced lyrics.</p>
+        <p>Premium users: the dedicated source works whether you&rsquo;re playing in Spotify desktop, web player, mobile, or a Spotify Connect speaker.</p>
+      </div>
+    </details>
+
+    <details class="tr">
+      <summary>Spotify won't connect / authentication fails</summary>
+      <div class="tr-body">
+        <p><strong>Most common cause:</strong> the Redirect URI in your Spotify Developer app doesn't exactly match the one IKANDY shows.</p>
+        <p>Open IKANDY's Spotify settings, copy the Redirect URI, then go to <code>developer.spotify.com/dashboard</code> → your app → Settings → paste it into <strong>Redirect URIs</strong>. Save, then retry Connect from IKANDY.</p>
+        <p>Also check: Client ID pasted with no leading/trailing spaces, Web API box is ticked.</p>
+      </div>
+    </details>
+
+    <details class="tr">
+      <summary>VLC won't connect</summary>
+      <div class="tr-body">
+        <p>Open <code>http://localhost:8080</code> in a browser: you should see the VLC web UI password prompt. If you don't, the web interface isn't enabled.</p>
+        <p><strong>Fix:</strong> VLC → <strong>Tools → Preferences</strong> → <strong>Show settings: All</strong> → <strong>Interface → Main interfaces</strong> → tick <strong>Web</strong>. Expand <strong>Lua</strong> below it and confirm a Lua HTTP password is set. Restart VLC.</p>
+      </div>
+    </details>
+
+    <details class="tr">
+      <summary>foobar2000 won't connect</summary>
+      <div class="tr-body">
+        <p>In foobar2000 → <strong>File → Preferences → Tools → Beefweb Remote Control</strong>, confirm <strong>Enable HTTP server</strong> is ticked.</p>
+        <p>Test by visiting <code>http://localhost:8880</code> in a browser. If you see the Beefweb player, the plugin is healthy. If you set a password, paste it exactly as configured in IKANDY's foobar2000 settings.</p>
+      </div>
+    </details>
+
+    <details class="tr">
+      <summary>Install or update problems through Steam</summary>
+      <div class="tr-body">
+        <p>Steam handles installing and updating IKANDY. If an install stalls or a launch fails after an update, use Steam's built-in repair: right-click IKANDY in your library, then <strong>Properties &rarr; Installed Files &rarr; Verify integrity of game files</strong>.</p>
+      </div>
+    </details>
+
+    <details class="tr">
+      <summary>Why doesn't IKANDY react to Spotify when I'm playing a game?</summary>
+      <div class="tr-body">
+        <p>By default IKANDY captures the entire system audio mix : game sound effects, Discord calls, notification pings, and Spotify all go in together. The visualizer reacts to whichever is loudest at any given moment, which is often the game.</p>
+        <p><strong>Fix: use Per-Process Capture.</strong> Open <strong>Settings (⚙) → SOURCE tab → Per-Process Capture</strong>, click <strong>Scan</strong>, then click <strong>Capture</strong> next to Spotify. IKANDY will lock on to Spotify&rsquo;s audio stream alone and ignore everything else. The game keeps running normally : IKANDY just doesn&rsquo;t listen to it.</p>
+      </div>
+    </details>
+
+    <details class="tr">
+      <summary>Visuals don't react to my music</summary>
+      <div class="tr-body">
+        <p>Confirm the source is connected: the console bar's Now Playing zone should show the track name and source.</p>
+        <p>Visuals react to <strong>system audio</strong> regardless of which source you&rsquo;ve picked for track info. If the visualizer is static while music plays, audio isn&rsquo;t reaching IKANDY. Click <strong>🎤 Reconnect Audio</strong> in <strong>Settings (⚙) → SOURCE tab</strong>, and check Windows microphone permissions.</p>
+      </div>
+    </details>
+
+    <details class="tr">
+      <summary>I have 5.1 or 7.1 surround sound and the visuals barely move</summary>
+      <div class="tr-body">
+        <p>IKANDY captures a stereo loopback stream. With 5.1/7.1 configured, Windows mixes most music into rear/centre/sub channels, leaving the front L/R that IKANDY captures very quiet.</p>
+        <p><strong>Fix:</strong> set your default output to <strong>Stereo (2 channel)</strong>:</p>
+        <ol style="margin-top:8px;list-style-position:inside;">
+          <li>Right-click speaker icon → <strong>Sounds → Playback</strong> tab.</li>
+          <li>Right-click your active output → <strong>Configure Speakers</strong> → choose <strong>Stereo</strong>.</li>
+          <li>Right-click again → <strong>Properties → Advanced</strong> → pick a 2-channel format from <strong>Default Format</strong>.</li>
+          <li>Apply, then in IKANDY hit <strong>🎤 Reconnect Audio</strong> in <strong>Settings (⚙) → SOURCE tab</strong>.</li>
+        </ol>
+      </div>
+    </details>
+
+    <details class="tr">
+      <summary>Lyrics aren't showing up</summary>
+      <div class="tr-body">
+        <p>Lyrics come from <a href="https://lrclib.net" target="_blank" style="color:var(--ice);">LRCLIB</a>, which is community-maintained. Very new or obscure tracks may not have an entry. Search <code>lrclib.net</code> directly to confirm.</p>
+        <p>Also check: if your local files have incorrect artist/title tags, lyrics will look up the wrong song.</p>
+      </div>
+    </details>
+
+    <details class="tr">
+      <summary>Performance is choppy or stuttering</summary>
+      <div class="tr-body">
+        <p>IKANDY is GPU-bound. If your GPU is busy with another task, frame rate will suffer.</p>
+        <p>Try: lower <strong>Reactivity</strong> in the master audio popover, drop the MilkDrop <strong>opacity</strong> in its settings popover, or step the <strong>Quality tier</strong> down; pick a simpler scene (Spectrum or Aurora instead of Starfield); or open the <strong>IMAGE tab</strong> and disable FX shaders to remove a full-frame post-process pass.</p>
+        <p>On laptops, make sure IKANDY is using the discrete GPU: <strong>Settings → System → Display → Graphics</strong>.</p>
+      </div>
+    </details>
+
+    <details class="tr">
+      <summary>The app won't launch / crashes on startup</summary>
+      <div class="tr-body">
+        <p>Try a clean reinstall: uninstall via Settings → Apps, delete <code>%APPDATA%\IKANDY</code>, then reinstall the latest build.</p>
+        <p>If it still crashes, email <a href="mailto:support@ikandy.app" style="color:var(--ice);">support@ikandy.app</a> with your Windows version, GPU, and any error message shown.</p>
+      </div>
+    </details>
+
+    <details class="tr" id="settings-location">
+      <summary>Where are my settings stored?</summary>
+      <div class="tr-body">
+        <p>IKANDY stores all user data in the Electron <code>userData</code> folder:</p>
+        <ul style="margin-top:8px;">
+          <li><strong>Windows:</strong> <code>%APPDATA%\IKANDY</code> (paste into Explorer address bar)</li>
+          <li><strong>macOS:</strong> <code>~/Library/Application Support/IKANDY</code></li>
+        </ul>
+        <p style="margin-top:8px;">Files stored there include your Spotify tokens (encrypted via Windows DPAPI / macOS Keychain), source preferences, preset reactivity scores, favorites, hidden presets, and thumbnail cache.</p>
+        <p style="margin-top:8px;"><strong>Uninstall note:</strong> the standard NSIS uninstaller on Windows does <em>not</em> delete <code>%APPDATA%\IKANDY</code>. Your settings, favorites, and cached thumbnails survive an uninstall and are picked up automatically when you reinstall. To fully reset IKANDY, delete that folder manually after uninstalling.</p>
+      </div>
+    </details>
+
+  </div>
+</section><section>
+  <p class="section-tag">Get Help</p>
+  <h2>Stuck? Reach Out.</h2>
+  <p class="lead">Discord for chat and quick answers, email for bugs, coffee if it made your day.</p>
+  <div class="help-links" style="justify-content:flex-start">
+    <a href="https://discord.gg/qnnx6BBp" target="_blank" rel="noopener" class="help-link">&#128172; Discord</a>
+    <a href="mailto:support@ikandy.app?subject=IKANDY bug report" class="help-link">&#128027; Report a bug</a>
+    <a href="https://buymeacoffee.com/IKANDY" target="_blank" rel="noopener" class="help-link">&#9749; Support</a>
+  </div>
+</section>
+  <div class="pn"><a href="controls.html" style="--hue:#33e0ff"><span class="lbl">&larr; Previous</span><span class="ttl" style="display:block">Controls, themes, tips</span></a><span></span></div>
+</main>
+<footer class="ftr">
+  <div class="ftr-in">
+    <div class="ftr-grid">
+      <div>
+        <p class="ftr-brand">IKANDY</p>
+        <p class="ftr-note">Audio-reactive visualizer and VJ instrument for Windows 10 / 11. Runs fully offline.</p>
+        <p style="margin-top:18px"><a class="btn-steam" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam</a></p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="../guide.html">User guide</a></li>
+          <li><a href="../pricing/index.html">Pricing</a></li>
+          <li><a href="../artists.html">Artist program</a></li>
+          <li><a href="../arcade/index.html">Arcade</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Technical disclosures</h4>
+        <ul>
+          <li><a href="../ikandy-smart-auto-prior-art.html">Smart Auto prior art</a></li>
+          <li><a href="../ikandy-ai-error-sandbox.html">AI error sandbox</a></li>
+          <li><a href="../ikandy-vis-format.html">.vis format</a></li>
+          <li><a href="../scene-contract.html">Scene contract</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal + contact</h4>
+        <ul>
+          <li><a href="../privacy.html">Privacy policy</a></li>
+          <li><a href="../license.html">License</a></li>
+          <li><a href="../eula.html">EULA</a></li>
+          <li><a href="../credits.html">Credits</a></li>
+          <li><a href="mailto:support@ikandy.app">support@ikandy.app</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ftr-plate">
+      <span>MODEL IKANDY &middot; REV 2026.2 &middot; <span class="amber">SHIPS 2026-07-31 ON STEAM</span></span>
+      <span>Made by a human who likes loud music. &copy; 2026 L&amp;R Entertainment LLC &middot; IKANDY&trade;</span>
+    </div>
+  </div>
+</footer>
+<script src="../analytics.js" defer></script>
+<script>(function(){var t=document.querySelector('.rail-toggle'),l=document.querySelector('.rail-links');
+if(t&&l)t.addEventListener('click',function(){l.classList.toggle('open')});})();</script>
+</body>
+</html>

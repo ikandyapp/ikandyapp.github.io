@@ -9,25 +9,28 @@
   gtag('js', new Date());
   gtag('config', 'G-FEJJH5VN5S');
 </script>
-<script defer src="/analytics.js"></script>
+<script defer src="analytics.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IKANDY &mdash; Beta License Agreement</title>
+<title>IKANDY : License Agreement</title>
 <meta name="description" content="The IKANDY Beta Software License Agreement. Read before installing.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=Space+Mono&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders:wght@600;700;800&family=Archivo:wght@400;500;600;700&family=Martian+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ik.css">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --gold: #d4a843;
-  --neon: #ff2d8a;
-  --green: #1db954;
-  --ice: #5bc8f5;
-  --bg: #04040a;
-  --bg2: #08080f;
-  --txt: #e8e8e8;
+  --gold: #ff5a1f;
+  --neon: #ff5a1f;
+  --green: #46d96b;
+  --ice: #ff8a52;
+  --bg: #0e0e11;
+  --bg2: #17171b;
+  --txt: #eae5d9;
   --dim: rgba(255,255,255,.45);
 }
 
@@ -36,7 +39,7 @@ html { scroll-behavior: smooth; }
 body {
   background: var(--bg);
   color: var(--txt);
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Archivo', sans-serif;
   overflow-x: hidden;
   cursor: crosshair;
   line-height: 1.7;
@@ -68,7 +71,7 @@ nav {
 }
 
 .nav-logo {
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: 'Big Shoulders', sans-serif;
   font-size: 28px;
   letter-spacing: .15em;
   color: var(--gold);
@@ -97,7 +100,7 @@ nav {
 
 .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
 .nav-links a {
-  font-family: 'Space Mono', monospace;
+  font-family: 'Martian Mono', monospace;
   font-size: 11px; letter-spacing: .1em;
   text-transform: uppercase; color: var(--dim);
   text-decoration: none; transition: color .2s;
@@ -124,7 +127,7 @@ nav {
 }
 
 .page-tag {
-  font-family: 'Space Mono', monospace;
+  font-family: 'Martian Mono', monospace;
   font-size: 11px;
   letter-spacing: .25em;
   text-transform: uppercase;
@@ -133,11 +136,11 @@ nav {
 }
 
 .page-title {
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: 'Big Shoulders', sans-serif;
   font-size: clamp(56px, 9vw, 120px);
   line-height: .9;
   letter-spacing: .04em;
-  background: linear-gradient(135deg, #fff 0%, var(--gold) 50%, var(--ice) 100%);
+  background: linear-gradient(135deg, #eae5d9 0%, var(--gold) 50%, var(--ice) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -152,7 +155,7 @@ nav {
 }
 
 .meta-line {
-  font-family: 'Space Mono', monospace;
+  font-family: 'Martian Mono', monospace;
   font-size: 11px;
   letter-spacing: .15em;
   text-transform: uppercase;
@@ -171,7 +174,7 @@ main {
 section.policy { margin-bottom: 64px; }
 
 .section-tag {
-  font-family: 'Space Mono', monospace;
+  font-family: 'Martian Mono', monospace;
   font-size: 11px;
   letter-spacing: .2em;
   text-transform: uppercase;
@@ -180,7 +183,7 @@ section.policy { margin-bottom: 64px; }
 }
 
 h2 {
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: 'Big Shoulders', sans-serif;
   font-size: clamp(32px, 5vw, 48px);
   line-height: 1;
   letter-spacing: .04em;
@@ -189,7 +192,7 @@ h2 {
 }
 
 h3 {
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: 'Big Shoulders', sans-serif;
   font-size: 22px;
   letter-spacing: .08em;
   color: var(--ice);
@@ -209,7 +212,7 @@ a.inline-link {
   border-bottom: 1px solid rgba(212,168,67,.3);
   transition: color .2s, border-color .2s;
 }
-a.inline-link:hover { color: #fff; border-bottom-color: #fff; }
+a.inline-link:hover { color: #eae5d9; border-bottom-color: #eae5d9; }
 
 .callout {
   padding: 28px 32px;
@@ -219,7 +222,7 @@ a.inline-link:hover { color: #fff; border-bottom-color: #fff; }
 }
 
 .callout-title {
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: 'Big Shoulders', sans-serif;
   font-size: 20px;
   letter-spacing: .08em;
   color: var(--gold);
@@ -235,7 +238,7 @@ a.inline-link:hover { color: #fff; border-bottom-color: #fff; }
   margin-bottom: 48px;
 }
 .warn-block p { font-size: 15px; color: rgba(255,255,255,.8); margin: 0; }
-.warn-block strong { color: #fff; }
+.warn-block strong { color: #eae5d9; }
 
 footer {
   border-top: 1px solid rgba(255,255,255,.06);
@@ -244,7 +247,7 @@ footer {
 }
 
 .footer-logo {
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: 'Big Shoulders', sans-serif;
   font-size: 24px;
   letter-spacing: .15em;
   color: var(--gold);
@@ -261,7 +264,7 @@ footer {
 }
 
 .footer-links a {
-  font-family: 'Space Mono', monospace;
+  font-family: 'Martian Mono', monospace;
   font-size: 11px;
   letter-spacing: .1em;
   text-transform: uppercase;
@@ -272,7 +275,7 @@ footer {
 .footer-links a:hover { color: var(--gold); }
 
 .footer-copy {
-  font-family: 'Space Mono', monospace;
+  font-family: 'Martian Mono', monospace;
   font-size: 10px;
   letter-spacing: .15em;
   color: var(--dim);
@@ -286,26 +289,40 @@ footer {
   .callout { padding: 20px 22px; }
 }
 </style>
+
+<style>
+/* THE RIG reskin overrides (appended after page styles) */
+body{background:var(--chassis)!important;color:var(--ink);padding-top:var(--nav-h)!important}
+h1,h2{font-weight:800!important}
+h3{font-weight:700!important}
+code,pre,kbd{font-family:var(--mono)}
+/* neutralize legacy element-level nav/footer rules leaking into the shell */
+nav.rail{position:fixed!important;top:0!important;left:0!important;right:0!important;
+  display:block!important;padding:0!important;margin:0!important;height:var(--nav-h)!important;
+  background:linear-gradient(180deg,#191920,var(--rail))!important;
+  border-bottom:1px solid #000!important;backdrop-filter:none!important;max-width:none!important}
+nav.rail .rail-in{max-width:var(--maxw);margin:0 auto;height:100%;padding:0 24px;
+  display:flex;align-items:center;gap:22px}
+footer.ftr{display:block!important;text-align:left!important;padding:0!important;margin:0!important;
+  background:var(--chassis-deep)!important;border-top:1px solid #000!important;max-width:none!important}
+footer.ftr a{text-decoration:none}
+</style>
 </head>
 <body>
 
-<nav>
-  <a href="index.html" class="nav-logo">IKANDY</a>
-  <button class="nav-toggle" aria-label="Toggle navigation" onclick="this.classList.toggle('open');document.querySelector('.nav-links').classList.toggle('open')">
-    <span></span><span></span><span></span>
-  </button>
-  <ul class="nav-links">
-    <li><a href="index.html#features">Features</a></li>
-    <li><a href="index.html#watch">Watch</a></li>
-    <li><a href="guide.html">Guide</a></li>
-    <li><a href="credits.html">Credits</a></li>
-    <li><a href="ikandy-smart-auto-prior-art.html">Smart Auto</a></li>
-    <li><a href="ikandy-ai-error-sandbox.html">AI Sandbox</a></li>
-    <li><a href="ikandy-vis-format.html">.vis Format</a></li>
-    <li><a href="privacy.html">Privacy</a></li>
-    <li><a href="license.html" class="active">License</a></li>
-    <li><a href="index.html#download">Download</a></li>
-  </ul>
+<nav class="rail" aria-label="Main">
+  <div class="rail-in">
+    <a class="rail-logo" href="index.html"><span class="rail-led" aria-hidden="true"></span>IKANDY</a>
+    <button class="rail-toggle" aria-label="Menu">MENU</button>
+    <div class="rail-links">
+      <a href="index.html#rooms">Who it's for</a>
+      <a href="index.html#spec">Engine</a>
+      <a href="pricing/index.html">Pricing</a>
+      <a href="guide.html">Guide</a>
+      <a href="artists.html">Artists</a>
+    </div>
+    <a class="btn-steam rail-cta" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam</a>
+  </div>
 </nav>
 
 <header class="page-header">
@@ -324,18 +341,27 @@ footer {
 <section class="policy">
   <p class="section-tag">01</p>
   <h2>Grant of License</h2>
-  <p>L&amp;R Entertainment LLC (&ldquo;Company&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;) grants you a personal, non-exclusive, non-transferable, revocable license to install and use IKANDY (&ldquo;Software&rdquo;) on Windows computers that you own or control, for personal, non-commercial purposes during the beta period.</p>
-  <p>This license does not include the right to:</p>
-  <ul>
-    <li>Sublicense, sell, resell, or commercially distribute the Software</li>
-    <li>Use the Software as part of a paid product or service without written permission from the Company</li>
-    <li>Remove or alter any copyright, trademark, or proprietary notices</li>
-  </ul>
-</section>
+<div class="policy">
+<p>L&amp;R Entertainment LLC ("Company", "we", "us") grants you a personal, non-exclusive, non-transferable, revocable license to install and run IKANDY ("the Software") on Windows computers that you own or control, for use with the Steam account that holds the purchase. There is no fixed install limit: install on as many of your own machines as you like. Concurrent use follows Steam's account model, which permits one active session per account at a time. The features available to you correspond to the tier you purchased.</p>
+<p>Using the Software to perform, stream, or record, including commercially, is expressly permitted; see Performance and Output Rights below. This license does not include the right to:</p>
+<ul>
+<li>Sublicense, sell, resell, rent, or redistribute the Software itself, or bundle it into another product or service offered to others</li>
+<li>Extract, copy, or repackage the Software's included scenes, presets, shaders, images, or other bundled assets for use outside the Software</li>
+<li>Circumvent, disable, or interfere with ownership verification or tier checks</li>
+<li>Remove or alter any copyright, trademark, or proprietary notices</li>
+</ul>
+</div>
 
-<section class="policy">
-  <p class="section-tag">02</p>
+<p class="section-tag">Steam</p>
+<h2>Steam Distribution</h2>
+<div class="policy">
+<p>Retail builds of IKANDY are sold and delivered through Steam. Your purchase is a transaction with Valve and is governed by the <a href="https://store.steampowered.com/subscriber_agreement/" target="_blank" rel="noopener" class="inline-link">Steam Subscriber Agreement</a>; refunds are handled through Steam under Valve's refund policy. A Steam account is required to install and run retail builds. The Software uses Steamworks to confirm ownership and to unlock the tier you purchased, and receives your numeric Steam account ID for that purpose as described in the <a href="privacy.html" class="inline-link">Privacy Policy</a>.</p>
+<p><strong>Offline use.</strong> The Software does not require an internet connection to run or perform. Ownership and tier are verified locally through the Steam client, Steam's offline mode is supported, and once verified your license is cached on the machine so a show never depends on the venue's internet. There is no periodic online check and no time limit on offline use.</p>
+</div>
+
+<p class="section-tag">02</p>
   <h2>Beta Software Disclaimer</h2>
+<div class="policy"><p><em>This section applies to pre-release (beta) builds.</em></p></div>
   <p>THE SOFTWARE IS PROVIDED AS BETA SOFTWARE. It is incomplete, may contain bugs, and may change significantly before final release. Features may be added, modified, or removed without notice.</p>
   <p>By accepting this agreement you acknowledge that:</p>
   <ul>
@@ -359,7 +385,19 @@ footer {
 </section>
 
 <section class="policy">
-  <p class="section-tag">04</p>
+  <p class="section-tag">Outputs</p>
+<h2>Performance &amp; Output Rights</h2>
+<div class="policy">
+<p>Everything the Software renders for you belongs to you. You may display, perform, stream, record, and publish the visual output of the Software, for any purpose including commercial purposes such as paid performances, venue installations, streams, and video productions, with no royalty and no additional permission. This covers the output; it does not transfer ownership of the Software or its bundled assets, and it does not grant use of the IKANDY name or logo as an endorsement.</p>
+</div>
+
+<p class="section-tag">Your Content</p>
+<h2>Your Content</h2>
+<div class="policy">
+<p>Scenes, shaders, images, lyrics files, and other content you create with or import into the Software remain yours. We claim no ownership of them. Features that share your content with anyone else act only when you invoke them, and sharing is governed by the terms of the destination you choose (for example, Steam Workshop is governed by Valve's terms).</p>
+</div>
+
+<p class="section-tag">04</p>
   <h2>Data Collection &amp; Privacy</h2>
   <p>By using the Software, you acknowledge receipt of our <a href="privacy.html" class="inline-link">Privacy Policy</a>. Key points:</p>
   <ul>
@@ -371,7 +409,10 @@ footer {
 </section>
 
 <section class="policy">
-  <p class="section-tag">05</p>
+  <div class="policy">
+<p>In retail (Steam) builds, crash diagnostics and usage analytics are enabled by default and can be disabled at any time in Settings &rarr; Privacy. Usage analytics include feature usage events, session information, and a coarse region (country level) derived from your connection, associated with your Steam account ID. Crash reports are sanitized on your device before transmission. The full detail lives in the <a href="privacy.html" class="inline-link">Privacy Policy</a>, which controls where the two documents describe data practices differently, except where this Agreement is expressly stated to govern.</p>
+</div>
+<p class="section-tag">05</p>
   <h2>Third-Party Services</h2>
   <p>The Software integrates with optional third-party services including Spotify, foobar2000, VLC, and LRCLIB. Use of these services is governed by their respective terms of service. We are not affiliated with, endorsed by, or responsible for any third-party service.</p>
   <p>Spotify integration uses a Bring Your Own Key (BYOK) model. You are responsible for compliance with Spotify&rsquo;s Developer Terms of Service when registering and using your own Spotify application credentials.</p>
@@ -395,7 +436,7 @@ footer {
   <p class="section-tag">08</p>
   <h2>Termination</h2>
   <p>This Agreement is effective until terminated. Your rights terminate automatically if you fail to comply with any of its terms. Upon termination, you must cease all use of the Software and delete all copies in your possession.</p>
-  <p>We may terminate beta access or modify the Software at any time without notice, including by requiring acceptance of an updated agreement before continued use.</p>
+  <p>We may modify the Software, and may terminate beta programs, at any time without notice, including by requiring acceptance of an updated agreement before continued use.</p>
 </section>
 
 <section class="policy">
@@ -427,17 +468,53 @@ footer {
 
 </main>
 
-<footer>
-  <div class="footer-logo">IKANDY</div>
-  <ul class="footer-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="guide.html">User Guide</a></li>
-    <li><a href="privacy.html">Privacy</a></li>
-    <li><a href="credits.html">Credits</a></li>
-    <li><a href="mailto:support@ikandy.app">Contact</a></li>
-  </ul>
-  <div class="footer-copy">&copy; 2026 L&amp;R Entertainment LLC &middot; IKANDY.app</div>
+<footer class="ftr">
+  <div class="ftr-in">
+    <div class="ftr-grid">
+      <div>
+        <p class="ftr-brand">IKANDY</p>
+        <p class="ftr-note">Audio-reactive visualizer and VJ instrument for Windows 10 / 11. Runs fully offline.</p>
+        <p style="margin-top:18px"><a class="btn-steam" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam</a></p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="guide.html">User guide</a></li>
+          <li><a href="pricing/index.html">Pricing</a></li>
+          <li><a href="artists.html">Artist program</a></li>
+          <li><a href="arcade/index.html">Arcade</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Technical disclosures</h4>
+        <ul>
+          <li><a href="ikandy-smart-auto-prior-art.html">Smart Auto prior art</a></li>
+          <li><a href="ikandy-ai-error-sandbox.html">AI error sandbox</a></li>
+          <li><a href="ikandy-vis-format.html">.vis format</a></li>
+          <li><a href="scene-contract.html">Scene contract</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal + contact</h4>
+        <ul>
+          <li><a href="privacy.html">Privacy policy</a></li>
+          <li><a href="license.html">License</a></li>
+          <li><a href="eula.html">EULA</a></li>
+          <li><a href="credits.html">Credits</a></li>
+          <li><a href="mailto:support@ikandy.app">support@ikandy.app</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ftr-plate">
+      <span>MODEL IKANDY &middot; REV 2026.2 &middot; <span class="amber">SHIPS 2026-07-31 ON STEAM</span></span>
+      <span>Made by a human who likes loud music. &copy; 2026 L&amp;R Entertainment LLC &middot; IKANDY&trade;</span>
+    </div>
+  </div>
 </footer>
+<script>
+(function(){var t=document.querySelector('.rail-toggle'),l=document.querySelector('.rail-links');
+if(t&&l)t.addEventListener('click',function(){l.classList.toggle('open')});})();
+</script>
 
 <script>
 document.querySelector('.nav-toggle')?.addEventListener('click', function() {

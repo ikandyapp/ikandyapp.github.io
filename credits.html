@@ -9,31 +9,34 @@
   gtag('js', new Date());
   gtag('config', 'G-FEJJH5VN5S');
 </script>
-<script defer src="/analytics.js"></script>
+<script defer src="analytics.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>IKANDY — Credits &amp; Open Source Notices</title>
 <meta name="description" content="Every third-party component, library, shader, and preset collection used in IKANDY, with licenses and authors.">
-<link rel="icon" href="/icon.ico">
+<link rel="icon" href="icon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders:wght@600;700;800&family=Archivo:wght@400;500;600;700&family=Martian+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ik.css">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --stage:#06080b; --panel:#0c1217; --line:#1b252d;
-  --ink:#eef4f6; --dim:#8696a1; --text:#c6d2da;
-  --cyan:#00e0d6; --candy:#ff3da6; --gold:#ffd96b;
-  --muted:#8696a1; --border:#1b252d;
+  --stage:#0e0e11; --panel:#17171b; --line:#282830;
+  --ink:#eae5d9; --dim:#8a8371; --text:#b5ae9c;
+  --cyan:#ff5a1f; --candy:#ff5a1f; --gold:#ff8a52;
+  --muted:#8a8371; --border:#282830;
   --mono:ui-monospace,'Cascadia Code',Consolas,Menlo,monospace;
   --body:-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
-  --disp:'Unbounded',var(--body);
+  --disp:'Big Shoulders',var(--body);
 }
 body{background:var(--stage);color:var(--text);font:15px/1.7 var(--body);-webkit-font-smoothing:antialiased}
 a{color:var(--cyan);text-decoration:none}
 a:hover{text-decoration:underline}
 :focus-visible{outline:2px solid var(--cyan);outline-offset:2px;border-radius:4px}
-::selection{background:var(--candy);color:#fff}
+::selection{background:var(--candy);color:#eae5d9}
 
 nav{position:fixed;inset:0 0 auto;z-index:40;display:flex;align-items:center;gap:22px;padding:14px 22px;
   background:rgba(6,8,11,.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
@@ -67,10 +70,10 @@ h1 span{color:var(--cyan)}
 .license-badge{font:600 10.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;padding:5px 10px;border-radius:6px;
   border:1px solid var(--line);color:var(--dim);white-space:nowrap}
 .badge-mit{color:var(--cyan);border-color:rgba(0,224,214,.4);background:rgba(0,224,214,.07)}
-.badge-cc0{color:#46d39a;border-color:rgba(70,211,154,.4);background:rgba(70,211,154,.07)}
+.badge-cc0{color:#46d96b;border-color:rgba(70,211,154,.4);background:rgba(70,211,154,.07)}
 .badge-comm{color:var(--candy);border-color:rgba(255,61,166,.4);background:rgba(255,61,166,.07)}
-.badge-bsd{color:var(--u,#7eb8ff);border-color:rgba(126,184,255,.4);background:rgba(126,184,255,.07)}
-.badge-perm{color:#a78bfa;border-color:rgba(167,139,250,.4);background:rgba(167,139,250,.07)}
+.badge-bsd{color:var(--u,#ff8a52);border-color:rgba(126,184,255,.4);background:rgba(126,184,255,.07)}
+.badge-perm{color:#ff8a52;border-color:rgba(167,139,250,.4);background:rgba(167,139,250,.07)}
 .badge-prop{color:var(--gold);border-color:rgba(255,217,107,.4);background:rgba(255,217,107,.07)}
 .credit-body p{margin:8px 0;font-size:14px}
 .scene-list{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
@@ -84,18 +87,40 @@ h1 span{color:var(--cyan)}
 footer{margin-top:80px;border-top:1px solid var(--line);padding:30px 0 56px;font:500 12px var(--mono);color:var(--dim)}
 footer a{color:var(--dim)}
 </style>
+
+<style>
+/* THE RIG reskin overrides (appended after page styles) */
+body{background:var(--chassis)!important;color:var(--ink);padding-top:var(--nav-h)!important}
+h1,h2{font-weight:800!important}
+h3{font-weight:700!important}
+code,pre,kbd{font-family:var(--mono)}
+/* neutralize legacy element-level nav/footer rules leaking into the shell */
+nav.rail{position:fixed!important;top:0!important;left:0!important;right:0!important;
+  display:block!important;padding:0!important;margin:0!important;height:var(--nav-h)!important;
+  background:linear-gradient(180deg,#191920,var(--rail))!important;
+  border-bottom:1px solid #000!important;backdrop-filter:none!important;max-width:none!important}
+nav.rail .rail-in{max-width:var(--maxw);margin:0 auto;height:100%;padding:0 24px;
+  display:flex;align-items:center;gap:22px}
+footer.ftr{display:block!important;text-align:left!important;padding:0!important;margin:0!important;
+  background:var(--chassis-deep)!important;border-top:1px solid #000!important;max-width:none!important}
+footer.ftr a{text-decoration:none}
+</style>
 </head>
 <body>
 
-<nav aria-label="Main">
-  <a href="index.html" class="nav-logo">IKAND<b>Y</b></a>
-  <ul class="nav-links">
-    <li><a href="index.html#who">Who it's for</a></li>
-    <li><a href="index.html#watch">Watch</a></li>
-    <li><a href="guide.html">Guide</a></li>
-    <li><a href="credits.html" class="active">Credits</a></li>
-    <li><a href="index.html#download">Download</a></li>
-  </ul>
+<nav class="rail" aria-label="Main">
+  <div class="rail-in">
+    <a class="rail-logo" href="index.html"><span class="rail-led" aria-hidden="true"></span>IKANDY</a>
+    <button class="rail-toggle" aria-label="Menu">MENU</button>
+    <div class="rail-links">
+      <a href="index.html#rooms">Who it's for</a>
+      <a href="index.html#spec">Engine</a>
+      <a href="pricing/index.html">Pricing</a>
+      <a href="guide.html">Guide</a>
+      <a href="artists.html">Artists</a>
+    </div>
+    <a class="btn-steam rail-cta" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam</a>
+  </div>
 </nav>
 
 <header>
@@ -117,7 +142,7 @@ footer a{color:var(--dim)}
     <div class="section">
       <div class="section-heading">Visualizer Engine</div>
 
-      <div class="credit-card" style="--stripe: #1db954;">
+      <div class="credit-card" style="--stripe: #46d96b;">
         <div class="credit-top">
           <div>
             <div class="credit-name">Butterchurn</div>
@@ -131,7 +156,7 @@ footer a{color:var(--dim)}
         </div>
       </div>
 
-      <div class="credit-card" style="--stripe: #1db954;">
+      <div class="credit-card" style="--stripe: #46d96b;">
         <div class="credit-top">
           <div>
             <div class="credit-name">Butterchurn Presets</div>
@@ -145,7 +170,7 @@ footer a{color:var(--dim)}
         </div>
       </div>
 
-      <div class="credit-card" style="--stripe: #ff2d8a;">
+      <div class="credit-card" style="--stripe: #ff5a1f;">
         <div class="credit-top">
           <div>
             <div class="credit-name">MilkDrop Preset Library</div>
@@ -164,7 +189,7 @@ footer a{color:var(--dim)}
     <div class="section">
       <div class="section-heading">3D Raymarched Scenes</div>
 
-      <div class="credit-card" style="--stripe: #9b5de5;">
+      <div class="credit-card" style="--stripe: #ff5a1f;">
         <div class="credit-top">
           <div>
             <div class="credit-name">mrange</div>
@@ -184,7 +209,7 @@ footer a{color:var(--dim)}
         </div>
       </div>
 
-      <div class="credit-card" style="--stripe: #9b5de5;">
+      <div class="credit-card" style="--stripe: #ff5a1f;">
         <div class="credit-top">
           <div>
             <div class="credit-name">Blackle Mori</div>
@@ -200,7 +225,7 @@ footer a{color:var(--dim)}
         </div>
       </div>
 
-      <div class="credit-card" style="--stripe: #d4a843;">
+      <div class="credit-card" style="--stripe: #ff5a1f;">
         <div class="credit-top">
           <div>
             <div class="credit-name">Sabo Sugi</div>
@@ -302,11 +327,11 @@ footer a{color:var(--dim)}
     <div class="section">
       <div class="section-heading">Runtime &amp; Platform</div>
 
-      <div class="credit-card" style="--stripe: #5bc8f5;">
+      <div class="credit-card" style="--stripe: #ff8a52;">
         <div class="credit-top">
           <div>
             <div class="credit-name">Electron</div>
-            <div class="credit-author">OpenJS Foundation &nbsp;·&nbsp; v30</div>
+            <div class="credit-author">OpenJS Foundation &nbsp;·&nbsp; v42</div>
           </div>
           <span class="license-badge badge-mit">MIT License</span>
         </div>
@@ -316,7 +341,7 @@ footer a{color:var(--dim)}
         </div>
       </div>
 
-      <div class="credit-card" style="--stripe: #5bc8f5;">
+      <div class="credit-card" style="--stripe: #ff8a52;">
         <div class="credit-top">
           <div>
             <div class="credit-name">Chromium</div>
@@ -330,7 +355,7 @@ footer a{color:var(--dim)}
         </div>
       </div>
 
-      <div class="credit-card" style="--stripe: #1db954;">
+      <div class="credit-card" style="--stripe: #46d96b;">
         <div class="credit-top">
           <div>
             <div class="credit-name">Node.js</div>
@@ -344,7 +369,7 @@ footer a{color:var(--dim)}
         </div>
       </div>
 
-      <div class="credit-card" style="--stripe: #5bc8f5;">
+      <div class="credit-card" style="--stripe: #ff8a52;">
         <div class="credit-top">
           <div>
             <div class="credit-name">Three.js</div>
@@ -358,7 +383,7 @@ footer a{color:var(--dim)}
         </div>
       </div>
 
-      <div class="credit-card" style="--stripe: #d4a843;">
+      <div class="credit-card" style="--stripe: #ff5a1f;">
         <div class="credit-top">
           <div>
             <div class="credit-name">WASAPI — Windows Audio Session API</div>
@@ -376,7 +401,7 @@ footer a{color:var(--dim)}
     <div class="section">
       <div class="section-heading">Data &amp; Services</div>
 
-      <div class="credit-card" style="--stripe: #9b5de5;">
+      <div class="credit-card" style="--stripe: #ff5a1f;">
         <div class="credit-top">
           <div>
             <div class="credit-name">LRCLIB</div>
@@ -389,7 +414,7 @@ footer a{color:var(--dim)}
         </div>
       </div>
 
-      <div class="credit-card" style="--stripe: #1db954;">
+      <div class="credit-card" style="--stripe: #46d96b;">
         <div class="credit-top">
           <div>
             <div class="credit-name">Spotify Web API</div>
@@ -402,7 +427,7 @@ footer a{color:var(--dim)}
         </div>
       </div>
 
-      <div class="credit-card" style="--stripe: #d4a843;">
+      <div class="credit-card" style="--stripe: #ff5a1f;">
         <div class="credit-top">
           <div>
             <div class="credit-name">Supabase</div>
@@ -563,10 +588,9 @@ footer a{color:var(--dim)}
 
 <p>IKANDY uses the following typefaces, served via Google Fonts under the <a href="https://scripts.sil.org/OFL" target="_blank" rel="noopener">SIL Open Font License</a>:</p>
           <div class="scene-list" style="margin-top:16px;">
-            <span class="scene-tag">Bebas Neue — Ryoichi Tsunekawa</span>
-            <span class="scene-tag">DM Sans — Colophon Foundry</span>
-            <span class="scene-tag">Space Mono — Colophon Foundry</span>
-            <span class="scene-tag">Syne — Bonjour Monde</span>
+            <span class="scene-tag">Big Shoulders — Patric King</span>
+            <span class="scene-tag">Archivo — Omnibus-Type</span>
+            <span class="scene-tag">Martian Mono — Evil Martians</span>
           </div>
         </div>
       </div>
@@ -580,11 +604,53 @@ footer a{color:var(--dim)}
   </div>
 </main>
 
-<footer>
-  <div class="container">
-    © 2026 L&amp;R Entertainment LLC · IKANDY.app · <a href="mailto:support@ikandy.app">support@ikandy.app</a>
+<footer class="ftr">
+  <div class="ftr-in">
+    <div class="ftr-grid">
+      <div>
+        <p class="ftr-brand">IKANDY</p>
+        <p class="ftr-note">Audio-reactive visualizer and VJ instrument for Windows 10 / 11. Runs fully offline.</p>
+        <p style="margin-top:18px"><a class="btn-steam" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam</a></p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="guide.html">User guide</a></li>
+          <li><a href="pricing/index.html">Pricing</a></li>
+          <li><a href="artists.html">Artist program</a></li>
+          <li><a href="arcade/index.html">Arcade</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Technical disclosures</h4>
+        <ul>
+          <li><a href="ikandy-smart-auto-prior-art.html">Smart Auto prior art</a></li>
+          <li><a href="ikandy-ai-error-sandbox.html">AI error sandbox</a></li>
+          <li><a href="ikandy-vis-format.html">.vis format</a></li>
+          <li><a href="scene-contract.html">Scene contract</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal + contact</h4>
+        <ul>
+          <li><a href="privacy.html">Privacy policy</a></li>
+          <li><a href="license.html">License</a></li>
+          <li><a href="eula.html">EULA</a></li>
+          <li><a href="credits.html">Credits</a></li>
+          <li><a href="mailto:support@ikandy.app">support@ikandy.app</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ftr-plate">
+      <span>MODEL IKANDY &middot; REV 2026.2 &middot; <span class="amber">SHIPS 2026-07-31 ON STEAM</span></span>
+      <span>Made by a human who likes loud music. &copy; 2026 L&amp;R Entertainment LLC &middot; IKANDY&trade;</span>
+    </div>
   </div>
 </footer>
+<script>
+(function(){var t=document.querySelector('.rail-toggle'),l=document.querySelector('.rail-links');
+if(t&&l)t.addEventListener('click',function(){l.classList.toggle('open')});})();
+</script>
 
 </body>
 </html>

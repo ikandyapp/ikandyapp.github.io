@@ -9,24 +9,27 @@
   gtag('js', new Date());
   gtag('config', 'G-FEJJH5VN5S');
 </script>
-<script defer src="/analytics.js"></script>
+<script defer src="analytics.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>IKANDY — .vis Format: Provenance-Preserving AI Shader Package</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders:wght@600;700;800&family=Archivo:wght@400;500;600;700&family=Martian+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ik.css">
 <style>
   :root {
-    --bg: #0a0a0f;
-    --surface: #111118;
-    --border: #1e1e2e;
-    --cyan: #00e5ff;
-    --violet: #9b5de5;
-    --gold: #d4a843;
-    --text: #c8c8d8;
-    --muted: #5a5a7a;
-    --white: #eeeef8;
+    --bg: #0e0e11;
+    --surface: #17171b;
+    --border: #282830;
+    --cyan: #ff5a1f;
+    --violet: #ff5a1f;
+    --gold: #ff5a1f;
+    --text: #b5ae9c;
+    --muted: #8a8371;
+    --white: #eae5d9;
     --dim: rgba(255,255,255,.45);
   }
 
@@ -35,7 +38,7 @@
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'Space Mono', monospace;
+    font-family: 'Martian Mono', monospace;
     font-size: 14px;
     line-height: 1.85;
   }
@@ -71,7 +74,7 @@
   }
 
   .nav-logo {
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: 'Big Shoulders', sans-serif;
     font-size: 28px;
     letter-spacing: .15em;
     color: var(--gold);
@@ -100,13 +103,13 @@
 
   .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
   .nav-links a {
-    font-family: 'Space Mono', monospace;
+    font-family: 'Martian Mono', monospace;
     font-size: 11px; letter-spacing: .1em;
     text-transform: uppercase; color: var(--dim, rgba(255,255,255,.45));
     text-decoration: none; transition: color .2s;
   }
   .nav-links a:hover { color: var(--gold); }
-  .nav-links a.active { color: var(--cyan, #00e5ff); }
+  .nav-links a.active { color: var(--cyan, #ff5a1f); }
 
   @media (max-width: 860px) {
     nav { padding: 16px 24px; }
@@ -129,7 +132,7 @@
     display: inline-block;
     margin-left: 6px;
     padding: 3px 7px;
-    font-family: 'Space Mono', monospace;
+    font-family: 'Martian Mono', monospace;
     font-size: 9px;
     font-weight: 700;
     letter-spacing: .15em;
@@ -168,7 +171,7 @@
   }
 
   h1 {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Archivo', sans-serif;
     font-size: clamp(22px, 4vw, 36px);
     font-weight: 800;
     color: var(--white);
@@ -185,7 +188,7 @@
   section { margin-bottom: 56px; }
 
   h2 {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Archivo', sans-serif;
     font-size: 13px;
     font-weight: 700;
     letter-spacing: 0.15em;
@@ -199,7 +202,7 @@
   p { margin-bottom: 16px; color: var(--text); }
 
   code {
-    font-family: 'Space Mono', monospace;
+    font-family: 'Martian Mono', monospace;
     font-size: 12px;
     background: var(--surface);
     border: 1px solid var(--border);
@@ -216,15 +219,15 @@
     overflow-x: auto;
     margin: 24px 0;
     font-size: 12px;
-    color: #a8d8e8;
+    color: #e8d9a8;
     line-height: 1.7;
   }
 
   pre .comment { color: var(--muted); font-style: italic; }
   pre .key { color: var(--violet); }
   pre .val { color: var(--cyan); }
-  pre .str { color: #f0c070; }
-  pre .num { color: #ff9e6d; }
+  pre .str { color: #ff8a52; }
+  pre .num { color: #ff8a5c; }
 
   .callout {
     background: rgba(0,229,255,0.04);
@@ -253,7 +256,7 @@
     background: rgba(0,229,255,0.06);
     border-bottom: 1px solid var(--border);
     padding: 12px 20px;
-    font-family: 'Syne', sans-serif;
+    font-family: 'Archivo', sans-serif;
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 0.1em;
@@ -359,24 +362,41 @@
     header { padding: 100px 0 40px; }
   }
 </style>
+
+<style>
+/* THE RIG reskin overrides (appended after page styles) */
+body{background:var(--chassis)!important;color:var(--ink);padding-top:var(--nav-h)!important}
+h1,h2{font-weight:800!important}
+h3{font-weight:700!important}
+code,pre,kbd{font-family:var(--mono)}
+/* neutralize legacy element-level nav/footer rules leaking into the shell */
+nav.rail{position:fixed!important;top:0!important;left:0!important;right:0!important;
+  display:block!important;padding:0!important;margin:0!important;height:var(--nav-h)!important;
+  background:linear-gradient(180deg,#191920,var(--rail))!important;
+  border-bottom:1px solid #000!important;backdrop-filter:none!important;max-width:none!important}
+nav.rail .rail-in{max-width:var(--maxw);margin:0 auto;height:100%;padding:0 24px;
+  display:flex;align-items:center;gap:22px}
+footer.ftr{display:block!important;text-align:left!important;padding:0!important;margin:0!important;
+  background:var(--chassis-deep)!important;border-top:1px solid #000!important;max-width:none!important}
+footer.ftr a{text-decoration:none}
+</style>
 </head>
 <body>
 <div class="scan-line"></div>
 
-<nav>
-  <a href="index.html" class="nav-logo">IKANDY <span class="beta-badge">BETA</span></a>
-  <ul class="nav-links">
-    <li><a href="index.html#features">Features</a></li>
-    <li><a href="index.html#watch">Watch</a></li>
-    <li><a href="guide.html">Guide</a></li>
-    <li><a href="credits.html">Credits</a></li>
-    <li><a href="ikandy-smart-auto-prior-art.html">Smart Auto</a></li>
-    <li><a href="ikandy-ai-error-sandbox.html">AI Sandbox</a></li>
-    <li><a href="ikandy-vis-format.html" class="active">.vis Format</a></li>
-    <li><a href="privacy.html">Privacy</a></li>
-    <li><a href="license.html">License</a></li>
-    <li><a href="index.html#download">Download</a></li>
-  </ul>
+<nav class="rail" aria-label="Main">
+  <div class="rail-in">
+    <a class="rail-logo" href="index.html"><span class="rail-led" aria-hidden="true"></span>IKANDY</a>
+    <button class="rail-toggle" aria-label="Menu">MENU</button>
+    <div class="rail-links">
+      <a href="index.html#rooms">Who it's for</a>
+      <a href="index.html#spec">Engine</a>
+      <a href="pricing/index.html">Pricing</a>
+      <a href="guide.html">Guide</a>
+      <a href="artists.html">Artists</a>
+    </div>
+    <a class="btn-steam rail-cta" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam</a>
+  </div>
 </nav>
 
 <header>
@@ -400,7 +420,7 @@
         This document discloses a novel portable package format — the <strong>.vis package</strong> — implemented in IKANDY for bundling AI-generated or user-authored GPU shaders (GLSL and WGSL) together with their complete creation provenance: the original natural-language prompt, shader type classification, auto-generated thumbnail, attribution metadata, and creation timestamp. The format is designed for lossless redistribution, community sharing, and Steam Workshop integration without loss of creative origin information.
       </p>
       <div class="callout">
-        <p>This publication is intended to establish prior art. Any subsequent patent claim covering this method or substantially similar methods is anticipated by this disclosure.</p>
+        <p>This publication is intended to establish prior art. This document is a dated record: implementation specifics such as runtime and model versions describe the build as published in May 2026 and are preserved unchanged for the integrity of the disclosure; current builds may differ. Any subsequent patent claim covering this method or substantially similar methods is anticipated by this disclosure.</p>
       </div>
     </section>
 
@@ -557,11 +577,53 @@ MyScene.zip (renamed to MyScene.vis)
   </div>
 </main>
 
-<footer>
-  <div class="container">
-    Published May 14, 2026 · IKANDY / ikandyapp · This document constitutes a public prior art disclosure.
+<footer class="ftr">
+  <div class="ftr-in">
+    <div class="ftr-grid">
+      <div>
+        <p class="ftr-brand">IKANDY</p>
+        <p class="ftr-note">Audio-reactive visualizer and VJ instrument for Windows 10 / 11. Runs fully offline.</p>
+        <p style="margin-top:18px"><a class="btn-steam" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam</a></p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="guide.html">User guide</a></li>
+          <li><a href="pricing/index.html">Pricing</a></li>
+          <li><a href="artists.html">Artist program</a></li>
+          <li><a href="arcade/index.html">Arcade</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Technical disclosures</h4>
+        <ul>
+          <li><a href="ikandy-smart-auto-prior-art.html">Smart Auto prior art</a></li>
+          <li><a href="ikandy-ai-error-sandbox.html">AI error sandbox</a></li>
+          <li><a href="ikandy-vis-format.html">.vis format</a></li>
+          <li><a href="scene-contract.html">Scene contract</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal + contact</h4>
+        <ul>
+          <li><a href="privacy.html">Privacy policy</a></li>
+          <li><a href="license.html">License</a></li>
+          <li><a href="eula.html">EULA</a></li>
+          <li><a href="credits.html">Credits</a></li>
+          <li><a href="mailto:support@ikandy.app">support@ikandy.app</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ftr-plate">
+      <span>MODEL IKANDY &middot; REV 2026.2 &middot; <span class="amber">SHIPS 2026-07-31 ON STEAM</span></span>
+      <span>Made by a human who likes loud music. &copy; 2026 L&amp;R Entertainment LLC &middot; IKANDY&trade;</span>
+    </div>
   </div>
 </footer>
+<script>
+(function(){var t=document.querySelector('.rail-toggle'),l=document.querySelector('.rail-links');
+if(t&&l)t.addEventListener('click',function(){l.classList.toggle('open')});})();
+</script>
 
 </body>
 </html>

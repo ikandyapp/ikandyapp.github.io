@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IKANDY pricing: Base, Pro, Stage. One-time purchase on Steam.</title>
+<meta name="description" content="IKANDY pricing: Base is free. Pro is $4.99 at launch. Stage, the full VJ rig, is $39.99 at launch. One-time purchase, no subscription, bring-your-own-key AI at cost.">
+<meta property="og:title" content="IKANDY pricing">
+<meta property="og:description" content="Base free. Pro $4.99 launch. Stage $39.99 launch. One-time purchase on Steam, no subscription, BYOK AI at cost.">
+<meta property="og:image" content="https://ikandy.app/assets/screenshot.png">
+<meta property="og:url" content="https://ikandy.app/pricing/">
+<link rel="icon" href="../icon.ico">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FEJJH5VN5S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-FEJJH5VN5S');
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders:wght@600;700;800&family=Archivo:wght@400;500;600;700&family=Martian+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/ik.css">
+
+<style>
+.page-top{padding-top:calc(var(--nav-h) + 64px)}
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin:38px 0 20px}
+.tier{background:linear-gradient(180deg,#1a1a22,#15151b);border:1px solid #000;
+  border-radius:4px;padding:26px 26px 28px;position:relative;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 10px 26px rgba(0,0,0,.4);
+  display:flex;flex-direction:column}
+.tier-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.tier-model{font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:var(--ink-3)}
+.tier h2{font-family:var(--display);font-weight:800;font-size:34px;letter-spacing:.03em;
+  text-transform:uppercase;margin:10px 0 2px}
+.tier-role{color:var(--ink-2);font-size:14.5px;margin:0 0 18px}
+.tier-price{font-family:var(--mono);font-size:30px;color:var(--ink);margin:0;line-height:1.1}
+.tier-was{font-family:var(--mono);font-size:12px;color:var(--ink-3);text-decoration:line-through;margin-left:8px}
+.tier-launch{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--vu-amber);margin:8px 0 0}
+.tier ul{list-style:none;margin:20px 0 0;padding:18px 0 0;border-top:1px dotted var(--rule);flex:1}
+.tier li{padding:6px 0 6px 20px;position:relative;color:var(--ink-2);font-size:14.5px}
+.tier li::before{content:"";position:absolute;left:2px;top:13px;width:7px;height:7px;border-radius:50%;
+  background:var(--vu-amber);box-shadow:0 0 5px rgba(255,90,31,.55)}
+.tier li.plus{color:var(--ink-3);font-family:var(--mono);font-size:10px;letter-spacing:.16em;
+  text-transform:uppercase;padding-left:0;margin-top:2px}
+.tier li.plus::before{display:none}
+.tier.hot{border-color:var(--vu-amber-dim);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 0 0 1px var(--vu-amber-dim),0 12px 30px rgba(0,0,0,.45)}
+.tier-flag{position:absolute;top:-1px;right:18px;font-family:var(--mono);font-size:9px;
+  letter-spacing:.2em;text-transform:uppercase;color:#0e0e11;background:var(--vu-amber);
+  padding:4px 10px;border-radius:0 0 3px 3px;border:1px solid #c23f10;border-top:0}
+@media(max-width:900px){.tiers{grid-template-columns:1fr}}
+
+.byok{background:var(--panel);border:1px solid var(--rule-soft);border-radius:4px;
+  padding:20px 24px;max-width:820px;color:var(--ink-2);font-size:15px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+.byok b{color:var(--ink)}
+
+/* comparison matrix */
+.cmp-scroll{overflow-x:auto;border:1px solid #000;border-radius:4px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+table.cmp{border-collapse:collapse;width:100%;min-width:820px;background:var(--panel)}
+.cmp th,.cmp td{padding:13px 16px;border-bottom:1px solid var(--rule-soft);text-align:center}
+.cmp thead th{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-2);background:#121218;border-bottom:1px solid #000;font-weight:400}
+.cmp thead th.ik{color:var(--vu-amber)}
+.cmp tbody th{text-align:left;font-weight:500;color:var(--ink-2);font-size:14px;white-space:nowrap}
+.cmp td.ik{background:rgba(255,90,31,.045)}
+.cmp tbody tr:last-child th,.cmp tbody tr:last-child td{border-bottom:none}
+.cmp td.txt{font-family:var(--mono);font-size:10.5px;color:var(--ink-2);white-space:nowrap}
+.legend{display:flex;gap:26px;margin:16px 2px 0;font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.1em;color:var(--ink-3);flex-wrap:wrap}
+.legend span{display:flex;gap:8px;align-items:center}
+.foot-note{color:var(--ink-faint);font-size:12.5px;margin-top:22px;font-family:var(--mono)}
+
+.tier{transition:transform .2s,border-color .2s}
+.tier:hover{transform:translateY(-3px);border-color:var(--vu-amber-dim)}
+.cmp tbody tr{transition:background .12s}
+.cmp tbody tr:hover th{color:var(--ink)}
+.cmp tbody tr:hover td{background:rgba(255,90,31,.03)}
+.cmp tbody tr:hover td.ik{background:rgba(255,90,31,.08)}
+
+.cta-strip{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-top:36px}
+.cta-date{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2)}
+.cta-date b{color:var(--vu-amber);font-weight:400}
+
+/* ============ COLOR AS SIGNAL ============ */
+:root{--ch1:#33e0ff;--ch2:#ff3dd8;--ch3:#46d96b}
+.unit{overflow:hidden}
+.unit::before,.unit::after{content:"";position:absolute;border-radius:50%;
+  pointer-events:none;filter:blur(70px);z-index:0}
+main .unit:first-of-type::before{width:600px;height:600px;right:-180px;top:-160px;
+  background:radial-gradient(circle,var(--ch2),transparent 70%);opacity:.08;
+  animation:drift 28s ease-in-out infinite alternate}
+main .unit:first-of-type::after{width:460px;height:460px;left:-150px;bottom:-220px;
+  background:radial-gradient(circle,var(--ch1),transparent 70%);opacity:.07;
+  animation:drift 33s ease-in-out infinite alternate-reverse}
+#compare::before{width:560px;height:560px;left:-160px;top:-200px;
+  background:radial-gradient(circle,var(--ch1),transparent 70%);opacity:.07;
+  animation:drift 30s ease-in-out infinite alternate}
+#compare::after{width:480px;height:480px;right:-150px;bottom:-200px;
+  background:radial-gradient(circle,var(--vu-amber),transparent 70%);opacity:.07;
+  animation:drift 25s ease-in-out infinite alternate-reverse}
+@keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(-70px,50px) scale(1.15)}}
+@media (prefers-reduced-motion:reduce){.unit::before,.unit::after{animation:none}}
+.unit-in{position:relative;z-index:1}
+
+.tier{position:relative;border-radius:6px;overflow:hidden}
+.tier::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--th),transparent 85%)}
+.tiers .tier:nth-child(1){--th:var(--ch1)}
+.tiers .tier:nth-child(2){--th:var(--ch2)}
+.tiers .tier:nth-child(3){--th:var(--vu-amber)}
+.tier .tier-price{color:var(--th);text-shadow:0 0 18px color-mix(in srgb,var(--th) 35%,transparent)}
+.tier-model{color:color-mix(in srgb,var(--th) 70%,var(--ink-3))}
+.tier li::before{background:var(--th);box-shadow:0 0 5px color-mix(in srgb,var(--th) 55%,transparent)}
+.tier:hover{border-color:color-mix(in srgb,var(--th) 45%,#000);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.07),
+    0 22px 44px -14px color-mix(in srgb,var(--th) 30%,transparent)}
+</style>
+</head>
+<body>
+
+<nav class="rail" aria-label="Main">
+  <div class="rail-in">
+    <a class="rail-logo" href="../index.html"><span class="rail-led" aria-hidden="true"></span>IKANDY</a>
+    <button class="rail-toggle" aria-label="Menu">MENU</button>
+    <div class="rail-links">
+      <a href="../index.html#rooms">Who it's for</a>
+      <a href="../index.html#spec">Engine</a>
+      <a href="index.html" class="active">Pricing</a>
+      <a href="../guide.html">Guide</a>
+      <a href="../artists.html">Artists</a>
+    </div>
+    <a class="btn-steam rail-cta" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam</a>
+  </div>
+</nav>
+
+<main>
+<section class="unit page-top" style="border-top:none">
+  <div class="unit-in">
+    <div class="unit-tag"><b>PRICING</b> ONE-TIME PURCHASE</div>
+    <h2 class="unit-title" style="font-size:clamp(38px,6vw,64px)">Buy it once. Own it.</h2>
+    <p class="unit-lead">Three tiers, one purchase, no subscription. Launch pricing holds for the launch window, then steps up. Everything runs on your GPU, offline.</p>
+
+    <div class="tiers">
+      <div class="tier">
+        <div class="tier-head"><span class="tier-model">IK-0</span></div>
+        <h2>Base</h2>
+        <p class="tier-role">Watch and listen.</p>
+        <p class="tier-price">$0</p>
+        <ul>
+          <li>All visualizers</li>
+          <li>Audio routing + Smart Auto</li>
+          <li>Music controls + preset browser</li>
+        </ul>
+      </div>
+
+      <div class="tier">
+        <span class="tier-flag">Launch price</span>
+        <div class="tier-head"><span class="tier-model">IK-1</span></div>
+        <h2>Pro</h2>
+        <p class="tier-role">Create and stream.</p>
+        <p class="tier-price">$4.99<span class="tier-was">$7.99</span></p>
+        <p class="tier-launch">$7.99 after the launch window</p>
+        <ul>
+          <li class="plus">Everything in Base, plus</li>
+          <li>Per-preset scene control</li>
+          <li>AI scene generation (guided)</li>
+          <li>Desktop wallpaper</li>
+          <li>OBS output (30 fps)</li>
+          <li>Multi-display output window</li>
+          <li>Steam Workshop</li>
+        </ul>
+      </div>
+
+      <div class="tier">
+        <span class="tier-flag">Launch price</span>
+        <div class="tier-head"><span class="tier-model">IK-2</span></div>
+        <h2>Stage</h2>
+        <p class="tier-role">The full VJ rig.</p>
+        <p class="tier-price">$39.99<span class="tier-was">$59.99</span></p>
+        <p class="tier-launch">$59.99 after the launch window</p>
+        <ul>
+          <li class="plus">Everything in Pro, plus</li>
+          <li>Capture any app, game, or video</li>
+          <li>Spout output (60 fps+)</li>
+          <li>MIDI and OSC control</li>
+          <li>Stage console: perform, plan, combos</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="byok">
+      <b>About the AI.</b> Scene generation is bring-your-own-key: you paste a key from your AI provider and pay them directly, at cost. IKANDY adds no markup and sells no credits. Your key never leaves your machine.
+    </div>
+
+    <div class="cta-strip">
+      <a class="btn-steam" style="font-size:13px;padding:15px 26px" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam</a>
+      <span class="cta-date">Out <b>July 31, 2026</b></span>
+    </div>
+  </div>
+</section>
+
+<section class="unit" id="compare">
+  <div class="unit-in">
+    <div class="unit-tag"><b>MATRIX</b> HOW IT COMPARES</div>
+    <h2 class="unit-title">Against the field.</h2>
+
+    <div class="cmp-scroll">
+    <table class="cmp">
+      <thead>
+        <tr>
+          <th></th>
+          <th class="ik">IKANDY</th>
+          <th>Wallpaper Engine</th>
+          <th>MilkDrop 3</th>
+          <th>Resolume</th>
+          <th>Synesthesia</th>
+          <th>Cloud AI generators</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><th>Live audio-reactive visuals</th>
+          <td class="ik"><span class="led on"></span></td><td><span class="led on"></span></td><td><span class="led on"></span></td><td><span class="led on"></span></td><td><span class="led on"></span></td><td><span class="led off"></span></td></tr>
+        <tr><th>Deep audio engine (per-app capture)</th>
+          <td class="ik"><span class="led on"></span></td><td><span class="led off"></span></td><td><span class="led half"></span></td><td><span class="led half"></span></td><td><span class="led on"></span></td><td><span class="led off"></span></td></tr>
+        <tr><th>AI scene generation</th>
+          <td class="ik"><span class="led on"></span></td><td><span class="led off"></span></td><td><span class="led off"></span></td><td><span class="led off"></span></td><td><span class="led off"></span></td><td><span class="led on"></span></td></tr>
+        <tr><th>Runs locally on your own GPU</th>
+          <td class="ik"><span class="led on"></span></td><td><span class="led on"></span></td><td><span class="led on"></span></td><td><span class="led on"></span></td><td><span class="led on"></span></td><td><span class="led off"></span></td></tr>
+        <tr><th>Desktop wallpaper mode</th>
+          <td class="ik"><span class="led on"></span></td><td><span class="led on"></span></td><td><span class="led off"></span></td><td><span class="led off"></span></td><td><span class="led off"></span></td><td><span class="led off"></span></td></tr>
+        <tr><th>Capture any app, game, or video</th>
+          <td class="ik"><span class="led on"></span></td><td><span class="led off"></span></td><td><span class="led off"></span></td><td><span class="led half"></span></td><td><span class="led half"></span></td><td><span class="led off"></span></td></tr>
+        <tr><th>OBS / streaming output</th>
+          <td class="ik"><span class="led on"></span></td><td><span class="led off"></span></td><td><span class="led off"></span></td><td><span class="led on"></span></td><td><span class="led on"></span></td><td><span class="led half"></span></td></tr>
+        <tr><th>Spout / NDI to VJ software</th>
+          <td class="ik"><span class="led on"></span></td><td><span class="led off"></span></td><td><span class="led off"></span></td><td><span class="led on"></span></td><td><span class="led on"></span></td><td><span class="led off"></span></td></tr>
+        <tr><th>MIDI / OSC control</th>
+          <td class="ik"><span class="led on"></span></td><td><span class="led off"></span></td><td><span class="led off"></span></td><td><span class="led on"></span></td><td><span class="led on"></span></td><td><span class="led off"></span></td></tr>
+        <tr><th>Live performance console</th>
+          <td class="ik"><span class="led on"></span></td><td><span class="led off"></span></td><td><span class="led half"></span></td><td><span class="led on"></span></td><td><span class="led half"></span></td><td><span class="led off"></span></td></tr>
+        <tr><th>Pricing model</th>
+          <td class="ik txt">One-time + BYOK AI</td><td class="txt">$4.99 one-time</td><td class="txt">Free / PRO paid</td><td class="txt">&euro;299-799 + add-ons</td><td class="txt">$199-399 perpetual</td><td class="txt">Subscription + credits</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="legend">
+      <span><span class="led on"></span> FULL</span>
+      <span><span class="led half"></span> PARTIAL OR VIA ADD-ON</span>
+      <span><span class="led off"></span> NONE</span>
+    </div>
+    <p class="foot-note"><strong>Built for the booth.</strong> IKANDY never needs internet to perform. Ownership verifies locally through Steam, offline mode is supported, and your license is cached with no periodic check, so the show runs whether or not the venue's Wi-Fi does.</p>
+<p class="foot-note">Competitor prices and terms current at time of writing and subject to change. Tier availability at launch may vary; the Steam page is authoritative.</p>
+  </div>
+</section>
+</main>
+
+<footer class="ftr">
+  <div class="ftr-in">
+    <div class="ftr-grid">
+      <div>
+        <p class="ftr-brand">IKANDY</p>
+        <p class="ftr-note">Audio-reactive visualizer and VJ instrument for Windows 10 / 11. Runs fully offline.</p>
+        <p style="margin-top:18px"><a class="btn-steam" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam</a></p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="../guide.html">User guide</a></li>
+          <li><a href="index.html">Pricing</a></li>
+          <li><a href="../artists.html">Artist program</a></li>
+          <li><a href="../arcade/index.html">Arcade</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Technical disclosures</h4>
+        <ul>
+          <li><a href="../ikandy-smart-auto-prior-art.html">Smart Auto prior art</a></li>
+          <li><a href="../ikandy-ai-error-sandbox.html">AI error sandbox</a></li>
+          <li><a href="../ikandy-vis-format.html">.vis format</a></li>
+          <li><a href="../scene-contract.html">Scene contract</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal + contact</h4>
+        <ul>
+          <li><a href="../privacy.html">Privacy policy</a></li>
+          <li><a href="../license.html">License</a></li>
+          <li><a href="../eula.html">EULA</a></li>
+          <li><a href="../credits.html">Credits</a></li>
+          <li><a href="mailto:support@ikandy.app">support@ikandy.app</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ftr-plate">
+      <span>MODEL IKANDY &middot; REV 2026.2 &middot; <span class="amber">SHIPS 2026-07-31 ON STEAM</span></span>
+      <span>Made by a human who likes loud music. &copy; 2026 L&amp;R Entertainment LLC &middot; IKANDY&trade;</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../analytics.js" defer></script>
+<script>
+(function(){var t=document.querySelector('.rail-toggle'),l=document.querySelector('.rail-links');
+if(t&&l)t.addEventListener('click',function(){l.classList.toggle('open')});})();
+</script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visualizers + presets : IKANDY user guide</title>
+<meta name="description" content="Five engines on one stage. The MilkDrop library, cycling, reactivity, and your own presets.">
+<link rel="icon" href="../icon.ico">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FEJJH5VN5S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-FEJJH5VN5S');
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders:wght@600;700;800&family=Archivo:wght@400;500;600;700&family=Martian+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/ik.css">
+<link rel="stylesheet" href="../assets/guide.css">
+<style>
+body{padding-top:var(--nav-h)}
+nav.rail{position:fixed!important;top:0!important;left:0!important;right:0!important;
+  display:block!important;padding:0!important;height:var(--nav-h)!important;
+  background:linear-gradient(180deg,#191920,var(--rail))!important;
+  border-bottom:1px solid #000!important;max-width:none!important}
+nav.rail .rail-in{max-width:var(--maxw);margin:0 auto;height:100%;padding:0 24px;
+  display:flex;align-items:center;gap:22px}
+footer.ftr{display:block!important;text-align:left!important;padding:0!important;margin:0!important;
+  background:var(--chassis-deep)!important;border-top:1px solid #000!important;max-width:none!important}
+.wiki-wrap{max-width:880px;margin:0 auto;padding:56px 24px 80px}
+.crumb{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink-3);margin-bottom:22px;display:flex;gap:10px;align-items:center}
+.crumb a{color:var(--ink-3)} .crumb a:hover{color:var(--vu-amber)}
+.crumb .hueled{width:7px;height:7px;border-radius:50%;background:var(--hue);
+  box-shadow:0 0 8px var(--hue)}
+.wiki-wrap h1{font-family:var(--display);font-weight:800;text-transform:uppercase;
+  font-size:clamp(34px,6vw,54px);line-height:1;margin:0 0 14px;letter-spacing:.01em}
+.wiki-lead{color:var(--ink-2);font-size:16.5px;max-width:640px;margin:0 0 34px}
+.wiki-wrap section{padding:34px 0 6px}
+.pn{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:56px}
+.pn a{border:1px solid var(--rule);border-radius:5px;padding:16px 18px;display:block;
+  background:var(--panel);transition:border-color .18s,transform .18s}
+.pn a:hover{text-decoration:none;border-color:var(--hue,#8f3512);transform:translateY(-2px)}
+.pn .lbl{font-family:var(--mono);font-size:9px;letter-spacing:.2em;color:var(--ink-3);
+  text-transform:uppercase}
+.pn .ttl{color:var(--ink);font-weight:600;margin-top:4px}
+.pn .nxt{text-align:right}
+@media(max-width:640px){.pn{grid-template-columns:1fr}}
+.wiki-note{border:1px solid var(--rule);border-left:3px solid var(--vu-amber);
+  border-radius:3px;background:var(--panel);padding:14px 18px;color:var(--ink-2);
+  font-size:14px;margin:26px 0}
+</style>
+</head>
+<body>
+<nav class="rail" aria-label="Main">
+  <div class="rail-in">
+    <a class="rail-logo" href="../index.html"><span class="rail-led" aria-hidden="true"></span>IKANDY</a>
+    <button class="rail-toggle" aria-label="Menu">MENU</button>
+    <div class="rail-links">
+      <a href="../index.html#rooms">Who it's for</a>
+      <a href="../index.html#spec">Engine</a>
+      <a href="../pricing/index.html">Pricing</a>
+      <a href="../guide.html" class="active">Guide</a>
+      <a href="../artists.html">Artists</a>
+    </div>
+    <a class="btn-steam rail-cta" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam</a>
+  </div>
+</nav>
+<main class="wiki-wrap" style="--hue:#46d96b">
+  <div class="crumb"><a href="../guide.html">User guide</a><span>/</span><span class="hueled" aria-hidden="true"></span><span style="color:var(--ink-2)">Visualizers + presets</span></div>
+  <h1>Visualizers + presets</h1>
+  <p class="wiki-lead">Five engines on one stage. The MilkDrop library, cycling, reactivity, and your own presets.</p>
+  <section>
+  <p class="section-tag">Visualizers</p>
+  <h2>Five Engines,<br>One Stage</h2>
+  <p class="lead">The engine tabs on the console pick what is driving the stage: <strong>MilkDrop</strong>, <strong>GLSL</strong>, <strong>WebGPU</strong>, <strong>Spout</strong>, or <strong>Image</strong>. MilkDrop is the deep preset library this page covers; GLSL and WebGPU run <a href="scenes.html">hand-built and imported scenes</a>, <a href="spout.html">Spout</a> turns a live feed into a source, and Image layers <a href="fx.html">FX shaders</a> over a photo.</p>
+
+  <h3>MilkDrop, reborn</h3>
+  <p>The MilkDrop engine is built on Butterchurn, a WebGL port of Winamp's legendary visualizer. IKANDY ships a deep preset library: the base collection, extra curated packs, and an Image category that layers especially well over a background photo.</p>
+
+  <h3>Cycling looks</h3>
+  <p><strong>AUTO</strong> on the console cycles presets on a dwell timer you set: how many seconds each look holds before the next. The sliders icon next to it opens timing and blend controls; a longer blend morphs cinematically between looks, a short one cuts kinetic. Auto-cycle draws from a shuffle bag, so every preset in the active pool plays once before any can repeat.</p>
+
+  <h3>Reactivity</h3>
+  <p>On first launch IKANDY quietly scores the library in the background while you use the app, classifying each preset as reactive, non-reactive, or image-texture. The results are cached. In the browser, the <strong>REACTIVE</strong> filter narrows the pool to presets that visibly answer the music; if the scan has not finished, a <strong>Run Scan</strong> button is right there.</p>
+  <p>There is also a <strong>Reactivity master</strong> for the whole engine: turn it down and presets settle into calm ambient motion instead of going dark, turn it up and the beat drives harder.</p>
+
+  <h3>The browser</h3>
+  <p><strong>Browse</strong> opens the full library with thumbnails. Hover any card for a live preview; click to load it on the stage immediately. Scene cards preview from a cached clip the same way. Tabs, favorites, hiding, flagging, and reordering are covered in <a href="library.html">Library</a>.</p>
+
+  <h3>Your own presets</h3>
+  <p>In the browser, Custom Presets loads a folder of <strong>converted Butterchurn JSON presets</strong>, merged alongside the bundled library and remembered across restarts. Butterchurn uses a JSON preset format rather than MilkDrop's original <code>.milk</code> binaries; if a folder contains <code>.milk</code> files, IKANDY says so and points you at the converter.</p>
+
+  <div class="callout tip">
+    <span class="callout-label">Misbehaving presets</span>
+    Some presets produce invalid values on modern GPUs. IKANDY skips broken or near-black presets automatically and remembers them, so the cycle keeps moving. Anything questionable lands in the FLAGGED tab for you to judge.
+  </div>
+</section>
+  <div class="pn"><a href="audio-sources.html" style="--hue:#ff3dd8"><span class="lbl">&larr; Previous</span><span class="ttl" style="display:block">Audio sources + controls</span></a><a class="nxt" href="library.html" style="--hue:#ff5a1f"><span class="lbl">Next &rarr;</span><span class="ttl" style="display:block">Library: browse + manage</span></a></div>
+</main>
+<footer class="ftr">
+  <div class="ftr-in">
+    <div class="ftr-grid">
+      <div>
+        <p class="ftr-brand">IKANDY</p>
+        <p class="ftr-note">Audio-reactive visualizer and VJ instrument for Windows 10 / 11. Runs fully offline.</p>
+        <p style="margin-top:18px"><a class="btn-steam" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam</a></p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="../guide.html">User guide</a></li>
+          <li><a href="../pricing/index.html">Pricing</a></li>
+          <li><a href="../artists.html">Artist program</a></li>
+          <li><a href="../arcade/index.html">Arcade</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Technical disclosures</h4>
+        <ul>
+          <li><a href="../ikandy-smart-auto-prior-art.html">Smart Auto prior art</a></li>
+          <li><a href="../ikandy-ai-error-sandbox.html">AI error sandbox</a></li>
+          <li><a href="../ikandy-vis-format.html">.vis format</a></li>
+          <li><a href="../scene-contract.html">Scene contract</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal + contact</h4>
+        <ul>
+          <li><a href="../privacy.html">Privacy policy</a></li>
+          <li><a href="../license.html">License</a></li>
+          <li><a href="../eula.html">EULA</a></li>
+          <li><a href="../credits.html">Credits</a></li>
+          <li><a href="mailto:support@ikandy.app">support@ikandy.app</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ftr-plate">
+      <span>MODEL IKANDY &middot; REV 2026.2 &middot; <span class="amber">SHIPS 2026-07-31 ON STEAM</span></span>
+      <span>Made by a human who likes loud music. &copy; 2026 L&amp;R Entertainment LLC &middot; IKANDY&trade;</span>
+    </div>
+  </div>
+</footer>
+<script src="../analytics.js" defer></script>
+<script>(function(){var t=document.querySelector('.rail-toggle'),l=document.querySelector('.rail-links');
+if(t&&l)t.addEventListener('click',function(){l.classList.toggle('open')});})();</script>
+</body>
+</html>

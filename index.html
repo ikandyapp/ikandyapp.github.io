@@ -1,6 +1,18 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
+<meta charset="UTF-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IKANDY: see your music. Audio-reactive visualizer for Windows, on Steam.</title>
+<meta name="description" content="IKANDY listens to whatever your PC is playing and paints it across your screen, live. A deep library of MilkDrop presets and hand-built scenes, a full HDR render engine, and an AI that writes new scenes. On Steam July 31, 2026.">
+<meta property="og:title" content="IKANDY: see your music.">
+<meta property="og:description" content="Audio-reactive visualizer and VJ instrument for Windows. MilkDrop presets, hand-built scenes, AI scene generation, wallpaper to full VJ rig. On Steam July 31, 2026.">
+<meta property="og:image" content="https://ikandy.app/assets/screenshot.png">
+<meta property="og:url" content="https://ikandy.app/">
+<meta property="og:type" content="website">
+<link rel="icon" href="icon.ico">
+
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-FEJJH5VN5S"></script>
 <script>
@@ -9,525 +21,665 @@
   gtag('js', new Date());
   gtag('config', 'G-FEJJH5VN5S');
 </script>
-<script defer src="/analytics.js"></script>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IKANDY — See your music</title>
-<meta name="description" content="IKANDY is a free Windows music visualizer. It listens to whatever you're playing and paints it across your screen, live.">
-<meta property="og:title" content="IKANDY — See your music">
-<meta property="og:description" content="A free Windows music visualizer. 868 MilkDrop presets, hand-built shader scenes, and an AI that writes new ones.">
-<meta property="og:image" content="https://ikandy.app/assets/screenshot.png">
-<meta property="og:url" content="https://ikandy.app/">
-<link rel="icon" href="/icon.ico">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders:wght@600;700;800&family=Archivo:wght@400;500;600;700&family=Martian+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ik.css">
+
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --stage:#06080b;
-  --panel:#0c1217;
-  --line:#1b252d;
-  --ink:#eef4f6;
-  --dim:#8696a1;
-  --cyan:#00e0d6;
-  --candy:#ff3da6;
-  --u-green:#46d39a;
-  --u-orange:#ff7a59;
-  --u-purple:#a78bfa;
-  --mono:ui-monospace,'Cascadia Code',Consolas,Menlo,monospace;
-  --body:-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
-  --disp:'Unbounded',var(--body);
-}
-html{scroll-behavior:smooth}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-body{background:var(--stage);color:var(--ink);font:16px/1.6 var(--body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
-a{color:var(--cyan);text-decoration:none}
-a:hover{text-decoration:underline}
-:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;border-radius:4px}
-::selection{background:var(--candy);color:#fff}
-
-/* ---------- nav ---------- */
-nav{position:fixed;inset:0 0 auto;z-index:40;display:flex;align-items:center;gap:22px;padding:14px 22px;
-  background:linear-gradient(180deg,rgba(6,8,11,.82),rgba(6,8,11,0));backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-nav .mark{font:700 17px var(--disp);letter-spacing:.06em;color:var(--ink)}
-nav .mark i{font-style:normal;color:var(--cyan)}
-nav .links{display:flex;gap:18px;margin-left:auto;font:500 13px var(--body)}
-nav .links a{color:var(--dim)}
-nav .links a:hover{color:var(--ink);text-decoration:none}
-nav .dl{font:600 13px var(--body);color:#04110f;background:var(--cyan);padding:8px 16px;border-radius:8px}
-nav .dl:hover{text-decoration:none;background:#3ffff5}
-@media(max-width:680px){nav .links{display:none}}
-
 /* ---------- hero ---------- */
-.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end}
-#stage{position:absolute;inset:0;width:100%;height:100%;display:block;background:url('assets/screenshot.png') center/cover}
-.hero .shade{position:absolute;inset:0;background:
-  radial-gradient(640px 480px at 22% 68%,rgba(6,8,11,.66),transparent 70%),
-  linear-gradient(180deg,rgba(6,8,11,.55) 0%,rgba(6,8,11,0) 30%,rgba(6,8,11,0) 55%,rgba(6,8,11,.82) 100%);pointer-events:none}
-.hero .copy{position:relative;z-index:2;padding:0 22px;max-width:1060px;margin:0 auto;width:100%}
-.kick{font:600 11px var(--mono);letter-spacing:.28em;color:var(--cyan);text-transform:uppercase;text-shadow:0 1px 12px rgba(0,0,0,.85)}
-h1{font:700 clamp(40px,7.5vw,84px)/1.02 var(--disp);letter-spacing:-.01em;margin:14px 0 16px;text-shadow:0 2px 30px rgba(0,0,0,.55)}
-h1 i{font-style:normal;color:var(--cyan)}
-.hero p.sub{max-width:560px;font-size:clamp(15px,1.6vw,18px);color:#cfdbe2;text-shadow:0 1px 18px rgba(0,0,0,.75)}
-.hero .cta{display:flex;gap:12px;flex-wrap:wrap;margin:24px 0 30px}
-.btn{display:inline-flex;align-items:center;gap:8px;font:600 15px var(--body);padding:13px 24px;border-radius:10px;border:1px solid transparent}
-.btn:hover{text-decoration:none}
-.btn-primary{background:var(--cyan);color:#04110f}
-.btn-primary:hover{background:#3ffff5}
-.btn-ghost{border-color:rgba(255,255,255,.28);color:var(--ink);background:rgba(6,8,11,.35)}
-.btn-ghost:hover{border-color:var(--ink)}
-.os{font:500 12px var(--mono);color:var(--dim);letter-spacing:.08em}
+.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;
+  border-bottom:1px solid #000;overflow:hidden}
+#hero-gl{position:absolute;inset:0;width:100%;height:100%;display:block;background:#060608}
+.hero::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(90deg,rgba(6,6,9,.5) 0%,rgba(6,6,9,.32) 42%,transparent 72%)}
+.hero-copy,.hero-live{z-index:2}
+#hero-fallback{position:absolute;inset:0;background:
+  radial-gradient(900px 500px at 30% 20%,#3a1608,transparent 70%),
+  radial-gradient(800px 600px at 75% 70%,#141420,transparent 70%),#060608}
+.hero-copy{position:relative;z-index:2;max-width:var(--maxw);width:100%;
+  margin:0 auto;padding:calc(var(--nav-h) + 8vh) 24px 24px;flex:1;
+  display:flex;flex-direction:column;justify-content:center}
+.hero-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--ink);margin:0 0 18px;
+  display:flex;align-items:center;gap:10px;text-shadow:0 1px 0 rgba(0,0,0,.7)}
+.hero-eyebrow .led{margin-top:-1px}
+h1{font-family:var(--display);font-weight:800;text-transform:uppercase;
+  font-size:clamp(64px,12vw,168px);line-height:.88;letter-spacing:.005em;
+  margin:0 0 26px;color:var(--ink);
+  text-shadow:0 2px 0 rgba(0,0,0,.55),0 0 60px rgba(0,0,0,.35)}
+h1 .row{display:block}
+.hero-sub{max-width:560px;font-size:17.5px;color:var(--ink);margin:0 0 30px;
+  text-shadow:0 1px 0 rgba(0,0,0,.7),0 0 24px rgba(0,0,0,.55)}
+.hero-cta{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.btn-steam.big{font-size:13px;padding:15px 26px}
+.hero-date{font-family:var(--mono);font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-2);
+  text-shadow:0 1px 0 rgba(0,0,0,.7)}
+.hero-date b{color:var(--vu-amber);font-weight:400}
+.hero-live{position:absolute;top:calc(var(--nav-h) + 16px);right:24px;z-index:2;
+  font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink-2);display:flex;gap:8px;align-items:center;
+  padding:7px 11px;background:rgba(6,6,9,.6);border:1px solid var(--rule);
+  border-radius:3px;backdrop-filter:blur(3px)}
+.hero-live .led.on{background:var(--clip-red);box-shadow:0 0 7px var(--clip-red);
+  animation:blink 2.4s steps(1) infinite}
+@keyframes blink{0%,88%{opacity:1}89%,100%{opacity:.25}}
+@media (prefers-reduced-motion:reduce){.hero-live .led.on{animation:none}}
 
-/* ---------- control deck ---------- */
-.deck{position:relative;z-index:3;margin:0 auto;width:min(1060px,calc(100% - 24px));
-  background:rgba(10,15,20,.84);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  border:1px solid var(--line);border-bottom:none;border-radius:14px 14px 0 0;
-  padding:14px 18px 18px;box-shadow:0 -8px 40px rgba(0,0,0,.45)}
-.deck .bar{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
-.deck .live{display:inline-flex;align-items:center;gap:7px;font:600 11px var(--mono);letter-spacing:.18em;color:var(--candy)}
-.deck .live::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--candy);box-shadow:0 0 8px var(--candy);animation:pulse 1.4s infinite}
-@keyframes pulse{50%{opacity:.35}}
-@media(prefers-reduced-motion:reduce){.deck .live::before{animation:none}}
-.deck .hint{font:500 12px var(--body);color:var(--dim)}
-.deck .scenes{display:flex;gap:8px;margin-left:auto;flex-wrap:wrap}
-.chip{font:600 11px var(--mono);letter-spacing:.1em;color:var(--dim);background:transparent;border:1px solid var(--line);
-  border-radius:7px;padding:7px 12px;cursor:pointer;transition:color .15s,border-color .15s}
-.chip:hover{color:var(--ink)}
-.chip[aria-pressed="true"]{color:var(--cyan);border-color:var(--cyan);background:rgba(0,224,214,.08)}
-.deck .grid{display:grid;grid-template-columns:repeat(4,1fr) auto;gap:16px;align-items:end}
-@media(max-width:760px){.deck .grid{grid-template-columns:1fr 1fr}}
-.ctl label{display:flex;justify-content:space-between;font:600 10px var(--mono);letter-spacing:.16em;color:var(--dim);text-transform:uppercase;margin-bottom:7px}
-.ctl label output{color:var(--cyan);letter-spacing:0}
-input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:22px;background:transparent;cursor:pointer}
-input[type=range]::-webkit-slider-runnable-track{height:3px;background:var(--line);border-radius:2px}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;height:15px;border-radius:50%;background:var(--cyan);margin-top:-6px;box-shadow:0 0 10px rgba(0,224,214,.6)}
-input[type=range]::-moz-range-track{height:3px;background:var(--line);border-radius:2px}
-input[type=range]::-moz-range-thumb{width:15px;height:15px;border:none;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px rgba(0,224,214,.6)}
-#micBtn{font:600 11px var(--mono);letter-spacing:.1em;border:1px solid var(--line);border-radius:7px;background:transparent;
-  color:var(--dim);padding:9px 14px;cursor:pointer;white-space:nowrap;height:34px}
-#micBtn:hover{color:var(--ink)}
-#micBtn[aria-pressed="true"]{color:var(--candy);border-color:var(--candy)}
-@media(max-width:760px){#micBtn{grid-column:1/-1;justify-self:start}}
+/* ---------- console ---------- */
+.console{position:relative;z-index:3;margin:0 auto;width:min(100%,var(--maxw));
+  padding:0 24px 26px}
+.console-panel{position:relative;
+  background:
+    repeating-linear-gradient(90deg,rgba(255,255,255,.012) 0 1px,transparent 1px 3px),
+    linear-gradient(180deg,#232329,#15151b 55%,#161411);
+  border:1px solid #000;border-radius:5px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.10),inset 0 -1px 0 rgba(0,0,0,.65),
+    0 18px 44px rgba(0,0,0,.6);
+  padding:16px 26px 18px;
+  display:flex;align-items:stretch;gap:24px;flex-wrap:wrap;justify-content:space-between}
+.console-dead{display:none}
+.console-panel>.screw{position:absolute;width:11px;height:11px}
+.console-panel>.screw:nth-of-type(1){top:8px;left:8px}
+.console-panel>.screw:nth-of-type(2){top:8px;right:8px}
+.console-panel>.screw:nth-of-type(3){bottom:8px;left:8px}
+.console-panel>.screw:nth-of-type(4){bottom:8px;right:8px}
 
-/* ---------- sections ---------- */
-main{max-width:880px;margin:0 auto;padding:0 22px}
-section{padding:84px 0 0}
-.eyebrow{font:600 11px var(--mono);letter-spacing:.28em;color:var(--cyan);text-transform:uppercase}
-h2{font:700 clamp(26px,4vw,40px)/1.12 var(--disp);letter-spacing:-.01em;margin:12px 0 10px}
-.lede{color:var(--dim);max-width:600px}
+.cgroup{display:flex;flex-direction:column;gap:10px;justify-content:flex-start}
+.glabel{font-family:var(--mono);font-size:9px;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--ink-faint)}
+.grow{display:flex;align-items:center;gap:12px;flex:1}
+.cdivider{width:1px;align-self:stretch;margin:2px 0;background:
+  linear-gradient(180deg,transparent,var(--rule) 25%,var(--rule) 75%,transparent)}
 
-/* audiences */
-.slab{display:grid;grid-template-columns:170px 1fr;gap:22px;padding:26px 0;border-bottom:1px solid var(--line)}
-.slab:last-of-type{border-bottom:none}
-.slab .tag{font:600 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;padding-left:14px;border-left:3px solid}
-.slab.u .tag{color:var(--u-green);border-color:var(--u-green)}
-.slab.v .tag{color:var(--u-orange);border-color:var(--u-orange)}
-.slab.a .tag{color:var(--u-purple);border-color:var(--u-purple)}
-.slab p{color:#c6d2da;font-size:15.5px}
-.slab p b{color:var(--ink)}
-@media(max-width:640px){.slab{grid-template-columns:1fr;gap:10px}}
+/* latching keys */
+.scene-btn{font-family:var(--mono);font-size:10px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-2);cursor:pointer;
+  background:linear-gradient(180deg,#26262e,#1a1a21 70%,#14141a);
+  border:1px solid #000;border-radius:3px;padding:10px 13px 9px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.10),inset 0 -1px 0 rgba(0,0,0,.4),
+    0 2px 3px rgba(0,0,0,.45);
+  display:flex;align-items:center;gap:8px;
+  transition:background .12s,color .12s,box-shadow .12s,transform .06s}
+.scene-btn .led{width:6px;height:6px;flex:none}
+.scene-btn:hover{color:var(--ink);
+  background:linear-gradient(180deg,#2a2a33,#1d1d24 70%,#16161c)}
+.scene-btn:active{transform:translateY(1px)}
+.scene-btn[aria-pressed="true"]{color:var(--ink);
+  background:linear-gradient(180deg,#121218,#211e18);
+  box-shadow:inset 0 2px 4px rgba(0,0,0,.55),inset 0 -1px 0 rgba(255,255,255,.04)}
+.scene-btn[aria-pressed="true"] .led{background:var(--vu-amber);
+  box-shadow:0 0 7px var(--vu-amber),0 0 2px var(--vu-amber)}
+.scene-btn[aria-pressed="false"] .led{background:#1a1a20;box-shadow:inset 0 0 0 1px #000}
 
-/* features */
-.feat{list-style:none}
-.feat li{display:grid;grid-template-columns:230px 1fr;gap:18px;padding:17px 0;border-bottom:1px solid var(--line);font-size:15.5px}
-.feat li:last-child{border-bottom:none}
-.feat b{font:600 14px var(--mono);letter-spacing:.04em;color:var(--ink)}
-.feat span{color:#b9c6cf}
-@media(max-width:640px){.feat li{grid-template-columns:1fr;gap:4px}}
+/* rotary knobs */
+.knob{display:flex;flex-direction:column;align-items:center;gap:7px;
+  cursor:ns-resize;user-select:none;touch-action:none;width:66px}
+.knob.grabbing{cursor:grabbing}
+.knob-ring{position:relative;width:56px;height:56px}
+.knob-ticks{position:absolute;inset:0;width:100%;height:100%}
+.knob-arc{position:absolute;inset:0;width:100%;height:100%;transform:rotate(135deg);
+  pointer-events:none}
+.knob-arc circle{fill:none;stroke:var(--vu-amber);stroke-width:2.4;stroke-linecap:round;
+  stroke-dasharray:0 100;filter:drop-shadow(0 0 3px rgba(255,90,31,.6));
+  transition:stroke-dasharray .05s linear}
+.knob-dial{position:absolute;inset:8px;border-radius:50%;
+  background:
+    radial-gradient(circle at 33% 27%,#3a3a44,#1d1d24 58%,#0e0e12 95%);
+  border:1px solid #000;
+  box-shadow:inset 0 1.5px 1px rgba(255,255,255,.16),inset 0 -2px 3px rgba(0,0,0,.5),
+    0 3px 6px rgba(0,0,0,.6)}
+.knob-dial::before{content:"";position:absolute;inset:2px;border-radius:50%;
+  background:conic-gradient(from 210deg,transparent 0 8%,rgba(255,255,255,.06) 11%,
+    transparent 15% 46%,rgba(255,255,255,.04) 50%,transparent 54% 100%);
+  pointer-events:none}
+.knob-dial::after{content:"";position:absolute;left:50%;top:3px;width:2.5px;height:13px;
+  margin-left:-1.25px;background:var(--vu-amber);border-radius:1px;
+  box-shadow:0 0 6px rgba(255,90,31,.8)}
+.knob:hover .knob-dial::after{box-shadow:0 0 9px rgba(255,90,31,1)}
+.knob-name{font-family:var(--mono);font-size:9px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--ink-3)}
+.knob-val{font-family:var(--mono);font-size:10.5px;color:var(--vu-amber);min-height:14px;
+  text-shadow:0 0 8px rgba(255,90,31,.35)}
+.knob:hover .knob-name{color:var(--ink-2)}
 
-/* watch */
-.player{position:relative;margin-top:26px;border:1px solid var(--line);border-radius:14px;overflow:hidden;aspect-ratio:16/9;background:#000 url('assets/screenshot.png') center/cover}
-.player iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-.player button{position:absolute;inset:0;width:100%;height:100%;background:rgba(4,6,9,.45);border:0;cursor:pointer;color:var(--ink);
-  display:flex;flex-direction:column;gap:10px;align-items:center;justify-content:center;font:600 14px var(--mono);letter-spacing:.14em}
-.player button:hover{background:rgba(4,6,9,.25)}
-.player button .tri{width:66px;height:66px;border-radius:50%;background:var(--cyan);display:grid;place-items:center;color:#04110f;font-size:22px;box-shadow:0 0 34px rgba(0,224,214,.5)}
 
-/* download */
-.dlbox{margin-top:26px;border:1px solid var(--line);border-radius:14px;padding:34px;background:
-  radial-gradient(600px 240px at 85% -40%,rgba(255,61,166,.12),transparent 65%),
-  radial-gradient(500px 220px at 0% 120%,rgba(0,224,214,.10),transparent 60%),var(--panel);
-  display:flex;align-items:center;gap:26px;flex-wrap:wrap}
-.dlbox .big{font:700 22px var(--disp)}
-.dlbox p{color:var(--dim);font-size:14px;margin-top:4px}
-.dlbox .btn{margin-left:auto}
-@media(max-width:640px){.dlbox .btn{margin-left:0}}
+/* waveform scope over a stacked sound group */
+.sound-group{flex:1;min-width:240px}
+.sound-group .grow{flex:1;flex-direction:column;align-items:stretch;gap:8px}
+.sound-row{display:flex;align-items:center;gap:12px}
+.wavewell{height:30px;border-radius:3px;background:var(--well);border:1px solid #000;overflow:hidden;
+  box-shadow:inset 0 2px 6px rgba(0,0,0,.75),inset 0 -1px 0 rgba(255,255,255,.03)}
+.wavewell canvas{width:100%;height:100%;display:block}
+/* volume fader: short-throw mixer slider */
+.fader{flex:1;min-width:120px;user-select:none;touch-action:none;cursor:ew-resize;outline:none}
+.fader:focus-visible .fader-cap{box-shadow:0 0 0 2px var(--vu-amber),0 3px 8px rgba(0,0,0,.7)}
+.fader-track{position:relative;height:22px;border-radius:3px;background:var(--well);
+  border:1px solid #000;
+  box-shadow:inset 0 2px 6px rgba(0,0,0,.8),inset 0 -1px 0 rgba(255,255,255,.03)}
+.fader-track::before{content:"";position:absolute;inset:4px 6px;pointer-events:none;
+  background:repeating-linear-gradient(90deg,rgba(255,255,255,.10) 0 1px,transparent 1px 17.25px);
+  mask:linear-gradient(180deg,#000 30%,transparent 30% 70%,#000 70%)}
+.fader-track::after{content:"";position:absolute;top:1px;bottom:1px;left:80%;width:2px;
+  background:rgba(255,255,255,.14);pointer-events:none}   /* unity detent mark */
+.fader-fill{position:absolute;top:8px;bottom:8px;left:6px;border-radius:2px;pointer-events:none;
+  background:linear-gradient(90deg,var(--accent-dim),var(--accent));
+  box-shadow:0 0 8px rgba(255,90,31,.35);opacity:.75}
+.fader-cap{position:absolute;top:-6px;width:16px;height:34px;margin-left:-8px;border-radius:3px;
+  background:linear-gradient(180deg,#33333c,#1b1b22 45%,#26262e 55%,#111116);
+  border:1px solid #000;
+  box-shadow:0 3px 8px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.14),inset 0 -1px 0 rgba(0,0,0,.6);
+  display:flex;align-items:center;justify-content:center}
+.fader-cap-line{width:100%;height:3px;background:var(--accent);
+  box-shadow:0 0 6px rgba(255,90,31,.7);border-top:1px solid rgba(0,0,0,.6);border-bottom:1px solid rgba(0,0,0,.6)}
+.fader:hover .fader-cap{background:linear-gradient(180deg,#3b3b45,#20202a 45%,#2b2b35 55%,#15151b)}
+.fader-legend{display:flex;justify-content:space-between;margin-top:5px;padding:0 1px}
 
-/* footer */
-footer{margin-top:96px;border-top:1px solid var(--line);padding:42px 22px 64px}
-footer .inner{max-width:880px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px}
-footer h4{font:600 10px var(--mono);letter-spacing:.24em;color:var(--dim);text-transform:uppercase;margin-bottom:12px}
-footer ul{list-style:none}
-footer li{margin:7px 0}
-footer a{color:#aebac3;font-size:13.5px}
-footer a:hover{color:var(--ink)}
-footer .legal{max-width:880px;margin:36px auto 0;font:500 12px var(--mono);color:var(--dim)}
-@media(max-width:640px){footer .inner{grid-template-columns:1fr 1fr}}
+@media(max-width:900px){
+
+  .console-panel{gap:18px;justify-content:center}
+  .cdivider{display:none}
+  .glabel{text-align:center}
+  .grow{justify-content:center}
+}
+
+/* ---------- signature micro-moments ---------- */
+.rail-progress{position:absolute;left:0;bottom:-1px;height:2px;width:0;
+  background:linear-gradient(90deg,var(--vu-amber-dim),var(--vu-amber));
+  box-shadow:0 0 6px rgba(255,90,31,.5);pointer-events:none}
+h1 .dot{display:inline-block;width:.14em;height:.14em;border-radius:50%;
+  background:var(--vu-amber);margin-left:.07em;transform:translateY(-.02em);
+  box-shadow:0 0 .12em rgba(255,90,31,.6)}
+html.js .unit-in{opacity:0;transform:translateY(24px);
+  transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+html.js .unit-in.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  html.js .unit-in{opacity:1;transform:none;transition:none}
+  .knob-arc circle{transition:none}
+}
+.room{transition:background .18s}
+.room:hover{background:#1a1a20}
+.room-ch{transition:background .18s,color .18s}
+.room:hover .room-ch{background:var(--vu-amber);color:#0e0e11;border-color:var(--vu-amber)}
+.spec-row{transition:padding-left .18s}
+.spec-row:hover{padding-left:8px}
+.spec-row:hover .spec-k{color:var(--vu-amber)}
+.tier{transition:transform .2s,border-color .2s,box-shadow .2s}
+.tier:hover{transform:translateY(-3px);border-color:var(--vu-amber-dim)}
+
+/* ---------- rooms ---------- */
+.rooms{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule-soft);
+  border:1px solid var(--rule-soft);border-radius:var(--radius);overflow:hidden}
+.room{background:var(--panel);padding:30px 26px 34px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+.room h3{font-family:var(--display);font-weight:700;font-size:24px;letter-spacing:.03em;
+  text-transform:uppercase;margin:14px 0 12px}
+.room p{color:var(--ink-2);font-size:15px;margin:0;line-height:1.65}
+.room-ch{font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--vu-amber);
+  border:1px solid var(--vu-amber-dim);border-radius:2px;padding:3px 8px;display:inline-block}
+@media(max-width:860px){.rooms{grid-template-columns:1fr}}
+
+/* ---------- spec sheet ---------- */
+.spec{max-width:760px}
+.spec-row{display:flex;align-items:baseline;gap:12px;padding:11px 0;
+  border-bottom:1px dotted var(--rule)}
+.spec-row:last-child{border-bottom:none}
+.spec-k{font-family:var(--mono);font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-2);flex:none}
+.spec-dots{flex:1;border-bottom:1px dotted var(--ink-faint);opacity:.45;
+  transform:translateY(-4px)}
+.spec-v{font-family:var(--mono);font-size:12.5px;color:var(--ink);text-align:right}
+.spec-v em{color:var(--vu-amber);font-style:normal}
+
+/* ---------- pricing strip ---------- */
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin:34px 0 26px}
+.tier{background:linear-gradient(180deg,#1a1a22,#15151b);border:1px solid #000;
+  border-radius:4px;padding:24px 24px 26px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 8px 22px rgba(0,0,0,.35);
+  display:flex;flex-direction:column}
+.tier-model{font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:var(--ink-3)}
+.tier h3{font-family:var(--display);font-weight:800;font-size:30px;letter-spacing:.03em;
+  text-transform:uppercase;margin:8px 0 2px}
+.tier-role{color:var(--ink-2);font-size:14px;margin:0 0 16px}
+.tier-price{font-family:var(--mono);font-size:26px;color:var(--ink);margin:0}
+.tier-price small{font-size:11px;color:var(--ink-3);letter-spacing:.08em}
+.tier-launch{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;white-space:nowrap;
+  text-transform:uppercase;color:var(--vu-amber);margin-top:8px}
+.tier.hot{border-color:var(--vu-amber-dim);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 0 0 1px var(--vu-amber-dim),0 8px 26px rgba(0,0,0,.4)}
+.pricing-note{color:var(--ink-2);font-size:14.5px;max-width:640px}
+.pricing-note b{color:var(--ink);font-weight:600}
+@media(max-width:860px){.tiers{grid-template-columns:1fr}}
+
+/* ---------- video ---------- */
+.vid{position:relative;aspect-ratio:16/9;background:var(--well);border:1px solid #000;
+  border-radius:4px;overflow:hidden;
+  box-shadow:inset 0 2px 8px rgba(0,0,0,.6),0 10px 30px rgba(0,0,0,.4)}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vid-load{position:absolute;inset:0;display:flex;flex-direction:column;gap:14px;
+  align-items:center;justify-content:center;cursor:pointer;background:
+  radial-gradient(600px 300px at 50% 45%,rgba(255,90,31,.05),transparent 70%),var(--well);
+  border:0;color:var(--ink);width:100%}
+.vid-load:hover .vid-play{background:#ff7a42}
+.vid-play{width:74px;height:74px;border-radius:50%;background:var(--vu-amber);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 0 1px #c23f10,0 6px 20px rgba(0,0,0,.5)}
+.vid-play svg{margin-left:5px}
+.vid-cap{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--ink-2)}
+.vid-alt{margin-top:12px;font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+
+/* ============ COLOR AS SIGNAL: the machine leaks light ============ */
+:root{--ch1:#33e0ff;--ch2:#ff3dd8;--ch3:#46d96b}
+
+.unit{overflow:hidden}
+.unit::before,.unit::after{content:"";position:absolute;border-radius:50%;
+  pointer-events:none;filter:blur(70px);z-index:0}
+#signal::before{width:620px;height:620px;right:-180px;top:-240px;
+  background:radial-gradient(circle,var(--ch1),transparent 70%);opacity:.10;
+  animation:drift 26s ease-in-out infinite alternate}
+#signal::after{width:420px;height:420px;left:-160px;bottom:-200px;
+  background:radial-gradient(circle,var(--vu-amber),transparent 70%);opacity:.07;
+  animation:drift 32s ease-in-out infinite alternate-reverse}
+#rooms::before{width:560px;height:560px;left:-140px;top:-200px;
+  background:radial-gradient(circle,var(--ch2),transparent 70%);opacity:.08;
+  animation:drift 30s ease-in-out infinite alternate}
+#rooms::after{width:480px;height:480px;right:-150px;bottom:-220px;
+  background:radial-gradient(circle,var(--ch3),transparent 70%);opacity:.08;
+  animation:drift 24s ease-in-out infinite alternate-reverse}
+#spec::before{width:600px;height:600px;right:-200px;top:-160px;
+  background:radial-gradient(circle,var(--ch1),transparent 70%);opacity:.07;
+  animation:drift 34s ease-in-out infinite alternate}
+#spec::after{width:460px;height:460px;left:-140px;bottom:-240px;
+  background:radial-gradient(circle,var(--ch2),transparent 70%);opacity:.06;
+  animation:drift 27s ease-in-out infinite alternate-reverse}
+#pricing::before{width:560px;height:560px;left:-160px;top:-220px;
+  background:radial-gradient(circle,var(--vu-amber),transparent 70%);opacity:.08;
+  animation:drift 29s ease-in-out infinite alternate}
+#pricing::after{width:480px;height:480px;right:-140px;bottom:-200px;
+  background:radial-gradient(circle,var(--ch1),transparent 70%);opacity:.07;
+  animation:drift 23s ease-in-out infinite alternate-reverse}
+#watch::before{width:560px;height:560px;right:-180px;top:-200px;
+  background:radial-gradient(circle,var(--ch2),transparent 70%);opacity:.07;
+  animation:drift 31s ease-in-out infinite alternate}
+@keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(-70px,50px) scale(1.15)}}
+@media (prefers-reduced-motion:reduce){.unit::before,.unit::after{animation:none}}
+.unit-in{position:relative;z-index:1}
+
+/* unit tags take their channel hue */
+#signal .unit-tag b{color:var(--ch1)}
+#rooms .unit-tag b{color:var(--ch2)}
+#spec .unit-tag b{color:var(--ch1)}
+#watch .unit-tag b{color:var(--ch2)}
+
+/* ---------- rooms: three colored channels, staggered off the grid ---------- */
+.rooms{background:transparent;border:0;gap:22px;overflow:visible;border-radius:0}
+.room{border:1px solid var(--rule-soft);border-radius:6px;position:relative;
+  background:linear-gradient(180deg,#18181f,#15151b);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 10px 26px rgba(0,0,0,.35);
+  transition:transform .25s cubic-bezier(.16,1,.3,1),border-color .25s,box-shadow .25s}
+.room::before{content:"";position:absolute;top:-1px;left:-1px;right:-1px;height:3px;
+  border-radius:6px 6px 0 0;background:linear-gradient(90deg,var(--chue),transparent 85%)}
+.room:nth-child(1){--chue:var(--ch1)}
+.room:nth-child(2){--chue:var(--ch2)}
+.room:nth-child(3){--chue:var(--ch3)}
+.room:hover{transform:translateY(-6px);
+  border-color:color-mix(in srgb,var(--chue) 45%,var(--rule-soft));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05),
+    0 22px 44px -14px color-mix(in srgb,var(--chue) 35%,transparent)}
+.room-ch{color:var(--chue);border-color:color-mix(in srgb,var(--chue) 55%,transparent)}
+.room:hover .room-ch{background:var(--chue);color:#0e0e11;border-color:var(--chue)}
+@media(min-width:861px){
+  .room:nth-child(2){margin-top:28px}
+  .room:nth-child(3){margin-top:56px}
+}
+
+/* ---------- spec: a spectrum ladder ---------- */
+.spec-row{--rh:var(--vu-amber)}
+.spec-row::before{content:"";width:7px;height:7px;border-radius:50%;flex:none;
+  align-self:center;background:var(--rh);box-shadow:0 0 9px var(--rh);opacity:.85}
+.spec-row:nth-child(1){--rh:#ff4238}.spec-row:nth-child(2){--rh:#ff7a2f}
+.spec-row:nth-child(3){--rh:#ff5a1f}.spec-row:nth-child(4){--rh:#ffe14a}
+.spec-row:nth-child(5){--rh:#a8e34d}.spec-row:nth-child(6){--rh:#46d96b}
+.spec-row:nth-child(7){--rh:#37d9b5}.spec-row:nth-child(8){--rh:#33e0ff}
+.spec-row:nth-child(9){--rh:#5b9dff}.spec-row:nth-child(10){--rh:#8f6bff}
+.spec-row:nth-child(11){--rh:#d24dff}.spec-row:nth-child(12){--rh:#ff3dd8}
+.spec-row:hover .spec-k{color:var(--rh)}
+.spec-row:hover .spec-v em{color:var(--rh)}
+
+/* ---------- pricing: tier hues ---------- */
+.tier{position:relative;border-radius:6px;overflow:hidden}
+.tier::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--th),transparent 85%)}
+.tiers .tier:nth-child(1){--th:var(--ch1)}
+.tiers .tier:nth-child(2){--th:var(--ch2)}
+.tiers .tier:nth-child(3){--th:var(--vu-amber)}
+.tier .tier-price{color:var(--th);text-shadow:0 0 18px color-mix(in srgb,var(--th) 35%,transparent)}
+.tier:hover{border-color:color-mix(in srgb,var(--th) 45%,#000);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.07),
+    0 22px 44px -14px color-mix(in srgb,var(--th) 30%,transparent)}
+.tier-model{color:color-mix(in srgb,var(--th) 70%,var(--ink-3))}
+
+/* ---------- video: spectrum ring on the play key ---------- */
+.vid-play{position:relative}
+.vid-play::before{content:"";position:absolute;inset:-5px;border-radius:50%;z-index:-1;
+  background:conic-gradient(#33e0ff,#46d96b,#ff5a1f,#ff3dd8,#33e0ff);
+  animation:spin 7s linear infinite;filter:blur(1px)}
+@keyframes spin{to{transform:rotate(1turn)}}
+@media (prefers-reduced-motion:reduce){.vid-play::before{animation:none}}
+#watch .vid{border-radius:6px}
 </style>
 </head>
 <body>
 
-<nav aria-label="Main">
-  <a class="mark" href="#">IKAND<i>Y</i></a>
-  <div class="links">
-    <a href="#who">Who it's for</a>
-    <a href="#inside">What's inside</a>
-    <a href="#watch">Watch</a>
-    <a href="guide.html">Guide</a>
+<nav class="rail" aria-label="Main">
+  <div class="rail-in">
+    <a class="rail-logo" href="index.html"><span class="rail-led" aria-hidden="true"></span>IKANDY</a>
+    <button class="rail-toggle" aria-label="Menu">MENU</button>
+    <div class="rail-links">
+      <a href="#rooms">Who it's for</a>
+      <a href="#spec">Engine</a>
+      <a href="pricing/index.html">Pricing</a>
+      <a href="guide.html">Guide</a>
+      <a href="artists.html">Artists</a>
+    </div>
+    <a class="btn-steam rail-cta" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam</a>
   </div>
-  <a class="dl btn-primary" href="#download">Download</a>
+  <span class="rail-progress" aria-hidden="true"></span>
 </nav>
 
+<!-- ============ HERO / LIVE UNIT ============ -->
 <header class="hero">
-  <canvas id="stage" aria-hidden="true"></canvas>
-  <div class="shade"></div>
+  <canvas id="hero-gl" aria-hidden="true"></canvas>
+  <div id="hero-fallback" hidden aria-hidden="true"></div>
 
-  <div class="copy">
-    <span class="kick">Free music visualizer for Windows</span>
-    <h1>See your <i>music.</i></h1>
-    <p class="sub">IKANDY listens to whatever's playing on your PC and paints it across your screen, live. 868 MilkDrop presets, 35 hand-built scenes, and an AI that writes new ones.</p>
-    <div class="cta">
-      <a class="btn btn-primary" href="https://github.com/ikandyapp/ikandyapp.github.io/releases/latest/download/IKANDY.Setup.exe">Download for Windows</a>
-      <a class="btn btn-ghost" href="#watch">Watch the demo</a>
+  <div class="hero-live"><span class="led on" aria-hidden="true"></span> LIVE RENDER, NOT A VIDEO</div>
+
+  <div class="hero-copy">
+    <p class="hero-eyebrow"><span class="led on" style="background:var(--vu-green);box-shadow:0 0 7px var(--vu-green)" aria-hidden="true"></span> AUDIO-REACTIVE VISUALIZER FOR WINDOWS</p>
+    <h1><span class="row">See your</span><span class="row">music<span class="dot" id="beat-dot" aria-hidden="true"></span></span></h1>
+    <p class="hero-sub">IKANDY listens to whatever your PC is playing and paints it across your screen, live. A deep library of MilkDrop presets and hand-built scenes, an AI that writes new ones, and outputs that run from your desktop wallpaper to a full VJ rig. This page is running the engine's little cousin right now. Grab a knob.</p>
+    <div class="hero-cta">
+      <a class="btn-steam big" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam</a>
+      <span class="hero-date">Out <b>July 31, 2026</b></span>
     </div>
   </div>
 
-  <div class="deck" id="deck">
-    <div class="bar">
-      <span class="live">Live</span>
-      <span class="hint">This background is a real shader. Drag something.</span>
-      <div class="scenes" role="group" aria-label="Scene">
-        <button class="chip" data-scene="0" aria-pressed="true">LIQUID</button>
-        <button class="chip" data-scene="1" aria-pressed="false">TUNNEL</button>
-        <button class="chip" data-scene="2" aria-pressed="false">AURORA</button>
+  <!-- the console -->
+  <div class="console" id="console">
+    <div class="console-panel">
+      <span class="screw" aria-hidden="true"></span>
+      <span class="screw" aria-hidden="true"></span>
+      <span class="screw" aria-hidden="true"></span>
+      <span class="screw" aria-hidden="true"></span>
+
+      <div class="cgroup" role="group" aria-label="Scene select">
+        <span class="glabel">Scene</span>
+        <div class="grow">
+          <button class="scene-btn" aria-pressed="true"><span class="led" aria-hidden="true"></span>Molten</button>
+          <button class="scene-btn" aria-pressed="false"><span class="led" aria-hidden="true"></span>Fluid</button>
+          <button class="scene-btn" aria-pressed="false"><span class="led" aria-hidden="true"></span>Storm</button>
+        </div>
       </div>
-    </div>
-    <div class="grid">
-      <div class="ctl"><label for="rReact">Reactivity <output id="oReact">70</output></label>
-        <input type="range" id="rReact" min="0" max="100" value="70"></div>
-      <div class="ctl"><label for="rGlow">Glow <output id="oGlow">55</output></label>
-        <input type="range" id="rGlow" min="0" max="100" value="55"></div>
-      <div class="ctl"><label for="rSpeed">Speed <output id="oSpeed">50</output></label>
-        <input type="range" id="rSpeed" min="0" max="100" value="50"></div>
-      <div class="ctl"><label for="rHue">Hue <output id="oHue">0</output></label>
-        <input type="range" id="rHue" min="0" max="100" value="0"></div>
-      <button id="micBtn" aria-pressed="false">🔊 REACT TO MY MUSIC</button>
+
+      <div class="cdivider" aria-hidden="true"></div>
+
+      <div class="cgroup" role="group" aria-label="Controls">
+        <span class="glabel">Trim</span>
+        <div class="grow">
+          <div class="knob" id="k-react" role="slider" tabindex="0" aria-label="Reactivity"
+             aria-valuemin="0" aria-valuemax="100" aria-valuenow="80">
+          <div class="knob-ring">
+            <svg class="knob-ticks" viewBox="0 0 52 52" aria-hidden="true">
+              <g stroke="#46464f" stroke-width="1.4">
+                <line x1="8.6" y1="43.4" x2="11.4" y2="40.6"/><line x1="4" y1="26" x2="8" y2="26"/>
+                <line x1="8.6" y1="8.6" x2="11.4" y2="11.4"/><line x1="26" y1="4" x2="26" y2="8"/>
+                <line x1="43.4" y1="8.6" x2="40.6" y2="11.4"/><line x1="48" y1="26" x2="44" y2="26"/>
+                <line x1="43.4" y1="43.4" x2="40.6" y2="40.6"/>
+              </g>
+            </svg>
+            <div class="knob-dial"></div>
+          </div>
+          <span class="knob-name">React</span><span class="knob-val">80</span>
+        </div>
+        <div class="knob" id="k-glow" role="slider" tabindex="0" aria-label="Glow"
+             aria-valuemin="0" aria-valuemax="100" aria-valuenow="55">
+          <div class="knob-ring">
+            <svg class="knob-ticks" viewBox="0 0 52 52" aria-hidden="true">
+              <g stroke="#46464f" stroke-width="1.4">
+                <line x1="8.6" y1="43.4" x2="11.4" y2="40.6"/><line x1="4" y1="26" x2="8" y2="26"/>
+                <line x1="8.6" y1="8.6" x2="11.4" y2="11.4"/><line x1="26" y1="4" x2="26" y2="8"/>
+                <line x1="43.4" y1="8.6" x2="40.6" y2="11.4"/><line x1="48" y1="26" x2="44" y2="26"/>
+                <line x1="43.4" y1="43.4" x2="40.6" y2="40.6"/>
+              </g>
+            </svg>
+            <div class="knob-dial"></div>
+          </div>
+          <span class="knob-name">Glow</span><span class="knob-val">55</span>
+        </div>
+        <div class="knob" id="k-speed" role="slider" tabindex="0" aria-label="Speed"
+             aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+          <div class="knob-ring">
+            <svg class="knob-ticks" viewBox="0 0 52 52" aria-hidden="true">
+              <g stroke="#46464f" stroke-width="1.4">
+                <line x1="8.6" y1="43.4" x2="11.4" y2="40.6"/><line x1="4" y1="26" x2="8" y2="26"/>
+                <line x1="8.6" y1="8.6" x2="11.4" y2="11.4"/><line x1="26" y1="4" x2="26" y2="8"/>
+                <line x1="43.4" y1="8.6" x2="40.6" y2="11.4"/><line x1="48" y1="26" x2="44" y2="26"/>
+                <line x1="43.4" y1="43.4" x2="40.6" y2="40.6"/>
+              </g>
+            </svg>
+            <div class="knob-dial"></div>
+          </div>
+          <span class="knob-name">Speed</span><span class="knob-val">50</span>
+        </div>
+        <div class="knob" id="k-hue" role="slider" tabindex="0" aria-label="Hue"
+             aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="knob-ring">
+            <svg class="knob-ticks" viewBox="0 0 52 52" aria-hidden="true">
+              <g stroke="#46464f" stroke-width="1.4">
+                <line x1="8.6" y1="43.4" x2="11.4" y2="40.6"/><line x1="4" y1="26" x2="8" y2="26"/>
+                <line x1="8.6" y1="8.6" x2="11.4" y2="11.4"/><line x1="26" y1="4" x2="26" y2="8"/>
+                <line x1="43.4" y1="8.6" x2="40.6" y2="11.4"/><line x1="48" y1="26" x2="44" y2="26"/>
+                <line x1="43.4" y1="43.4" x2="40.6" y2="40.6"/>
+              </g>
+            </svg>
+            <div class="knob-dial"></div>
+          </div>
+          <span class="knob-name">Hue</span><span class="knob-val">0&deg;</span>
+        </div>
+      
+        </div>
+      </div>
+
+      <div class="cdivider" aria-hidden="true"></div>
+
+      <div class="cgroup sound-group" role="group" aria-label="Demo sound">
+        <span class="glabel">Sound</span>
+        <div class="grow">
+          <div class="wavewell" aria-hidden="true"><canvas id="wave-scope"></canvas></div>
+          <div class="sound-row">
+            <button class="scene-btn" id="snd-btn" aria-pressed="false"><span class="led" aria-hidden="true"></span>Sound</button>
+            <div class="fader" id="vol-fader" role="slider" tabindex="0" aria-label="Sound volume"
+                 aria-valuemin="0" aria-valuemax="100" aria-valuenow="80">
+              <div class="fader-track">
+                <div class="fader-fill" id="vol-fill"></div>
+                <div class="fader-cap" id="vol-cap"><span class="fader-cap-line" aria-hidden="true"></span></div>
+              </div>
+              <div class="fader-legend"><span class="knob-name">Vol</span><span class="knob-val" id="vol-val">80</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </header>
 
-<main>
+<!-- ============ U1 SIGNAL ============ -->
+<section class="unit" id="signal">
+  <div class="unit-in">
+    <div class="unit-tag"><b>U1</b> SIGNAL PATH</div>
+    <h2 class="unit-title">An instrument, not a screensaver.</h2>
+    <p class="unit-lead">IKANDY is built like the gear it sits next to: a real audio engine that captures one app's sound and ignores the rest, a real render pipeline with an HDR post chain, and outputs that plug into the rest of your rig. It runs fully offline, on your GPU, and you buy it once.</p>
+    <p class="unit-lead" style="margin-top:14px">And when you do want wallpaper, it's the best wallpaper you've ever had. Any music-reactive preset can run as your Windows desktop, moving with your music behind your icons while you work. One library of presets, everywhere you point it: your desktop, a second monitor, an OBS overlay, a projector wall, a stage.</p>
+  </div>
+</section>
 
-  <section id="who">
-    <span class="eyebrow">Who it's for</span>
-    <h2>One app. Three kinds of people.</h2>
-
-    <div class="slab u">
-      <span class="tag">Listeners</span>
-      <p>Open it on a second monitor, hit play in <b>Spotify, YouTube, foobar2000, VLC</b>, anything on your PC, and walk away. IKANDY auto-cycles through hundreds of scenes, scrolls synced lyrics, and reacts to your music, not your Discord pings.</p>
-    </div>
-
-    <div class="slab v">
-      <span class="tag">VJs &amp; DJs</span>
-      <p>It's a node in the rig, not a walled garden. <b>Spout out</b> into Resolume or OBS, <b>Spout in</b> to post-process any feed with 14 live effect scenes, and per-process audio capture that locks onto the booth signal and ignores everything else.</p>
-    </div>
-
-    <div class="slab a">
-      <span class="tag">Shader artists</span>
-      <p>Paste a Shadertoy-style fragment and it runs. <b>GLSL or WGSL</b>, with audio uniforms, mouse, and a 9-pass HDR post chain doing the bloom and grain for you. Your work, fullscreen at full frame rate, with your name on it.</p>
-    </div>
-  </section>
-
-  <section id="inside">
-    <span class="eyebrow">What's inside</span>
-    <h2>The short list.</h2>
-
-    <ul class="feat">
-      <li><b>MILKDROP ENGINE</b><span>868 community presets running on Butterchurn, the WebGL port of Winamp's legendary MilkDrop.</span></li>
-      <li><b>AI SCENE GENERATOR</b><span>Type a prompt, get a working audio-reactive shader. Keep it, tweak it, or roll again.</span></li>
-      <li><b>SPOUT, BOTH WAYS</b><span>Be the source, the destination, or the effect in the middle of any video toolchain.</span></li>
-      <li><b>PER-PROCESS AUDIO</b><span>React to one app's sound alone. Not the game. Not the notification.</span></li>
-      <li><b>SYNCED LYRICS</b><span>Pulled live and drawn on screen. Accidental karaoke machine.</span></li>
-    </ul>
-  </section>
-
-  <section id="watch">
-    <span class="eyebrow">Watch</span>
-    <h2>Two minutes, in motion.</h2>
-    <div class="player" id="player">
-      <button id="playBtn"><span class="tri">▶</span>PLAY DEMO</button>
-    </div>
-    <p style="margin-top:10px;font:500 12px var(--mono);color:var(--dim)">Player not loading? <a href="https://www.youtube.com/watch?v=bOp0aDZlmeQ" target="_blank" rel="noopener">Open on YouTube</a></p>
-  </section>
-
-  <section id="download">
-    <span class="eyebrow">Download</span>
-    <h2>Free. Yours. Today.</h2>
-    <div class="dlbox">
-      <div>
-        <div class="big">IKANDY for Windows</div>
-        <p>Windows 10 / 11 · free · runs fully offline · <a href="guide.html">read the guide</a></p>
+<!-- ============ U2 ROOMS ============ -->
+<section class="unit" id="rooms">
+  <div class="unit-in">
+    <div class="unit-tag"><b>U2</b> WHO IT'S FOR</div>
+    <h2 class="unit-title">One app. Three rooms.</h2>
+    <div class="rooms">
+      <div class="room">
+        <span class="room-ch">CH 1</span>
+        <h3>Listeners</h3>
+        <p>Open it on a second monitor, hit play in Spotify, YouTube, foobar2000, VLC, anything on your PC, and walk away. IKANDY auto-cycles through hundreds of scenes, scrolls synced lyrics, and reacts to your music, not your Discord pings.</p>
       </div>
-      <a class="btn btn-primary" href="https://github.com/ikandyapp/ikandyapp.github.io/releases/latest/download/IKANDY.Setup.exe">Download IKANDY</a>
-    </div>
-  </section>
-
-</main>
-
-<footer>
-  <div class="inner">
-    <div>
-      <h4>Product</h4>
-      <ul>
-        <li><a href="guide.html">User guide</a></li>
-        <li><a href="artists.html">Artist program</a></li>
-        <li><a href="arcade/">Arcade</a></li>
-        <li><a href="https://github.com/ikandyapp/ikandyapp.github.io/releases">Releases</a></li>
-      </ul>
-    </div>
-    <div>
-      <h4>Technical disclosures</h4>
-      <ul>
-        <li><a href="ikandy-smart-auto-prior-art.html">Smart Auto prior art</a></li>
-        <li><a href="ikandy-ai-error-sandbox.html">AI error sandbox</a></li>
-        <li><a href="ikandy-vis-format.html">.vis format</a></li>
-        <li><a href="scene-contract.html">Scene contract</a></li>
-      </ul>
-    </div>
-    <div>
-      <h4>Legal</h4>
-      <ul>
-        <li><a href="privacy.html">Privacy policy</a></li>
-        <li><a href="license.html">License</a></li>
-        <li><a href="eula.html">EULA</a></li>
-        <li><a href="credits.html">Credits</a></li>
-        <li><a href="mailto:support@ikandy.app">Contact</a></li>
-      </ul>
+      <div class="room">
+        <span class="room-ch">CH 2</span>
+        <h3>DJs &amp; VJs</h3>
+        <p>A node in the rig, not a walled garden. Spout out into Resolume or OBS. Spout in to post-process any feed with a rack of live effect scenes. Per-app audio capture locks onto the booth signal and ignores everything else. MIDI, OSC, and a console built to be performed.</p>
+      </div>
+      <div class="room">
+        <span class="room-ch">CH 3</span>
+        <h3>Shader artists</h3>
+        <p>Paste a Shadertoy-style fragment and it runs. GLSL or WGSL, with audio uniforms, mouse, and a deep HDR post chain doing the bloom and grain for you. Your work, fullscreen at full frame rate, with your name on it.</p>
+      </div>
     </div>
   </div>
-  <p class="legal">© 2026 L&amp;R Entertainment LLC · IKANDY™ · Made by a human who likes loud music.</p>
+</section>
+
+<!-- ============ U3 SPEC ============ -->
+<section class="unit" id="spec">
+  <div class="unit-in">
+    <div class="unit-tag"><b>U3</b> ENGINE SPEC</div>
+    <h2 class="unit-title">The sheet.</h2>
+    <div class="spec">
+      <div class="spec-row"><span class="spec-k">Included presets</span><span class="spec-dots"></span><span class="spec-v">a deep library, every engine</span></div>
+      <div class="spec-row"><span class="spec-k">Built-in scenes</span><span class="spec-dots"></span><span class="spec-v">hand-built, always growing</span></div>
+      <div class="spec-row"><span class="spec-k">Render engines</span><span class="spec-dots"></span><span class="spec-v">GLSL &middot; WebGPU compute &middot; MilkDrop</span></div>
+      <div class="spec-row"><span class="spec-k">Post chain</span><span class="spec-dots"></span><span class="spec-v">multi-pass HDR, bloom to grain</span></div>
+      <div class="spec-row"><span class="spec-k">Audio capture</span><span class="spec-dots"></span><span class="spec-v">per-app WASAPI, true 7.1 downmix</span></div>
+      <div class="spec-row"><span class="spec-k">Spout</span><span class="spec-dots"></span><span class="spec-v">in + out, live effect scenes</span></div>
+      <div class="spec-row"><span class="spec-k">Shader import</span><span class="spec-dots"></span><span class="spec-v">paste GLSL or WGSL, it runs</span></div>
+      <div class="spec-row"><span class="spec-k">AI generation</span><span class="spec-dots"></span><span class="spec-v">bring your own key, <em>at cost</em></span></div>
+      <div class="spec-row"><span class="spec-k">Control</span><span class="spec-dots"></span><span class="spec-v">MIDI &middot; OSC &middot; gamepad flight</span></div>
+      <div class="spec-row"><span class="spec-k">Displays</span><span class="spec-dots"></span><span class="spec-v">multi-monitor span + desktop wallpaper</span></div>
+      <div class="spec-row"><span class="spec-k">Lyrics</span><span class="spec-dots"></span><span class="spec-v">synced, drawn on screen</span></div>
+      <div class="spec-row"><span class="spec-k">Network required</span><span class="spec-dots"></span><span class="spec-v"><em>none</em>, runs fully offline</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ U4 PRICING ============ -->
+<section class="unit" id="pricing"><span id="pro" style="position:absolute;top:-52px" aria-hidden="true"></span>
+  <div class="unit-in">
+    <div class="unit-tag"><b>U4</b> PRICING</div>
+    <h2 class="unit-title">Buy it once. Own it.</h2>
+    <div class="tiers">
+      <div class="tier">
+        <span class="tier-model">IK-0</span>
+        <h3>Base</h3>
+        <p class="tier-role">Watch and listen.</p>
+        <p class="tier-price">$0</p>
+      </div>
+      <div class="tier">
+        <span class="tier-model">IK-1</span>
+        <h3>Pro</h3>
+        <p class="tier-role">Create and stream.</p>
+        <p class="tier-price">$4.99</p>
+        <p class="tier-launch">Launch price &middot; $7.99 after</p>
+      </div>
+      <div class="tier">
+        <span class="tier-model">IK-2</span>
+        <h3>Stage</h3>
+        <p class="tier-role">The full VJ rig.</p>
+        <p class="tier-price">$39.99</p>
+        <p class="tier-launch">Launch price &middot; $59.99 after</p>
+      </div>
+    </div>
+    <p class="pricing-note"><b>No subscription.</b> AI generation is bring-your-own-key: you pay the AI provider directly, at cost. No markup, no metered credits, no meter at all.</p>
+    <p style="margin-top:18px"><a href="pricing/index.html" class="mono" style="font-size:12px;letter-spacing:.12em;text-transform:uppercase">Full pricing + how it compares &rarr;</a></p>
+  </div>
+</section>
+
+<!-- ============ U5 FOOTAGE ============ -->
+<section class="unit" id="watch">
+  <div class="unit-in">
+    <div class="unit-tag"><b>U5</b> FOOTAGE</div>
+    <h2 class="unit-title">Two minutes, in motion.</h2>
+    <div class="vid" id="vid">
+      <button class="vid-load" id="vid-load" aria-label="Play the demo video">
+        <span class="vid-play"><svg width="26" height="30" viewBox="0 0 26 30" fill="#0e0e11" aria-hidden="true"><path d="M0 0 L26 15 L0 30 Z"/></svg></span>
+        <span class="vid-cap">Play demo &middot; loads YouTube</span>
+      </button>
+    </div>
+    <p class="vid-alt">Player not loading? <a href="https://www.youtube.com/watch?v=bOp0aDZlmeQ" target="_blank" rel="noopener">Open on YouTube</a></p>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="ftr">
+  <div class="ftr-in">
+    <div class="ftr-grid">
+      <div>
+        <p class="ftr-brand">IKANDY</p>
+        <p class="ftr-note">Audio-reactive visualizer and VJ instrument for Windows 10 / 11. Runs fully offline.</p>
+        <p style="margin-top:18px"><a class="btn-steam" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam</a></p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="guide.html">User guide</a></li>
+          <li><a href="pricing/index.html">Pricing</a></li>
+          <li><a href="artists.html">Artist program</a></li>
+          <li><a href="arcade/index.html">Arcade</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Technical disclosures</h4>
+        <ul>
+          <li><a href="ikandy-smart-auto-prior-art.html">Smart Auto prior art</a></li>
+          <li><a href="ikandy-ai-error-sandbox.html">AI error sandbox</a></li>
+          <li><a href="ikandy-vis-format.html">.vis format</a></li>
+          <li><a href="scene-contract.html">Scene contract</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal + contact</h4>
+        <ul>
+          <li><a href="privacy.html">Privacy policy</a></li>
+          <li><a href="license.html">License</a></li>
+          <li><a href="eula.html">EULA</a></li>
+          <li><a href="credits.html">Credits</a></li>
+          <li><a href="mailto:support@ikandy.app">support@ikandy.app</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ftr-plate">
+      <span>MODEL IKANDY &middot; REV 2026.2 &middot; <span class="amber">SHIPS 2026-07-31 ON STEAM</span></span>
+      <span>Made by a human who likes loud music. &copy; 2026 L&amp;R Entertainment LLC &middot; IKANDY&trade;</span>
+    </div>
+  </div>
 </footer>
 
+<script src="analytics.js" defer></script>
+<script src="assets/hero.js" defer></script>
 <script>
-(function(){
-  'use strict';
-
-  /* ---------- demo video (click to load, youtube-nocookie) ---------- */
-  var playBtn=document.getElementById('playBtn');
-  if(playBtn) playBtn.addEventListener('click',function(){
-    var f=document.createElement('iframe');
-    f.src='https://www.youtube-nocookie.com/embed/bOp0aDZlmeQ?rel=0&autoplay=1';
-    f.title='IKANDY demo';
-    f.allow='autoplay; encrypted-media; picture-in-picture';
-    f.allowFullscreen=true;
-    var p=document.getElementById('player');
-    p.innerHTML='';p.appendChild(f);
-  });
-
-  /* ---------- live shader hero ---------- */
-  var canvas=document.getElementById('stage');
-  var gl=canvas.getContext('webgl2',{antialias:false,alpha:false,powerPreference:'low-power'});
-  if(!gl){canvas.style.display='none';return;} /* falls back to screenshot background */
-
-  var reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  var VS='#version 300 es\nlayout(location=0) in vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
-
-  var COMMON='#version 300 es\nprecision highp float;\n'+
-  'uniform vec2 u_res;uniform float u_time,u_bass,u_mid,u_treble,u_react,u_glow,u_speed,u_hue;\n'+
-  'out vec4 frag;\n'+
-  'float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}\n'+
-  'float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);\n'+
-  ' return mix(mix(hash(i),hash(i+vec2(1.,0.)),f.x),mix(hash(i+vec2(0.,1.)),hash(i+vec2(1.,1.)),f.x),f.y);}\n'+
-  'float fbm(vec2 p){float a=.5,s=0.;for(int i=0;i<5;i++){s+=a*noise(p);p=p*2.03+11.7;a*=.5;}return s;}\n'+
-  'vec3 pal(float t){t+=u_hue;return .55+.45*cos(6.28318*(t+vec3(.0,.62,.78)));}\n'+
-  'vec3 finish(vec3 c,float e){c*=.7+u_glow*1.2;c+=c*pow(e,2.)*u_glow*3.5;c=c/(c+1.);return pow(c,vec3(.4545));}\n';
-
-  var SCENES=[
-  /* LIQUID — domain-warped fbm chrome */
-  COMMON+
-  'void main(){vec2 uv=(gl_FragCoord.xy*2.-u_res)/u_res.y;\n'+
-  ' float t=u_time*.18*u_speed;float B=u_bass*u_react;\n'+
-  ' vec2 q=vec2(fbm(uv+t),fbm(uv+vec2(5.2,1.3)-t));\n'+
-  ' vec2 r=vec2(fbm(uv+(2.5+2.5*B)*q+vec2(1.7,9.2)+t*.6),fbm(uv+(2.5+2.5*B)*q+vec2(8.3,2.8)-t*.4));\n'+
-  ' float v=fbm(uv+3.*r);\n'+
-  ' vec3 col=pal(v*1.4+r.x*.5)*(.25+1.5*v*v);\n'+
-  ' col+=pal(.1+v).gbr*pow(r.y,3.)*(1.+2.*B);\n'+
-  ' float edge=smoothstep(.45,.95,v)+B*.35;\n'+
-  ' frag=vec4(finish(col,edge),1.);}',
-
-  /* TUNNEL — polar rings, kick flash */
-  COMMON+
-  'void main(){vec2 uv=(gl_FragCoord.xy*2.-u_res)/u_res.y;\n'+
-  ' float t=u_time*.5*u_speed;float B=u_bass*u_react,T=u_treble*u_react;\n'+
-  ' float a=atan(uv.y,uv.x);float d=length(uv);\n'+
-  ' float z=1./(d+.12)+t*2.;\n'+
-  ' float seg=cos(a*8.+t*2.)*.5+.5;\n'+
-  ' float ring=smoothstep(.35,.0,abs(fract(z)-.5)-.18*B);\n'+
-  ' float v=ring*(.35+.65*seg);\n'+
-  ' vec3 col=pal(z*.12+a*.08)*v*(.5+1.8*B);\n'+
-  ' col+=pal(.5+z*.05).brg*pow(seg,8.)*T*.8;\n'+
-  ' col*=smoothstep(1.9,.35,d);\n'+
-  ' frag=vec4(finish(col,v*(.4+.6*B)),1.);}',
-
-  /* AURORA — drifting curtains, treble shimmer */
-  COMMON+
-  'void main(){vec2 uv=(gl_FragCoord.xy*2.-u_res)/u_res.y;\n'+
-  ' float t=u_time*.25*u_speed;float M=u_mid*u_react,T=u_treble*u_react;\n'+
-  ' vec3 col=vec3(0.);\n'+
-  ' for(float i=0.;i<3.;i++){\n'+
-  '  float w=fbm(vec2(uv.x*(1.2+i*.5)+t*(.4+i*.2),i*7.+t*.15));\n'+
-  '  float band=uv.y*.7-(w-.5)*(1.6+1.6*M)+ (i-1.)*.35;\n'+
-  '  float c=exp(-band*band*9.)* (.6+.4*sin(uv.x*3.+t+i*2.));\n'+
-  '  col+=pal(.15+i*.18+w*.3)*c;}\n'+
-  ' col+=pal(.8).gbr*noise(uv*40.+t*8.)*T*.25*exp(-uv.y*uv.y*2.);\n'+
-  ' col*=smoothstep(1.6,.2,abs(uv.y)+.2);\n'+
-  ' float e=clamp(col.g+col.b,0.,1.);\n'+
-  ' frag=vec4(finish(col,e),1.);}'
-  ];
-
-  function compile(type,src){var s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);
-    if(!gl.getShaderParameter(s,gl.COMPILE_STATUS)){console.warn(gl.getShaderInfoLog(s));return null;}return s;}
-  function program(fs){var v=compile(gl.VERTEX_SHADER,VS),f=compile(gl.FRAGMENT_SHADER,fs);
-    if(!v||!f)return null;var p=gl.createProgram();gl.attachShader(p,v);gl.attachShader(p,f);gl.linkProgram(p);
-    if(!gl.getProgramParameter(p,gl.LINK_STATUS)){console.warn(gl.getProgramInfoLog(p));return null;}return p;}
-
-  var progs=SCENES.map(program);
-  if(!progs[0]){canvas.style.display='none';return;}
-
-  var buf=gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER,buf);
-  gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
-  gl.enableVertexAttribArray(0);
-  gl.vertexAttribPointer(0,2,gl.FLOAT,false,0,0);
-
-  var scene=0,U={};
-  function bind(i){var p=progs[i];if(!p)return;gl.useProgram(p);
-    ['u_res','u_time','u_bass','u_mid','u_treble','u_react','u_glow','u_speed','u_hue']
-    .forEach(function(n){U[n]=gl.getUniformLocation(p,n);});}
-  bind(0);
-
-  /* controls */
-  var ctl={react:.7,glow:.55,speed:.5,hue:0};
-  function hook(id,out,key,fn){var el=document.getElementById(id),o=document.getElementById(out);
-    el.addEventListener('input',function(){o.textContent=el.value;ctl[key]=fn(+el.value);kick();});}
-  hook('rReact','oReact','react',function(v){return v/100;});
-  hook('rGlow','oGlow','glow',function(v){return v/100;});
-  hook('rSpeed','oSpeed','speed',function(v){return v/100;});
-  hook('rHue','oHue','hue',function(v){return v/100;});
-
-  document.querySelectorAll('.chip').forEach(function(c){
-    c.addEventListener('click',function(){
-      document.querySelectorAll('.chip').forEach(function(x){x.setAttribute('aria-pressed','false');});
-      c.setAttribute('aria-pressed','true');
-      scene=+c.dataset.scene;if(!progs[scene])scene=0;bind(scene);kick();
-    });
-  });
-
-  /* audio: synthetic beat by default, mic if granted */
-  var bands=[0,0,0],target=[0,0,0],mic=null,analyser=null,fft=null;
-  function synth(t){
-    var bpm=122,beat=60/bpm;
-    var ph=(t%beat)/beat;
-    var ph8=(t%(beat/2))/(beat/2);
-    var bar=Math.floor(t/(beat*4))%8;
-    var build=bar===7?Math.min(1,((t/(beat*4))%1)):0;
-    var b=Math.exp(-ph*6.5)*.95+.12+.25*build;
-    var m=.3+.22*Math.sin(t*2.1)+.18*Math.sin(t*3.73+1.4)+.2*build;
-    var tr=Math.exp(-ph8*9.)*(.45+.4*Math.abs(Math.sin(t*1.31)))+.06+.3*build;
-    return [Math.min(b,1.2),Math.max(0,Math.min(m,1)),Math.min(tr,1)];
-  }
-  var micBtn=document.getElementById('micBtn');
-  /* Firefox's getDisplayMedia cannot capture audio at all — go straight to mic there */
-  var isFF=/firefox/i.test(navigator.userAgent);
-  var canTab=!isFF&&!!(navigator.mediaDevices&&navigator.mediaDevices.getDisplayMedia);
-  var IDLE=canTab?'🔊 REACT TO MY MUSIC':'🎤 USE MIC';
-  var useMicNext=false;
-  micBtn.textContent=IDLE;
-  micBtn.title=canTab?"Pick your music tab or entire screen and check 'Share audio' — the page reacts to what you're actually playing":'React to your microphone';
-  function stopCap(){
-    if(mic){mic.getTracks().forEach(function(t){t.stop();});}
-    mic=null;analyser=null;useMicNext=false;
-    micBtn.setAttribute('aria-pressed','false');micBtn.textContent=IDLE;
-  }
-  function hookStream(stream,label){
-    mic=stream;
-    var ac=new (window.AudioContext||window.webkitAudioContext)();
-    var src=ac.createMediaStreamSource(stream);
-    analyser=ac.createAnalyser();analyser.fftSize=256;analyser.smoothingTimeConstant=.7;
-    src.connect(analyser);fft=new Uint8Array(analyser.frequencyBinCount);
-    stream.getTracks().forEach(function(t){t.addEventListener('ended',stopCap);});
-    micBtn.setAttribute('aria-pressed','true');micBtn.textContent=label;kick();
-  }
-  function useMic(){
-    navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}})
-    .then(function(s){hookStream(s,'🎤 LISTENING · STOP');})
-    .catch(function(){micBtn.textContent='🎤 MIC BLOCKED';});
-  }
-  micBtn.addEventListener('click',function(){
-    if(mic){stopCap();return;}
-    if(useMicNext||!canTab){useMic();return;}
-    navigator.mediaDevices.getDisplayMedia({
-      video:true,
-      audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false,suppressLocalAudioPlayback:false},
-      systemAudio:'include',
-      selfBrowserSurface:'exclude'
-    }).then(function(stream){
-      if(stream.getAudioTracks().length===0){
-        stream.getTracks().forEach(function(t){t.stop();});
-        useMicNext=true;
-        micBtn.textContent='🎤 NO AUDIO SHARED · USE MIC?';
-        return;
-      }
-      hookStream(stream,'🔊 LISTENING · STOP');
-    }).catch(function(){/* user cancelled the picker */});
-  });
-  function micBands(){
-    analyser.getByteFrequencyData(fft);
-    function avg(a,b){var s=0;for(var i=a;i<b;i++)s+=fft[i];return s/((b-a)*255);}
-    return [avg(1,7)*1.6,avg(7,40)*1.5,avg(40,110)*2.2];
-  }
-
-  /* sizing */
-  function resize(){
-    var dpr=Math.min(window.devicePixelRatio||1,1.5);
-    var scale=window.innerWidth<760?.7:.85; /* render under-res; shader content hides it */
-    var w=Math.floor(canvas.clientWidth*dpr*scale),h=Math.floor(canvas.clientHeight*dpr*scale);
-    if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;gl.viewport(0,0,w,h);}
-  }
-  window.addEventListener('resize',function(){resize();kick();});
-
-  /* render loop — pauses when hidden / off-screen / reduced motion */
-  var t0=performance.now(),last=t0,phase=0,running=false,visible=true;
-  var io=new IntersectionObserver(function(e){visible=e[0].isIntersecting;if(visible)kick();},{threshold:.01});
-  io.observe(canvas);
-  document.addEventListener('visibilitychange',function(){if(!document.hidden){last=performance.now();kick();}});
-
-  function frame(now){
-    running=false;
-    if(document.hidden||!visible)return;
-    resize();
-    var t=(now-t0)/1000;
-    var dt=Math.min((now-last)/1000,.1);last=now;
-    phase+=dt*(.25+ctl.speed*1.5);  /* integrate: speed slider changes rate, never jumps phase */
-    target=(analyser?micBands():synth(t));
-    for(var i=0;i<3;i++)bands[i]+= (target[i]-bands[i])*.25;
-    gl.uniform2f(U.u_res,canvas.width,canvas.height);
-    gl.uniform1f(U.u_time,phase);
-    gl.uniform1f(U.u_bass,bands[0]);
-    gl.uniform1f(U.u_mid,bands[1]);
-    gl.uniform1f(U.u_treble,bands[2]);
-    gl.uniform1f(U.u_react,ctl.react);
-    gl.uniform1f(U.u_glow,ctl.glow);
-    gl.uniform1f(U.u_speed,1.);
-    gl.uniform1f(U.u_hue,ctl.hue*.85); /* 0 and 100 land on different colors */
-    gl.drawArrays(gl.TRIANGLES,0,3);
-    if(!reduced)kick();
-  }
-  function kick(){if(!running){running=true;requestAnimationFrame(frame);}}
-  resize();kick();
-})();
+// click-to-load YouTube (no third-party requests until asked)
+document.getElementById('vid-load').addEventListener('click', function(){
+  var box=document.getElementById('vid');
+  var f=document.createElement('iframe');
+  f.src='https://www.youtube-nocookie.com/embed/bOp0aDZlmeQ?autoplay=1&rel=0';
+  f.title='IKANDY demo video';
+  f.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+  f.allowFullscreen=true;
+  box.innerHTML=''; box.appendChild(f);
+  if(window.ikandyTrack) window.ikandyTrack('video_play',{video:'demo'});
+});
 </script>
 </body>
 </html>

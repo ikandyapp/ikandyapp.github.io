@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Connect Spotify : IKANDY</title>
+<meta name="description" content="One-time Spotify setup for IKANDY: create a free developer app, paste the Client ID, done.">
+<link rel="icon" href="icon.ico">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FEJJH5VN5S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-FEJJH5VN5S');
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders:wght@600;700;800&family=Archivo:wght@400;500;600;700&family=Martian+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ik.css">
+<link rel="stylesheet" href="assets/guide.css">
+<style>
+body{padding-top:var(--nav-h)}
+nav.rail{position:fixed!important;top:0!important;left:0!important;right:0!important;
+  display:block!important;padding:0!important;height:var(--nav-h)!important;
+  background:linear-gradient(180deg,#191920,var(--rail))!important;
+  border-bottom:1px solid #000!important;max-width:none!important}
+nav.rail .rail-in{max-width:var(--maxw);margin:0 auto;height:100%;padding:0 24px;
+  display:flex;align-items:center;gap:22px}
+footer.ftr{display:block!important;text-align:left!important;padding:0!important;margin:0!important;
+  background:var(--chassis-deep)!important;border-top:1px solid #000!important;max-width:none!important}
+.wiki-wrap{max-width:880px;margin:0 auto;padding:56px 24px 80px}
+.crumb{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink-3);margin-bottom:22px;display:flex;gap:10px;align-items:center}
+.crumb a{color:var(--ink-3)} .crumb a:hover{color:var(--vu-amber)}
+.crumb .hueled{width:7px;height:7px;border-radius:50%;background:var(--hue);
+  box-shadow:0 0 8px var(--hue)}
+.wiki-wrap h1{font-family:var(--display);font-weight:800;text-transform:uppercase;
+  font-size:clamp(34px,6vw,54px);line-height:1;margin:0 0 14px;letter-spacing:.01em}
+.wiki-lead{color:var(--ink-2);font-size:16.5px;max-width:640px;margin:0 0 34px}
+.wiki-wrap section{padding:34px 0 6px}
+.pn{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:56px}
+.pn a{border:1px solid var(--rule);border-radius:5px;padding:16px 18px;display:block;
+  background:var(--panel);transition:border-color .18s,transform .18s}
+.pn a:hover{text-decoration:none;border-color:var(--hue,#8f3512);transform:translateY(-2px)}
+.pn .lbl{font-family:var(--mono);font-size:9px;letter-spacing:.2em;color:var(--ink-3);
+  text-transform:uppercase}
+.pn .ttl{color:var(--ink);font-weight:600;margin-top:4px}
+.pn .nxt{text-align:right}
+@media(max-width:640px){.pn{grid-template-columns:1fr}}
+.wiki-note{border:1px solid var(--rule);border-left:3px solid var(--vu-amber);
+  border-radius:3px;background:var(--panel);padding:14px 18px;color:var(--ink-2);
+  font-size:14px;margin:26px 0}
+</style>
+</head>
+<body>
+<nav class="rail" aria-label="Main">
+  <div class="rail-in">
+    <a class="rail-logo" href="index.html"><span class="rail-led" aria-hidden="true"></span>IKANDY</a>
+    <button class="rail-toggle" aria-label="Menu">MENU</button>
+    <div class="rail-links">
+      <a href="index.html#rooms">Who it's for</a>
+      <a href="index.html#spec">Engine</a>
+      <a href="pricing/index.html">Pricing</a>
+      <a href="guide.html" class="active">Guide</a>
+      <a href="artists.html">Artists</a>
+    </div>
+    <a class="btn-steam rail-cta" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam</a>
+  </div>
+</nav>
+<main class="wiki-wrap" style="--hue:#46d96b">
+  <div class="crumb"><a href="guide.html">User guide</a><span>/</span><a href="guide/audio-sources.html">Audio sources</a><span>/</span><span class="hueled" aria-hidden="true"></span><span style="color:var(--ink-2)">Spotify</span></div>
+  <h1>Connect Spotify</h1>
+  <p class="wiki-lead">The one-time setup for the richest source in IKANDY: track info, art, synced lyrics, playlists, and full transport.</p>
+  <section><div class="source-block" id="source-spotify" style="--c:var(--green);">
+    <div class="source-block-head">
+      <span class="source-block-icon">🎵</span>
+      <span class="source-block-name">Spotify</span>
+      <span class="source-block-meta" style="color:var(--green);">● Full features &middot; Premium recommended</span>
+    </div>
+    <p class="body dim">The richest integration. Track info, album art, synced lyrics, playlist browser with search, and full transport : play, pause, skip, shuffle modes including Smart Shuffle detection. IKANDY uses <em>Bring Your Own Key</em> auth: you create a free Spotify Developer app and paste the Client ID once. It&rsquo;s saved encrypted via Windows DPAPI and never leaves your machine.</p>
+
+    <h3 class="first">One-time setup</h3>
+    <ol class="steps">
+      <li>In IKANDY, open the source selector and choose <strong>Spotify</strong>. The settings panel shows the exact <strong>Redirect URI</strong> to register.</li>
+      <li>Go to <code>developer.spotify.com/dashboard</code>, log in, and click <strong>Create app</strong>.</li>
+      <li>Give it any name and description. Under <strong>Redirect URIs</strong>, paste the URI shown in IKANDY. Check the <strong>Web API</strong> box. Save.</li>
+      <li>Open the new app → <strong>Settings</strong> → copy the <strong>Client ID</strong>.</li>
+      <li>Paste the Client ID into IKANDY's Spotify settings and click <strong>Connect</strong>. Spotify opens in your browser to authorise. Done.</li>
+    </ol>
+
+    
+    <p class="guide-screenshot-caption">IKANDY's Spotify settings panel showing the Client ID field and Redirect URI</p>
+
+    <div class="callout">
+      <span class="callout-label">Why BYOK</span>
+      Most apps embed a shared Client ID, so Spotify rate-limits everyone using that app together. With BYOK, your IKANDY uses your own quota: no sharing, no throttling.
+    </div>
+
+    <div class="callout warn">
+      <span class="callout-label">Premium required for transport</span>
+      Spotify's Web API only allows playback control for Premium subscribers. Free accounts get track info, album art, and lyrics, but playback buttons are greyed out. Works with Spotify desktop, the web player, or any Spotify Connect device.
+    </div>
+  </div>
+
+  <!-- FOOBAR -->
+  </section>
+  <div class="pn"><a href="guide/audio-sources.html" style="--hue:#ff3dd8"><span class="lbl">&larr; All sources</span><span class="ttl" style="display:block">Audio sources</span></a><span></span></div>
+</main>
+<footer class="ftr">
+  <div class="ftr-in">
+    <div class="ftr-grid">
+      <div>
+        <p class="ftr-brand">IKANDY</p>
+        <p class="ftr-note">Audio-reactive visualizer and VJ instrument for Windows 10 / 11. Runs fully offline.</p>
+        <p style="margin-top:18px"><a class="btn-steam" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam</a></p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="guide.html">User guide</a></li>
+          <li><a href="pricing/index.html">Pricing</a></li>
+          <li><a href="artists.html">Artist program</a></li>
+          <li><a href="arcade/index.html">Arcade</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Technical disclosures</h4>
+        <ul>
+          <li><a href="ikandy-smart-auto-prior-art.html">Smart Auto prior art</a></li>
+          <li><a href="ikandy-ai-error-sandbox.html">AI error sandbox</a></li>
+          <li><a href="ikandy-vis-format.html">.vis format</a></li>
+          <li><a href="scene-contract.html">Scene contract</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal + contact</h4>
+        <ul>
+          <li><a href="privacy.html">Privacy policy</a></li>
+          <li><a href="license.html">License</a></li>
+          <li><a href="eula.html">EULA</a></li>
+          <li><a href="credits.html">Credits</a></li>
+          <li><a href="mailto:support@ikandy.app">support@ikandy.app</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ftr-plate">
+      <span>MODEL IKANDY &middot; REV 2026.2 &middot; <span class="amber">SHIPS 2026-07-31 ON STEAM</span></span>
+      <span>Made by a human who likes loud music. &copy; 2026 L&amp;R Entertainment LLC &middot; IKANDY&trade;</span>
+    </div>
+  </div>
+</footer>
+<script src="analytics.js" defer></script>
+<script>(function(){var t=document.querySelector('.rail-toggle'),l=document.querySelector('.rail-links');
+if(t&&l)t.addEventListener('click',function(){l.classList.toggle('open')});})();</script>
+</body>
+</html>
