@@ -176,7 +176,7 @@ h1 .row{display:block}
   box-shadow:0 0 6px rgba(255,90,31,.7);border-top:1px solid rgba(0,0,0,.6);border-bottom:1px solid rgba(0,0,0,.6)}
 .fader:hover .fader-cap{background:linear-gradient(180deg,#3b3b45,#20202a 45%,#2b2b35 55%,#15151b)}
 .fader-legend{display:flex;justify-content:space-between;margin-top:5px;padding:0 1px}
-.cgroup:has(.knob-hint){flex-wrap:wrap}
+.cgroup:has(> .knob-hint),.grow:has(> .knob-hint){flex-wrap:wrap}
 .knob-hint{flex:1 0 100%;text-align:center;margin-top:4px;
   font-family:var(--mono);font-size:8.5px;letter-spacing:.16em;
   color:var(--ink-faint);text-transform:uppercase}
@@ -493,6 +493,7 @@ html.js .unit-in.in{opacity:1;transform:none}
           </div>
           <span class="knob-name">Hue</span><span class="knob-val">0&deg;</span>
         </div>
+        <div class="knob-hint">drag &middot; scroll &middot; double-click resets</div>
       
         </div>
       </div>
@@ -515,7 +516,6 @@ html.js .unit-in.in{opacity:1;transform:none}
             </div>
           </div>
         </div>
-        <div class="knob-hint">drag &middot; scroll &middot; double-click resets</div>
       </div>
 
     </div>
