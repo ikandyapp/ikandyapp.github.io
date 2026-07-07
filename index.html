@@ -176,6 +176,10 @@ h1 .row{display:block}
   box-shadow:0 0 6px rgba(255,90,31,.7);border-top:1px solid rgba(0,0,0,.6);border-bottom:1px solid rgba(0,0,0,.6)}
 .fader:hover .fader-cap{background:linear-gradient(180deg,#3b3b45,#20202a 45%,#2b2b35 55%,#15151b)}
 .fader-legend{display:flex;justify-content:space-between;margin-top:5px;padding:0 1px}
+.cgroup:has(.knob-hint){flex-wrap:wrap}
+.knob-hint{flex:1 0 100%;text-align:center;margin-top:4px;
+  font-family:var(--mono);font-size:8.5px;letter-spacing:.16em;
+  color:var(--ink-faint);text-transform:uppercase}
 
 @media(max-width:900px){
 
@@ -430,7 +434,7 @@ html.js .unit-in.in{opacity:1;transform:none}
         <span class="glabel">Trim</span>
         <div class="grow">
           <div class="knob" id="k-react" role="slider" tabindex="0" aria-label="Reactivity"
-             aria-valuemin="0" aria-valuemax="100" aria-valuenow="80">
+             aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
           <div class="knob-ring">
             <svg class="knob-ticks" viewBox="0 0 52 52" aria-hidden="true">
               <g stroke="#46464f" stroke-width="1.4">
@@ -442,10 +446,10 @@ html.js .unit-in.in{opacity:1;transform:none}
             </svg>
             <div class="knob-dial"></div>
           </div>
-          <span class="knob-name">React</span><span class="knob-val">80</span>
+          <span class="knob-name">React</span><span class="knob-val">50</span>
         </div>
         <div class="knob" id="k-glow" role="slider" tabindex="0" aria-label="Glow"
-             aria-valuemin="0" aria-valuemax="100" aria-valuenow="55">
+             aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
           <div class="knob-ring">
             <svg class="knob-ticks" viewBox="0 0 52 52" aria-hidden="true">
               <g stroke="#46464f" stroke-width="1.4">
@@ -457,7 +461,7 @@ html.js .unit-in.in{opacity:1;transform:none}
             </svg>
             <div class="knob-dial"></div>
           </div>
-          <span class="knob-name">Glow</span><span class="knob-val">55</span>
+          <span class="knob-name">Glow</span><span class="knob-val">50</span>
         </div>
         <div class="knob" id="k-speed" role="slider" tabindex="0" aria-label="Speed"
              aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
@@ -511,6 +515,7 @@ html.js .unit-in.in{opacity:1;transform:none}
             </div>
           </div>
         </div>
+        <div class="knob-hint">drag &middot; scroll &middot; double-click resets</div>
       </div>
 
     </div>
