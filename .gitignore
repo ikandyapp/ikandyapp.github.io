@@ -1,2 +1,6 @@
 REVAMP-NOTES.md
 Fix-Emoji.ps1
+
+# Claude Code project files, never publish
+.claude/
+CLAUDE.md
