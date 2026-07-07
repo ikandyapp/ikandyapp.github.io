@@ -176,10 +176,21 @@ h1 .row{display:block}
   box-shadow:0 0 6px rgba(255,90,31,.7);border-top:1px solid rgba(0,0,0,.6);border-bottom:1px solid rgba(0,0,0,.6)}
 .fader:hover .fader-cap{background:linear-gradient(180deg,#3b3b45,#20202a 45%,#2b2b35 55%,#15151b)}
 .fader-legend{display:flex;justify-content:space-between;margin-top:5px;padding:0 1px}
-.cgroup:has(> .knob-hint),.grow:has(> .knob-hint){flex-wrap:wrap}
-.knob-hint{flex:1 0 100%;text-align:center;margin-top:4px;
-  font-family:var(--mono);font-size:8.5px;letter-spacing:.16em;
-  color:var(--ink-faint);text-transform:uppercase}
+/* knob help: zero-footprint hint */
+.khelp{position:relative;display:inline-flex;align-items:center;justify-content:center;
+  width:13px;height:13px;margin-left:8px;vertical-align:-2px;padding:0;
+  border-radius:50%;cursor:help;
+  background:var(--well);border:1px solid #000;color:var(--ink-3);
+  font-family:var(--mono);font-size:8.5px;line-height:1;
+  box-shadow:inset 0 1px 3px rgba(0,0,0,.7),inset 0 -1px 0 rgba(255,255,255,.04)}
+.khelp:hover,.khelp:focus-visible{color:var(--accent);outline:none;
+  border-color:color-mix(in srgb,var(--accent) 45%,#000)}
+.khelp-tip{position:absolute;top:calc(100% + 7px);left:50%;transform:translateX(-50%);
+  white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .15s;z-index:6;
+  font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-2);background:var(--panel);border:1px solid #000;border-radius:3px;
+  padding:6px 9px;box-shadow:0 6px 14px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.06)}
+.khelp:hover .khelp-tip,.khelp:focus-visible .khelp-tip{opacity:1}
 
 @media(max-width:900px){
 
@@ -431,7 +442,7 @@ html.js .unit-in.in{opacity:1;transform:none}
       <div class="cdivider" aria-hidden="true"></div>
 
       <div class="cgroup" role="group" aria-label="Controls">
-        <span class="glabel">Trim</span>
+        <span class="glabel">Trim<button class="khelp" type="button" aria-label="How the knobs work"><span aria-hidden="true">?</span><span class="khelp-tip" role="tooltip">drag &middot; scroll &middot; double-click resets</span></button></span>
         <div class="grow">
           <div class="knob" id="k-react" role="slider" tabindex="0" aria-label="Reactivity"
              aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
@@ -493,7 +504,6 @@ html.js .unit-in.in{opacity:1;transform:none}
           </div>
           <span class="knob-name">Hue</span><span class="knob-val">0&deg;</span>
         </div>
-        <div class="knob-hint">drag &middot; scroll &middot; double-click resets</div>
       
         </div>
       </div>
