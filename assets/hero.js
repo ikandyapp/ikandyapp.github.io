@@ -285,7 +285,7 @@
   });
 
   /* ---------------- knobs ---------------- */
-  function makeKnob(id, key, fmt, wrap) {
+  function makeKnob(id, key, fmt) {
     var el = document.getElementById(id);
     if (!el) return;
     var dial = el.querySelector('.knob-dial');
@@ -302,7 +302,7 @@
     ring.insertBefore(arcSvg, dial);
     var def = S[key];
     function setV(v, announce) {
-      v = wrap ? ((v % 1) + 1) % 1 : Math.max(0, Math.min(1, v));
+      v = Math.max(0, Math.min(1, v));
       S[key] = v;
       var deg = -135 + v * 270;
       dial.style.transform = 'rotate(' + deg + 'deg)';
@@ -344,7 +344,7 @@
   makeKnob('k-react', 'react');
   makeKnob('k-glow', 'glow');
   makeKnob('k-speed', 'speed');
-  makeKnob('k-hue', 'hue', function (v) { return (Math.round(v * 360) % 360) + '\u00b0'; }, true);
+  makeKnob('k-hue', 'hue', function (v) { return Math.round(v * 360) + '\u00b0'; });
 
   /* ---------------- scene selector ---------------- */
   // scope strictly to the SCENE group: the SOUND latch shares the button class
