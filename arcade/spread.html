@@ -311,7 +311,9 @@ input.txt:focus { outline: 1px dotted #000080; }
         const bonus = r.bonus_points || 0;
         const totalPts = r.points + bonus;
         const note = r.admin_note ? r.admin_note.replace(/&/g, '&amp;').replace(/</g, '&lt;') : '';
-        return '<tr><td><a href="' + r.url_original.replace(/"/g, '&quot;') + '" target="_blank" rel="noopener">' + shortUrl(r.url_original) + '</a></td>' +
+        const safeHref = /^https?:\/\//i.test(r.url_original) ? r.url_original.replace(/"/g, '&quot;') : '';
+const urlText = shortUrl(r.url_original).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+return '<tr><td>' + (safeHref ? '<a href="' + safeHref + '" target="_blank" rel="noopener">' + urlText + '</a>' : urlText) + '</td>' +
           '<td>' + r.platform + '</td>' +
           '<td class="num">' + totalPts + (bonus > 0 ? ' <span style="color:#c08000;font-size:9px;">(' + r.points + '+' + bonus + ')</span>' : '') + '</td>' +
           '<td class="num">' + (bonus > 0 ? '<span style="color:#c08000;font-weight:bold;">+' + bonus + '</span>' : '&mdash;') + '</td>' +

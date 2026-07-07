@@ -9,16 +9,20 @@
   gtag('js', new Date());
   gtag('config', 'G-FEJJH5VN5S');
 </script>
-<script defer src="/analytics.js"></script>
+<script defer src="analytics.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IKANDY Beta License Agreement</title>
+<title>IKANDY License Agreement</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders:wght@600;700;800&family=Archivo:wght@400;500;600;700&family=Martian+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ik.css">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: #060608;
+    background: #0e0e11;
     color: rgba(255,255,255,0.85);
     height: 100vh;
     display: flex;
@@ -31,7 +35,7 @@
   /* Draggable title bar */
   .titlebar {
     -webkit-app-region: drag;
-    background: #0a0a0f;
+    background: #0e0e11;
     border-bottom: 1px solid rgba(255,255,255,0.08);
     padding: 12px 20px 10px;
     display: flex;
@@ -110,7 +114,7 @@
     margin-top: 1px;
     flex-shrink: 0;
     width: 14px; height: 14px;
-    accent-color: var(--acc, #e05c3a);
+    accent-color: var(--acc, #ff5a1f);
     cursor: pointer;
   }
   .checkbox-row input[type=checkbox]:disabled { cursor: default; }
@@ -140,8 +144,8 @@
   }
   .btn:disabled { opacity: 0.25; cursor: default; }
   .btn-accept {
-    background: var(--acc, #e05c3a);
-    color: #fff;
+    background: var(--acc, #ff5a1f);
+    color: #eae5d9;
     flex: 1;
   }
   .btn-accept:not(:disabled):hover { opacity: 0.88; }
@@ -159,7 +163,25 @@
     min-height: 16px;
     transition: color 0.2s;
   }
-  .status-line.error { color: #e05c3a; }
+  .status-line.error { color: #ff5a1f; }
+</style>
+
+<style>
+/* THE RIG reskin overrides (appended after page styles) */
+body{background:var(--chassis)!important;color:var(--ink)}
+h1,h2{font-weight:800!important}
+h3{font-weight:700!important}
+code,pre,kbd{font-family:var(--mono)}
+/* neutralize legacy element-level nav/footer rules leaking into the shell */
+nav.rail{position:fixed!important;top:0!important;left:0!important;right:0!important;
+  display:block!important;padding:0!important;margin:0!important;height:var(--nav-h)!important;
+  background:linear-gradient(180deg,#191920,var(--rail))!important;
+  border-bottom:1px solid #000!important;backdrop-filter:none!important;max-width:none!important}
+nav.rail .rail-in{max-width:var(--maxw);margin:0 auto;height:100%;padding:0 24px;
+  display:flex;align-items:center;gap:22px}
+footer.ftr{display:block!important;text-align:left!important;padding:0!important;margin:0!important;
+  background:var(--chassis-deep)!important;border-top:1px solid #000!important;max-width:none!important}
+footer.ftr a{text-decoration:none}
 </style>
 </head>
 <body>
@@ -167,7 +189,7 @@
 <div class="titlebar">
   <span class="titlebar-logo">IKANDY</span>
   <div class="titlebar-sep"></div>
-  <span class="titlebar-title">Beta License Agreement</span>
+  <span class="titlebar-title">License Agreement</span>
 </div>
 
 <div class="eula-scroll" id="eula-scroll">
@@ -179,7 +201,7 @@
 <div class="accept-section">
   <div class="checkbox-row" id="row-read">
     <input type="checkbox" id="chk-read" disabled>
-    <label for="chk-read">I have read and agree to the IKANDY Beta License Agreement</label>
+    <label for="chk-read">I have read and agree to the IKANDY License Agreement</label>
   </div>
   <div class="checkbox-row" id="row-beta">
     <input type="checkbox" id="chk-beta" disabled>
@@ -266,7 +288,7 @@
 
   btnDecline.addEventListener('click', async () => {
     if (busy) return;
-    if (!confirm('Decline the Beta License Agreement and quit IKANDY?')) return;
+    if (!confirm('Decline the License Agreement and quit IKANDY?')) return;
     busy = true;
     btnAccept.disabled = true;
     btnDecline.disabled = true;
@@ -285,11 +307,13 @@
         if (remaining < 8) onScrolled(); // already at bottom
       }, 100);
     } catch(e) {
-      eulaText.textContent = 'This page is shown inside the IKANDY application on first launch.\n\nTo read the full IKANDY Beta License Agreement online, visit:\nhttps://ikandy.app/license.html';
+      eulaText.textContent = 'This page is shown inside the IKANDY application on first launch.\n\nTo read the full IKANDY License Agreement online, visit:\nhttps://ikandy.app/license.html';
       statusLine.textContent = 'Error loading agreement text.';
       statusLine.classList.add('error');
     }
   })();
 </script>
 </body>
-</html>
+</html><p><strong>Steam Distribution.</strong> Retail builds are sold and delivered through Steam. Your purchase is a transaction with Valve under the Steam Subscriber Agreement, and refunds are handled through Steam. A Steam account is required; the Software uses Steamworks to confirm ownership and unlock your tier, receiving your numeric Steam account ID for that purpose. The Software does not require an internet connection to run or perform: ownership and tier verify locally through the Steam client, Steam's offline mode is supported, and a verified license is cached with no periodic online check and no time limit on offline use.</p>
+<p><strong>Diagnostics and Usage Analytics.</strong> Retail builds send crash diagnostics and usage analytics by default, including feature usage events and a coarse region (country level) associated with your Steam account ID, all as described in the Privacy Policy at ikandy.app/privacy. You can turn either off at any time in Settings, Privacy. Beta builds keep both off by default.</p>
+

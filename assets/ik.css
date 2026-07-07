@@ -1,0 +1,172 @@
+/* ============================================================
+   IKANDY site shell — "THE RIG"
+   Warm graphite hardware chassis, silkscreen ink, functional
+   signal colors (VU amber / meter green / clip red).
+   Type: Big Shoulders (display) / Archivo (body) / Martian Mono (labels).
+   ============================================================ */
+
+:root{
+  /* chassis + panels */
+  --chassis:#0e0e11;
+  --chassis-deep:#08080a;
+  --panel:#17171b;
+  --panel-hi:#232329;
+  --well:#060608;
+  --rule:#282830;
+  --rule-soft:#1f1f26;
+  --rail:#121217;
+
+  /* silkscreen ink */
+  --ink:#eae5d9;
+  --ink-2:#b5ae9c;
+  --ink-3:#8a8371;
+  --ink-faint:#5c574b;
+
+  /* signal set (functional, not decorative) */
+  --vu-amber:#ff5a1f;
+  --vu-amber-dim:#8f3512;
+  --vu-green:#46d96b;
+  --clip-red:#ff4238;
+
+  --radius:3px;
+  --maxw:1120px;
+  --nav-h:52px;
+
+  --mono:'Martian Mono','Cascadia Code',Consolas,monospace;
+  --body:'Archivo',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --display:'Big Shoulders','Archivo',sans-serif;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+body{
+  margin:0;
+  background:var(--chassis);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+/* faint machined grain on the chassis */
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.35;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+main,nav,footer,header,section{position:relative;z-index:1}
+
+::selection{background:var(--vu-amber);color:#0e0e11}
+a{color:var(--vu-amber);text-decoration:none}
+a:hover{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--vu-amber);outline-offset:2px;border-radius:2px}
+img{max-width:100%;height:auto}
+
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+
+/* ---------- rail nav ---------- */
+.rail{
+  position:fixed;top:0;left:0;right:0;z-index:50;height:var(--nav-h);
+  background:linear-gradient(180deg,#191920,var(--rail));
+  border-bottom:1px solid #000;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 1px 0 rgba(0,0,0,.6);
+}
+.rail-in{max-width:var(--maxw);margin:0 auto;height:100%;padding:0 24px;
+  display:flex;align-items:center;gap:22px}
+.rail-logo{
+  font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:.06em;
+  color:var(--ink);text-decoration:none;line-height:1;display:flex;align-items:center;gap:10px}
+.rail-logo:hover{text-decoration:none;color:var(--vu-amber)}
+.rail-led{width:7px;height:7px;border-radius:50%;background:var(--vu-green);
+  box-shadow:0 0 6px var(--vu-green);flex:none}
+.rail-links{display:flex;gap:20px;margin-left:auto;align-items:center}
+.rail-links a{
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-2)}
+.rail-links a:hover{color:var(--ink);text-decoration:none}
+.rail-links a.active{color:var(--vu-amber)}
+.rail-toggle{display:none}
+
+.btn-steam{
+  text-shadow:none;
+  font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:#0e0e11;background:var(--vu-amber);
+  padding:9px 16px;border-radius:var(--radius);border:1px solid #c23f10;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 1px 0 rgba(0,0,0,.5);
+  white-space:nowrap;font-weight:700}
+.btn-steam:hover{background:#ff7a42;text-decoration:none;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 0 22px rgba(255,90,31,.45)}
+.btn-steam:active{box-shadow:inset 0 2px 3px rgba(0,0,0,.3)}
+
+@media(max-width:860px){
+  .rail-links{
+    display:none;position:fixed;top:var(--nav-h);left:0;right:0;
+    background:var(--rail);border-bottom:1px solid #000;
+    flex-direction:column;align-items:flex-start;gap:0;padding:8px 0}
+  .rail-links.open{display:flex}
+  .rail-links a{padding:12px 24px;width:100%}
+  .rail-toggle{display:block;margin-left:auto;background:none;border:1px solid var(--rule);
+    color:var(--ink);font-family:var(--mono);font-size:11px;letter-spacing:.1em;
+    padding:8px 12px;border-radius:var(--radius);cursor:pointer}
+  .rail-cta{display:none}
+}
+
+/* ---------- rack sections ---------- */
+.unit{border-top:1px solid #000;position:relative;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.045)}
+.unit-in{max-width:var(--maxw);margin:0 auto;padding:72px 24px}
+.unit-tag{
+  display:flex;align-items:center;gap:12px;margin-bottom:28px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--ink-3)}
+.unit-tag::after{content:"";flex:1;height:1px;background:var(--rule)}
+.unit-tag b{color:var(--vu-amber);font-weight:400}
+h2.unit-title{
+  font-family:var(--display);font-weight:800;font-size:clamp(30px,4.5vw,44px);
+  letter-spacing:.015em;text-transform:uppercase;margin:0 0 18px;line-height:1.02}
+.unit-lead{color:var(--ink-2);max-width:640px;font-size:17px;margin:0 0 8px}
+
+/* screws (used sparingly) */
+.screw{width:12px;height:12px;border-radius:50%;flex:none;
+  background:radial-gradient(circle at 35% 30%,#33333c,#131318 70%);
+  box-shadow:inset 0 0 0 1px #000,inset 0 1px 1px rgba(255,255,255,.12);position:relative}
+.screw::after{content:"";position:absolute;left:2px;right:2px;top:5px;height:1.5px;
+  background:#0a0908;transform:rotate(38deg)}
+
+/* ---------- footer ---------- */
+.ftr{border-top:1px solid #000;background:var(--chassis-deep);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05);margin-top:0;position:relative}
+.ftr::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,#33e0ff,#46d96b,#ff5a1f,#ff3dd8,#33e0ff);
+  background-size:200% 100%;opacity:.85;animation:tape 14s linear infinite}
+@keyframes tape{to{background-position:200% 0}}
+@media (prefers-reduced-motion:reduce){.ftr::before{animation:none}}
+.ftr-in{max-width:var(--maxw);margin:0 auto;padding:56px 24px 40px}
+.ftr-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px}
+.ftr h4{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--ink-3);margin:0 0 14px;font-weight:400}
+.ftr ul{list-style:none;margin:0;padding:0}
+.ftr li{margin:0 0 9px}
+.ftr a{color:var(--ink-2);font-size:14px}
+.ftr a:hover{color:var(--vu-amber)}
+.ftr-brand{font-family:var(--display);font-weight:800;font-size:26px;letter-spacing:.05em;
+  margin:0 0 10px;background:linear-gradient(90deg,#33e0ff,#ff5a1f 55%,#ff3dd8);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.ftr-note{color:var(--ink-3);font-size:13px;max-width:280px;margin:0}
+.ftr-plate{
+  margin-top:44px;padding-top:20px;border-top:1px solid var(--rule-soft);
+  display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--ink-faint)}
+.ftr-plate .amber{color:var(--vu-amber)}
+@media(max-width:860px){.ftr-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.ftr-grid{grid-template-columns:1fr}}
+
+/* ---------- shared bits ---------- */
+.led{display:inline-block;width:8px;height:8px;border-radius:50%;vertical-align:middle}
+.led.on{background:var(--vu-amber);box-shadow:0 0 7px var(--vu-amber)}
+.led.half{background:var(--vu-amber-dim);box-shadow:none}
+.led.off{background:#1e1e25;box-shadow:inset 0 0 0 1px #000}
+
+.mono{font-family:var(--mono)}
+.dim{color:var(--ink-3)}

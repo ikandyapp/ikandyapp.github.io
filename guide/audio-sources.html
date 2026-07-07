@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Audio sources + controls : IKANDY user guide</title>
+<meta name="description" content="Now Playing, Spotify, per-app capture with Smart Auto, bass/mid/treble drive, shuffle, playlists.">
+<link rel="icon" href="../icon.ico">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FEJJH5VN5S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-FEJJH5VN5S');
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders:wght@600;700;800&family=Archivo:wght@400;500;600;700&family=Martian+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/ik.css">
+<link rel="stylesheet" href="../assets/guide.css">
+<style>
+body{padding-top:var(--nav-h)}
+nav.rail{position:fixed!important;top:0!important;left:0!important;right:0!important;
+  display:block!important;padding:0!important;height:var(--nav-h)!important;
+  background:linear-gradient(180deg,#191920,var(--rail))!important;
+  border-bottom:1px solid #000!important;max-width:none!important}
+nav.rail .rail-in{max-width:var(--maxw);margin:0 auto;height:100%;padding:0 24px;
+  display:flex;align-items:center;gap:22px}
+footer.ftr{display:block!important;text-align:left!important;padding:0!important;margin:0!important;
+  background:var(--chassis-deep)!important;border-top:1px solid #000!important;max-width:none!important}
+.wiki-wrap{max-width:880px;margin:0 auto;padding:56px 24px 80px}
+.crumb{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink-3);margin-bottom:22px;display:flex;gap:10px;align-items:center}
+.crumb a{color:var(--ink-3)} .crumb a:hover{color:var(--vu-amber)}
+.crumb .hueled{width:7px;height:7px;border-radius:50%;background:var(--hue);
+  box-shadow:0 0 8px var(--hue)}
+.wiki-wrap h1{font-family:var(--display);font-weight:800;text-transform:uppercase;
+  font-size:clamp(34px,6vw,54px);line-height:1;margin:0 0 14px;letter-spacing:.01em}
+.wiki-lead{color:var(--ink-2);font-size:16.5px;max-width:640px;margin:0 0 34px}
+.wiki-wrap section{padding:34px 0 6px}
+.pn{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:56px}
+.pn a{border:1px solid var(--rule);border-radius:5px;padding:16px 18px;display:block;
+  background:var(--panel);transition:border-color .18s,transform .18s}
+.pn a:hover{text-decoration:none;border-color:var(--hue,#8f3512);transform:translateY(-2px)}
+.pn .lbl{font-family:var(--mono);font-size:9px;letter-spacing:.2em;color:var(--ink-3);
+  text-transform:uppercase}
+.pn .ttl{color:var(--ink);font-weight:600;margin-top:4px}
+.pn .nxt{text-align:right}
+@media(max-width:640px){.pn{grid-template-columns:1fr}}
+.wiki-note{border:1px solid var(--rule);border-left:3px solid var(--vu-amber);
+  border-radius:3px;background:var(--panel);padding:14px 18px;color:var(--ink-2);
+  font-size:14px;margin:26px 0}
+</style>
+</head>
+<body>
+<nav class="rail" aria-label="Main">
+  <div class="rail-in">
+    <a class="rail-logo" href="../index.html"><span class="rail-led" aria-hidden="true"></span>IKANDY</a>
+    <button class="rail-toggle" aria-label="Menu">MENU</button>
+    <div class="rail-links">
+      <a href="../index.html#rooms">Who it's for</a>
+      <a href="../index.html#spec">Engine</a>
+      <a href="../pricing/index.html">Pricing</a>
+      <a href="../guide.html" class="active">Guide</a>
+      <a href="../artists.html">Artists</a>
+    </div>
+    <a class="btn-steam rail-cta" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam</a>
+  </div>
+</nav>
+<main class="wiki-wrap" style="--hue:#ff3dd8">
+  <div class="crumb"><a href="../guide.html">User guide</a><span>/</span><span class="hueled" aria-hidden="true"></span><span style="color:var(--ink-2)">Audio sources + controls</span></div>
+  <h1>Audio sources + controls</h1>
+  <p class="wiki-lead">Now Playing, Spotify, per-app capture with Smart Auto, bass/mid/treble drive, shuffle, playlists.</p>
+  <section>
+  <p class="section-tag">Audio Sources</p>
+  <h2>Connect<br>Your Music</h2>
+  <p class="lead">IKANDY can connect to four different sources. Each one offers a different feature set depending on what its underlying API exposes. Switching between them automatically pauses the previous one.</p>
+
+  <!-- SPOTIFY -->
+  <div class="source-block" id="source-spotify" style="--c:var(--green);">
+    <div class="source-block-head">
+      <span class="source-block-icon">🎵</span>
+      <span class="source-block-name">Spotify</span>
+      <span class="source-block-meta" style="color:var(--green);">● Full features &middot; Premium recommended</span>
+    </div>
+    <p class="body dim">The richest integration. Track info, album art, synced lyrics, playlist browser with search, and full transport : play, pause, skip, shuffle modes including Smart Shuffle detection. IKANDY uses <em>Bring Your Own Key</em> auth: you create a free Spotify Developer app and paste the Client ID once. It&rsquo;s saved encrypted via Windows DPAPI and never leaves your machine.</p>
+
+    <h3 class="first">One-time setup</h3>
+    <ol class="steps">
+      <li>In IKANDY, click the source pill on the console (or open <strong>&#9881; &rarr; SOURCE</strong>) and choose <strong>Spotify</strong>. The settings panel shows the exact <strong>Redirect URI</strong> to register.</li>
+      <li>Go to <code>developer.spotify.com/dashboard</code>, log in, and click <strong>Create app</strong>.</li>
+      <li>Give it any name and description. Under <strong>Redirect URIs</strong>, paste the URI shown in IKANDY. Check the <strong>Web API</strong> box. Save.</li>
+      <li>Open the new app → <strong>Settings</strong> → copy the <strong>Client ID</strong>.</li>
+      <li>Paste the Client ID into IKANDY's Spotify settings and click <strong>Connect</strong>. Spotify opens in your browser to authorise. Done.</li>
+    </ol>
+
+    
+    <p class="guide-screenshot-caption">IKANDY's Spotify settings panel showing the Client ID field and Redirect URI</p>
+
+    <div class="callout">
+      <span class="callout-label">Why BYOK</span>
+      Most apps embed a shared Client ID, so Spotify rate-limits everyone using that app together. With BYOK, your IKANDY uses your own quota: no sharing, no throttling.
+    </div>
+
+    <div class="callout warn">
+      <span class="callout-label">Premium required for transport</span>
+      Spotify's Web API only allows playback control for Premium subscribers. Free accounts get track info, album art, and lyrics, but playback buttons are greyed out. Works with Spotify desktop, the web player, or any Spotify Connect device.
+    </div>
+  </div>
+
+  <!-- FOOBAR -->
+  <div class="source-block" id="source-foobar" style="--c:#9b72cf;">
+    <div class="source-block-head">
+      <span class="source-block-icon">🎧</span>
+      <span class="source-block-name">foobar2000</span>
+      <span class="source-block-meta" style="color:var(--green);">● Full features &middot; Beefweb plugin</span>
+    </div>
+    <p class="body dim">For the audiophile crowd. Connects via the <strong>foo_beefweb</strong> component: a REST/JSON API that exposes the full library. Playlist browse with search, every shuffle mode foobar supports, transport, album art, lyrics. The most feature-complete source IKANDY offers.</p>
+
+    <h3 class="first">One-time setup</h3>
+    <ol class="steps">
+      <li>Download and install <strong>foo_beefweb</strong> from <code>github.com/hyperblast/beefweb/releases</code>.</li>
+      <li>In foobar2000: <strong>File → Preferences → Tools → Beefweb Remote Control</strong>.</li>
+      <li>Tick <strong>Enable HTTP server</strong> (default port <code>8880</code>). Optionally set a password. Click Apply.</li>
+      <li>In IKANDY, choose <strong>foobar2000</strong>, leave port at <code>8880</code>, enter the password if set, and click <strong>Connect</strong>.</li>
+    </ol>
+    
+    <p class="guide-screenshot-caption">foobar2000 → Preferences → Tools → Beefweb Remote Control</p>
+  </div>
+
+  <!-- VLC -->
+  <div class="source-block" id="source-vlc" style="--c:#ff6b35;">
+    <div class="source-block-head">
+      <span class="source-block-icon">📺</span>
+      <span class="source-block-name">VLC</span>
+      <span class="source-block-meta" style="color:#ff6b35;">● Standard &middot; Local HTTP</span>
+    </div>
+    <p class="body dim">Connects to VLC&rsquo;s built-in web interface: play, pause, skip, shuffle on/off, album art, synced lyrics. No library browse; pick what to play in VLC, control playback in IKANDY.</p>
+
+    <h3 class="first">One-time setup</h3>
+    <ol class="steps">
+      <li>Open VLC → <strong>Tools → Preferences</strong>. Switch <strong>Show settings</strong> to <strong>All</strong>.</li>
+      <li>Navigate to <strong>Interface → Main interfaces</strong> and tick <strong>Web</strong>.</li>
+      <li>Expand <strong>Main interfaces → Lua</strong>, set a <strong>Lua HTTP password</strong>, and save.</li>
+      <li>Restart VLC. In IKANDY, choose <strong>VLC</strong>, paste the password, and click <strong>Connect</strong>.</li>
+    </ol>
+    
+    <p class="guide-screenshot-caption">VLC → Preferences → All → Interface → Main interfaces → Web (ticked)</p>
+
+    <div class="callout tip">
+      <span class="callout-label">Custom port</span>
+      If port 8080 is taken, change it in the same VLC preferences pane. Match it in IKANDY's VLC settings.
+    </div>
+  </div>
+
+  <!-- NOW PLAYING -->
+  <div class="source-block" id="source-smtc" style="--c:var(--ice);">
+    <div class="source-block-head">
+      <span class="source-block-icon">🎙️</span>
+      <span class="source-block-name">Now Playing</span>
+      <span class="source-block-meta" style="color:var(--ice);">● Basic &middot; Windows Media Controls &middot; Zero setup</span>
+    </div>
+    <p class="body dim">The catch-all. Reads whatever app is currently playing music on Windows : Spotify, YouTube Music, Apple Music, browser tabs, Tidal, anything that publishes to Windows Media Controls. Track info and transport controls (play, pause, next, prev) follow whatever is active. No browse, no shuffle, no album art.</p>
+
+    <h3 class="first">How to use it</h3>
+    <ol class="steps">
+      <li>Start playing music in any app on your computer.</li>
+      <li>In IKANDY, click the source pill on the console and pick <strong>Now Playing</strong>.</li>
+      <li>Track info and transport light up within a second. IKANDY shows or greys out individual buttons based on what the active source app actually supports.</li>
+    </ol>
+
+    <div class="callout warn">
+      <span class="callout-label">Firefox needs a flag</span>
+      Chrome and Edge bridge HTML5 Media Session to Windows Media Controls automatically. Firefox doesn&rsquo;t by default : open <code>about:config</code>, search <code>media.hardwaremediakeys.enabled</code>, set it to <strong>true</strong>, and restart Firefox.
+    </div>
+  </div>
+
+  <!-- PER-PROCESS CAPTURE -->
+  <div class="source-block" id="source-perprocess" style="--c:var(--gold);margin-top:32px;">
+    <div class="source-block-head">
+      <span class="source-block-icon">🎯</span>
+      <span class="source-block-name">Per-Process Capture</span>
+      <span class="source-block-meta" style="color:var(--gold);">● Audio isolation &middot; Settings → SOURCE</span>
+    </div>
+    <p class="body dim">Capture audio from one specific app rather than the whole system mix. If you&rsquo;re gaming while listening to Spotify, IKANDY normally reacts to everything : game effects, Discord pings, notification sounds. Per-Process Capture locks on to Spotify alone and ignores everything else.</p>
+
+    <h3 class="first">How to use it</h3>
+    <ol class="steps">
+      <li>Start the app you want to capture (e.g. Spotify) and play something.</li>
+      <li>In IKANDY, open <strong>Settings (⚙) → SOURCE tab → Per-Process Capture</strong>.</li>
+      <li>Click <strong>Scan</strong>. IKANDY lists every app currently producing audio, with its icon.</li>
+      <li>Click <strong>Capture</strong> next to the app you want. The banner at the top of the section confirms which app is active.</li>
+      <li>To stop, click <strong>Stop</strong> in the banner. IKANDY returns to system audio automatically.</li>
+    </ol>
+
+    <div class="callout tip">
+      <span class="callout-label">Switching apps</span>
+      Click Capture on a different app while one is already active : IKANDY switches cleanly with no confirmation dialog. The banner updates immediately.
+    </div>
+
+    <div class="callout">
+      <span class="callout-label">Use cases</span>
+      <ul style="margin-top:6px;line-height:1.7">
+        <li>React to Spotify only, ignoring game audio and Discord</li>
+        <li>Capture a DAW or audio editor output for a live mix visualization</li>
+        <li>Isolate browser tab audio when YouTube is playing alongside other apps</li>
+        <li>Test a specific app&rsquo;s audio routing without affecting the rest of the system</li>
+      </ul>
+    </div>
+
+    <div class="callout warn">
+      <span class="callout-label">Requires a connected source first</span>
+      Per-Process Capture shares the same audio graph as system audio. Connect any source (Spotify, VLC, etc.) or click <strong>🎤 Reconnect Audio</strong> once before using it : this initialises the audio context. After that, per-process capture works independently.
+    </div>
+  </div>
+
+<h3>One tab runs the connections</h3>
+<p>Connect, disconnect, and switch every source from <strong>&#9881; &rarr; SOURCE</strong>: Spotify, foobar2000, VLC, browser and system audio, plus the system-audio reconnect and your playlists. A source that still needs setup shows it on its row and routes you to the right place with one click. Transport buttons a source cannot perform (some apps do not expose skip or seek) grey out with a hint instead of failing silently. And if you just have a file: drag an audio file onto IKANDY and it plays it, no source setup at all.</p></section>
+<section>
+<h2>Audio controls</h2>
+<p class="lead">Beyond picking a source, you shape how the audio drives the visuals.</p>
+<ul class="include-list">
+<li><strong>Bass / Mid / Treble drive</strong>: boost or cut how much the low, mid, and high frequencies push the visuals, plus a Mix control to blend.</li>
+<li><strong>Master intensity</strong>: one fat fader for overall visual intensity on the current engine, from calm to double strength.</li>
+<li><strong>Per-asset reactivity</strong>: each asset (like a logo overlay) has its own master audio-reactivity control.</li>
+<li><strong>Volume and transport</strong>: play, pause, skip, and volume for sources that support control.</li>
+<li><strong>Drop a file</strong>: drag a local audio file onto IKANDY and it plays and visualizes it directly.</li>
+</ul>
+</section>
+<section>
+<h2>Shuffle + playlists</h2>
+<p>Shuffle follows the source. Spotify supports off, shuffle, and Smart Shuffle (Smart Shuffle is detected and shown, since the API treats it as read-only). foobar2000 exposes its own repeat and order modes. The playlist panel loads your playlists with search, so you can browse and play without leaving the visuals.</p>
+</section>
+  <div class="pn"><a href="getting-started.html" style="--hue:#33e0ff"><span class="lbl">&larr; Previous</span><span class="ttl" style="display:block">Getting started</span></a><a class="nxt" href="visualizers.html" style="--hue:#46d96b"><span class="lbl">Next &rarr;</span><span class="ttl" style="display:block">Visualizers + presets</span></a></div>
+</main>
+<footer class="ftr">
+  <div class="ftr-in">
+    <div class="ftr-grid">
+      <div>
+        <p class="ftr-brand">IKANDY</p>
+        <p class="ftr-note">Audio-reactive visualizer and VJ instrument for Windows 10 / 11. Runs fully offline.</p>
+        <p style="margin-top:18px"><a class="btn-steam" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam</a></p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="../guide.html">User guide</a></li>
+          <li><a href="../pricing/index.html">Pricing</a></li>
+          <li><a href="../artists.html">Artist program</a></li>
+          <li><a href="../arcade/index.html">Arcade</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Technical disclosures</h4>
+        <ul>
+          <li><a href="../ikandy-smart-auto-prior-art.html">Smart Auto prior art</a></li>
+          <li><a href="../ikandy-ai-error-sandbox.html">AI error sandbox</a></li>
+          <li><a href="../ikandy-vis-format.html">.vis format</a></li>
+          <li><a href="../scene-contract.html">Scene contract</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal + contact</h4>
+        <ul>
+          <li><a href="../privacy.html">Privacy policy</a></li>
+          <li><a href="../license.html">License</a></li>
+          <li><a href="../eula.html">EULA</a></li>
+          <li><a href="../credits.html">Credits</a></li>
+          <li><a href="mailto:support@ikandy.app">support@ikandy.app</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ftr-plate">
+      <span>MODEL IKANDY &middot; REV 2026.2 &middot; <span class="amber">SHIPS 2026-07-31 ON STEAM</span></span>
+      <span>Made by a human who likes loud music. &copy; 2026 L&amp;R Entertainment LLC &middot; IKANDY&trade;</span>
+    </div>
+  </div>
+</footer>
+<script src="../analytics.js" defer></script>
+<script>(function(){var t=document.querySelector('.rail-toggle'),l=document.querySelector('.rail-links');
+if(t&&l)t.addEventListener('click',function(){l.classList.toggle('open')});})();</script>
+</body>
+</html>
