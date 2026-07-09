@@ -13,7 +13,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Arcade Leaderboard — IKANDY</title>
-<meta name="description" content="Top scores from the IKANDY Arcade. SkiFree leaderboard — metres skied, time survived, ranked by run. Can you make the board?">
+<meta name="description" content="Top scores from the IKANDY Arcade. Powder leaderboard — metres skied, time survived, ranked by run. Can you make the board?">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -369,16 +369,16 @@ footer {
   <section class="hero">
     <p class="hero-eyebrow">⛷ IKANDY ARCADE</p>
     <h1 class="hero-title">Leaderboard</h1>
-    <p class="hero-sub">Top 20 SkiFree runs — ranked by metres skied. Each entry is a player's personal best. Can you make the board?</p>
+    <p class="hero-sub">Top 20 Powder runs — ranked by metres skied. Each entry is a player's personal best. Can you make the board?</p>
     <div class="cta-row">
-      <a href="/arcade/skifree.html" class="btn">Play SkiFree</a>
+      <a href="/arcade/skifree/index.html" class="btn">Play Powder</a>
       <a href="/arcade/" class="btn btn-ghost">Open Arcade</a>
     </div>
   </section>
 
   <section class="board-section">
     <div class="board-header">
-      <div class="board-title">⛷ SkiFree</div>
+      <div class="board-title">⛷ Powder</div>
       <div class="board-meta" id="board-meta">Loading…</div>
     </div>
     <div class="board-wrap" id="board-wrap">
@@ -389,7 +389,7 @@ footer {
 
 <footer>
   <a href="/" class="footer-logo">IKANDY <span>APP</span></a>
-  <span class="footer-copy">L&amp;R Entertainment LLC &mdash; All rights reserved</span>
+  <span class="footer-copy">L&amp;R Entertainment LLC &mdash; All rights reserved &middot; <a href="/privacy.html" style="color:inherit;">Privacy</a></span>
 </footer>
 
 <script>
@@ -400,7 +400,7 @@ footer {
   // Same anon key used everywhere — publishable, read-only access to the
   // arcade_leaderboard view (RLS: only is_valid=true rows, no raw table access).
   const SUPABASE_URL      = 'https://grimznincoiujnurhmlx.supabase.co';
-  const SUPABASE_ANON_KEY = 'REPLACE_WITH_YOUR_ANON_KEY';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdyaW16bmluY29pdWpudXJobWx4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxNDQ5NzAsImV4cCI6MjA5MjcyMDk3MH0.X-eXBp4gF3RthSt10As83Ft4z5rOc929IMdis5BSuxk';
 
   // -- DOM refs --------------------------------------------------------------
   const boardWrap  = document.getElementById('board-wrap');
