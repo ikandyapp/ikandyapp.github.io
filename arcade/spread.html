@@ -186,40 +186,9 @@ input.txt:focus { outline: 1px dotted #000080; }
     <span class="titlebar-text"><span class="titlebar-icon"></span>Spread the Word</span>
   </div>
   <div class="body">
-    <h2>Help IKANDY get noticed.</h2>
-    <p>Posted about IKANDY somewhere? Drop the link below and earn points. The more you spread, the more you score.</p>
-
-    <div class="points-table">
-      <div><span>YouTube / Blog / Substack / Medium</span> <strong>+250 pts</strong></div>
-      <div><span>Reddit / Bluesky / Mastodon / HN / GitHub</span> <strong>+100 pts</strong></div>
-    </div>
-
-    <div class="handle-box">
-      <div style="font-size:11px;color:#000080;font-weight:bold;margin-bottom:4px;">Your handle (include this in your post!):</div>
-      <div class="handle-row">
-        <code id="my-handle">&mdash;</code>
-        <button class="win-btn" id="copy-handle-btn" style="padding:2px 10px;min-width:auto;font-size:11px;">Copy</button>
-      </div>
-      <div style="font-size:10px;color:#404040;margin-top:6px;">
-        You can include either the full handle OR just the <strong>#NNNNN</strong> suffix. Both work.
-      </div>
-    </div>
-
-    <div class="daily-meter">
-      <span>Today's submissions:</span>
-      <span><strong id="daily-used">&mdash;</strong> / 3 used</span>
-    </div>
-
-    <div class="form-row">
-      <label for="url-input">URL where you mentioned IKANDY:</label>
-      <input type="url" id="url-input" class="txt" placeholder="https://youtube.com/watch?v=... or https://reddit.com/r/.../comments/..." autocomplete="off" spellcheck="false">
-    </div>
-
-    <div class="status-box" id="status"></div>
-
-    <p style="font-size: 11px; color: #404040; margin-top: 12px;">
-      <strong>How it works:</strong> Post about IKANDY anywhere we support (YouTube description, blog, Reddit, Bluesky, Mastodon, HN, GitHub). <strong>Include both "IKANDY" and your handle</strong> (or just your <code>#NNNNN</code>) in the post. We fetch the URL and verify automatically. Max 3 submissions per day, 1 per platform. Duplicate URLs are rejected. Twitter, Instagram, TikTok, Threads, and Facebook aren't supported since their content isn't auto-readable.
-    </p>
+    <h2>Spread the Word has ended.</h2>
+    <p>The contest closed on <strong>July 9, 2026</strong> and submissions are no longer accepted. Congratulations to our champion, <strong>Mildly-Cursed Earl, Quartermaster of the Limp Sail #25429</strong> &mdash; winner of IKANDY Pro free for life and the legendary <strong>FOUNDER badge</strong>. We'll reach out after launch.</p>
+    <p style="font-size:11px;color:#404040;">Thanks to everyone who posted. Your submission history stays below, and the leaderboard remains visible in the arcade's High Scores window.</p>
 
     <div class="history">
       <h3>Your submissions</h3>
@@ -228,8 +197,7 @@ input.txt:focus { outline: 1px dotted #000080; }
   </div>
 
   <div class="actions">
-    <button class="win-btn" id="cancel-btn" onclick="location.href='index.html'">Cancel</button>
-    <button class="win-btn default" id="submit-btn">Submit</button>
+    <button class="win-btn default" id="cancel-btn" onclick="location.href='index.html'">Back to Arcade</button>
   </div>
 </div>
 
@@ -303,7 +271,7 @@ input.txt:focus { outline: 1px dotted #000080; }
 
   function renderHistory(rows) {
     if (!rows || !rows.length) {
-      $('#history-content').innerHTML = '<div class="history-empty">No submissions yet. Drop your first link above.</div>';
+      $('#history-content').innerHTML = '<div class="history-empty">No submissions on record. The contest has ended.</div>';
       return;
     }
     const html = '<table class="history-table"><thead><tr><th>URL</th><th>Platform</th><th class="num">Points</th><th class="num">Bonus</th><th>Status</th><th>Note</th><th>When</th></tr></thead><tbody>' +
@@ -326,67 +294,10 @@ return '<tr><td>' + (safeHref ? '<a href="' + safeHref + '" target="_blank" rel=
   }
 
   function updateDailyMeter(rows) {
-    const today = new Date(); today.setUTCHours(0,0,0,0);
-    const count = (rows || []).filter(r => new Date(r.created_at) >= today).length;
-    $('#daily-used').textContent = count;
-    $('#submit-btn').disabled = count >= 3;
+    // Contest closed 2026-07-09 — submissions disabled, meter removed.
   }
 
-  async function submit() {
-    clearStatus();
-    const url = $('#url-input').value.trim();
-    if (!url) { setStatus('Please enter a URL.', 'err'); return; }
-    if (!/^https?:\/\//i.test(url)) { setStatus('URL must start with http:// or https://', 'err'); return; }
-
-    $('#submit-btn').disabled = true;
-    setStatus('Verifying...', 'warn');
-
-    try {
-      const r = await fetch(SUPABASE_URL + '/functions/v1/arcade-submit-mention', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          apikey: SUPABASE_ANON_KEY,
-          Authorization: 'Bearer ' + SUPABASE_ANON_KEY,
-        },
-        body: JSON.stringify({ ikandyId, ikandyName, url }),
-      });
-      const j = await r.json();
-
-      if (j.ok) {
-        if (j.status === 'auto_approved') {
-          setStatus('<strong>Approved!</strong> +' + j.points + ' points (' + j.platform + '). Found "ikandy" on the page.', 'ok');
-        } else {
-          setStatus('<strong>Submitted.</strong> ' + j.points + ' points pending review for ' + j.platform + '. We\'ll spot-check it.', 'ok');
-        }
-        $('#url-input').value = '';
-        loadHistory();
-      } else {
-        const handleHint = (extractSuffix(ikandyName) || ikandyName);
-        const reasons = {
-          duplicate: 'That URL has already been submitted (by you or someone else).',
-          daily_limit: 'You\'ve hit today\'s 3-submission cap. Try again tomorrow.',
-          domain_limit: 'You already submitted a link from that platform today. Try a different platform.',
-          unsupported_platform: 'That platform isn\'t supported (Twitter / Instagram / TikTok / Threads / Facebook / LinkedIn). Try YouTube, Reddit, Bluesky, Mastodon, HN, GitHub, or a blog.',
-          no_keyword: 'We fetched the page but didn\'t find "IKANDY" in it. Make sure the post actually mentions IKANDY, then resubmit.',
-          no_handle: 'We found "IKANDY" on the page but not your handle <code>' + handleHint + '</code>. Add it to the post (anywhere visible) and resubmit so we can prove it was you.',
-          fetch_failed: 'We couldn\'t fetch that URL. It might be private, blocked, or temporarily down. Try again later.',
-          bad_request: 'Invalid request. ' + (j.detail || ''),
-          internal: 'Server error. Try again in a moment.',
-        };
-        setStatus(reasons[j.reason] || ('Rejected: ' + j.reason), 'err');
-      }
-    } catch (e) {
-      setStatus('Network error. Try again.', 'err');
-    } finally {
-      $('#submit-btn').disabled = false;
-    }
-  }
-
-  $('#submit-btn').addEventListener('click', submit);
-  $('#url-input').addEventListener('keydown', e => {
-    if (e.key === 'Enter') { e.preventDefault(); submit(); }
-  });
+  // Contest closed 2026-07-09 — submit flow removed. History and stats remain read-only.
 
     function extractSuffix(handle) {
     var m = (handle || '').match(/#(\d{4,8})\b/);

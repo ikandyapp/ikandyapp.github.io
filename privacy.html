@@ -397,7 +397,7 @@ footer.ftr a{text-decoration:none}
     <p class="section-tag">01</p>
     <h2>What This Document Covers</h2>
     <p>This Privacy Policy explains how IKANDY ("the Software"), operated by L&amp;R Entertainment LLC ("we", "us"), collects and processes data when you install and use the desktop application. It reflects the data practices implemented in IKANDY version 1.0 and later.</p>
-    <p>This policy mirrors the data sections of the <a href="#" class="inline-link" onclick="alert('The full EULA is shown in-app on first launch. You can also view it from Settings → About.'); return false;">License Agreement</a> in plain language. If there is any ambiguity, the EULA is the legally binding document.</p>
+    <p>This policy mirrors the data sections of the <a href="license.html" class="inline-link">License Agreement</a> in plain language. The License Agreement is the binding contract for your use of the Software; where the two documents describe <em>data practices</em> differently, this Privacy Policy controls.</p>
   </section>
 
   <section class="policy">
@@ -484,6 +484,14 @@ footer.ftr a{text-decoration:none}
 <h2>This Website</h2>
 <div class="policy">
 <p>The ikandy.app website uses Google Analytics 4 to count visits and understand which pages and buttons get used. This measures the website only; it is separate from the app, which works fully offline. Google Analytics 4 does not log or store individual IP addresses, and we do not use it for advertising or remarketing. Interaction events carry no personal information: a button click sends only the button's visible text. Data is processed by Google under <a href="https://policies.google.com/privacy" target="_blank" rel="noopener" class="inline-link">Google's privacy policy</a>. Standard content or script blockers will prevent analytics from loading, and the site works fine without it.</p>
+<h3>The Arcade</h3>
+<p>The <a href="arcade/index.html" class="inline-link">IKANDY Arcade</a> is a free browser mini-game site. It never asks for your email, name, or any account. To put you on the leaderboards it uses:</p>
+<ul>
+  <li><strong>An anonymous ID and handle.</strong> A random UUID and a randomly generated handle (like "Mildly-Cursed Earl #25429"), stored in your browser's localStorage. Neither is linked to your real identity.</li>
+  <li><strong>Score submissions.</strong> When a game ends, your anonymous ID, handle, score, run duration, an input count (used only for anti-cheat validation), and a random session ID are sent to our backend (Supabase). Your handle, score, and date appear on public leaderboards visible to other players.</li>
+  <li><strong>Spread the Word history (contest now closed).</strong> While the contest ran, URLs you submitted were fetched by our server once to verify they mentioned IKANDY, and are stored with your anonymous ID and handle. Submissions are no longer accepted.</li>
+</ul>
+<p>The arcade pages also load the same Google Analytics described above. To remove your arcade data or leaderboard entries, email <a href="mailto:support@ikandy.app" class="inline-link">support@ikandy.app</a> with your handle.</p>
 </div>
 
 <h2>Your Rights</h2>
