@@ -1,36 +1,50 @@
 {
-  "_comment": "BYOK generation pricing manifest — the HOSTED SOURCE OF TRUTH, served at ikandy.app/pricing/byok-ai-pricing.json and fetched at runtime (see PRICING_MANIFEST_URL in the IKANDY app's src/ai/cost/cost-estimator.js). The app's baked FALLBACK_MANIFEST is the dated offline fallback used only if this file is unreachable. Prices are per MILLION tokens, USD. visionPerMTok prices image/vision input (these providers bill images as input tokens, so it equals inPerMTok); perImage is for any provider that bills flat per image (none here). To change prices: edit THIS file and redeploy the site, no app rebuild.",
-  "version": 1,
-  "lastUpdated": "2026-06-21",
+  "_comment": "BYOK generation pricing manifest — the HOSTED SOURCE OF TRUTH, served at ikandy.app/pricing/byok-ai-pricing.json and fetched at runtime (see PRICING_MANIFEST_URL in the IKANDY app's src/ai/cost/cost-estimator.js). The app's baked FALLBACK_MANIFEST is the dated offline fallback used only if this file is unreachable. Prices are per MILLION tokens, USD. visionPerMTok prices image/vision input (these providers bill images as input tokens, so it equals inPerMTok); perImage is for any provider that bills flat per image (none here). v2 adds per-model 'label' (dropdown display name), 'hidden' (legacy ids kept for price matching but omitted from the model dropdown), and 'recommended' (dropdown default badge) — all ignored by v1 readers. To change prices: edit THIS file and redeploy the site, no app rebuild.",
+  "_priceNotes": "Verified 2026-07-09 against provider pricing pages/aggregators. claude-sonnet-5 is INTRO pricing through 2026-08-31, then $3/$15 — bump on 2026-09-01. xAI retired grok-4/-4.1/-3 on 2026-05-15; those ids silently redirect to grok-4.3 and bill at its rate.",
+  "version": 2,
+  "lastUpdated": "2026-07-09",
   "currency": "USD",
   "providers": {
     "claude": {
       "_default": { "inPerMTok": 5.0, "outPerMTok": 25.0, "visionPerMTok": 5.0 },
-      "claude-opus-4-8": { "inPerMTok": 5.0, "outPerMTok": 25.0, "visionPerMTok": 5.0 },
-      "claude-opus-4-7": { "inPerMTok": 5.0, "outPerMTok": 25.0, "visionPerMTok": 5.0 },
-      "claude-opus-4-6": { "inPerMTok": 5.0, "outPerMTok": 25.0, "visionPerMTok": 5.0 },
-      "claude-sonnet-4-6": { "inPerMTok": 3.0, "outPerMTok": 15.0, "visionPerMTok": 3.0 },
-      "claude-sonnet-4-5": { "inPerMTok": 3.0, "outPerMTok": 15.0, "visionPerMTok": 3.0 },
-      "claude-haiku-4-5": { "inPerMTok": 1.0, "outPerMTok": 5.0, "visionPerMTok": 1.0 },
-      "claude-fable-5": { "inPerMTok": 10.0, "outPerMTok": 50.0, "visionPerMTok": 10.0 }
+      "claude-fable-5": { "label": "Fable 5", "inPerMTok": 10.0, "outPerMTok": 50.0, "visionPerMTok": 10.0 },
+      "claude-opus-4-8": { "label": "Opus 4.8", "inPerMTok": 5.0, "outPerMTok": 25.0, "visionPerMTok": 5.0 },
+      "claude-sonnet-5": { "label": "Sonnet 5", "recommended": true, "inPerMTok": 2.0, "outPerMTok": 10.0, "visionPerMTok": 2.0 },
+      "claude-haiku-4-5": { "label": "Haiku 4.5", "inPerMTok": 1.0, "outPerMTok": 5.0, "visionPerMTok": 1.0 },
+      "claude-opus-4-7": { "hidden": true, "inPerMTok": 5.0, "outPerMTok": 25.0, "visionPerMTok": 5.0 },
+      "claude-opus-4-6": { "hidden": true, "inPerMTok": 5.0, "outPerMTok": 25.0, "visionPerMTok": 5.0 },
+      "claude-sonnet-4-6": { "hidden": true, "inPerMTok": 3.0, "outPerMTok": 15.0, "visionPerMTok": 3.0 },
+      "claude-sonnet-4-5": { "hidden": true, "inPerMTok": 3.0, "outPerMTok": 15.0, "visionPerMTok": 3.0 }
     },
     "openai": {
-      "_default": { "inPerMTok": 2.5, "outPerMTok": 10.0, "visionPerMTok": 2.5 },
-      "gpt-4o": { "inPerMTok": 2.5, "outPerMTok": 10.0, "visionPerMTok": 2.5 },
-      "gpt-4o-mini": { "inPerMTok": 0.15, "outPerMTok": 0.6, "visionPerMTok": 0.15 }
+      "_default": { "inPerMTok": 5.0, "outPerMTok": 30.0, "visionPerMTok": 5.0 },
+      "gpt-5.6-sol": { "label": "GPT-5.6 Sol", "inPerMTok": 5.0, "outPerMTok": 30.0, "visionPerMTok": 5.0 },
+      "gpt-5.6-terra": { "label": "GPT-5.6 Terra", "inPerMTok": 2.5, "outPerMTok": 15.0, "visionPerMTok": 2.5 },
+      "gpt-5.6-luna": { "label": "GPT-5.6 Luna", "inPerMTok": 1.0, "outPerMTok": 6.0, "visionPerMTok": 1.0 },
+      "gpt-5.5": { "label": "GPT-5.5", "inPerMTok": 5.0, "outPerMTok": 30.0, "visionPerMTok": 5.0 },
+      "gpt-5.4": { "label": "GPT-5.4", "recommended": true, "inPerMTok": 2.5, "outPerMTok": 15.0, "visionPerMTok": 2.5 },
+      "gpt-4.1-nano": { "label": "GPT-4.1 nano", "inPerMTok": 0.1, "outPerMTok": 0.4, "visionPerMTok": 0.1 },
+      "gpt-4o": { "hidden": true, "inPerMTok": 2.5, "outPerMTok": 10.0, "visionPerMTok": 2.5 },
+      "gpt-4o-mini": { "hidden": true, "inPerMTok": 0.15, "outPerMTok": 0.6, "visionPerMTok": 0.15 }
     },
     "gemini": {
-      "_default": { "inPerMTok": 0.3, "outPerMTok": 2.5, "visionPerMTok": 0.3 },
-      "gemini-2.5-flash": { "inPerMTok": 0.3, "outPerMTok": 2.5, "visionPerMTok": 0.3 },
-      "gemini-2.5-pro": { "inPerMTok": 1.25, "outPerMTok": 10.0, "visionPerMTok": 1.25 }
+      "_default": { "inPerMTok": 1.5, "outPerMTok": 9.0, "visionPerMTok": 1.5 },
+      "gemini-3.1-pro": { "label": "Gemini 3.1 Pro", "inPerMTok": 2.0, "outPerMTok": 12.0, "visionPerMTok": 2.0 },
+      "gemini-3.5-flash": { "label": "Gemini 3.5 Flash", "recommended": true, "inPerMTok": 1.5, "outPerMTok": 9.0, "visionPerMTok": 1.5 },
+      "gemini-3.1-flash-lite": { "label": "Gemini 3.1 Flash-Lite", "inPerMTok": 0.25, "outPerMTok": 1.5, "visionPerMTok": 0.25 },
+      "gemini-2.5-pro": { "label": "Gemini 2.5 Pro", "inPerMTok": 1.25, "outPerMTok": 10.0, "visionPerMTok": 1.25 },
+      "gemini-2.5-flash-lite": { "label": "Gemini 2.5 Flash-Lite", "inPerMTok": 0.1, "outPerMTok": 0.4, "visionPerMTok": 0.1 },
+      "gemini-2.5-flash": { "hidden": true, "inPerMTok": 0.3, "outPerMTok": 2.5, "visionPerMTok": 0.3 }
     },
     "xai": {
-      "_default": { "inPerMTok": 3.0, "outPerMTok": 15.0, "visionPerMTok": 3.0 },
-      "grok-4.3": { "inPerMTok": 3.0, "outPerMTok": 15.0, "visionPerMTok": 3.0 }
+      "_default": { "inPerMTok": 1.25, "outPerMTok": 2.5, "visionPerMTok": 1.25 },
+      "grok-4.3": { "label": "Grok 4.3", "recommended": true, "inPerMTok": 1.25, "outPerMTok": 2.5, "visionPerMTok": 1.25 },
+      "grok-4.20": { "label": "Grok 4.20", "inPerMTok": 2.0, "outPerMTok": 6.0, "visionPerMTok": 2.0 },
+      "grok-build-0.1": { "label": "Grok Build 0.1", "inPerMTok": 1.0, "outPerMTok": 2.0, "visionPerMTok": 1.0 }
     },
     "ollama": {
       "_default": { "inPerMTok": 0.0, "outPerMTok": 0.0, "visionPerMTok": 0.0 },
-      "llama3.1": { "inPerMTok": 0.0, "outPerMTok": 0.0, "visionPerMTok": 0.0 }
+      "llama3.1": { "label": "Llama 3.1 (local)", "recommended": true, "inPerMTok": 0.0, "outPerMTok": 0.0, "visionPerMTok": 0.0 }
     }
   }
 }
