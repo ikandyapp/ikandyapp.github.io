@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self'; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://*.google-analytics.com https://*.googletagmanager.com; media-src 'self' blob:; frame-src https://www.youtube-nocookie.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
 <!-- Consent-based website analytics are managed by analytics.js; Google Analytics is not loaded before opt-in. -->
-<script>window.gtag = function(){};</script>
+<script src="assets/analytics-bootstrap.js"></script>
 <script defer src="analytics.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -210,105 +211,6 @@ footer.ftr a{text-decoration:none}
   <div class="status-line" id="status-line"></div>
 </div>
 
-<script>
-  // Block Escape and F-keys from dismissing the window
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' || e.key === 'F4') {
-      e.preventDefault(); e.stopPropagation();
-    }
-  }, true);
-
-  const scrollEl   = document.getElementById('eula-scroll');
-  const eulaText   = document.getElementById('eula-text');
-  const scrollHint = document.getElementById('scroll-hint');
-  const rowRead    = document.getElementById('row-read');
-  const rowPrivacy = document.getElementById('row-privacy');
-  const chkRead    = document.getElementById('chk-read');
-  const chkPrivacy = document.getElementById('chk-privacy');
-  const btnAccept  = document.getElementById('btn-accept');
-  const btnDecline = document.getElementById('btn-decline');
-  const statusLine = document.getElementById('status-line');
-
-  let scrolledToBottom = false;
-  let busy = false;
-
-  function updateAcceptState() {
-    const canAccept = scrolledToBottom && chkRead.checked && chkPrivacy.checked;
-    btnAccept.disabled = !canAccept;
-  }
-
-  function onScrolled() {
-    const remaining = scrollEl.scrollHeight - scrollEl.scrollTop - scrollEl.clientHeight;
-    if (!scrolledToBottom && remaining < 48) {
-      scrolledToBottom = true;
-      scrollHint.classList.add('hidden');
-      rowRead.classList.add('enabled');
-      rowPrivacy.classList.add('enabled');
-      chkRead.disabled = false;
-      chkPrivacy.disabled = false;
-    }
-    updateAcceptState();
-  }
-
-  scrollEl.addEventListener('scroll', onScrolled);
-
-  chkRead.addEventListener('change', updateAcceptState);
-  chkPrivacy.addEventListener('change', updateAcceptState);
-
-  // Allow clicking the row labels to toggle checkboxes when enabled
-  rowRead.addEventListener('click', e => {
-    if (!chkRead.disabled && e.target !== chkRead) chkRead.click();
-  });
-  rowPrivacy.addEventListener('click', e => {
-    if (e.target.closest && e.target.closest('a')) return;
-    if (!chkPrivacy.disabled && e.target !== chkPrivacy) chkPrivacy.click();
-  });
-
-  btnAccept.addEventListener('click', async () => {
-    if (busy || btnAccept.disabled) return;
-    busy = true;
-    btnAccept.disabled = true;
-    btnDecline.disabled = true;
-    statusLine.textContent = 'Recording acceptance…';
-    statusLine.classList.remove('error');
-    try {
-      await window.EULA.accept();
-      statusLine.textContent = '✓ Accepted. Starting IKANDY…';
-    } catch(e) {
-      statusLine.textContent = 'Error recording acceptance. Please try again.';
-      statusLine.classList.add('error');
-      busy = false;
-      btnAccept.disabled = false;
-      btnDecline.disabled = false;
-    }
-  });
-
-  btnDecline.addEventListener('click', async () => {
-    if (busy) return;
-    if (!confirm('Decline the License Agreement and quit IKANDY?')) return;
-    busy = true;
-    btnAccept.disabled = true;
-    btnDecline.disabled = true;
-    statusLine.textContent = 'Closing…';
-    try { await window.EULA.decline(); } catch(e) {}
-  });
-
-  // Load EULA text on init
-  (async () => {
-    try {
-      const { text, version } = await window.EULA.getEulaText();
-      eulaText.textContent = text;
-      // Check if content fits without scrolling (very short screens)
-      setTimeout(() => {
-        const remaining = scrollEl.scrollHeight - scrollEl.scrollTop - scrollEl.clientHeight;
-        if (remaining < 8) onScrolled(); // already at bottom
-      }, 100);
-    } catch(e) {
-      eulaText.textContent = 'This page is shown inside the IKANDY application on first launch.\n\nTo read the full IKANDY License Agreement online, visit:\nhttps://ikandy.app/license.html';
-      statusLine.textContent = 'Error loading agreement text.';
-      statusLine.classList.add('error');
-    }
-  })();
-</script>
+<script src="assets/eula-page.js" defer></script>
 </body>
 </html>
