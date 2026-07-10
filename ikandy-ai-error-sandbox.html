@@ -435,7 +435,7 @@ footer.ftr a{text-decoration:none}
 
 <header>
   <div class="container">
-    <span class="label">Technical Disclosure — Prior Art Publication</span>
+    <span class="label">Technical Disclosure — Published Record</span>
     <h1>IKANDY <span>AI Shader Error Sandbox</span>:<br>Self-Healing GPU Shader Generation<br>via Closed-Loop Compile Feedback</h1>
     <p class="meta">
       <strong>Author:</strong> IKANDY / ikandyapp &nbsp;·&nbsp;
@@ -451,10 +451,10 @@ footer.ftr a{text-decoration:none}
     <section>
       <h2>Abstract</h2>
       <p>
-        This document discloses a novel method implemented in IKANDY for automatically detecting GPU shader compile errors produced by AI-generated GLSL and WGSL code, silently feeding those exact compiler error strings back to the originating large language model, and retrying compilation — up to a configurable maximum — before surfacing any failure to the user. This method is referred to internally as the <strong>AI Shader Error Sandbox</strong>.
+        This document describes a method implemented in IKANDY for detecting GPU shader compile errors produced by AI-generated GLSL and WGSL code, sending compiler error strings back to the originating large language model, and retrying compilation up to a configurable maximum before surfacing a failure to the user. This method is referred to internally as the <strong>AI Shader Error Sandbox</strong>.
       </p>
       <div class="callout">
-        <p>This publication is intended to establish prior art. This document is a dated record: implementation specifics such as runtime and model versions describe the build as published in May 2026 and are preserved unchanged for the integrity of the disclosure; current builds may differ. Any subsequent patent claim covering this method or substantially similar methods is anticipated by this disclosure.</p>
+        <p>This publication is a dated technical record. Implementation specifics such as runtime and model versions describe the build published in May 2026 and are preserved for that record; current builds may differ. This page does not provide a legal opinion on patentability, novelty, infringement, validity, or prior-art effect.</p>
       </div>
     </section>
 
@@ -496,7 +496,7 @@ footer.ftr a{text-decoration:none}
     </section>
 
     <section>
-      <h2>The Novel Method</h2>
+      <h2>Method Overview</h2>
 
       <div class="flow">
         <div class="flow-step">
@@ -582,13 +582,13 @@ footer.ftr a{text-decoration:none}
     </section>
 
     <section>
-      <h2>What Makes This Novel</h2>
+      <h2>Technical Characteristics</h2>
       <div class="callout">
         <p>
           Existing LLM-integrated shader editors (ShaderToy's community, ISF Editor, Bonzomatic) display compiler errors to the user and require manual correction. No prior system in real-time graphics or music visualizer software implements <strong>automatic GPU driver error capture → LLM re-submission → silent on-disk overwrite → recompile</strong> as a fully closed, user-invisible feedback loop.
         </p>
       </div>
-      <p>The combination of these elements constitutes the novel method:</p>
+      <p>The method combines these elements:</p>
       <p>
         <span class="tag">1</span> AI fragment generation with structural boilerplate isolation<br>
         <span class="tag">2</span> Raw GPU driver error string capture (not parsed or summarized)<br>
@@ -632,14 +632,14 @@ footer.ftr a{text-decoration:none}
         The AI Shader Error Sandbox is implemented in IKANDY, an Electron 30-based music visualizer running on Windows. AI generation calls target the Anthropic Claude API (<code>claude-sonnet-4-20250514</code>). GLSL shaders compile into inline WebGL contexts; WGSL shaders compile into WebGPU pipelines via <code>_wgpuUserScene()</code> in <code>scenes.js</code>. IPC handlers in <code>main.js</code> manage file writes with strict filename regex validation and size caps.
       </p>
       <p>
-        This technical disclosure was published at ikandy.app and constitutes prior art as of its effective date.
+        This technical disclosure was published at ikandy.app on its effective date.
       </p>
     </section>
 
     <section>
       <h2>Prior Art Search Summary</h2>
       <p>
-        A search of npm, GitHub, and general web sources conducted May 2026 found no implementation combining GPU compiler error capture with closed-loop LLM re-submission for automatic shader self-correction in any real-time graphics, music visualization, or creative coding context. Shader editors with AI-assist features (Cursor, GitHub Copilot in VSCode) offer suggestion and inline diff but require manual user acceptance of corrections and do not execute a silent compile-verify-overwrite loop.
+        A limited search of npm, GitHub, and general web sources conducted in May 2026 did not identify a publicly available implementation combining GPU compiler-error capture with closed-loop LLM re-submission for automatic shader self-correction in the sources reviewed. This is a research note, not a comprehensive patent search or legal conclusion.
       </p>
     </section>
 
@@ -651,7 +651,7 @@ footer.ftr a{text-decoration:none}
     <div class="ftr-grid">
       <div>
         <p class="ftr-brand">IKANDY</p>
-        <p class="ftr-note">Audio-reactive visualizer and VJ instrument for Windows 10 / 11. Runs fully offline.</p>
+        <p class="ftr-note">Audio-reactive visualizer and VJ instrument for Windows 10 / 11. Core visual playback runs locally; optional online features require an internet connection.</p>
         <p style="margin-top:18px"><a class="btn-steam" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam</a></p>
       </div>
       <div>

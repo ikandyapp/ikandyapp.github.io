@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Spout in + out : IKANDY user guide</title>
-<meta name="description" content="Publish visuals to OBS and VJ software, or post-process any incoming feed.">
+<meta name="description" content="Publish visuals to OBS and VJ software, or post-process compatible feeds.">
 <link rel="icon" href="../icon.ico">
 <!-- Third-party website analytics intentionally disabled. -->
 <script>window.gtag = function(){};</script>
@@ -63,21 +63,21 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
 <main class="wiki-wrap" style="--hue:#37d9b5">
   <div class="crumb"><a href="../guide.html">User guide</a><span>/</span><span class="hueled" aria-hidden="true"></span><span style="color:var(--ink-2)">Spout in + out</span></div>
   <h1>Spout in + out</h1>
-  <p class="wiki-lead">Publish visuals to OBS and VJ software, or post-process any incoming feed.</p>
+  <p class="wiki-lead">Publish visuals to OBS and VJ software, or post-process compatible feeds.</p>
   <section>
   <p class="section-tag">Spout</p>
   <h2>A Node<br>In The Rig</h2>
-  <p class="lead">Spout is GPU texture sharing between Windows apps: no capture cards, no encoding, no added latency worth naming. IKANDY speaks it in both directions.</p>
+  <p class="lead">Spout is a GPU texture-sharing workflow for compatible Windows apps. IKANDY supports Spout input and output.</p>
 
   <h3>Spout out: publish the show</h3>
-  <p>Turn on <strong>Spout Output</strong> in Sources &amp; Settings, give the sender a name, and IKANDY appears as a source in OBS, Resolume, TouchDesigner, MadMapper, vMix, and anything else that receives Spout. What gets published is the show itself: the composited visuals, never the console or any UI chrome. Toasts and panels stay off the feed by design.</p>
-  <p>The output is occlusion-immune: it keeps rendering at full pace even when the IKANDY window is covered or minimized, so you can work in other apps while the feed runs. The audio path is never touched.</p>
+  <p>Turn on <strong>Spout Output</strong> in Sources &amp; Settings, give the sender a name, and IKANDY can appear as a source in compatible receivers such as OBS, Resolume, TouchDesigner, MadMapper, and vMix. The output is the composited visual feed; the console and panels are designed to stay out of it.</p>
+  <p>Output performance depends on your hardware, scene, resolution, and the receiving application. You can keep working in other apps while the feed runs.</p>
 
   <h3>Overlays on the broadcast</h3>
   <p>Two switches decide what rides on everything you broadcast, the second screen and Spout and recordings alike: the <strong>Now Playing card</strong> and <strong>Lyrics</strong>. One switch per overlay, so a clean feed is one click away.</p>
 
-  <h3>Spout in: post-process anything</h3>
-  <p>Pipe a live feed <em>into</em> IKANDY from OBS, TouchDesigner, Resolume, or MadMapper: pick the sender in <strong>Source &rarr; Spout In</strong> (any active sender shows up, with a refresh), choose a frame rate up to 60, and the feed becomes a source. The browser's <strong>SPOUT</strong> tab holds the scenes built to treat a live feed, so someone else's video comes out wearing IKANDY's light.</p>
+  <h3>Spout in: post-process a compatible feed</h3>
+  <p>Pipe a live feed <em>into</em> IKANDY from a compatible Spout sender such as OBS, TouchDesigner, Resolume, or MadMapper: pick the sender in <strong>Source &rarr; Spout In</strong>, choose a frame rate up to 60, and use the feed as a source. The browser's <strong>SPOUT</strong> tab contains scenes built for live feeds.</p>
 
   <div class="callout tip">
     <span class="callout-label">Tier note</span>
@@ -91,7 +91,7 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
     <div class="ftr-grid">
       <div>
         <p class="ftr-brand">IKANDY</p>
-        <p class="ftr-note">Audio-reactive visualizer and VJ instrument for Windows 10 / 11. Runs fully offline.</p>
+        <p class="ftr-note">Audio-reactive visualizer and VJ instrument for Windows 10 / 11. Core visual playback runs locally; optional online features require an internet connection.</p>
         <p style="margin-top:18px"><a class="btn-steam" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam</a></p>
       </div>
       <div>
