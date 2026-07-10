@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-lDlK144VLHqq4Xz0BEBVvehWpg8MM2DAKAWi3z6oR08='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; media-src 'self' blob:; frame-src 'none'; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
 <!-- Third-party website analytics intentionally disabled. -->
-<script>window.gtag = function(){};</script>
 <script defer src="/analytics.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="robots" content="noindex,follow">
 <title>IKANDY ARCADE — Pinball</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -52,18 +54,18 @@ canvas { display: block; }
     <div class="lbl">BALL</div><div class="val" id="ballnum">3</div>
     <div class="hint">Z = LEFT<br>/ = RIGHT<br><br>HOLD SPACE<br>RELEASE<br>TO LAUNCH</div>
   </div>
-  <canvas id="game" width="280" height="520"></canvas>
+  <canvas id="game" width="280" height="520" tabindex="0" role="application" aria-label="Pinball game board" aria-describedby="pinball-instructions"></canvas>
 </div>
-<div class="overlay" id="start-overlay">
-  <h1>PINBALL</h1>
+<div class="overlay" id="start-overlay" role="dialog" aria-modal="true" aria-labelledby="pinball-title">
+  <h1 id="pinball-title">PINBALL</h1>
   <p>Z &mdash; LEFT FLIPPER &nbsp;&nbsp; / &mdash; RIGHT FLIPPER</p>
-  <p>HOLD SPACE TO CHARGE &mdash; RELEASE TO LAUNCH</p>
+  <p id="pinball-instructions">HOLD SPACE TO CHARGE &mdash; RELEASE TO LAUNCH</p>
   <p>3 BALLS &middot; BUMPERS &middot; SLINGSHOTS</p>
-  <button id="btn-start">[ INSERT COIN ]</button>
+  <button id="btn-start" autofocus>[ INSERT COIN ]</button>
 </div>
-<div class="overlay hidden" id="over-overlay">
-  <h1>GAME OVER</h1>
-  <p>FINAL SCORE: <strong id="final-score">0</strong></p>
+<div class="overlay hidden" id="over-overlay" role="dialog" aria-modal="true" aria-labelledby="pinball-over-title">
+  <h1 id="pinball-over-title">GAME OVER</h1>
+  <p aria-live="polite">FINAL SCORE: <strong id="final-score">0</strong></p>
   <div class="btn-row"><button id="btn-retry">[ PLAY AGAIN ]</button><button id="btn-back" class="secondary">[ BACK TO ARCADE ]</button></div>
 </div>
 <script>
@@ -223,6 +225,7 @@ canvas { display: block; }
     running=false;cancelAnimationFrame(animId);
     document.getElementById('final-score').textContent=score;
     document.getElementById('over-overlay').classList.remove('hidden');
+    document.getElementById('btn-retry').focus();
   }
 
   function startGame(){
@@ -232,6 +235,7 @@ canvas { display: block; }
     document.getElementById('ballnum').textContent=3;
     document.getElementById('start-overlay').classList.add('hidden');
     document.getElementById('over-overlay').classList.add('hidden');
+    canvas.focus();
     spawnBall();cancelAnimationFrame(animId);loop();
   }
 

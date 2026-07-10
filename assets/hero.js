@@ -447,7 +447,7 @@
   var smB = 0, smM = 0, smT = 0;
   var beatDot = document.getElementById('beat-dot');
   function frame(now) {
-    requestAnimationFrame(frame);
+    if (!reduced) requestAnimationFrame(frame);
     if (!S.running || !S.visible) { S.last = now; return; }
     var dt = Math.min(0.05, (now - (S.last || now)) / 1000); S.last = now;
     S.t += dt;                                        // music clock: tempo never changes
@@ -482,7 +482,8 @@
     gl.drawArrays(gl.TRIANGLES, 0, 3);
   }
   resize();
-  requestAnimationFrame(frame);
+  if (reduced) frame(performance.now());
+  else requestAnimationFrame(frame);
 })();
 
 /* mobile nav toggle */

@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-UiRpQ1MZvz0yC760TXEB+Na6RItlbO3BYz7901a69yE='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; media-src 'self' blob:; frame-src 'none'; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
 <!-- Third-party website analytics intentionally disabled. -->
-<script>window.gtag = function(){};</script>
 <script defer src="/analytics.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="robots" content="noindex,follow">
 <title>IKANDY ARCADE — Volley</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -43,16 +45,16 @@ canvas { border: 1px solid #111; }
   <a href="index.html" class="topbar-back">&larr; HOME</a>
 </div>
 <div class="spacer"></div>
-<canvas id="game" width="640" height="420"></canvas>
-<div class="overlay" id="start-overlay">
-  <h1>VOLLEY</h1>
-  <p>W / S &nbsp;&middot;&nbsp; &uarr; / &darr; &nbsp; TO MOVE YOUR PADDLE (LEFT SIDE)</p>
+<canvas id="game" width="640" height="420" tabindex="0" role="application" aria-label="Volley game board" aria-describedby="volley-instructions"></canvas>
+<div class="overlay" id="start-overlay" role="dialog" aria-modal="true" aria-labelledby="volley-title">
+  <h1 id="volley-title">VOLLEY</h1>
+  <p id="volley-instructions">W / S &nbsp;&middot;&nbsp; &uarr; / &darr; &nbsp; TO MOVE YOUR PADDLE (LEFT SIDE)</p>
   <p>5 LIVES &middot; AI GETS FASTER EVERY POINT &middot; ENDLESS</p>
-  <button id="btn-start">[ PRESS START ]</button>
+  <button id="btn-start" autofocus>[ PRESS START ]</button>
 </div>
-<div class="overlay hidden" id="over-overlay">
-  <h1>GAME OVER</h1>
-  <p id="final-score"></p>
+<div class="overlay hidden" id="over-overlay" role="dialog" aria-modal="true" aria-labelledby="volley-over-title">
+  <h1 id="volley-over-title">GAME OVER</h1>
+  <p id="final-score" aria-live="polite"></p>
   <div class="btn-row"><button id="btn-retry">[ PLAY AGAIN ]</button><button id="btn-back" class="secondary">[ BACK TO ARCADE ]</button></div>
 </div>
 <script>
@@ -79,6 +81,7 @@ canvas { border: 1px solid #111; }
     resetBall(true);
     document.getElementById('start-overlay').classList.add('hidden');
     document.getElementById('over-overlay').classList.add('hidden');
+    canvas.focus();
     cancelAnimationFrame(animId); loop();
   }
 
@@ -161,6 +164,7 @@ canvas { border: 1px solid #111; }
     running = false; cancelAnimationFrame(animId);
     document.getElementById('final-score').textContent = `SCORE: ${pScore}`;
     document.getElementById('over-overlay').classList.remove('hidden');
+    document.getElementById('btn-retry').focus();
   }
 
   document.getElementById('btn-start').addEventListener('click', startGame);

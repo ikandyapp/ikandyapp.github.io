@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-u9fNTfsUuzP7MFXmBMqQztrzdN/Q3qK0mLncEdwIua8=' 'sha256-ek940e8UwlG7VapZfiED9xOFtGE8CT2lDznTV5IgoXs='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; media-src 'self' blob:; frame-src 'none'; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
 <!-- Third-party website analytics intentionally disabled. -->
-<script>window.gtag = function(){};</script>
 <script defer src="/analytics.js"></script>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="robots" content="noindex,follow">
 <title>IKANDY ARCADE &mdash; Powder</title>
 <link rel="apple-touch-icon-precomposed" href="apple-touch-icon.png">
 <link rel="shortcut icon" href="apple-touch-icon.png">
@@ -33,7 +35,8 @@
   <a href="../index.html" class="logo">IKANDY ARCADE</a>
   <a href="../index.html" class="back">&larr; HOME</a>
 </div>
-<canvas id="skifree-canvas" tabindex="0"></canvas>
+<p id="powder-instructions" class="visuallyhidden">Use the mouse or WASD to steer. Press F for a speed boost, T for a trick, and Space to restart after game over.</p>
+<canvas id="skifree-canvas" tabindex="0" role="application" aria-label="Powder game board" aria-describedby="powder-instructions"></canvas>
 <script>
 (() => {
   'use strict';
@@ -54,7 +57,11 @@
       var ov = document.getElementById('sf-overlay');
       var fs = document.getElementById('sf-final-score');
       if (fs) fs.textContent = Math.round(distance);
-      if (ov) setTimeout(function(){ ov.classList.add('show'); }, 400);
+      if (ov) setTimeout(function(){
+        ov.classList.add('show');
+        var retry = document.getElementById('sf-btn-retry');
+        if (retry) retry.focus();
+      }, 400);
     }
   }, 300);
 })();
@@ -71,9 +78,9 @@
 .sf-overlay button.secondary { color: #888; border-color: #555; }
 .sf-overlay button.secondary:hover { background: #555; color: #fff; }
 </style>
-<div class="sf-overlay" id="sf-overlay">
-  <h1>GAME OVER</h1>
-  <p>FINAL DISTANCE: <strong id="sf-final-score" style="color:#fff">0</strong>m</p>
+<div class="sf-overlay" id="sf-overlay" role="dialog" aria-modal="true" aria-labelledby="powder-over-title">
+  <h1 id="powder-over-title">GAME OVER</h1>
+  <p aria-live="polite">FINAL DISTANCE: <strong id="sf-final-score" style="color:#fff">0</strong>m</p>
   <div class="btn-row">
     <button id="sf-btn-retry">[ PLAY AGAIN ]</button>
     <button id="sf-btn-back" class="secondary">[ BACK TO ARCADE ]</button>
