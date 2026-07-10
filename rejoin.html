@@ -335,38 +335,20 @@ footer.ftr a{text-decoration:none}
       <a href="guide.html">Guide</a>
       <a href="artists.html">Artists</a>
     </div>
-    <a class="btn-steam rail-cta" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam</a>
+    <a class="btn-steam rail-cta" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener"><span>Wishlist on Steam</span><span class="rail-cta-note">Coming soon on Steam &middot; Beta closed</span></a>
   </div>
 </nav>
 
 <main>
 
   <div class="rejoin-card">
-    <p class="card-tag">Beta Account Recovery</p>
-    <h1 class="card-title">Welcome<br>Back.</h1>
-    <p class="card-lead">If you previously deleted your IKANDY data and want to rejoin the beta, enter your Beta ID below. Reactivation is processed promptly &mdash; usually right away, occasionally within a few days. You can find your Beta ID in the email you used to request reactivation, or in the "Welcome back" screen IKANDY shows when you launch.</p>
+    <p class="card-tag">Beta closed</p>
+    <h1 class="card-title">Coming<br>Soon.</h1>
+    <p class="card-lead">The IKANDY beta has ended and new beta access is no longer available. IKANDY is coming soon on Steam.</p>
 
-    <label class="field-label" for="beta-id-input">Beta ID</label>
-    <input
-      type="text"
-      id="beta-id-input"
-      class="field-input"
-      placeholder="e.g. 64488da7-ec7f-497f-8e33-b22562bd87ef"
-      autocomplete="off"
-      spellcheck="false"
-      autocapitalize="off"
-    >
+    <a class="btn-primary" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam</a>
 
-    <button id="rejoin-btn" class="btn-primary" type="button">Rejoin the Beta</button>
-
-    <div class="status-line" id="status-line"></div>
-
-    <div class="result-box" id="result-box">
-      <div class="result-title" id="result-title"></div>
-      <div class="result-body" id="result-body"></div>
-    </div>
-
-    <a href="mailto:support@ikandy.app?subject=Rejoin Beta - Help" class="help-link">Need help? Email support →</a>
+    <a href="mailto:support@ikandy.app?subject=IKANDY Beta" class="help-link">Questions? Email support &rarr;</a>
   </div>
 
 </main>
@@ -419,117 +401,7 @@ footer.ftr a{text-decoration:none}
 if(t&&l)t.addEventListener('click',function(){l.classList.toggle('open')});})();
 </script>
 
-<script>
-  const SUPABASE_URL = 'https://grimznincoiujnurhmlx.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdyaW16bmluY29pdWpudXJobWx4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxNDQ5NzAsImV4cCI6MjA5MjcyMDk3MH0.X-eXBp4gF3RthSt10As83Ft4z5rOc929IMdis5BSuxk';
 
-  const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-
-  const input      = document.getElementById('beta-id-input');
-  const btn        = document.getElementById('rejoin-btn');
-  const status     = document.getElementById('status-line');
-  const resultBox  = document.getElementById('result-box');
-  const resultTitle= document.getElementById('result-title');
-  const resultBody = document.getElementById('result-body');
-
-  // Beta IDs are never accepted from or retained in the URL.
-  if (window.location.search) history.replaceState(null, '', window.location.pathname);
-
-  function setStatus(message, type) {
-    status.textContent = message;
-    status.className = 'status-line';
-    if (type) status.classList.add(type);
-  }
-
-  function showResult(title, body, isError) {
-    resultBox.className = 'result-box visible' + (isError ? ' error' : '');
-    resultTitle.textContent = title;
-    resultBody.innerHTML = body;
-  }
-
-  function hideResult() {
-    resultBox.className = 'result-box';
-  }
-
-  async function doRejoin() {
-    const betaId = input.value.trim();
-
-    hideResult();
-
-    if (!betaId) {
-      setStatus('Please enter your Beta ID.', 'error');
-      return;
-    }
-
-    if (!UUID_REGEX.test(betaId)) {
-      setStatus('That doesn\'t look like a valid Beta ID. It should look like: 64488da7-ec7f-497f-8e33-b22562bd87ef', 'error');
-      return;
-    }
-
-    btn.disabled = true;
-    input.disabled = true;
-    setStatus('Reactivating your beta access…', 'busy');
-
-    try {
-      const response = await fetch(`${SUPABASE_URL}/functions/v1/rejoin-beta`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'apikey': SUPABASE_ANON_KEY,
-          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-        },
-        body: JSON.stringify({ beta_id: betaId }),
-      });
-
-      const data = await response.json().catch(() => ({}));
-
-      if (response.ok && data.ok) {
-        setStatus('');
-        showResult(
-          '✓ Beta access restored',
-          `Your Beta ID <code>${betaId}</code> has been reactivated. Launch IKANDY to continue. If you don't have IKANDY installed anymore, <a href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener" style="color:var(--vu-amber);text-decoration:underline;">get it on Steam</a>.`,
-          false
-        );
-      } else if (response.status === 404 || (data && data.error === 'not_found_or_not_deleted')) {
-        setStatus('');
-        showResult(
-          'Couldn\'t find that Beta ID',
-          `Either the Beta ID doesn't exist, or this account isn't in a deleted state. If you believe this is an error, email <a href="mailto:support@ikandy.app?subject=Rejoin Beta - Not Found" style="color:var(--ice);text-decoration:underline;">support@ikandy.app</a> for help.`,
-          true
-        );
-        btn.disabled = false;
-        input.disabled = false;
-      } else {
-        setStatus('');
-        const errMsg = (data && data.error) ? data.error : `HTTP ${response.status}`;
-        showResult(
-          'Reactivation failed',
-          `Something went wrong on our end (<code>${errMsg}</code>). Please try again in a moment, or email <a href="mailto:support@ikandy.app?subject=Rejoin Beta - Error" style="color:var(--ice);text-decoration:underline;">support@ikandy.app</a> if it keeps failing.`,
-          true
-        );
-        btn.disabled = false;
-        input.disabled = false;
-      }
-    } catch (err) {
-      setStatus('');
-      showResult(
-        'Network error',
-        `Couldn't reach the IKANDY servers. Check your internet connection and try again, or email <a href="mailto:support@ikandy.app?subject=Rejoin Beta - Network Error" style="color:var(--ice);text-decoration:underline;">support@ikandy.app</a>.`,
-        true
-      );
-      btn.disabled = false;
-      input.disabled = false;
-    }
-  }
-
-  btn.addEventListener('click', doRejoin);
-  input.addEventListener('keydown', e => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      doRejoin();
-    }
-  });
-</script>
 
 </body>
 </html>
