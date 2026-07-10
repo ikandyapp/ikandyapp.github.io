@@ -82,10 +82,14 @@
 /* ---------- hero ---------- */
 .hero{position:relative;min-height:100svh;display:flex;flex-direction:column;
   border-bottom:1px solid #000;overflow:hidden}
-#hero-gl{position:absolute;inset:0;width:100%;height:100%;display:block;background:#060608}
+#hero-gl,#hero-wgpu{position:absolute;inset:0;width:100%;height:100%;display:block;background:#060608;
+  transition:opacity .18s linear}
+#hero-wgpu{opacity:0;pointer-events:none}
+#hero-wgpu.active{opacity:1}
+#hero-gl.webgpu-active{opacity:0}
 .hero::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
   background:linear-gradient(90deg,rgba(6,6,9,.5) 0%,rgba(6,6,9,.32) 42%,transparent 72%)}
-.hero-copy,.hero-live{z-index:2}
+.hero-copy,.hero-live,.hero-logo{z-index:2}
 #hero-fallback{position:absolute;inset:0;background:
   radial-gradient(900px 500px at 30% 20%,#3a1608,transparent 70%),
   radial-gradient(800px 600px at 75% 70%,#141420,transparent 70%),#060608}
@@ -124,6 +128,19 @@ h1 .row{display:block}
 @keyframes blink{0%,88%{opacity:1}89%,100%{opacity:.25}}
 @media (prefers-reduced-motion:reduce){.hero-live .led.on{animation:none}}
 
+/* Instant Logo preview: a removable, performance-safe DOM overlay over every scene. */
+.hero-logo{position:absolute;right:5vw;top:44%;pointer-events:none;text-align:right;
+  opacity:0;transform:translateY(14px) scale(.94);transition:opacity .28s,transform .35s cubic-bezier(.16,1,.3,1);
+  filter:drop-shadow(0 12px 26px rgba(0,0,0,.78))}
+.hero-logo.on{opacity:1;transform:translateY(0) scale(1)}
+.hero-logo-mark{display:block;font-family:var(--display);font-weight:800;font-size:clamp(54px,7vw,108px);
+  line-height:.8;letter-spacing:.075em;text-transform:uppercase;color:transparent;
+  background:linear-gradient(105deg,#fff 0%,#a7fff3 18%,#33e0ff 38%,#fff 51%,#ff65c8 72%,#ffb14a 100%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-stroke:1px rgba(255,255,255,.35);
+  text-shadow:0 0 32px rgba(51,224,255,.24)}
+.hero-logo-sub{display:block;margin-top:14px;font-family:var(--mono);font-size:10px;letter-spacing:.36em;
+  text-transform:uppercase;color:#fff;text-shadow:0 2px 8px #000}
+
 /* ---------- console ---------- */
 .console{position:relative;z-index:3;margin:0 auto;width:min(100%,var(--maxw));
   padding:0 24px 26px}
@@ -147,6 +164,8 @@ h1 .row{display:block}
 .glabel{font-family:var(--mono);font-size:9px;letter-spacing:.24em;text-transform:uppercase;
   color:var(--ink-faint)}
 .grow{display:flex;align-items:center;gap:12px;flex:1}
+.scene-group .grow{display:grid;grid-template-columns:repeat(3,max-content);gap:8px}
+.overlay-group{min-width:96px}.overlay-group .grow{justify-content:center}
 .cdivider{width:1px;align-self:stretch;margin:2px 0;background:
   linear-gradient(180deg,transparent,var(--rule) 25%,var(--rule) 75%,transparent)}
 
@@ -160,6 +179,8 @@ h1 .row{display:block}
   display:flex;align-items:center;gap:8px;
   transition:background .12s,color .12s,box-shadow .12s,transform .06s}
 .scene-btn .led{width:6px;height:6px;flex:none}
+.scene-btn[data-tech]::after{content:attr(data-tech);font-size:6px;letter-spacing:.08em;color:#65f2ff;
+  border:1px solid rgba(51,224,255,.35);border-radius:2px;padding:1px 3px;margin-left:-2px}
 .scene-btn:hover{color:var(--ink);
   background:linear-gradient(180deg,#2a2a33,#1d1d24 70%,#16161c)}
 .scene-btn:active{transform:translateY(1px)}
@@ -262,6 +283,9 @@ h1 .row{display:block}
   .console-panel{padding:16px 12px;gap:16px}
   .scene-btn{min-height:44px}
   .sound-group{min-width:100%}
+  .hero-logo{top:31%;right:18px;transform:translateY(10px) scale(.78);transform-origin:right center}
+  .hero-logo.on{transform:translateY(0) scale(.78)}
+  .hero-logo-sub{font-size:8px;letter-spacing:.22em}
 }
 
 /* ---------- signature micro-moments ---------- */
@@ -504,9 +528,14 @@ html.js .unit-in.in{opacity:1;transform:none}
 <!-- ============ HERO / LIVE UNIT ============ -->
 <header class="hero">
   <canvas id="hero-gl" aria-hidden="true"></canvas>
+  <canvas id="hero-wgpu" aria-hidden="true"></canvas>
   <div id="hero-fallback" hidden aria-hidden="true"></div>
 
-  <div class="hero-live"><span class="led on" aria-hidden="true"></span> LIVE RENDER, NOT A VIDEO <span style="opacity:.55;">&middot; CONTAINS MOVING, PULSING VISUALS</span></div>
+  <div class="hero-live"><span class="led on" aria-hidden="true"></span> <span id="hero-renderer">LIVE RENDER, NOT A VIDEO</span> <span style="opacity:.55;">&middot; CONTAINS MOVING, PULSING VISUALS</span></div>
+  <div class="hero-logo" id="hero-logo" aria-hidden="true">
+    <span class="hero-logo-mark">IKANDY</span>
+    <span class="hero-logo-sub">Instant Logo &middot; Live Visual Systems</span>
+  </div>
 
   <div class="hero-copy">
     <p class="hero-eyebrow"><span class="led on" style="background:var(--vu-green);box-shadow:0 0 7px var(--vu-green)" aria-hidden="true"></span> AUDIO-REACTIVE VISUALIZER FOR WINDOWS</p>
@@ -527,12 +556,15 @@ html.js .unit-in.in{opacity:1;transform:none}
       <span class="screw" aria-hidden="true"></span>
       <span class="screw" aria-hidden="true"></span>
 
-      <div class="cgroup" role="group" aria-label="Scene select">
+      <div class="cgroup scene-group" role="group" aria-label="Scene select">
         <span class="glabel">Scene</span>
         <div class="grow">
-          <button class="scene-btn" aria-pressed="true"><span class="led" aria-hidden="true"></span>Molten</button>
-          <button class="scene-btn" aria-pressed="false"><span class="led" aria-hidden="true"></span>Fluid</button>
-          <button class="scene-btn" aria-pressed="false"><span class="led" aria-hidden="true"></span>Storm</button>
+          <button class="scene-btn" data-tech="GLSL" aria-pressed="true"><span class="led" aria-hidden="true"></span>Prism</button>
+          <button class="scene-btn" data-tech="GLSL" aria-pressed="false"><span class="led" aria-hidden="true"></span>Signal</button>
+          <button class="scene-btn" data-tech="GLSL" aria-pressed="false"><span class="led" aria-hidden="true"></span>Void</button>
+          <button class="scene-btn" data-tech="WGPU" aria-pressed="false"><span class="led" aria-hidden="true"></span>Rift</button>
+          <button class="scene-btn" data-tech="WGPU" aria-pressed="false"><span class="led" aria-hidden="true"></span>Cathedral</button>
+          <button class="scene-btn" data-tech="WGPU" aria-pressed="false"><span class="led" aria-hidden="true"></span>Nova</button>
         </div>
       </div>
 
@@ -602,6 +634,15 @@ html.js .unit-in.in{opacity:1;transform:none}
           <span class="knob-name">Hue</span><span class="knob-val">0&deg;</span>
         </div>
       
+        </div>
+      </div>
+
+      <div class="cdivider" aria-hidden="true"></div>
+
+      <div class="cgroup overlay-group" role="group" aria-label="Visual overlay">
+        <span class="glabel">Instant Logo</span>
+        <div class="grow">
+          <button class="scene-btn" id="logo-btn" aria-pressed="false"><span class="led" aria-hidden="true"></span>Logo</button>
         </div>
       </div>
 
@@ -826,6 +867,7 @@ html.js .unit-in.in{opacity:1;transform:none}
 <script src="analytics.js" defer></script>
 <script src="assets/site-shell.js" defer></script>
 <script src="assets/hero.js" defer></script>
+<script src="assets/hero-webgpu.js" defer></script>
 <script src="assets/index-page.js" defer></script>
 </body>
 </html>

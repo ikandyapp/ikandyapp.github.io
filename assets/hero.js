@@ -3,7 +3,7 @@
    the app's scene library, formats, and pipeline are separate works.
  IKANDY homepage live unit.
    A real fragment shader driven by real controls. No library, no framework.
-   Scenes: FLUID / STORM / MOLTEN, web-native nods to the real presets. Audio: a silent demo signal drives the visuals;
+   Scenes: PRISM / SIGNAL / VOID / RIFT / CATHEDRAL / NOVA. Audio: a silent demo signal drives the visuals;
    flip the SOUND latch to hear it. Audio drives light and color only;
    nothing on screen shakes to the beat. That is a house rule.
    (c) 2026 L&R Entertainment LLC. Original implementation. */
@@ -17,11 +17,12 @@
 
   /* ---------------- state ---------------- */
   var S = {
-    mode: 0,              // 0 molten, 1 fluid, 2 storm
+    mode: 0,              // 0 prism, 1 signal, 2 void, 3-5 WebGPU showcase
     react: 0.5, glow: 0.5, vol: 0.8, speed: 0.5, hue: 0.0,
     bass: 0, mid: 0, treb: 0,
     t: 0, ph: 12.0, last: 0, running: true, visible: true
   };
+  window.IKANDY_HERO_STATE = S;
 
   /* ---------------- WebGL ---------------- */
   var gl = canvas.getContext('webgl2', { antialias: false, alpha: false, powerPreference: 'low-power' });
@@ -60,85 +61,170 @@
     ' vec3 ph=vec3(0.00,0.33,0.67)+u_hue;',
     ' return 0.5+0.5*cos(6.28318*(t+ph));}',
 
-    // FLUID: deep domain-warped ink. rests dark, audio buys the light.
-    'vec3 sceneFluid(vec2 uv,float T){',
-    ' vec2 p=uv*2.3;',
-    ' vec2 q=vec2(fbm(p+T*.13),fbm(p+vec2(5.2,1.3)-T*.09));',
-    ' vec2 r=vec2(fbm(p+3.4*q+vec2(1.7,9.2)+T*.05),fbm(p+3.4*q+vec2(8.3,2.8)-T*.04));',
-    ' float f=fbm(p+3.2*r);',
-    ' vec3 col=pal(f*1.35+r.x*.5+q.y*.25);',
-    ' col*=col;',
-    ' float energy=.24+1.55*drv(u_audio.x);',                       // bass pumps the ink
-    ' col*=mix(.10,1.7,smoothstep(.12,.95,f))*energy;',
-    ' col+=pal(f+.45)*drv(u_audio.y)*1.05*smoothstep(.5,.95,r.y);',  // mids wash the folds
-    ' float spark=smoothstep(.985-.035*drv(u_audio.z),1.,vnoise(p*36.+r*9.));',
-    ' col+=vec3(1.,.95,.85)*spark*(.12+1.6*drv(u_audio.z));',      // treble glints the crests
-    ' return sat(col,1.3);}',
+    // PRISM: refracted crystalline symmetry. Bass opens the facets, mids bend
+    // the glass, and treble flashes along razor-thin internal edges.
+    'vec3 scenePrism(vec2 uv,float T){',
+    ' float ba=drv(u_audio.x),mi=drv(u_audio.y),tr=drv(u_audio.z);',
+    ' vec2 p=uv*(1.18-.10*min(ba,1.)); float r=length(p);',
+    ' float a=atan(p.y,p.x)+T*.055; float seg=.39269908;',
+    ' a=mod(a,2.*seg); a=abs(a-seg);',
+    ' vec2 k=vec2(cos(a),sin(a))*r;',
+    ' float glass=fbm(k*4.2+vec2(T*.10,-T*.07));',
+    ' k+=.12*vec2(sin(glass*6.283+T*.21),cos(glass*5.3-T*.17))*(.45+mi);',
+    ' float facet=abs(sin(k.x*17.+sin(k.y*11.+T*.3)*2.2));',
+    ' float ribs=exp(-abs(sin(k.y*13.-k.x*7.+T*.34))*18.);',
+    ' float rings=exp(-abs(sin((length(k)+glass*.08)*34.-T*.9))*16.);',
+    ' float cut=pow(1.-facet,10.)+ribs*.75+rings*.65;',
+    ' vec3 alloy=pal(glass*.42+r*.34+a*.18+T*.012);',
+    ' vec3 col=alloy*cut*(.10+.72*mi+.58*ba);',
+    ' float core=exp(-r*r*(9.-4.*min(ba,1.)));',
+    ' col+=pal(a*.22+T*.018)*core*(.08+.75*ba);',
+    ' float flash=smoothstep(.92,1.,vnoise(k*38.+floor(T*2.)))*cut;',
+    ' col+=vec3(.92,.97,1.)*flash*(.02+1.5*tr);',
+    ' col*=1.-smoothstep(.86,1.38,r);',
+    ' return sat(col,1.65);}',
 
-    // STORM: three parallax layers of drifting particles. flow is constant; audio is light.
-    'vec3 sceneStorm(vec2 uv,float T){',
-    ' vec3 col=vec3(.008,.009,.014);',
-    ' col+=pal(fbm(uv*1.6+T*.02)*.6)*(.04+.16*drv(u_audio.x));',   // nebula breathes on bass
-    ' for(int L=0;L<3;L++){',
-    '  float fl=float(L);',
-    '  float scale=mix(7.,17.,fl*.5);',
-    '  float drift=T*(.10+fl*.06);',
-    '  vec2 gp=uv*scale+vec2(drift,drift*.6+fl*13.7);',
-    '  vec2 cell=floor(gp),fr=fract(gp);',
-    '  for(int y=-1;y<=1;y++)for(int x=-1;x<=1;x++){',
-    '   vec2 o=vec2(float(x),float(y));',
-    '   vec2 id=cell+o;',
-    '   float h1=ih(uvec2(ivec2(id))+uint(L)*77u+9000u);',
-    '   float h2=ih(uvec2(ivec2(id))+uint(L)*191u+21000u);',
-    '   vec2 pos=o+vec2(h1,h2)-fr+.18*vec2(sin(T*.4+h1*6.28),cos(T*.5+h2*6.28));',
-    '   float d=length(pos);',
-    '   float tw=.5+.5*sin(T*(1.+h2*3.)+h1*40.);',
-    '   float bright=(.2+.8*h2)*(.3+.7*tw);',
-    '   float flare=1.+drv(u_audio.z)*2.9*step(.7,h1);',           // the bright ones flare on treble
-    '   float glow=exp(-d*d*(150./flare));',
-    '   vec3 c=pal(h1*.9+fl*.13);',
-    '   col+=c*glow*bright*(.24+1.2*drv(u_audio.x)*step(.5,h2)+.12);',
-    '  }',
+    // SIGNAL: a stack of impossible laser waveforms caught in video feedback.
+    // Bass displaces the traces, mids multiply echoes, treble burns white peaks.
+    'vec3 sceneSignal(vec2 uv,float T){',
+    ' float ba=drv(u_audio.x),mi=drv(u_audio.y),tr=drv(u_audio.z);',
+    ' vec2 p=uv; p.x+=.055*sin(p.y*5.+T*.18);',
+    ' vec3 col=vec3(.002,.004,.012);',
+    ' float gridX=exp(-abs(fract((p.x+T*.025)*12.)-.5)*30.);',
+    ' float gridY=exp(-abs(fract((p.y-T*.018)*10.)-.5)*30.);',
+    ' col+=pal(.58+T*.01)*(gridX+gridY)*(.012+.045*mi);',
+    ' for(int i=0;i<9;i++){',
+    '  float fi=float(i); float z=fi/8.;',
+    '  float freq=2.2+fi*.41;',
+    '  float y=(z-.5)*.92+.10*sin(p.x*freq*3.+T*(.55+z*.7)+fi);',
+    '  y+=.045*sin(p.x*19.-T*1.15+fi*2.1)*(1.+mi);',
+    '  y+=.075*sin(T*.7+fi)*ba;',
+    '  float d=abs(p.y-y);',
+    '  float beam=exp(-d*(95.-22.*min(tr,1.5)));',
+    '  float halo=exp(-d*18.)*.16;',
+    '  vec3 laser=pal(z*.74+p.x*.12+T*.014);',
+    '  col+=laser*(beam*(.18+.82*ba+.55*tr)+halo*(.08+.75*mi));',
     ' }',
-    ' return sat(col,1.25);}',
+    ' float pulse=exp(-abs(p.x-(fract(T*.18)*2.4-1.2))*38.);',
+    ' col+=vec3(.78,.94,1.)*pulse*(.025+.42*tr);',
+    ' float hot=pow(max(0.,sin(p.x*31.-T*2.4)*sin(p.y*27.+T*1.7)),18.);',
+    ' col+=pal(p.x*.2+p.y*.15)*hot*(.02+1.2*tr);',
+    ' return sat(col,1.7);}',
 
-    // MOLTEN: dark-industrial fractal. six-fold kaleidoscope over a Kali-set fold
-    // (technique: the public 'Kaliset' fractal formula family; implementation original),
-    // golden filament lattice on near-black, teal shadow glow. bass ignites the
-    // filaments, treble sparks the nodes. structure drifts on its own slow clock.
-    'vec3 sceneMolten(vec2 uv,float T){',
-    ' vec2 p=uv*1.35;',
-    ' float ang=atan(p.y,p.x); float r=length(p);',
-    ' float k=1.0471976;',                                  // pi/3: six-fold mirror
-    ' ang=mod(ang,2.*k); ang=abs(ang-k);',
-    ' p=vec2(cos(ang),sin(ang))*r;',
-    ' float c0=cos(T*.03),s0=sin(T*.03); p=mat2(c0,-s0,s0,c0)*p;',
-    ' p*=1.05+.12*sin(T*.07);',                             // slow breathe on its own clock
-    ' p*=1.0-.07*u_react*u_audio.x;',                       // and a little zoom into the kick
-    ' float acc=0.,glow=0.;',
-    ' vec2 cc=vec2(.78+.05*sin(T*.021),.615+.04*cos(T*.017));',
-    ' for(int i=0;i<7;i++){',
-    '  p=abs(p)/max(dot(p,p),.0015)-cc;',
-    '  acc+=exp(-abs(p.y)*24.);',
-    '  glow+=exp(-length(p)*3.4);',
+    // VOID: liquid-chrome gravity lens. Bass grows the event horizon, mids twist
+    // the accretion flow, and treble tears sparks from the rim.
+    'vec3 sceneVoid(vec2 uv,float T){',
+    ' float ba=drv(u_audio.x),mi=drv(u_audio.y),tr=drv(u_audio.z);',
+    ' vec2 p=uv; p.x-=.25; float r=length(p); float a=atan(p.y,p.x);',
+    ' float horizon=.17+.045*min(ba,1.);',
+    ' float lens=1./max(r,.055);',
+    ' float swirl=a+1.55*lens+T*.19+mi*sin(r*12.-T*.45);',
+    ' float flow=pow(.5+.5*sin(swirl*5.+r*48.-T*1.6),3.);',
+    ' float disk=exp(-abs(p.y+sin(swirl*2.)*.018)*30.);',
+    ' disk*=smoothstep(horizon*.92,horizon*1.24,r)*(1.-smoothstep(1.04,1.48,r));',
+    ' float ring=exp(-abs(r-horizon)*82.);',
+    ' float photon=exp(-abs(r-(horizon*1.75+.018*sin(a*3.-T*.4)))*34.);',
+    ' vec3 chrome=pal(swirl/6.28318+r*.31+T*.014);',
+    ' vec3 col=chrome*disk*(.10+1.18*flow)*(.34+.88*mi+.68*ba);',
+    ' col+=mix(vec3(1.,.28,.06),vec3(.10,.78,1.),.5+.5*sin(a*2.))*ring*(.20+1.3*ba);',
+    ' col+=pal(a/6.28318+T*.012+.7)*photon*(.055+.55*mi+.48*ba);',
+    ' float arc=pow(max(0.,cos(swirl*11.)),22.)*photon;',
+    ' col+=vec3(.88,.96,1.)*arc*(.03+1.55*tr);',
+    ' vec2 gp=p*30.+vec2(T*.025,-T*.014); vec2 cell=floor(gp),fr=fract(gp)-.5;',
+    ' float h1=ih(uvec2(ivec2(cell)+12000));',
+    ' float h2=ih(uvec2(ivec2(cell)+23000));',
+    ' vec2 sp=vec2(h1,h2)-.5; float star=exp(-dot(fr-sp,fr-sp)*210.)*step(.965,h1);',
+    ' star*=smoothstep(horizon*1.7,horizon*2.1,r)*(1.-smoothstep(1.05,1.5,r));',
+    ' col+=pal(h1*.8+T*.01)*star*(.05+.9*tr);',
+    ' col*=smoothstep(horizon*.78,horizon*1.04,r);',
+    ' col+=vec3(.018,.005,.032)*exp(-abs(r-horizon*3.2)*4.5)*(.24+mi);',
+    ' return sat(col,1.6);}',
+
+    // RIFT: a bass-warped polar tunnel. Low end opens the throat, mids bend the
+    // geometry, and treble fires cold sparks down its vanishing point.
+    'vec3 sceneRift(vec2 uv,float T){',
+    ' vec2 p=uv; float r=length(p); float a=atan(p.y,p.x);',
+    ' float ba=drv(u_audio.x),mi=drv(u_audio.y),tr=drv(u_audio.z);',
+    ' float bend=.18*sin(a*3.-T*.21)+.07*sin(a*9.+T*.13);',
+    ' float dep=-log(r+.035)*3.2+T*.55+bend+mi*.22;',
+    ' float rings=exp(-abs(fract(dep*.18)-.5)*38.);',
+    ' float spokes=exp(-abs(sin(a*7.+dep*1.7-T*.14))*14.);',
+    ' float shock=exp(-abs(r-(.18+.12*fract(T*.24)))*38.)*ba;',
+    ' float mask=smoothstep(.035,.22,r)*(1.-smoothstep(1.15,1.75,r));',
+    ' vec3 col=vec3(.002,.004,.012);',
+    ' vec3 neon=mix(vec3(.04,.30,1.),vec3(1.,.025,.46),.5+.5*sin(a*3.+dep));',
+    ' neon=mix(neon,pal(a/6.28318+dep*.035),.30);',
+    ' col+=neon*(rings*.95+spokes*.58)*mask*(.18+.92*ba+.42*mi);',
+    ' col+=vec3(.95,.75,1.)*shock*(.28+1.55*ba);',
+    ' float glint=smoothstep(.90,1.,vnoise(vec2(a*14.,floor(dep*3.))+T*.2));',
+    ' col+=vec3(.70,.94,1.)*glint*spokes*mask*(.05+1.75*tr);',
+    ' float horizon=exp(-abs(r-(.14+.045*min(ba,1.)))*48.);',
+    ' col+=pal(T*.015+.52)*horizon*(.18+1.2*ba);',
+    ' return sat(col,1.55);}',
+
+    // CATHEDRAL: impossible luminous frames advancing through a black chamber.
+    // Bass widens the architecture, mids color the glass, treble sharpens its ribs.
+    'vec3 sceneCathedral(vec2 uv,float T){',
+    ' float ba=drv(u_audio.x),mi=drv(u_audio.y),tr=drv(u_audio.z);',
+    ' float turn=.10*sin(T*.13)+.035*sin(T*.31);',
+    ' float ct=cos(turn),st=sin(turn); vec2 p=mat2(ct,-st,st,ct)*uv;',
+    ' p.x+=.08*sin(T*.10)-.24;',
+    ' vec3 col=vec3(.003,.006,.012);',
+    ' for(int i=0;i<8;i++){',
+    '  float fi=float(i); float ph=fract(fi*.125+T*.035);',
+    '  float sc=mix(.55,7.5,ph*ph); vec2 q=p*sc;',
+    '  q.x+=.12*sin(T*.16+fi*.83)*(1.-ph);',
+    '  float w=.72+.07*min(ba,1.); float h=.42+.045*sin(T*.24+fi);',
+    '  float box=abs(max(abs(q.x)-w,abs(q.y)-h));',
+    '  float g=exp(-box*(78.-22.*min(tr,1.9)))*(.22+.78*(1.-ph));',
+    '  vec3 glass=pal(ph*.72+q.y*.045+T*.012);',
+    '  col+=glass*g*(.08+.28*mi+.18*ba);',
+    '  float pillars=exp(-abs(abs(q.x)-w)*90.)*(1.-smoothstep(h-.04,h+.22,abs(q.y)));',
+    '  col+=glass*pillars*(.010+.08*tr)*(1.-ph);',
     ' }',
-    ' acc*=.143; glow*=.143;',
-    ' vec3 gold=mix(vec3(1.,.60,.13),pal(.06),.28);',       // hue bends the alloy
-    ' vec3 col=vec3(.030,.075,.075)*glow*.8;',              // teal shadow bed
-    ' float heat=.30+1.35*drv(u_audio.x);',              // bass ignites the lattice
-    ' col+=gold*acc*heat*2.3;',
-    ' col+=gold*.22*drv(u_audio.y)*glow;',               // mids warm the haze
-    ' float node=smoothstep(.984-.05*drv(u_audio.z),1.,vnoise(p*8.+vec2(T,0.)));',
-    ' col+=vec3(1.,.9,.6)*node*(.15+1.1*drv(u_audio.z));',
-    ' return col;}',
+    ' float floorMask=1.-smoothstep(-.72,-.08,p.y);',
+    ' float floorRay=exp(-abs(sin(atan(p.x,p.y+.78)*11.))*18.)*floorMask;',
+    ' float floorStep=exp(-abs(fract(1./(abs(p.y)+.12)+T*.08)-.5)*20.)*floorMask;',
+    ' col+=pal(.58+T*.01)*(floorRay*.16+floorStep*.12)*(.08+.35*mi);',
+    ' float pr=length(p); float pa=atan(p.y,p.x);',
+    ' float rose=exp(-abs(pr-(.23+.025*min(ba,1.)))*62.);',
+    ' float roseSpoke=pow(abs(cos(pa*12.+T*.12)),28.)*exp(-pr*4.2);',
+    ' col+=pal(pa/6.28318+.16)*(rose+roseSpoke)*(.05+.35*tr+.18*mi);',
+    ' float altar=exp(-dot(p,p)*(16.-7.*min(ba,1.)));',
+    ' col+=vec3(.85,.94,1.)*altar*(.04+.50*ba);',
+    ' return sat(col,1.45);}',
+
+    // NOVA: a stellar detonation held at the instant of impact. Bass expands the
+    // core, mids twist the corona, and treble turns its rim into razor-light.
+    'vec3 sceneNova(vec2 uv,float T){',
+    ' float ba=drv(u_audio.x),mi=drv(u_audio.y),tr=drv(u_audio.z);',
+    ' float rr=.055*T; float cr=cos(rr),sr=sin(rr); vec2 p=mat2(cr,-sr,sr,cr)*uv;',
+    ' float r=length(p); float a=atan(p.y,p.x);',
+    ' float twist=a+sin(r*8.-T*.35)*(1.05+.72*mi);',
+    ' float petals=pow(.5+.5*cos(twist*10.),8.);',
+    ' float wave=.5+.5*cos(r*30.-T*2.1+petals*4.+mi*2.);',
+    ' float corona=exp(-r*(2.75-.85*min(ba,1.)))*(.14+.86*wave);',
+    ' float rays=pow(max(0.,cos(twist*22.)),max(10.,48.-20.*tr))*exp(-r*1.7);',
+    ' float core=exp(-r*r*(18.-9.*min(ba,1.)));',
+    ' vec3 col=pal(twist/6.28318+r*.28+T*.018)*corona*(.24+.78*mi+.46*ba);',
+    ' col+=vec3(1.,.91,.72)*rays*(.04+1.25*tr+.35*ba);',
+    ' float shock=exp(-abs(r-(.28+.17*min(ba,1.)+.035*sin(T*.7)))*34.)*ba;',
+    ' col+=pal(.08+r*.4)*shock*1.35;',
+    ' float spark=smoothstep(.94,1.,vnoise(vec2(floor(a*18.),floor(r*42.-T*3.))));',
+    ' col+=vec3(.72,.94,1.)*spark*exp(-r*1.3)*(.03+1.5*tr);',
+    ' col+=vec3(1.,.72,.42)*core*(.18+1.45*ba);',
+    ' return sat(col,1.55);}',
 
     'void main(){',
     ' vec2 uv=(gl_FragCoord.xy-.5*u_res)/u_res.y;',
     ' float T=u_time;',
     ' vec3 col;',
-    ' if(u_mode==0)col=sceneMolten(uv,T);',
-    ' else if(u_mode==1)col=sceneFluid(uv,T);',
-    ' else col=sceneStorm(uv,T);',
+    ' if(u_mode==0)col=scenePrism(uv,T);',
+    ' else if(u_mode==1)col=sceneSignal(uv,T);',
+    ' else if(u_mode==2)col=sceneVoid(uv,T);',
+    ' else if(u_mode==3)col=sceneRift(uv,T);',
+    ' else if(u_mode==4)col=sceneCathedral(uv,T);',
+    ' else col=sceneNova(uv,T);',
     ' col*=mix(.88,1.12,u_glow);',                            // a touch of exposure
     ' col=sat(col,mix(.55,1.85,u_glow));',                   // glow is vibrance: colors bloom
     ' col=col/(1.+col);',                     // simple reinhard
@@ -152,7 +238,9 @@
     var sh = gl.createShader(type);
     gl.shaderSource(sh, src); gl.compileShader(sh);
     if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) {
-      console.warn('[ikandy hero] shader:', gl.getShaderInfoLog(sh));
+      var shaderError = gl.getShaderInfoLog(sh) || 'Unknown shader compile error';
+      canvas.setAttribute('data-shader-error', shaderError);
+      console.warn('[ikandy hero] shader:', shaderError);
       return null;
     }
     return sh;
@@ -398,6 +486,15 @@
     });
   });
 
+  var logoBtn = document.getElementById('logo-btn');
+  var heroLogo = document.getElementById('hero-logo');
+  if (logoBtn && heroLogo) logoBtn.addEventListener('click', function () {
+    var on = logoBtn.getAttribute('aria-pressed') !== 'true';
+    logoBtn.setAttribute('aria-pressed', String(on));
+    heroLogo.classList.toggle('on', on);
+    if (window.ikandyTrack) window.ikandyTrack('hero_logo', { enabled: on ? 'on' : 'off' });
+  });
+
   /* ---------------- VU meter ---------------- */
   /* waveform scope: a rolling history of the signal, mirrored around center */
   var scope = document.getElementById('wave-scope');
@@ -466,6 +563,7 @@
     smB += (a[0] - smB) * (a[0] > smB ? 0.75 : 0.14);
     smM += (a[1] - smM) * 0.3;
     smT += (a[2] - smT) * (a[2] > smT ? 0.85 : 0.24);
+    S.bass = smB; S.mid = smM; S.treb = smT;
 
     drawScope(now);
 
@@ -477,16 +575,18 @@
       beatDot.style.transform = 'translateY(-.02em) scale(' + (1 + smB * 0.18) + ')';
     }
 
-    resize();
-    gl.uniform2f(U.u_res, canvas.width, canvas.height);
-    gl.uniform1f(U.u_time, S.ph);
-    gl.uniform1i(U.u_mode, S.mode);
-    gl.uniform1f(U.u_hue, S.hue);
-    gl.uniform1f(U.u_glow, S.glow);
-    gl.uniform1f(U.u_speed, reduced ? 0 : S.speed);
-    gl.uniform1f(U.u_react, S.react);
-    gl.uniform3f(U.u_audio, smB, smM, smT);
-    gl.drawArrays(gl.TRIANGLES, 0, 3);
+    if (!(window.IKANDY_WEBGPU_ACTIVE && S.mode >= 3)) {
+      resize();
+      gl.uniform2f(U.u_res, canvas.width, canvas.height);
+      gl.uniform1f(U.u_time, S.ph);
+      gl.uniform1i(U.u_mode, S.mode);
+      gl.uniform1f(U.u_hue, S.hue);
+      gl.uniform1f(U.u_glow, S.glow);
+      gl.uniform1f(U.u_speed, reduced ? 0 : S.speed);
+      gl.uniform1f(U.u_react, S.react);
+      gl.uniform3f(U.u_audio, smB, smM, smT);
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
+    }
     requestFrame();
   }
   resize();
