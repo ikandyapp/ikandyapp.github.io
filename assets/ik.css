@@ -99,8 +99,11 @@ img{max-width:100%;height:auto}
   box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 0 22px rgba(255,90,31,.45)}
 .btn-steam:active{box-shadow:inset 0 2px 3px rgba(0,0,0,.3)}
 
-.rail-cta{display:inline-flex;flex-direction:column;align-items:center;gap:2px}
-.rail-cta-note{font-size:8px;letter-spacing:.14em;line-height:1;text-transform:uppercase;opacity:.78}
+.rail-cta-group{display:flex;align-items:center;gap:10px;flex:none}
+.rail-cta{display:inline-block}
+.rail-beta-note{
+  font-family:var(--mono);font-size:8px;letter-spacing:.12em;line-height:1.25;
+  text-transform:uppercase;color:var(--ink-3);white-space:nowrap}
 
 @media(max-width:860px){
   .rail-links{
@@ -112,7 +115,7 @@ img{max-width:100%;height:auto}
   .rail-toggle{display:block;margin-left:auto;background:none;border:1px solid var(--rule);
     color:var(--ink);font-family:var(--mono);font-size:11px;letter-spacing:.1em;
     padding:8px 12px;border-radius:var(--radius);cursor:pointer}
-  .rail-cta{display:none}
+  .rail-cta-group{display:none}
 }
 
 /* ---------- rack sections ---------- */
