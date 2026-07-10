@@ -99,6 +99,9 @@ img{max-width:100%;height:auto}
   box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 0 22px rgba(255,90,31,.45)}
 .btn-steam:active{box-shadow:inset 0 2px 3px rgba(0,0,0,.3)}
 
+.rail-cta{display:inline-flex;flex-direction:column;align-items:center;gap:2px}
+.rail-cta-note{font-size:8px;letter-spacing:.14em;line-height:1;text-transform:uppercase;opacity:.78}
+
 @media(max-width:860px){
   .rail-links{
     display:none;position:fixed;top:var(--nav-h);left:0;right:0;
