@@ -1,14 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FEJJH5VN5S"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-FEJJH5VN5S');
-</script>
+<!-- Third-party website analytics intentionally disabled. -->
+<script>window.gtag = function(){};</script>
 <script defer src="/analytics.js"></script>
 <meta charset="UTF-8">
 <title>Partition — IKANDY Arcade</title>
@@ -384,25 +378,6 @@ canvas {
     document.getElementById('overlay-title').textContent = 'GAME OVER';
     document.getElementById('overlay-sub').textContent = 'FINAL SCORE: ' + score;
     document.getElementById('overlay').classList.remove('hidden');
-    submitScore();
-  }
-
-  function submitScore() {
-    try {
-      const id = localStorage.getItem('ikandy_arcade_id_v1');
-      const name = localStorage.getItem('ikandy_arcade_name');
-      if (!id || !name) return;
-      const timeSec = Math.max(1, (performance.now() - gameStartTime) / 1000);
-      const sessionId = crypto.randomUUID();
-      fetch('https://grimznincoiujnurhmlx.supabase.co/functions/v1/arcade-submit-score', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ikandyId: id, ikandyName: name, sessionId,
-          game: 'jezzball', score, timeSec, interactionCount
-        })
-      }).catch(()=>{});
-    } catch(e) {}
   }
 
   document.getElementById('play-again').addEventListener('click', () => {

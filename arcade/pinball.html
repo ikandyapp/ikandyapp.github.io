@@ -1,14 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FEJJH5VN5S"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-FEJJH5VN5S');
-</script>
+<!-- Third-party website analytics intentionally disabled. -->
+<script>window.gtag = function(){};</script>
 <script defer src="/analytics.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -55,7 +49,6 @@ canvas { display: block; }
 <div class="game-area">
   <div class="sidebar">
     <div class="lbl">SCORE</div><div class="val" id="score">0</div>
-    <div class="lbl">BEST</div><div class="val" id="best">0</div>
     <div class="lbl">BALL</div><div class="val" id="ballnum">3</div>
     <div class="hint">Z = LEFT<br>/ = RIGHT<br><br>HOLD SPACE<br>RELEASE<br>TO LAUNCH</div>
   </div>
@@ -76,16 +69,7 @@ canvas { display: block; }
 <script>
 (() => {
   'use strict';
-  const SUPABASE_URL      = 'https://grimznincoiujnurhmlx.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdyaW16bmluY29pdWpudXJobWx4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxNDQ5NzAsImV4cCI6MjA5MjcyMDk3MH0.X-eXBp4gF3RthSt10As83Ft4z5rOc929IMdis5BSuxk';
-  const BEST_KEY = 'ikandy_pinball_best';
-  function getIdent(){ return { id: localStorage.getItem('ikandy_arcade_id_v1')||null, name: localStorage.getItem('ikandy_arcade_name')||null }; }
-  let interactions=0, sessionId='', startTime=0;
-  async function submitScore(score,timeSec){
-    if(!score)return;
-    const id=getIdent();if(!id.id||!id.name)return;
-    try{ await fetch(SUPABASE_URL+'/functions/v1/arcade-submit-score',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+SUPABASE_ANON_KEY,'apikey':SUPABASE_ANON_KEY},body:JSON.stringify({ikandyId:id.id,ikandyName:id.name,game:'pinball',score,timeSec:Math.round(timeSec*1000)/1000,interactionCount:interactions,sessionId})}); }catch(_){}
-  }
+  let interactions=0;
 
   const W=280,H=520,BR=8,GRAV=0.32,SUB=3;
   const canvas=document.getElementById('game');
@@ -120,10 +104,6 @@ canvas { display: block; }
   let blit=BUMPERS.map(()=>0), slit=SLINGS.map(()=>0);
   let launched=false, charge=0;
   const K={};
-
-  function getBest(){ return parseInt(localStorage.getItem(BEST_KEY)||'0',10); }
-  function setBest(v){ localStorage.setItem(BEST_KEY,String(Math.max(getBest(),v))); }
-  document.getElementById('best').textContent=getBest();
 
   function spawnBall(){ ball={x:W/2,y:490,vx:0,vy:0}; launched=false; charge=0; }
   function addPts(p){ score+=p; document.getElementById('score').textContent=score; }
@@ -241,18 +221,12 @@ canvas { display: block; }
 
   function endGame(){
     running=false;cancelAnimationFrame(animId);
-    const ts=(performance.now()-startTime)/1000;
-    setBest(score);
-    document.getElementById('best').textContent=getBest();
     document.getElementById('final-score').textContent=score;
     document.getElementById('over-overlay').classList.remove('hidden');
-    submitScore(score,ts);
   }
 
   function startGame(){
     ballCount=3;score=0;running=true;interactions=0;
-    startTime=performance.now();
-    sessionId=crypto.randomUUID?crypto.randomUUID():Date.now().toString(36);
     la=ra=FREST; blit=BUMPERS.map(()=>0); slit=SLINGS.map(()=>0);
     document.getElementById('score').textContent=0;
     document.getElementById('ballnum').textContent=3;
@@ -281,4 +255,3 @@ canvas { display: block; }
 </script>
 </body>
 </html>
-
