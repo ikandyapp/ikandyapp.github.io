@@ -76,7 +76,7 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
       <span class="source-block-name">Spotify</span>
       <span class="source-block-meta" style="color:var(--green);">● Full features &middot; Premium recommended</span>
     </div>
-    <p class="body dim">The richest integration. Track info, album art, synced lyrics, playlist browser with search, and full transport : play, pause, skip, shuffle modes including Smart Shuffle detection. IKANDY uses <em>Bring Your Own Key</em> auth: you create a free Spotify Developer app and paste the Client ID once. It&rsquo;s saved encrypted via Windows DPAPI and never leaves your machine.</p>
+    <p class="body dim">The richest integration. Track info, album art, synced lyrics, playlist browser with search, and full transport: play, pause, skip, and shuffle modes including Smart Shuffle detection. IKANDY uses <em>Bring Your Own Key</em> auth: you create a Spotify Developer app and paste the Client ID once. The Client ID and authorization data are stored using Windows DPAPI and used to connect to Spotify.</p>
 
     <h3 class="first">One-time setup</h3>
     <ol class="steps">
@@ -92,7 +92,7 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
 
     <div class="callout">
       <span class="callout-label">Why BYOK</span>
-      Most apps embed a shared Client ID, so Spotify rate-limits everyone using that app together. With BYOK, your IKANDY uses your own quota: no sharing, no throttling.
+      BYOK gives your IKANDY connection its own Spotify app configuration. Spotify limits, Development Mode rules, and provider availability still apply.
     </div>
 
     <div class="callout warn">
@@ -153,7 +153,7 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
       <span class="source-block-name">Now Playing</span>
       <span class="source-block-meta" style="color:var(--ice);">● Basic &middot; Windows Media Controls &middot; Zero setup</span>
     </div>
-    <p class="body dim">The catch-all. Reads whatever app is currently playing music on Windows : Spotify, YouTube Music, Apple Music, browser tabs, Tidal, anything that publishes to Windows Media Controls. Track info and transport controls (play, pause, next, prev) follow whatever is active. No browse, no shuffle, no album art.</p>
+    <p class="body dim">The general Windows source. Reads compatible apps that publish to Windows Media Controls, including Spotify, YouTube Music, Apple Music, browser tabs, and Tidal. Track info and available transport controls follow the active source. No browse, no shuffle, no album art.</p>
 
     <h3 class="first">How to use it</h3>
     <ol class="steps">
@@ -203,12 +203,12 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
 
     <div class="callout warn">
       <span class="callout-label">Requires a connected source first</span>
-      Per-Process Capture shares the same audio graph as system audio. Connect any source (Spotify, VLC, etc.) or click <strong>🎤 Reconnect Audio</strong> once before using it : this initialises the audio context. After that, per-process capture works independently.
+      Per-Process Capture shares the same audio graph as system audio. Connect a supported source (Spotify, VLC, etc.) or click <strong>🎤 Reconnect Audio</strong> once before using it: this initializes the audio context. After that, per-process capture works independently.
     </div>
   </div>
 
 <h3>One tab runs the connections</h3>
-<p>Connect, disconnect, and switch every source from <strong>&#9881; &rarr; SOURCE</strong>: Spotify, foobar2000, VLC, browser and system audio, plus the system-audio reconnect and your playlists. A source that still needs setup shows it on its row and routes you to the right place with one click. Transport buttons a source cannot perform (some apps do not expose skip or seek) grey out with a hint instead of failing silently. And if you just have a file: drag an audio file onto IKANDY and it plays it, no source setup at all.</p></section>
+<p>Connect, disconnect, and switch available sources from <strong>&#9881; &rarr; SOURCE</strong>: Spotify, foobar2000, VLC, browser and system audio, plus the system-audio reconnect and your playlists. A source that still needs setup shows it on its row and routes you to the right place with one click. Transport buttons a source cannot perform (some apps do not expose skip or seek) grey out with a hint instead of failing silently. And if you just have a file: drag an audio file onto IKANDY and it plays it, no source setup at all.</p></section>
 <section>
 <h2>Audio controls</h2>
 <p class="lead">Beyond picking a source, you shape how the audio drives the visuals.</p>
@@ -231,7 +231,7 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
     <div class="ftr-grid">
       <div>
         <p class="ftr-brand">IKANDY</p>
-        <p class="ftr-note">Audio-reactive visualizer and VJ instrument for Windows 10 / 11. Runs fully offline.</p>
+        <p class="ftr-note">Audio-reactive visualizer and VJ instrument for Windows 10 / 11. Core visual playback runs locally; optional online features require an internet connection.</p>
         <p style="margin-top:18px"><a class="btn-steam" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam</a></p>
       </div>
       <div>

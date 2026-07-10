@@ -343,7 +343,7 @@ footer.ftr a{text-decoration:none}
 
 <header>
   <div class="container">
-    <span class="label">Technical Disclosure — Prior Art Publication</span>
+    <span class="label">Technical Disclosure — Published Record</span>
     <h1>IKANDY <span>Smart Auto</span>:<br>Per-Process Audio Dominance Detection<br>with Metadata Backend Arbitration</h1>
     <p class="meta">
       <strong>Author:</strong> IKANDY / ikandyapp &nbsp;·&nbsp;
@@ -359,10 +359,10 @@ footer.ftr a{text-decoration:none}
     <section>
       <h2>Abstract</h2>
       <p>
-        This document discloses a novel method implemented in IKANDY — a music visualizer application — for automatically detecting which audio-producing process on a Windows host is the dominant source, and silently switching the application's metadata retrieval backend to the most appropriate provider for that process, with hysteresis to prevent thrashing. This method is referred to internally as <strong>Smart Auto</strong>.
+        This document describes a method implemented in IKANDY — a music visualizer application — for detecting which audio-producing process on a Windows host is the dominant source and switching the application's metadata-retrieval backend to an appropriate provider for that process, with hysteresis to prevent rapid switching. This method is referred to internally as <strong>Smart Auto</strong>.
       </p>
       <div class="callout">
-        <p>This publication is intended to establish prior art. This document is a dated record: implementation specifics such as runtime and model versions describe the build as published in May 2026 and are preserved unchanged for the integrity of the disclosure; current builds may differ. Any subsequent patent claim covering this method or substantially similar methods is anticipated by this disclosure.</p>
+        <p>This publication is a dated technical record. Implementation specifics such as runtime and model versions describe the build published in May 2026 and are preserved for that record; current builds may differ. This page does not provide a legal opinion on patentability, novelty, infringement, validity, or prior-art effect.</p>
       </div>
     </section>
 
@@ -401,12 +401,12 @@ footer.ftr a{text-decoration:none}
       </table>
 
       <p>
-        Prior art (SMTC, last.fm scrobbling, unified Now Playing widgets) reads from a single source or polls all sources indiscriminately with no awareness of which process is currently producing audio at a meaningful level. No existing system arbitrates metadata backends based on per-process audio dominance.
+        The approaches reviewed, including SMTC, last.fm scrobbling, and unified Now Playing widgets, generally read from a single source or poll sources without using per-process audio dominance as the routing signal. This description is limited to the sources reviewed.
       </p>
     </section>
 
     <section>
-      <h2>The Novel Method</h2>
+      <h2>Method Overview</h2>
       <p>
         Smart Auto operates as follows:
       </p>
@@ -496,13 +496,13 @@ footer.ftr a{text-decoration:none}
     </section>
 
     <section>
-      <h2>What Makes This Novel</h2>
+      <h2>Technical Characteristics</h2>
       <div class="callout violet">
         <p>
           Existing solutions (SMTC widgets, last.fm scrobblers, unified Now Playing daemons) read from a single metadata source or poll all sources equally with no audio-level awareness. No prior system uses <strong>per-process audio peak level as the arbitration signal for selecting a metadata retrieval backend</strong>, nor implements hysteresis on that signal to govern backend switching in a desktop visualizer context.
         </p>
       </div>
-      <p>The combination of these elements is the claimed novel method:</p>
+      <p>The method combines these elements:</p>
       <p>
         <span class="tag">1</span> Per-process audio session enumeration via WASAPI<br>
         <span class="tag">2</span> Peak-level dominance detection with configurable threshold<br>
@@ -518,14 +518,14 @@ footer.ftr a{text-decoration:none}
         Smart Auto is implemented in IKANDY, an Electron 30-based music visualizer running on Windows. The native audio session enumeration layer is built with <code>node-addon-api</code> and compiled against the Electron runtime. The metadata backend layer communicates via IPC between the Electron main process and renderer. The visualizer renders via Butterchurn WebGL (MilkDrop-compatible).
       </p>
       <p>
-        This technical disclosure was published at ikandy.app and constitutes prior art as of its effective date.
+        This technical disclosure was published at ikandy.app on its effective date.
       </p>
     </section>
 
     <section>
       <h2>Prior Art Search Summary</h2>
       <p>
-        A search of npm, GitHub, and general web sources conducted May 2026 found no implementation combining per-process audio dominance detection with metadata backend arbitration for a music visualizer or similar application. Existing packages such as <code>electron-audio-loopback</code> address system-level audio capture but do not perform process-aware metadata routing. Windows SMTC provides a unified metadata surface but does not select backends based on audio level or process identity.
+        A limited search of npm, GitHub, and general web sources conducted in May 2026 did not identify a publicly available implementation combining per-process audio-dominance detection with metadata-backend arbitration in the sources reviewed. This is a research note, not a comprehensive patent search or legal conclusion.
       </p>
     </section>
 
@@ -537,7 +537,7 @@ footer.ftr a{text-decoration:none}
     <div class="ftr-grid">
       <div>
         <p class="ftr-brand">IKANDY</p>
-        <p class="ftr-note">Audio-reactive visualizer and VJ instrument for Windows 10 / 11. Runs fully offline.</p>
+        <p class="ftr-note">Audio-reactive visualizer and VJ instrument for Windows 10 / 11. Core visual playback runs locally; optional online features require an internet connection.</p>
         <p style="margin-top:18px"><a class="btn-steam" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam</a></p>
       </div>
       <div>

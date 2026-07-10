@@ -391,7 +391,7 @@ footer.ftr a{text-decoration:none}
 
 <header>
   <div class="container">
-    <span class="label">Technical Disclosure — Prior Art Publication</span>
+    <span class="label">Technical Disclosure — Published Record</span>
     <h1>IKANDY <span>.vis Format</span>:<br>Provenance-Preserving AI Shader Package<br>for Community Distribution</h1>
     <p class="meta">
       <strong>Author:</strong> IKANDY / ikandyapp &nbsp;·&nbsp;
@@ -407,10 +407,10 @@ footer.ftr a{text-decoration:none}
     <section>
       <h2>Abstract</h2>
       <p>
-        This document discloses a novel portable package format — the <strong>.vis package</strong> — implemented in IKANDY for bundling AI-generated or user-authored GPU shaders (GLSL and WGSL) together with their complete creation provenance: the original natural-language prompt, shader type classification, auto-generated thumbnail, attribution metadata, and creation timestamp. The format is designed for lossless redistribution, community sharing, and Steam Workshop integration without loss of creative origin information.
+        This document describes the <strong>.vis package</strong>, a portable package format implemented in IKANDY for bundling AI-generated or user-authored GPU shaders (GLSL and WGSL) with creation metadata such as the original natural-language prompt, shader type classification, auto-generated thumbnail, attribution metadata, and creation timestamp. The format is designed to preserve this metadata for redistribution, community sharing, and Steam Workshop integration.
       </p>
       <div class="callout">
-        <p>This publication is intended to establish prior art. This document is a dated record: implementation specifics such as runtime and model versions describe the build as published in May 2026 and are preserved unchanged for the integrity of the disclosure; current builds may differ. Any subsequent patent claim covering this method or substantially similar methods is anticipated by this disclosure.</p>
+        <p>This publication is a dated technical record. Implementation specifics such as runtime and model versions describe the build published in May 2026 and are preserved for that record; current builds may differ. This page does not provide a legal opinion on patentability, novelty, infringement, validity, or prior-art effect.</p>
       </div>
     </section>
 
@@ -530,13 +530,13 @@ MyScene.zip (renamed to MyScene.vis)
     </section>
 
     <section>
-      <h2>What Makes This Novel</h2>
+      <h2>Technical Characteristics</h2>
       <div class="callout violet">
         <p>
           Existing shader distribution systems (Shadertoy export, ISF format, Processing sketches, Bonzomatic session files) distribute source code only. No prior format bundles <strong>generative prompt provenance + auto-captured GPU-rendered thumbnail + runtime type classification + attribution metadata</strong> as co-equal first-class fields alongside the shader source in a single distributable unit.
         </p>
       </div>
-      <p>The combination of these elements constitutes the novel format:</p>
+      <p>The format combines these elements:</p>
       <p>
         <span class="tag">1</span> Generative prompt stored as a first-class provenance field<br>
         <span class="tag">2</span> Runtime type classification (<code>glsl</code> / <code>wgsl</code>) embedded in sidecar<br>
@@ -560,7 +560,7 @@ MyScene.zip (renamed to MyScene.vis)
         The <code>.vis</code> package format is implemented in IKANDY, an Electron 30-based music visualizer running on Windows. Sidecar writes are handled by <code>main.js</code> IPC handlers <code>ikandy:customscenes:saveVis</code>, <code>:loadVis</code>, <code>:saveThumb</code>, and <code>:loadThumb</code>. The preset browser reads sidecar data via <code>preload.js</code> bridge methods exposed as <code>customScenes.saveVis()</code>, <code>.loadVis()</code>, <code>.saveThumb()</code>, <code>.loadThumb()</code>.
       </p>
       <p>
-        This technical disclosure was published at ikandy.app and constitutes prior art as of its effective date.
+        This technical disclosure was published at ikandy.app on its effective date.
       </p>
     </section>
 
@@ -572,7 +572,7 @@ MyScene.zip (renamed to MyScene.vis)
     <div class="ftr-grid">
       <div>
         <p class="ftr-brand">IKANDY</p>
-        <p class="ftr-note">Audio-reactive visualizer and VJ instrument for Windows 10 / 11. Runs fully offline.</p>
+        <p class="ftr-note">Audio-reactive visualizer and VJ instrument for Windows 10 / 11. Core visual playback runs locally; optional online features require an internet connection.</p>
         <p style="margin-top:18px"><a class="btn-steam" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam</a></p>
       </div>
       <div>

@@ -366,8 +366,8 @@ footer.ftr a{text-decoration:none}
 <header class="page-header">
   <p class="page-tag">Legal — Privacy Policy</p>
   <h1 class="page-title">Your Data.<br>Your Rules.</h1>
-  <p class="page-lead">A plain-language explanation of what IKANDY collects, what it doesn't, and how you can control or delete your data at any time.</p>
-  <div class="meta-line">Version 2.2 · Effective 2026-07-09</div>
+  <p class="page-lead">A plain-language explanation of what IKANDY collects, what it doesn't, and how you can control or request deletion of your data.</p>
+  <div class="meta-line">Version 2.4 · Effective 2026-07-09</div>
 </header>
 
 <main>
@@ -375,11 +375,11 @@ footer.ftr a{text-decoration:none}
   <div class="quick-summary callout">
     <div class="callout-title">Quick Summary</div>
     <ul>
-      <li><strong>You choose at first launch.</strong> Diagnostics and basic usage analytics are offered pre-selected on the first-run agreement screen &mdash; untick the box to decline, and change your mind any time in Settings &rarr; Privacy. Beta builds keep telemetry off by default.</li>
-      <li><strong>Analytics are tied to a random anonymous install ID</strong> generated on your machine &mdash; never your Steam identity, name, or email.</li>
+      <li><strong>Optional telemetry is off by default.</strong> Usage analytics and crash diagnostics are separate, optional controls. You may enable either in Settings &rarr; Privacy and change your choice at any time.</li>
+      <li><strong>Analytics are tied to a random install ID</strong> generated on your machine, not a Steam account identifier.</li>
       <li><strong>We derive a coarse region</strong> (country level) from your connection to see where IKANDY is used. Your IP address itself is not stored.</li>
-      <li><strong>We never collect:</strong> your music, listening history, audio content, file names, account credentials, or your real identity.</li>
-      <li><strong>You control everything.</strong> View your ID, toggle diagnostics and analytics, and permanently delete your data from inside the app.</li>
+      <li><strong>We do not ask for your name or email to use the app.</strong> We do not collect music or audio content, file names, or account credentials for our own servers.</li>
+      <li><strong>You control optional telemetry.</strong> View your ID, toggle diagnostics and analytics, and request deletion from inside the app.</li>
     </ul>
   </div>
 
@@ -393,7 +393,7 @@ footer.ftr a{text-decoration:none}
   <section class="policy">
     <p class="section-tag">02</p>
     <h2>Data Required to Use IKANDY</h2>
-    <p><strong>Steam builds.</strong> IKANDY is sold and installed through Steam. To confirm ownership and unlock the tier you purchased, the app talks to Steam and, on our side, records the minimum needed:</p>
+    <p><strong>Steam builds.</strong> IKANDY is sold and installed through Steam. The app uses the local Steam client to confirm ownership and unlock the purchased tier. The table below describes data IKANDY processes for the app itself.</p>
     <table class="data-table">
       <thead>
         <tr><th>Data</th><th>What it is</th><th>Why we need it</th></tr>
@@ -402,11 +402,11 @@ footer.ftr a{text-decoration:none}
         <tr>
           <td><strong>Nothing, for ownership</strong></td>
           <td>Ownership and tier verify <strong>locally</strong> through the Steam client on your machine. Our servers are not involved and never receive your Steam identity.</td>
-          <td>Unlocks the tier you purchased, even fully offline.</td>
+          <td>Unlocks the tier you purchased for core local playback. Steam and optional online features may require a connection.</td>
         </tr>
         <tr>
           <td><strong>Anonymous install ID</strong></td>
-          <td>A random UUID generated on your machine at first launch. It is not derived from and cannot be linked to your Steam account, name, or email.</td>
+          <td>A random UUID generated on your machine at first launch. It is not derived from your Steam account and is not used by IKANDY to identify you by name or email.</td>
           <td>Identifies your install for telemetry (if you enabled it), bug reports you send, and the "delete my data" flow.</td>
         </tr>
         <tr>
@@ -421,10 +421,10 @@ footer.ftr a{text-decoration:none}
         </tr>
       </tbody>
     </table>
-    <p><strong>Beta builds (pre-release).</strong> Beta access validates against our server with a random Beta ID (a UUID generated on first install) and a one-way SHA-256 machine fingerprint hash of your MAC address, hostname, and CPU model. The original values cannot be recovered from the hash, and none of it identifies you personally.</p>
+    <p><strong>Beta builds (pre-release).</strong> Beta access may validate against our server with a random Beta ID (a UUID generated on first install) and a one-way SHA-256 device-fingerprint hash derived from device attributes. The original values are not recoverable from the hash, but the resulting value is treated as a pseudonymous identifier where applicable law considers it personal data.</p>
   <p class="section-tag">03</p>
     <h2>Diagnostics &amp; Usage Analytics</h2>
-    <p>IKANDY has two telemetry channels: usage analytics and crash diagnostics. When you first run IKANDY, the agreement screen offers both with a <strong>pre-selected checkbox you can untick</strong> &mdash; nothing is sent before you make that choice, and declining is one click. You can change your decision at any time in <strong>Settings &rarr; Privacy</strong>, and a later choice there always wins. Beta builds keep both channels off by default.</p>
+    <p>IKANDY has two telemetry channels: usage analytics and crash diagnostics. Both are off by default and are enabled only through separate, affirmative choices in <strong>Settings &rarr; Privacy</strong>. You can change either choice at any time; future events stop when you turn the relevant control off.</p>
     <h3>Usage Analytics</h3>
     <p>When on, IKANDY records:</p>
     <ul>
@@ -434,7 +434,7 @@ footer.ftr a{text-decoration:none}
       <li>The kind of audio source in use (e.g. "Spotify", "system audio") and whether auto-cycle was on &mdash; the feature, never the content</li>
       <li>Whether the install is new</li>
       <li>A coarse region (country level), derived from your connection at the moment of ingestion; the IP address itself is not stored</li>
-      <li>Your anonymous install ID (see above) &mdash; never your Steam identity</li>
+      <li>Your install ID (see above), rather than a Steam account identifier</li>
     </ul>
     <p>We do not collect playback choices, music library contents, song titles, or the contents of anything you create.</p>
     <h3>Crash &amp; Bug Diagnostics</h3>
@@ -444,10 +444,10 @@ footer.ftr a{text-decoration:none}
       <li>File paths from your user directory are stripped or generalized</li>
       <li>Development paths are masked</li>
     </ul>
-    <p>The resulting report contains the error type, a sanitized stack trace, recent technical log lines leading up to the problem, app version, platform, OS version, GPU model, and the same account or install ID as above. Sanitization happens on your device before transmission; we never see your real username or full file paths. Verbose diagnostic trace files that some debug options write stay on your machine unless you choose to send them.</p>
+    <p>The resulting report contains the error type, a sanitized stack trace, recent technical log lines leading up to the problem, app version, platform, OS version, GPU model, and the same install ID as above. Sanitization happens on your device before transmission; we aim to remove usernames and full file paths before transmission. Verbose diagnostic trace files that some debug options write stay on your machine unless you choose to send them.</p>
   <p class="section-tag">04</p>
     <h2>What We Do Not Collect</h2>
-    <p>IKANDY never transmits any of the following to <strong>our</strong> servers:</p>
+    <p>Under normal operation, IKANDY does not intentionally transmit the following to <strong>our</strong> servers:</p>
     <ul>
       <li>The contents of audio playing on your computer</li>
       <li>The names of songs, artists, or albums you play</li>
@@ -465,7 +465,7 @@ footer.ftr a{text-decoration:none}
       <li><strong>Bug reports.</strong> If you submit a bug report you may optionally include an email address so we can follow up. It is used only for that report.</li>
       <li><strong>AI generation (BYOK).</strong> Your prompts go to the AI provider whose key you supplied, under that provider's privacy policy.</li>
     </ul>
-    <p><strong>Local logs stay local.</strong> IKANDY writes a diagnostic log on your machine that can include your Windows username and the titles of songs you played. It is never transmitted automatically &mdash; only the sanitized crash excerpt described above is ever sent, and only with your consent.</p>
+    <p><strong>Local logs stay local unless you choose to send a report.</strong> IKANDY writes a diagnostic log on your machine that can include your Windows username and the titles of songs you played. Optional crash diagnostics send the sanitized report described above only when crash diagnostics are enabled; bug reports send only when you submit them.</p>
   </section>
 
   <section class="policy">
@@ -478,9 +478,12 @@ footer.ftr a{text-decoration:none}
   <section class="policy">
     <p class="section-tag">06</p>
     <h2>Where Your Data Is Stored</h2>
-    <p>All data collected by IKANDY is stored on <a href="https://supabase.com" target="_blank" rel="noopener" class="inline-link">Supabase</a>, a SOC 2 Type II-certified backend platform. Your data is held under their privacy policy and security commitments.</p>
-    <p>If crash diagnostics are enabled, crash reports may additionally be processed by <a href="https://sentry.io" target="_blank" rel="noopener" class="inline-link">Sentry</a>, a crash-reporting service, after the same on-device sanitization described above. Sentry receives nothing when crash diagnostics are off.</p>
-    <p>We do not share, sell, or rent your data to third parties for advertising, marketing, or any other purpose.</p>
+    <p>Product telemetry, deletion records, and beta-management records are processed using <a href="https://supabase.com" target="_blank" rel="noopener" class="inline-link">Supabase</a>. If crash diagnostics are enabled, sanitized crash reports may additionally be processed by <a href="https://sentry.io" target="_blank" rel="noopener" class="inline-link">Sentry</a>. These providers process data for us under their own applicable terms and privacy commitments.</p>
+    <p>We do not sell or rent personal data. We share data only with service providers that help operate the app, or with a third-party service you choose to use, such as an AI or lyrics provider, as described in this policy.</p>
+    <h3>Retention and international processing</h3>
+    <p>We retain optional telemetry and crash records until you request deletion or we no longer need them for the purposes described above. We retain beta-access and agreement records only as long as needed to administer access, keep required records, resolve disputes, or comply with law. Service providers may process data outside your country; where applicable, their contractual and legal transfer safeguards apply.</p>
+    <h3>Legal bases</h3>
+    <p>Where privacy law requires a legal basis, we rely on your consent for optional telemetry, on performance of our agreement for licensing and support functions, and on legitimate interests for security, fraud prevention, and operating the service. We may also process data where required by law.</p>
   </section>
 
   <section class="policy">
@@ -502,13 +505,13 @@ footer.ftr a{text-decoration:none}
 <h2>Your Rights</h2>
 
     <h3>Access</h3>
-    <p>Open <strong>Settings → Privacy</strong> in IKANDY to view your anonymous ID at any time.</p>
+    <p>Open <strong>Settings → Privacy</strong> in IKANDY to view your install ID at any time. You may also contact us to request access to, correction of, or deletion of personal data we hold about you.</p>
 
     <h3>Withdraw Consent</h3>
     <p>Disable either telemetry toggle at any time. Future events will not be transmitted. Past records remain unless you also request deletion.</p>
 
     <h3>Delete Your Data</h3>
-    <p>Use the <strong>"Delete my data from IKANDY servers"</strong> button in <strong>Settings → Privacy</strong>. This permanently:</p>
+    <p>Use the <strong>"Delete my data from IKANDY servers"</strong> button in <strong>Settings → Privacy</strong> to request deletion. The flow:</p>
     <ul>
       <li>Deletes all usage and crash report records tied to your installation</li>
       <li>Anonymizes your beta installation record (removes personal identifiers while keeping the row to prevent beta-slot recycling)</li>
@@ -517,6 +520,8 @@ footer.ftr a{text-decoration:none}
 
     <h3>Rejoin After Deletion</h3>
     <p>If you delete your data and later wish to rejoin the IKANDY beta, contact <a href="mailto:support@ikandy.app?subject=Rejoin Beta" class="inline-link">support@ikandy.app</a> with your Beta ID. Reactivation is processed manually and typically completes within several days.</p>
+    <h3>Additional regional rights</h3>
+    <p>Depending on where you live, you may have rights to restrict or object to processing, receive a portable copy of certain data, and complain to your local data-protection authority. Contact <a href="mailto:support@ikandy.app" class="inline-link">support@ikandy.app</a> to exercise these rights.</p>
   </section>
 
   <section class="policy">
@@ -528,7 +533,7 @@ footer.ftr a{text-decoration:none}
   <section class="policy">
     <p class="section-tag">09</p>
     <h2>Changes to This Policy</h2>
-    <p>If we materially change what data is collected or how it is processed, the version number at the top of this page will be incremented and you will be required to accept an updated agreement in-app before continuing to use IKANDY.</p>
+    <p>If we materially change what data is collected or how it is processed, we will update the effective date and, where required, provide notice or request a new choice before the change takes effect.</p>
   </section>
 
   <section class="policy">
@@ -549,7 +554,7 @@ footer.ftr a{text-decoration:none}
     <div class="ftr-grid">
       <div>
         <p class="ftr-brand">IKANDY</p>
-        <p class="ftr-note">Audio-reactive visualizer and VJ instrument for Windows 10 / 11. Runs fully offline.</p>
+        <p class="ftr-note">Audio-reactive visualizer and VJ instrument for Windows 10 / 11. Core visual playback runs locally; optional online features require an internet connection.</p>
         <p style="margin-top:18px"><a class="btn-steam" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam</a></p>
       </div>
       <div>
