@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /eula.html
+Disallow: /rejoin.html
+Disallow: /scores.html
+Disallow: /jukebox.html
+
+Sitemap: https://ikandy.app/sitemap.xml

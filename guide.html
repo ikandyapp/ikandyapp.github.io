@@ -3,8 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <title>IKANDY user guide: every topic in the rig</title>
 <meta name="description" content="The IKANDY manual, one topic per page: sources, per-app capture, presets, scenes, Spout, wallpaper, STAGE, MIDI, AI generation, troubleshooting.">
+<link rel="canonical" href="https://ikandy.app/guide.html">
+<meta property="og:title" content="IKANDY user guide">
+<meta property="og:description" content="Every topic in the rig: audio sources, scenes, Spout, wallpaper, Stage, MIDI, AI generation, and troubleshooting.">
+<meta property="og:image" content="https://ikandy.app/assets/social-card.jpg">
+<meta property="og:url" content="https://ikandy.app/guide.html">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="IKANDY user guide">
+<meta name="twitter:description" content="Everything in the rig, one topic per page.">
+<meta name="twitter:image" content="https://ikandy.app/assets/social-card.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "IKANDY user guide",
+  "url": "https://ikandy.app/guide.html",
+  "isPartOf": {"@type": "WebSite", "name": "IKANDY", "url": "https://ikandy.app/"}
+}
+</script>
 <link rel="icon" href="icon.ico">
 <!-- Consent-based website analytics are managed by analytics.js; Google Analytics is not loaded before opt-in. -->
 <script>window.gtag = function(){};</script>
@@ -95,6 +115,7 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
     <div class="rail-cta-group"><a class="btn-steam rail-cta" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam <span aria-hidden="true">&middot;</span> Coming Soon</a><span class="rail-beta-note">Beta now closed</span></div>
   </div>
 </nav>
+<main id="main-content">
 <header class="hub-head">
   <p style="font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-3);margin:0 0 14px">OPERATOR'S MANUAL</p>
   <h1>User guide</h1>
@@ -226,6 +247,8 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
   var t;input.addEventListener('input',function(){clearTimeout(t);t=setTimeout(run,140)});
 })();
 </script>
+</main>
+
 <footer class="ftr">
   <div class="ftr-in">
     <div class="ftr-grid">
@@ -256,6 +279,7 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
         <h4>Legal + contact</h4>
         <ul>
           <li><a href="privacy.html">Privacy policy</a></li>
+          <li><a href="security.html">Security</a></li>
           <li><a href="license.html">License</a></li>
           <li><a href="eula.html">EULA</a></li>
           <li><a href="credits.html">Credits</a></li>
@@ -270,7 +294,6 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
   </div>
 </footer>
 <script src="analytics.js" defer></script>
-<script>(function(){var t=document.querySelector('.rail-toggle'),l=document.querySelector('.rail-links');
-if(t&&l)t.addEventListener('click',function(){l.classList.toggle('open')});})();</script>
+<script src="assets/site-shell.js" defer></script>
 </body>
 </html>

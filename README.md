@@ -17,9 +17,9 @@ IKANDY turns whatever you're listening to into living, cinematic visuals - hundr
 - Metadata sources - Spotify, MusicBee (through MBXHub), foobar2000 (through Beefweb), VLC, and Windows Now Playing
 - Synced lyrics support
 
-## Download
+## Release
 
-Get the latest release at [ikandy.app](https://ikandy.app).
+IKANDY launches July 31, 2026. [Wishlist IKANDY on Steam](https://store.steampowered.com/app/4813240/IKANDY/) or visit [ikandy.app](https://ikandy.app).
 
 ## About
 

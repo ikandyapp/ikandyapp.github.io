@@ -252,7 +252,7 @@
     if (destination.hostname !== 'store.steampowered.com' ||
         !/^\/app\/4813240(?:\/|$)/.test(destination.pathname)) return;
 
-    var placement = link.closest('.rail-cta-group') ? 'header' :
+    var placement = link.closest('.rail-cta-group, .rail-mobile-actions') ? 'header' :
       link.closest('.hero-cta') ? 'hero' :
       link.closest('footer') ? 'footer' : 'page';
     sendEvent('wishlist_click', {
