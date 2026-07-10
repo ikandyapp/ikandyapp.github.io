@@ -4,13 +4,38 @@
 <meta charset="UTF-8">
 <script>document.documentElement.classList.add("js")</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <title>IKANDY: see your music. Audio-reactive visualizer for Windows, on Steam.</title>
 <meta name="description" content="IKANDY listens to whatever your PC is playing and paints it across your screen, live. A deep library of MilkDrop presets and hand-built scenes, a full HDR render engine, and an AI that writes new scenes. On Steam July 31, 2026.">
+<link rel="canonical" href="https://ikandy.app/">
 <meta property="og:title" content="IKANDY: see your music.">
 <meta property="og:description" content="Audio-reactive visualizer and VJ instrument for Windows. MilkDrop presets, hand-built scenes, AI scene generation, wallpaper to full VJ rig. On Steam July 31, 2026.">
-<meta property="og:image" content="https://ikandy.app/assets/screenshot.png">
+<meta property="og:image" content="https://ikandy.app/assets/social-card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="IKANDY audio-reactive visualizer with vivid spectral light">
 <meta property="og:url" content="https://ikandy.app/">
 <meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="IKANDY: see your music.">
+<meta name="twitter:description" content="Audio-reactive visualizer and VJ instrument for Windows. Coming to Steam July 31, 2026.">
+<meta name="twitter:image" content="https://ikandy.app/assets/social-card.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "IKANDY",
+  "url": "https://ikandy.app/",
+  "applicationCategory": "MultimediaApplication",
+  "operatingSystem": "Windows 10, Windows 11",
+  "description": "An audio-reactive visualizer and VJ instrument for Windows.",
+  "releaseDate": "2026-07-31",
+  "publisher": {
+    "@type": "Organization",
+    "name": "L&R Entertainment LLC"
+  }
+}
+</script>
 <link rel="icon" href="icon.ico">
 
 <!-- Consent-based website analytics are managed by analytics.js; Google Analytics is not loaded before opt-in. -->
@@ -397,6 +422,7 @@ html.js .unit-in.in{opacity:1;transform:none}
   <span class="rail-progress" aria-hidden="true"></span>
 </nav>
 
+<main id="main-content">
 <!-- ============ HERO / LIVE UNIT ============ -->
 <header class="hero">
   <canvas id="hero-gl" aria-hidden="true"></canvas>
@@ -629,6 +655,8 @@ html.js .unit-in.in{opacity:1;transform:none}
   </div>
 </section>
 
+</main>
+
 <!-- ============ FOOTER ============ -->
 <footer class="ftr">
   <div class="ftr-in">
@@ -660,6 +688,7 @@ html.js .unit-in.in{opacity:1;transform:none}
         <h4>Legal + contact</h4>
         <ul>
           <li><a href="privacy.html">Privacy policy</a></li>
+          <li><a href="security.html">Security</a></li>
           <li><a href="license.html">License</a></li>
           <li><a href="eula.html">EULA</a></li>
           <li><a href="credits.html">Credits</a></li>
@@ -675,6 +704,7 @@ html.js .unit-in.in{opacity:1;transform:none}
 </footer>
 
 <script src="analytics.js" defer></script>
+<script src="assets/site-shell.js" defer></script>
 <script src="assets/hero.js" defer></script>
 <script>
 // click-to-load YouTube (no third-party requests until asked)

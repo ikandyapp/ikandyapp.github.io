@@ -63,6 +63,13 @@ a:hover{text-decoration:underline;text-decoration-thickness:1px;text-underline-o
 :focus-visible{outline:2px solid var(--vu-amber);outline-offset:2px;border-radius:2px}
 img{max-width:100%;height:auto}
 
+.skip-link{
+  position:fixed;z-index:1000;top:-80px;left:16px;
+  padding:10px 14px;border:1px solid var(--vu-amber);border-radius:var(--radius);
+  background:var(--well);color:var(--ink);font-family:var(--mono);font-size:11px;
+  letter-spacing:.08em;text-transform:uppercase;box-shadow:0 6px 22px rgba(0,0,0,.55)}
+.skip-link:focus{top:12px}
+
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
 
 /* ---------- rail nav ---------- */
@@ -85,8 +92,9 @@ img{max-width:100%;height:auto}
   font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
   color:var(--ink-2)}
 .rail-links a:hover{color:var(--ink);text-decoration:none}
-.rail-links a.active{color:var(--vu-amber)}
+.rail-links a.active,.rail-links a[aria-current="page"]{color:var(--vu-amber)}
 .rail-toggle{display:none}
+.rail-mobile-actions{display:none}
 
 .btn-steam{
   text-shadow:none;
@@ -116,6 +124,9 @@ img{max-width:100%;height:auto}
     color:var(--ink);font-family:var(--mono);font-size:11px;letter-spacing:.1em;
     padding:8px 12px;border-radius:var(--radius);cursor:pointer}
   .rail-cta-group{display:none}
+  .rail-mobile-actions{display:block;width:100%;padding:12px 24px 10px;border-top:1px solid var(--rule)}
+  .rail-mobile-actions .btn-steam{display:block;width:100%;padding:11px 14px;text-align:center}
+  .rail-mobile-actions .rail-beta-note{display:block;margin-top:8px;text-align:center}
 }
 
 /* ---------- rack sections ---------- */
@@ -128,7 +139,7 @@ img{max-width:100%;height:auto}
   color:var(--ink-3)}
 .unit-tag::after{content:"";flex:1;height:1px;background:var(--rule)}
 .unit-tag b{color:var(--vu-amber);font-weight:400}
-h2.unit-title{
+h1.unit-title,h2.unit-title{
   font-family:var(--display);font-weight:800;font-size:clamp(30px,4.5vw,44px);
   letter-spacing:.015em;text-transform:uppercase;margin:0 0 18px;line-height:1.02}
 .unit-lead{color:var(--ink-2);max-width:640px;font-size:17px;margin:0 0 8px}

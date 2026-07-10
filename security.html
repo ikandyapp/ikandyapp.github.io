@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Security Reporting — IKANDY</title>
+<meta name="description" content="How to responsibly report a potential security vulnerability affecting IKANDY or ikandy.app.">
+<link rel="canonical" href="https://ikandy.app/security.html">
+<link rel="icon" href="icon.ico">
+<script>window.gtag = function(){};</script>
+<link rel="stylesheet" href="assets/fonts.css">
+<link rel="stylesheet" href="assets/ik.css">
+<style>
+body{padding-top:var(--nav-h)}
+.security-page{min-height:70vh}.security-copy{max-width:780px}
+.security-copy h1{font-family:var(--display);font-size:clamp(42px,7vw,72px);line-height:1;
+  text-transform:uppercase;margin:0 0 24px}
+.security-copy h2{font-family:var(--display);font-size:28px;text-transform:uppercase;margin:36px 0 12px}
+.security-copy p,.security-copy li{color:var(--ink-2)}
+.security-copy ul{padding-left:22px}
+.security-copy code{font-family:var(--mono);font-size:.9em}
+</style>
+</head>
+<body>
+<nav class="rail" aria-label="Main">
+  <div class="rail-in">
+    <a class="rail-logo" href="index.html"><span class="rail-led" aria-hidden="true"></span>IKANDY</a>
+    <button class="rail-toggle" aria-label="Menu">MENU</button>
+    <div class="rail-links">
+      <a href="index.html#rooms">Who it's for</a>
+      <a href="index.html#spec">Engine</a>
+      <a href="pricing/index.html">Pricing</a>
+      <a href="guide.html">Guide</a>
+      <a href="artists.html">Artists</a>
+    </div>
+    <div class="rail-cta-group"><a class="btn-steam rail-cta" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam <span aria-hidden="true">&middot;</span> Coming Soon</a><span class="rail-beta-note">Beta now closed</span></div>
+  </div>
+</nav>
+<main id="main-content" class="unit security-page">
+  <div class="unit-in security-copy">
+    <div class="unit-tag"><b>SECURITY</b> RESPONSIBLE DISCLOSURE</div>
+    <h1>Report a vulnerability.</h1>
+    <p>If you believe you found a security issue affecting IKANDY or ikandy.app, email <a href="mailto:support@ikandy.app?subject=Security%20Report">support@ikandy.app</a> with the subject <code>Security Report</code>.</p>
+    <h2>What to include</h2>
+    <ul>
+      <li>The affected feature, page, or application version.</li>
+      <li>Clear reproduction steps and the potential impact.</li>
+      <li>Any screenshots or proof-of-concept material that does not expose another person's data.</li>
+      <li>A safe way to contact you for follow-up questions.</li>
+    </ul>
+    <h2>While testing</h2>
+    <p>Please do not access, change, retain, or publish another person's data; disrupt service; use social engineering; or run automated testing that materially degrades availability. Stop testing and contact us if you encounter sensitive information.</p>
+    <p>Give us a reasonable opportunity to investigate and address a report before making it public. We do not currently operate a paid bug-bounty program.</p>
+  </div>
+</main>
+<footer class="ftr">
+  <div class="ftr-in">
+    <div class="ftr-plate">
+      <span>Security contact: <a href="mailto:support@ikandy.app?subject=Security%20Report">support@ikandy.app</a></span>
+      <span>&copy; 2026 L&amp;R Entertainment LLC &middot; IKANDY&trade;</span>
+    </div>
+  </div>
+</footer>
+<script src="analytics.js" defer></script>
+<script src="assets/site-shell.js" defer></script>
+</body>
+</html>

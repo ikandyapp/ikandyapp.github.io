@@ -6,7 +6,11 @@
 <script defer src="analytics.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <title>IKANDY License Agreement</title>
+<meta name="robots" content="noindex,follow">
+<meta name="description" content="The first-launch IKANDY License Agreement acceptance screen used by the Windows application.">
+<link rel="canonical" href="https://ikandy.app/eula.html">
 <link rel="stylesheet" href="assets/fonts.css">
 <link rel="stylesheet" href="assets/ik.css">
 <style>
@@ -195,9 +199,9 @@ footer.ftr a{text-decoration:none}
     <input type="checkbox" id="chk-read" disabled>
     <label for="chk-read">I have read and agree to the IKANDY License Agreement</label>
   </div>
-  <div class="checkbox-row" id="row-beta">
-    <input type="checkbox" id="chk-beta" disabled>
-    <label for="chk-beta">I understand IKANDY is beta software and may be unstable or incomplete</label>
+  <div class="checkbox-row" id="row-privacy">
+    <input type="checkbox" id="chk-privacy" disabled>
+    <label for="chk-privacy">I acknowledge the <a href="https://ikandy.app/privacy.html" target="_blank" rel="noopener">IKANDY Privacy Policy</a></label>
   </div>
   <div class="button-row">
     <button class="btn btn-decline" id="btn-decline">Decline</button>
@@ -218,9 +222,9 @@ footer.ftr a{text-decoration:none}
   const eulaText   = document.getElementById('eula-text');
   const scrollHint = document.getElementById('scroll-hint');
   const rowRead    = document.getElementById('row-read');
-  const rowBeta    = document.getElementById('row-beta');
+  const rowPrivacy = document.getElementById('row-privacy');
   const chkRead    = document.getElementById('chk-read');
-  const chkBeta    = document.getElementById('chk-beta');
+  const chkPrivacy = document.getElementById('chk-privacy');
   const btnAccept  = document.getElementById('btn-accept');
   const btnDecline = document.getElementById('btn-decline');
   const statusLine = document.getElementById('status-line');
@@ -229,7 +233,7 @@ footer.ftr a{text-decoration:none}
   let busy = false;
 
   function updateAcceptState() {
-    const canAccept = scrolledToBottom && chkRead.checked && chkBeta.checked;
+    const canAccept = scrolledToBottom && chkRead.checked && chkPrivacy.checked;
     btnAccept.disabled = !canAccept;
   }
 
@@ -239,9 +243,9 @@ footer.ftr a{text-decoration:none}
       scrolledToBottom = true;
       scrollHint.classList.add('hidden');
       rowRead.classList.add('enabled');
-      rowBeta.classList.add('enabled');
+      rowPrivacy.classList.add('enabled');
       chkRead.disabled = false;
-      chkBeta.disabled = false;
+      chkPrivacy.disabled = false;
     }
     updateAcceptState();
   }
@@ -249,14 +253,15 @@ footer.ftr a{text-decoration:none}
   scrollEl.addEventListener('scroll', onScrolled);
 
   chkRead.addEventListener('change', updateAcceptState);
-  chkBeta.addEventListener('change', updateAcceptState);
+  chkPrivacy.addEventListener('change', updateAcceptState);
 
   // Allow clicking the row labels to toggle checkboxes when enabled
   rowRead.addEventListener('click', e => {
     if (!chkRead.disabled && e.target !== chkRead) chkRead.click();
   });
-  rowBeta.addEventListener('click', e => {
-    if (!chkBeta.disabled && e.target !== chkBeta) chkBeta.click();
+  rowPrivacy.addEventListener('click', e => {
+    if (e.target.closest && e.target.closest('a')) return;
+    if (!chkPrivacy.disabled && e.target !== chkPrivacy) chkPrivacy.click();
   });
 
   btnAccept.addEventListener('click', async () => {
