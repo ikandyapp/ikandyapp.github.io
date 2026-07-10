@@ -88,7 +88,7 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
       <summary>Now Playing controls grey out / Next or Previous don't work</summary>
       <div class="tr-body">
         <p>By design. IKANDY queries the active app for which transport commands it actually exposes: some apps (single YouTube videos, podcasts) don&rsquo;t advertise Next or Previous, so IKANDY locks those buttons.</p>
-        <p>Hover any greyed-out button to see the reason. For full transport, use a YouTube Mix or playlist URL, or Spotify desktop/web player.</p>
+        <p>Hover any greyed-out button to see the reason. For broader transport controls, connect a dedicated source such as Spotify, MusicBee, foobar2000, or VLC.</p>
       </div>
     </details>
 
@@ -135,6 +135,15 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
     </details>
 
     <details class="tr">
+      <summary>MusicBee won't connect</summary>
+      <div class="tr-body">
+        <p>Confirm MusicBee is running and that <strong>MBXHub</strong> appears under <strong>Edit &rarr; Preferences &rarr; Plugins</strong>. The MBXHub bundle's <code>mb_MBXHub.dll</code> and <code>MBXHub.exe</code> should be in MusicBee's <code>Plugins</code> folder.</p>
+        <p>Test by visiting <code>http://localhost:8080/docs</code> in a browser. If the MBXHub API documentation loads, match IKANDY's host and port to the plugin configuration. The IKANDY defaults are <code>127.0.0.1</code> and <code>8080</code>.</p>
+        <p>If the plugin does not load, confirm .NET Framework 4.8 and the .NET 8 Desktop Runtime are available, then check the <a href="https://wiki.getmusicbee.com/addons/plugins/568/mbxhub-the-bridge-to-everything-else/" target="_blank" rel="noopener">official MBXHub requirements and installation notes</a>.</p>
+      </div>
+    </details>
+
+    <details class="tr">
       <summary>Install or update problems through Steam</summary>
       <div class="tr-body">
         <p>Steam handles installing and updating IKANDY. If an install stalls or a launch fails after an update, use Steam's built-in repair: right-click IKANDY in your library, then <strong>Properties &rarr; Installed Files &rarr; Verify integrity of game files</strong>.</p>
@@ -142,10 +151,10 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
     </details>
 
     <details class="tr">
-      <summary>Why doesn't IKANDY react to Spotify when I'm playing a game?</summary>
+      <summary>Why doesn't IKANDY react only to Spotify or MusicBee when I'm playing a game?</summary>
       <div class="tr-body">
-        <p>By default IKANDY captures the entire system audio mix : game sound effects, Discord calls, notification pings, and Spotify all go in together. The visualizer reacts to whichever is loudest at any given moment, which is often the game.</p>
-        <p><strong>Fix: use Per-Process Capture.</strong> Open <strong>Settings (⚙) → SOURCE tab → Per-Process Capture</strong>, click <strong>Scan</strong>, then click <strong>Capture</strong> next to Spotify. IKANDY will lock on to Spotify&rsquo;s audio stream alone and ignore everything else. The game keeps running normally : IKANDY just doesn&rsquo;t listen to it.</p>
+        <p>By default IKANDY captures the entire system audio mix: game sound effects, Discord calls, notification pings, and music all go in together. The visualizer reacts to whichever is loudest at any given moment, which is often the game.</p>
+        <p><strong>Fix: use Per-Process Capture.</strong> Open <strong>Settings (⚙) &rarr; SOURCE tab &rarr; Per-Process Capture</strong>, click <strong>Scan</strong>, then click <strong>Capture</strong> next to Spotify or MusicBee. IKANDY will focus on that app's audio stream while the game keeps running normally.</p>
       </div>
     </details>
 

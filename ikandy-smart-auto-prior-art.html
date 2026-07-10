@@ -369,7 +369,7 @@ footer.ftr a{text-decoration:none}
     <section>
       <h2>Background &amp; Problem Statement</h2>
       <p>
-        Music visualizer applications that display track metadata (title, artist, album art) face a fundamental challenge: a user's listening environment is rarely uniform. A user may listen via Spotify, then switch to VLC for a local file, then open a browser to stream a set. Each source exposes metadata through a different mechanism:
+        Music visualizer applications that display track metadata (title, artist, album art) face a fundamental challenge: a user's listening environment is rarely uniform. A user may listen via Spotify, MusicBee, VLC, foobar2000, or a browser. Each source exposes metadata through a different mechanism:
       </p>
 
       <table>
@@ -394,11 +394,18 @@ footer.ftr a{text-decoration:none}
           <td>Plugin must be installed; port varies</td>
         </tr>
         <tr>
+          <td>MusicBee*</td>
+          <td>MBXHub REST Plugin</td>
+          <td>Plugin must be installed; host and port must match</td>
+        </tr>
+        <tr>
           <td>Browser / other</td>
           <td>Windows SMTC</td>
           <td>Best-effort; rich for some apps, empty for others</td>
         </tr>
       </table>
+
+      <p><small>* MusicBee support through MBXHub was added to current builds after the original May 2026 disclosure. It is shown for current-product accuracy and is not presented as part of the original dated implementation.</small></p>
 
       <p>
         The approaches reviewed, including SMTC, last.fm scrobbling, and unified Now Playing widgets, generally read from a single source or poll sources without using per-process audio dominance as the routing signal. This description is limited to the sources reviewed.
@@ -454,6 +461,11 @@ footer.ftr a{text-decoration:none}
           <td>SMTC</td>
         </tr>
         <tr>
+          <td><code>MusicBee.exe</code>*</td>
+          <td>MBXHub REST API</td>
+          <td>SMTC</td>
+        </tr>
+        <tr>
           <td><code>chrome.exe</code>, <code>msedge.exe</code></td>
           <td>SMTC (browser SMTC hint)</td>
           <td>—</td>
@@ -464,6 +476,8 @@ footer.ftr a{text-decoration:none}
           <td>—</td>
         </tr>
       </table>
+
+      <p><small>* Current-build integration added after the original May 2026 disclosure; see the note above.</small></p>
 
       <p>
         If the selected backend's prerequisite is not configured (e.g., VLC HTTP API is disabled), the system falls back to SMTC automatically and surfaces a non-blocking UI hint.
