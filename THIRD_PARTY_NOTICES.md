@@ -8,7 +8,7 @@ This file records the third-party material shipped by the IKANDY website and bro
 
 | Component | Use | License/evidence |
 | --- | --- | --- |
-| IKAMP synthwave playlist | Five browser-arcade MP3 files | CC0 1.0; exact-source hashes in `arcade/music/LICENSES.md` |
+| IKAMP synthwave playlist | Five browser-arcade MP3 files | CC0 1.0; verified source and shipped-file hashes in `arcade/music/LICENSES.md` |
 | Webamp | Local IKAMP player bundle | MIT; `arcade/LICENSE-webamp.txt` |
 | skifree.js | Powder game base | MIT; `arcade/skifree/LICENSE-skifree.md` |
 | Hammer.js | Included in the skifree.js bundle | MIT; `arcade/skifree/LICENSE-hammerjs.txt` |
