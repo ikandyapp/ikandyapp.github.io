@@ -2,6 +2,28 @@
 (function () {
   'use strict';
 
+  var releaseAt = Date.parse('2026-07-31T00:00:00-07:00');
+  var isReleased = Date.now() >= releaseAt;
+
+  if (isReleased) {
+    Array.prototype.forEach.call(document.querySelectorAll('a.btn-steam[href*="/app/4813240/"]'), function (link) {
+      if (link.classList.contains('rail-cta')) {
+        link.textContent = 'Get IKANDY on Steam · Available now';
+      } else {
+        link.textContent = 'Get IKANDY on Steam';
+      }
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('.rail-beta-note'), function (note) {
+      note.textContent = 'Available now';
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('.hero-date, .cta-date'), function (date) {
+      date.innerHTML = 'Available <b>now on Steam</b>';
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('.ftr-plate .amber'), function (plate) {
+      plate.textContent = 'AVAILABLE NOW ON STEAM';
+    });
+  }
+
   var nav = document.querySelector('nav.rail');
   if (!nav) return;
 
@@ -40,7 +62,7 @@
 
     var betaNote = document.createElement('span');
     betaNote.className = 'rail-beta-note';
-    betaNote.textContent = 'Beta now closed';
+    betaNote.textContent = isReleased ? 'Available now' : 'Beta now closed';
     mobileActions.appendChild(betaNote);
     links.appendChild(mobileActions);
   }

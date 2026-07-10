@@ -105,6 +105,11 @@ h1 .row{display:block}
   text-shadow:0 1px 0 rgba(0,0,0,.7),0 0 24px rgba(0,0,0,.55)}
 .hero-cta{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
 .btn-steam.big{font-size:13px;padding:15px 26px}
+.btn-ghost{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink);padding:14px 20px;border:1px solid rgba(234,229,217,.42);border-radius:var(--radius);
+  background:rgba(6,6,8,.52);backdrop-filter:blur(4px);font-weight:700}
+.btn-ghost:hover{color:var(--vu-amber);border-color:var(--vu-amber);text-decoration:none;
+  background:rgba(6,6,8,.78)}
 .hero-date{font-family:var(--mono);font-size:11px;letter-spacing:.14em;
   text-transform:uppercase;color:var(--ink-2);
   text-shadow:0 1px 0 rgba(0,0,0,.7)}
@@ -250,6 +255,14 @@ h1 .row{display:block}
   .glabel{text-align:center}
   .grow{justify-content:center}
 }
+@media(max-width:640px){
+  .hero-copy{padding-left:18px;padding-right:18px}
+  .hero-live{left:18px;right:auto;max-width:calc(100% - 36px);font-size:8px;letter-spacing:.12em}
+  .console{padding:0 12px 18px}
+  .console-panel{padding:16px 12px;gap:16px}
+  .scene-btn{min-height:44px}
+  .sound-group{min-width:100%}
+}
 
 /* ---------- signature micro-moments ---------- */
 .rail-progress{position:absolute;left:0;bottom:-1px;height:2px;width:0;
@@ -286,6 +299,20 @@ html.js .unit-in.in{opacity:1;transform:none}
 .room-ch{font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--vu-amber);
   border:1px solid var(--vu-amber-dim);border-radius:2px;padding:3px 8px;display:inline-block}
 @media(max-width:860px){.rooms{grid-template-columns:1fr}}
+
+/* ---------- real product views ---------- */
+.product-intro{max-width:700px;color:var(--ink-2);font-size:16px;margin:0 0 28px}
+.product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.product-shot{margin:0;background:linear-gradient(180deg,#1b1b21,#111116);border:1px solid #000;
+  border-radius:6px;overflow:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 16px 36px rgba(0,0,0,.38)}
+.product-shot img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;background:#050509;
+  border-bottom:1px solid #000}
+.product-shot figcaption{padding:16px 18px 18px;color:var(--ink-2);font-size:13.5px;line-height:1.55}
+.product-shot b{display:block;color:var(--ink);font-family:var(--mono);font-size:10px;
+  letter-spacing:.17em;text-transform:uppercase;margin-bottom:5px}
+.product-note{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-3);margin:18px 0 0}
+@media(max-width:860px){.product-grid{grid-template-columns:1fr}.product-shot img{aspect-ratio:16/9}}
 
 /* ---------- spec sheet ---------- */
 .spec{max-width:760px}
@@ -436,6 +463,21 @@ html.js .unit-in.in{opacity:1;transform:none}
 @keyframes spin{to{transform:rotate(1turn)}}
 @media (prefers-reduced-motion:reduce){.vid-play::before{animation:none}}
 #watch .vid{border-radius:6px}
+
+/* ---------- purchase questions ---------- */
+.faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:920px}
+.faq-grid details{background:var(--panel);border:1px solid var(--rule);border-radius:4px;
+  padding:0 18px;box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+.faq-grid summary{cursor:pointer;list-style:none;padding:17px 28px 17px 0;position:relative;
+  color:var(--ink);font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.faq-grid summary::-webkit-details-marker{display:none}
+.faq-grid summary::after{content:"+";position:absolute;right:0;top:13px;color:var(--vu-amber);font-size:19px}
+.faq-grid details[open] summary::after{content:"−"}
+.faq-grid details p{color:var(--ink-2);font-size:14.5px;margin:0;padding:0 0 18px}
+.requirements{max-width:920px;margin:0 0 24px;padding:18px 20px;border-left:3px solid var(--vu-green);
+  background:rgba(70,217,107,.055);color:var(--ink-2);font-size:14.5px}
+.requirements b{color:var(--ink)}
+@media(max-width:700px){.faq-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -446,6 +488,7 @@ html.js .unit-in.in{opacity:1;transform:none}
     <a class="rail-logo" href="index.html"><span class="rail-led" aria-hidden="true"></span>IKANDY</a>
     <button class="rail-toggle" aria-label="Menu">MENU</button>
     <div class="rail-links">
+      <a href="#product">See the app</a>
       <a href="#rooms">Who it's for</a>
       <a href="#spec">Engine</a>
       <a href="pricing/index.html">Pricing</a>
@@ -471,6 +514,7 @@ html.js .unit-in.in{opacity:1;transform:none}
     <p class="hero-sub">IKANDY listens to whatever your PC is playing and paints it across your screen, live. A deep library of MilkDrop presets and hand-built scenes, an AI that writes new ones, and outputs that run from your desktop wallpaper to a full VJ rig. This page is running the engine's little cousin right now. Grab a knob.</p>
     <div class="hero-cta">
       <a class="btn-steam big" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam</a>
+      <a class="btn-ghost" href="#watch">Watch the demo</a>
       <span class="hero-date">Out <b>July 31, 2026</b></span>
     </div>
   </div>
@@ -585,20 +629,44 @@ html.js .unit-in.in{opacity:1;transform:none}
   </div>
 </header>
 
-<!-- ============ U1 SIGNAL ============ -->
+<!-- ============ U1 PRODUCT ============ -->
+<section class="unit" id="product">
+  <div class="unit-in">
+    <div class="unit-tag"><b>U1</b> THE ACTUAL APP</div>
+    <h2 class="unit-title">Built to disappear into the show.</h2>
+    <p class="product-intro">These are current captures from IKANDY itself: the full-screen visualizer, the visual library, and the Stage performance console. No concept art and no simulated interface.</p>
+    <div class="product-grid">
+      <figure class="product-shot">
+        <img src="assets/product/ikandy-live.png" width="1440" height="900" alt="IKANDY full-screen visualizer rendering a blue and violet Aurora scene" decoding="async">
+        <figcaption><b>Full-screen visualizer</b>The interface gets out of the way while the HDR scene fills the display.</figcaption>
+      </figure>
+      <figure class="product-shot">
+        <img src="assets/product/ikandy-library.png" width="1440" height="900" alt="IKANDY visual library showing scene categories, filters, and visual cards" loading="lazy" decoding="async">
+        <figcaption><b>Visual library</b>Browse MilkDrop, GLSL, WebGPU, Spout, images, favorites, and your own scenes in one place.</figcaption>
+      </figure>
+      <figure class="product-shot">
+        <img src="assets/product/ikandy-stage.png" width="1440" height="900" alt="IKANDY Stage console showing Now and Next decks, outputs, hot cues, and live effects" loading="lazy" decoding="async">
+        <figcaption><b>Stage console</b>Prepare the next look, crossfade, hit cues, route outputs, and keep performing from one surface.</figcaption>
+      </figure>
+    </div>
+    <p class="product-note">Captured from the July 2026 desktop build.</p>
+  </div>
+</section>
+
+<!-- ============ U2 SIGNAL ============ -->
 <section class="unit" id="signal">
   <div class="unit-in">
-    <div class="unit-tag"><b>U1</b> SIGNAL PATH</div>
+    <div class="unit-tag"><b>U2</b> SIGNAL PATH</div>
     <h2 class="unit-title">An instrument, not a screensaver.</h2>
     <p class="unit-lead">IKANDY is built like the gear it sits next to: an audio engine that can focus on the source you choose — one app, the whole mix, or a line-in — a render pipeline with an HDR post chain, and outputs that connect to the rest of your rig. Core visual playback runs locally on your GPU. Optional online features, including provider-based AI and metadata services, require an internet connection.</p>
     <p class="unit-lead" style="margin-top:14px">And when you do want wallpaper, it's a music-reactive wallpaper mode built into the same visual pipeline. Supported presets can run as your Windows desktop, moving with your music behind your icons while you work. One library of presets, wherever you point it: your desktop, a second monitor, an OBS overlay, a projector wall, or a stage.</p>
   </div>
 </section>
 
-<!-- ============ U2 ROOMS ============ -->
+<!-- ============ U3 ROOMS ============ -->
 <section class="unit" id="rooms">
   <div class="unit-in">
-    <div class="unit-tag"><b>U2</b> WHO IT'S FOR</div>
+    <div class="unit-tag"><b>U3</b> WHO IT'S FOR</div>
     <h2 class="unit-title">One app. Three rooms.</h2>
     <div class="rooms">
       <div class="room">
@@ -620,10 +688,10 @@ html.js .unit-in.in{opacity:1;transform:none}
   </div>
 </section>
 
-<!-- ============ U3 SPEC ============ -->
+<!-- ============ U4 SPEC ============ -->
 <section class="unit" id="spec">
   <div class="unit-in">
-    <div class="unit-tag"><b>U3</b> ENGINE SPEC</div>
+    <div class="unit-tag"><b>U4</b> ENGINE SPEC</div>
     <h2 class="unit-title">The sheet.</h2>
     <div class="spec">
       <div class="spec-row"><span class="spec-k">Included presets</span><span class="spec-dots"></span><span class="spec-v">a deep library across the included engines</span></div>
@@ -643,10 +711,10 @@ html.js .unit-in.in{opacity:1;transform:none}
   </div>
 </section>
 
-<!-- ============ U4 PRICING ============ -->
+<!-- ============ U5 PRICING ============ -->
 <section class="unit" id="pricing"><span id="pro" style="position:absolute;top:-52px" aria-hidden="true"></span>
   <div class="unit-in">
-    <div class="unit-tag"><b>U4</b> PRICING</div>
+    <div class="unit-tag"><b>U5</b> PRICING</div>
     <h2 class="unit-title">Buy once. No subscription.</h2>
     <div class="tiers">
       <div class="tier">
@@ -675,10 +743,10 @@ html.js .unit-in.in{opacity:1;transform:none}
   </div>
 </section>
 
-<!-- ============ U5 FOOTAGE ============ -->
+<!-- ============ U6 FOOTAGE ============ -->
 <section class="unit" id="watch">
   <div class="unit-in">
-    <div class="unit-tag"><b>U5</b> FOOTAGE</div>
+    <div class="unit-tag"><b>U6</b> FOOTAGE</div>
     <h2 class="unit-title">Two minutes, in motion.</h2>
     <div class="vid" id="vid">
       <button class="vid-load" id="vid-load" aria-label="Play the demo video">
@@ -687,6 +755,23 @@ html.js .unit-in.in{opacity:1;transform:none}
       </button>
     </div>
     <p class="vid-alt">Player not loading? <a href="https://www.youtube.com/watch?v=bOp0aDZlmeQ" target="_blank" rel="noopener">Open on YouTube</a></p>
+  </div>
+</section>
+
+<!-- ============ U7 FAQ ============ -->
+<section class="unit" id="questions">
+  <div class="unit-in">
+    <div class="unit-tag"><b>U7</b> BEFORE YOU PATCH IN</div>
+    <h2 class="unit-title">The useful answers.</h2>
+    <div class="requirements"><b>What it needs:</b> Windows 10 or 11, Steam, and a reasonably modern GPU. Core visual playback runs locally. Internet access is used for installation, updates, and optional online features.</div>
+    <div class="faq-grid">
+      <details><summary>Does it require Spotify?</summary><p>No. IKANDY can react to system audio, a chosen app, line-in, an audio interface, or a virtual cable. Spotify is one optional metadata and playback source.</p></details>
+      <details><summary>Will Discord trigger the visuals?</summary><p>Only if you choose the whole system mix. Per-app capture can listen to one selected music app while ignoring Discord, notification sounds, and everything else.</p></details>
+      <details><summary>Is the AI a subscription?</summary><p>No. AI scene generation is optional and bring-your-own-key. You pay the supported provider directly at its published rates; IKANDY sells no AI credits.</p></details>
+      <details><summary>What is the difference between Pro and Stage?</summary><p>Pro adds creation, wallpaper, Workshop, multi-display output, and OBS output. Stage adds live capture, higher-performance Spout output, MIDI and OSC, and the performance console.</p></details>
+      <details><summary>Can it run as wallpaper?</summary><p>Yes. Supported visuals can run behind your Windows desktop icons using the same visual pipeline as the full-screen app.</p></details>
+      <details><summary>Does it upload my music?</summary><p>No. Core playback and audio analysis run locally. Optional metadata, AI, updates, and enabled diagnostics use online services as described in the privacy policy.</p></details>
+    </div>
   </div>
 </section>
 

@@ -26,6 +26,7 @@
   var input = document.getElementById('gsearch');
   var grid = document.getElementById('tgrid');
   var noResults = document.getElementById('nores');
+  var status = document.getElementById('gstatus');
   var cards = [].slice.call(grid.children);
   var deepIndex = null;
 
@@ -48,6 +49,7 @@
       if (hit) shown++;
     });
     noResults.style.display = shown ? 'none' : 'block';
+    if (status) status.textContent = shown + ' guide topic' + (shown === 1 ? '' : 's') + ' shown';
   }
 
   var timer;

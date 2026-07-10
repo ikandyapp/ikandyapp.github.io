@@ -10,16 +10,6 @@
 (function () {
   'use strict';
 
-  // land at the top: browsers restore the previous scroll position on reload,
-  // which drops returning visitors at U2 instead of the hero. manual + a double
-  // scrollTo (second after first paint) beats late layout growth too.
-  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-  if (!location.hash) {
-    window.scrollTo(0, 0);
-    requestAnimationFrame(function () { window.scrollTo(0, 0); });
-    window.addEventListener('pageshow', function (e) { if (e.persisted) window.scrollTo(0, 0); });
-  }
-
   var canvas = document.getElementById('hero-gl');
   if (!canvas) return;
 
@@ -37,6 +27,12 @@
   var gl = canvas.getContext('webgl2', { antialias: false, alpha: false, powerPreference: 'low-power' });
   var fallback = document.getElementById('hero-fallback');
   if (!gl) { if (fallback) fallback.hidden = false; hideConsole(); return; }
+  canvas.addEventListener('webglcontextlost', function (event) {
+    event.preventDefault();
+    S.running = false;
+    if (fallback) fallback.hidden = false;
+    hideConsole();
+  });
 
   var VS = '#version 300 es\nvoid main(){vec2 p=vec2(gl_VertexID==1?3.0:-1.0,gl_VertexID==2?3.0:-1.0);gl_Position=vec4(p,0.,1.);}';
 
@@ -438,16 +434,27 @@
 
 
   /* ---------------- loop ---------------- */
-  var io = new IntersectionObserver(function (entries) {
-    S.visible = entries[0].isIntersecting;
-  }, { threshold: 0.02 });
-  io.observe(canvas);
-  document.addEventListener('visibilitychange', function () { S.running = !document.hidden; });
+  var rafId = 0;
+  function requestFrame() {
+    if (reduced || rafId || !S.running || !S.visible) return;
+    rafId = requestAnimationFrame(frame);
+  }
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      S.visible = entries[0].isIntersecting;
+      if (S.visible) requestFrame();
+    }, { threshold: 0.02 });
+    io.observe(canvas);
+  }
+  document.addEventListener('visibilitychange', function () {
+    S.running = !document.hidden;
+    if (S.running) requestFrame();
+  });
 
   var smB = 0, smM = 0, smT = 0;
   var beatDot = document.getElementById('beat-dot');
   function frame(now) {
-    if (!reduced) requestAnimationFrame(frame);
+    rafId = 0;
     if (!S.running || !S.visible) { S.last = now; return; }
     var dt = Math.min(0.05, (now - (S.last || now)) / 1000); S.last = now;
     S.t += dt;                                        // music clock: tempo never changes
@@ -480,16 +487,11 @@
     gl.uniform1f(U.u_react, S.react);
     gl.uniform3f(U.u_audio, smB, smM, smT);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
+    requestFrame();
   }
   resize();
   if (reduced) frame(performance.now());
-  else requestAnimationFrame(frame);
-})();
-
-/* mobile nav toggle */
-(function () {
-  var t = document.querySelector('.rail-toggle'), l = document.querySelector('.rail-links');
-  if (t && l) t.addEventListener('click', function () { l.classList.toggle('open'); });
+  else requestFrame();
 })();
 
 /* rail tape-position line */

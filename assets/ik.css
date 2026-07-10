@@ -20,7 +20,7 @@
   --ink:#eae5d9;
   --ink-2:#b5ae9c;
   --ink-3:#8a8371;
-  --ink-faint:#5c574b;
+  --ink-faint:#847d6d;
 
   /* signal set (functional, not decorative) */
   --vu-amber:#ff5a1f;
@@ -62,6 +62,9 @@ a{color:var(--vu-amber);text-decoration:none}
 a:hover{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
 :focus-visible{outline:2px solid var(--vu-amber);outline-offset:2px;border-radius:2px}
 img{max-width:100%;height:auto}
+.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;
+  margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;
+  white-space:nowrap!important;border:0!important}
 
 .skip-link{
   position:fixed;z-index:1000;top:-80px;left:16px;
@@ -122,7 +125,7 @@ img{max-width:100%;height:auto}
   .rail-links a{padding:12px 24px;width:100%}
   .rail-toggle{display:block;margin-left:auto;background:none;border:1px solid var(--rule);
     color:var(--ink);font-family:var(--mono);font-size:11px;letter-spacing:.1em;
-    padding:8px 12px;border-radius:var(--radius);cursor:pointer}
+    padding:8px 12px;border-radius:var(--radius);cursor:pointer;min-height:44px}
   .rail-cta-group{display:none}
   .rail-mobile-actions{display:block;width:100%;padding:12px 24px 10px;border-top:1px solid var(--rule)}
   .rail-mobile-actions .btn-steam{display:block;width:100%;padding:11px 14px;text-align:center}
