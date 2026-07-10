@@ -1,14 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FEJJH5VN5S"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-FEJJH5VN5S');
-</script>
+<!-- Third-party website analytics intentionally disabled. -->
+<script>window.gtag = function(){};</script>
 <script defer src="/analytics.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -529,37 +523,9 @@ html, body, .desktop, .window, .icon, .start-btn, .taskbar-btn {
 <div class="boot-line" id="boot-5">Loading audio subsystem.................. OK</div>
 <div class="boot-line" id="boot-6">Loading visualizer kernel................. OK</div>
 <div class="boot-line" id="boot-7">Initializing arcade modules............... OK</div>
-<div class="boot-line" id="boot-8">Mounting identity store................... OK</div>
+<div class="boot-line" id="boot-8">Opening coin slots........................ OK</div>
 <div class="boot-line" id="boot-9">&nbsp;</div>
 <div class="boot-line" id="boot-10">Starting IKANDY OS<span class="boot-cursor"></span></div>
-</div>
-
-<!-- LOGIN -->
-<div class="login" id="login">
-  <div class="login-banner">
-<div class="login-banner-title">IKANDY OS</div>
-<div class="login-banner-sub">Identity required to access the arcade.</div>
-  </div>
-  <form id="login-form" autocomplete="off" onsubmit="return false;">
-    <div class="login-prompt">
-      <span class="login-prompt-label">&gt; Enter your IKANDY ID:</span>
-    </div>
-    <input type="text" class="login-input" id="login-input"
-      placeholder="xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
-      spellcheck="false" autocapitalize="off" autocorrect="off">
-    <div class="login-prompt" style="margin-top:16px;display:none"><span class="login-prompt-label">&gt; Enter your handle (optional):</span></div>
-      <input type="text" class="login-input" id="login-name-input" placeholder="Mildly-Cursed Earl..." spellcheck="false" maxlength="120" style="display:none">
-      <div class="login-error" id="login-error"></div>
-    <div class="login-actions">
-      <button type="submit" class="login-btn" id="login-submit">[ ENTER ]</button>
-      <button type="button" class="login-btn ghost" id="login-help">[ I DON'T HAVE ONE ]</button>
-    </div>
-    <div class="login-hint">
-Your IKANDY ID is the authorId UUID generated when you picked your name in the IKANDY app.
-Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or click the
-<strong>Open Arcade</strong> menu item to log in automatically.
-    </div>
-  </form>
 </div>
 
 <!-- DESKTOP -->
@@ -675,10 +641,6 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
 
 
   <div class="icon-grid">
-    <button class="icon" data-action="open-spread">
-      <span class="icon-img"><span class="icon-emoji">&#128226;</span></span>
-      <span class="icon-label">Spread the Word</span>
-    </button>
     <button class="icon" data-action="open-skifree">
       <span class="icon-img"><span class="icon-emoji">&#127935;</span></span>
       <span class="icon-label">Powder</span>
@@ -707,14 +669,6 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
       <span class="icon-img"><span class="icon-emoji">&#127911;</span></span>
       <span class="icon-label">IKAMP</span>
     </button>
-    <button class="icon" data-action="open-scores">
-      <span class="icon-img"><span class="icon-emoji">&#127942;</span></span>
-      <span class="icon-label">High Scores</span>
-    </button>
-    <button class="icon" data-action="logout">
-      <span class="icon-img"><span class="icon-emoji">&#8617;</span></span>
-      <span class="icon-label">Sign Out</span>
-    </button>
   </div>
 
   <!-- Welcome window -->
@@ -726,42 +680,17 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
       </span>
     </div>
     <div class="window-body">
-      <div class="welcome-greeting">Welcome.</div>
-      <div>You are signed in as:</div>
-      <div class="welcome-name" id="welcome-name">&mdash;</div>
+      <div class="welcome-greeting">Welcome to the IKANDY Arcade.</div>
       <div style="margin-top:12px;line-height:1.5;">
         This is a quick trip back to where it all started. IKANDY isn't just a music visualizer, it's an experience, with a few surprises along the way.
         <br><br>
-        No email, no account &mdash; just a random handle, because anonymity matters here. Your scores and handle go to our leaderboard server, and that's it. Details in the <a href="../privacy.html" style="color:#000080;">privacy policy</a>.
+        No email, no account, no leaderboard. Pick a game and play &mdash; scores stay on this page and disappear when you leave the arcade.
         <br><br>
-        <strong>The contest has ended &mdash; congratulations to our seven champions!</strong> Check the wallpaper for the Hall of Champions. Each winner gets IKANDY Pro, free for life, and we'll reach out after launch to deliver it. The arcade stays open, the leaderboards stay on&hellip; play for glory. Have fun.
+        <strong>The contest has ended &mdash; congratulations to our seven champions!</strong> Check the wallpaper for the Hall of Champions. Each winner gets IKANDY Pro, free for life, and we'll reach out after launch to deliver it. The arcade stays open for everyone. Have fun.
       </div>
     </div>
     <div class="window-buttons">
       <button class="win-btn default" data-action="close-welcome">OK</button>
-    </div>
-  </div>
-
-  <!-- High Scores window -->
-  <div class="scores-window" id="scores-window">
-    <div class="titlebar">
-      <span class="titlebar-text"><span class="titlebar-icon"></span>High Scores</span>
-      <span class="titlebar-controls"><button class="titlebar-btn" data-action="close-scores" title="Close">x</button></span>
-    </div>
-    <div class="window-body"><div id="scores-tabs" style="display:flex;gap:2px;padding:6px 8px 0 8px;border-bottom:1px solid #808080;background:#c0c0c0;">
-        <button class="score-tab active" data-game="skifree" style="background:#fff;border:1px solid #808080;border-bottom:none;padding:4px 12px;font-family:inherit;font-size:11px;cursor:pointer;">Powder</button>
-        <button class="score-tab" data-game="snake" style="background:#c0c0c0;border:1px solid #808080;border-bottom:none;padding:4px 12px;font-family:inherit;font-size:11px;cursor:pointer;">Snake</button>
-        <button class="score-tab" data-game="pong" style="background:#c0c0c0;border:1px solid #808080;border-bottom:none;padding:4px 12px;font-family:inherit;font-size:11px;cursor:pointer;">Volley</button>
-        <button class="score-tab" data-game="breakout" style="background:#c0c0c0;border:1px solid #808080;border-bottom:none;padding:4px 12px;font-family:inherit;font-size:11px;cursor:pointer;">Bricked</button>
-        <button class="score-tab" data-game="pinball" style="background:#c0c0c0;border:1px solid #808080;border-bottom:none;padding:4px 12px;font-family:inherit;font-size:11px;cursor:pointer;">Pinball</button>
-        <button class="score-tab" data-game="jezzball" style="background:#c0c0c0;border:1px solid #808080;border-bottom:none;padding:4px 12px;font-family:inherit;font-size:11px;cursor:pointer;">Partition</button>
-        <button class="score-tab" data-game="mentions" style="background:#c0c0c0;border:1px solid #808080;border-bottom:none;padding:4px 12px;font-family:inherit;font-size:11px;cursor:pointer;">Spread</button>
-        <button class="score-tab" data-game="leaders" style="background:#c0c0c0;border:1px solid #808080;border-bottom:none;padding:4px 12px;font-family:inherit;font-size:11px;cursor:pointer;">Leaders</button>
-      </div>
-      <div id="scores-content"><div class="scores-msg">Loading&hellip;</div></div></div>
-    <div class="window-buttons">
-      <button class="win-btn" id="scores-refresh-btn">Refresh</button>
-      <button class="win-btn default" data-action="close-scores">Close</button>
     </div>
   </div>
 
@@ -775,36 +704,15 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
       <div class="start-item" data-action="open-breakout"><span class="start-item-icon">&#127963;</span>Bricked</div>
       <div class="start-item" data-action="open-jezzball"><span class="start-item-icon">&#128993;</span>Partition</div>
       <div class="start-item" data-action="open-skifree"><span class="start-item-icon">&#127935;</span>Powder</div>
-      <div class="start-item" data-action="open-spread"><span class="start-item-icon">&#128226;</span>Spread the Word</div>
-      <div class="start-item" data-action="open-scores"><span class="start-item-icon">&#127942;</span>High Scores</div>
       <div class="start-item" data-action="open-ikamp"><span class="start-item-icon">&#127911;</span>IKAMP Player</div>
       <div class="start-divider"></div>
       <div class="start-item" data-action="back-home"><span class="start-item-icon">&#127968;</span>Back to ikandy.app</div>
       <div class="start-item" data-action="get-ikandy"><span class="start-item-icon">&#8675;</span>Download IKANDY</div>
-      <div class="start-divider"></div>
-      <div class="start-item" data-action="logout"><span class="start-item-icon">&#8617;</span>Sign Out</div>
     </div>
   </div>
 
   <!-- IKAMP mount point - Webamp injects into this -->
   <div id="ikamp-mount"></div>
-
-  <!-- IKQ message window -->
-  <div class="ikq-window" id="ikq-window">
-    <div class="titlebar">
-      <span class="titlebar-text"><span class="titlebar-icon"></span>IKQ &mdash; Messages</span>
-      <span class="titlebar-controls">
-        <button class="titlebar-btn" id="ikq-close" title="Close">x</button>
-      </span>
-    </div>
-    <div class="ikq-body" id="ikq-body">
-      <div class="ikq-empty">Loading messages&hellip;</div>
-    </div>
-    <div class="ikq-actions">
-      <span id="ikq-count">&mdash;</span>
-      <span style="display:flex;gap:4px;"><button class="win-btn" id="ikq-refresh" style="font-size:10px;padding:2px 10px;">Refresh</button><button class="win-btn" id="ikq-mark-read" style="font-size:10px;padding:2px 10px;">Mark all read</button></span>
-    </div>
-  </div>
 
   <!-- Taskbar -->
   <div class="taskbar">
@@ -814,24 +722,9 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
     </button>
     <div class="taskbar-windows" id="taskbar-windows"></div>
     <div class="taskbar-tray">
-      <span class="tray-user" id="tray-user">&mdash;</span>
-      <span style="color:#808080;">|</span>
       <span class="tray-music" id="tray-music" title="IKAMP">&#9836;</span>
       <span style="color:#808080;">|</span>
       <span class="tray-help" id="tray-help" title="Welcome / About" style="cursor:pointer;color:#000080;font-weight:bold;">?</span>
-      <span style="color:#808080;">|</span>
-      <span class="tray-ikq" id="tray-ikq" title="IKQ Messages" style="cursor:pointer;position:relative;display:inline-flex;align-items:center;width:18px;height:14px;">
-        <svg viewBox="0 0 16 16" width="16" height="16" style="display:block;">
-          <!-- 5-petal flower, evocative not copied -->
-          <circle cx="8" cy="3"  r="2.6" fill="#1db954"/>
-          <circle cx="13" cy="6" r="2.6" fill="#1db954"/>
-          <circle cx="11" cy="12" r="2.6" fill="#1db954"/>
-          <circle cx="5" cy="12" r="2.6" fill="#1db954"/>
-          <circle cx="3" cy="6"  r="2.6" fill="#1db954"/>
-          <circle cx="8" cy="7.5" r="2.2" fill="#ffff00"/>
-        </svg>
-        <span class="ikq-badge" id="ikq-badge" style="display:none;"></span>
-      </span>
       <span style="color:#808080;">|</span>
       <span class="tray-clock" id="tray-clock">--:-- --</span>
     </div>
@@ -843,42 +736,24 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
   'use strict';
 
   // -- State / helpers ------------------------------------------------
-  const LS_KEY_NAME = 'ikandy_arcade_name';
-  const LS_KEY_ID   = 'ikandy_arcade_id_v1';
-  const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-  const SUPABASE_URL="https://grimznincoiujnurhmlx.supabase.co";
-  const SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdyaW16bmluY29pdWpudXJobWx4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxNDQ5NzAsImV4cCI6MjA5MjcyMDk3MH0.X-eXBp4gF3RthSt10As83Ft4z5rOc929IMdis5BSuxk";
-
   function $(s) { return document.querySelector(s); }
   function $$(s) { return [...document.querySelectorAll(s)]; }
 
-  function readParams() {
-    const p = new URLSearchParams(location.search);
-    return { id: (p.get('id') || '').trim(), name: (p.get('name') || '').trim() };
-  }
-  function isValidId(id) { return typeof id === 'string' && UUID_REGEX.test(id); }
-  function saveIdentity(id, name) {
+  function clearLegacyArcadeData() {
     try {
-      localStorage.setItem(LS_KEY_ID, id);
-      localStorage.setItem(LS_KEY_NAME, name || 'Guest');
+      localStorage.removeItem('ikandy_arcade_id_v1');
+      localStorage.removeItem('ikandy_arcade_name');
+      localStorage.removeItem('ikq_read_ids_v1');
     } catch (e) {}
-  }
-  function loadIdentity() {
-    try {
-      return { id: localStorage.getItem(LS_KEY_ID) || '', name: localStorage.getItem(LS_KEY_NAME) || '' };
-    } catch (e) { return { id: '', name: '' }; }
-  }
-  function clearIdentity() {
-    try { localStorage.removeItem(LS_KEY_ID); localStorage.removeItem(LS_KEY_NAME); } catch (e) {}
   }
 
   // -- IKAMP music tracks ---------------------------------------------
   const TRACKS = [
-    { url: 'music/01-synthwave-drive.mp3',     metaData: { artist: 'monume',         title: 'Synthwave Drive'     } },
-    { url: 'music/02-synthwave-cruise.mp3',    metaData: { artist: 'monume',         title: 'Synthwave Cruise'    } },
-    { url: 'music/03-neon-pulse.mp3',          metaData: { artist: 'ronaldoreyz',    title: 'Neon Pulse'          } },
-    { url: 'music/04-midnight-synthwave.mp3',  metaData: { artist: 'the_mountain',   title: 'Midnight Synthwave'  } },
-    { url: 'music/05-deep-synthwave.mp3',      metaData: { artist: 'the_mountain',   title: 'Deep Synthwave'      } }
+    { url: 'music/01-synth-type.mp3',          metaData: { artist: 'G_P',                title: 'Synth Type'             } },
+    { url: 'music/02-space-adventure.mp3',     metaData: { artist: 'MintoDog',           title: 'Space Adventure'        } },
+    { url: 'music/03-dj-synth-wave.mp3',       metaData: { artist: 'Pro Sensory',        title: 'DJ Synth Wave / Funk'   } },
+    { url: 'music/04-space-city.mp3',          metaData: { artist: 'MintoDog',           title: 'Space City'             } },
+    { url: 'music/05-synthwave-15k.mp3',       metaData: { artist: 'The Cynic Project',  title: 'Calm Ambient 2 (15k)'   } }
   ];
 
   // -- Boot sequence --------------------------------------------------
@@ -902,28 +777,9 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
     });
   }
 
-  function showLogin() {
+  function showDesktop() {
     $('#boot').classList.add('hide');
-    $('#login').classList.add('show');
-    const params = readParams();
-    if (params.id) $('#login-input').value = params.id;
-    if (params.name) $('#login-name-input').value = params.name;
-    setTimeout(() => {
-      if (params.id && params.name) {
-        tryLogin(params.id, params.name);
-      } else {
-        $('#login-input').focus();
-      }
-    }, 50);
-  }
-  function setLoginError(msg) { $('#login-error').textContent = msg || ''; }
-
-  function showDesktop(name) {
-    $('#boot').classList.add('hide');
-    $('#login').classList.remove('show');
     $('#desktop').classList.add('show');
-    $('#tray-user').textContent = name || 'Guest';
-    $('#welcome-name').textContent = name || 'Guest';
     try { if (!localStorage.getItem('ikandy_arcade_welcomed_v1')) { $('#welcome-window').classList.add('show'); localStorage.setItem('ikandy_arcade_welcomed_v1', '1'); } } catch(e) { $('#welcome-window').classList.add('show'); }
     startClock();
     // Preload Webamp in the background so first IKAMP click is instant
@@ -945,20 +801,6 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
     tick();
     if (clockTimer) clearInterval(clockTimer);
     clockTimer = setInterval(tick, 30000);
-  }
-
-  function tryLogin(idRaw, nameRaw) {
-    const id = (idRaw || '').trim();
-    const name = (nameRaw || '').trim();
-    if (!id) { setLoginError('> ERROR: ID is required.'); return false; }
-    if (!isValidId(id)) {
-      setLoginError('> ERROR: Invalid ID format. Must be a UUID like xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx.');
-      return false;
-    }
-    saveIdentity(id, name || 'Guest');
-    setLoginError('');
-    showDesktop(name || 'Guest');
-    return true;
   }
 
   // -- IKAMP (Webamp) -------------------------------------------------
@@ -998,12 +840,12 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
     webampLoading = true;
     return new Promise((resolve, reject) => {
       const script = document.createElement('script');
-      script.src = 'https://unpkg.com/webamp@1.5.0/built/webamp.bundle.min.js';
+      script.src = 'webamp.bundle.min.js';
       script.async = true;
       script.onload = () => { webampReady = true; webampLoading = false; resolve(); };
       script.onerror = () => {
         webampLoading = false;
-        reject(new Error('Failed to load Webamp library from CDN'));
+        reject(new Error('Failed to load the local IKAMP player library'));
       };
       document.head.appendChild(script);
     });
@@ -1124,12 +966,6 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
     mount.style.right = 'auto';
   }
 
-
-  function openScores(){var w=document.getElementById('scores-window');if(!w)return;w.classList.add('show');document.querySelectorAll('.score-tab').forEach(function(x){x.classList.remove('active');x.style.background='#c0c0c0';});var st=document.querySelector('.score-tab[data-game=skifree]');if(st){st.classList.add('active');st.style.background='#fff';}fetchScores('skifree');if(!window._scoresTB){addTaskbarEntry('scores','High Scores','&#127942;',function(){var x=document.getElementById('scores-window');if(!x)return;var s=x.classList.contains('show');if(s)x.classList.remove('show');else x.classList.add('show');var t=document.getElementById('task-scores');if(t)t.classList.toggle('active',!s);});window._scoresTB=true;}var t=document.getElementById('task-scores');if(t)t.classList.add('active');}
-  function closeScores(){var w=document.getElementById('scores-window');if(w)w.classList.remove('show');var t=document.getElementById('task-scores');if(t)t.classList.remove('active');}
-  async function fetchScores(game){game=game||'skifree';if(game==='mentions'){return fetchMentions();}if(game==='leaders'){return fetchLeaders();}var el=document.getElementById('scores-content');if(!el)return;el.innerHTML='<div class=scores-msg>Loading...</div>';var url=SUPABASE_URL+'/rest/v1/arcade_leaderboard?game=eq.'+game+'&order=rank&limit=20';var rows;try{var r=await fetch(url,{headers:{apikey:SUPABASE_ANON_KEY,Authorization:'Bearer '+SUPABASE_ANON_KEY,Accept:'application/json'}});if(!r.ok)throw new Error(r.status);rows=await r.json();}catch(e){el.innerHTML='<div class=scores-msg>Could not load scores.</div>';return;}if(!Array.isArray(rows)||!rows.length){el.innerHTML='<div class=scores-msg>No scores yet.</div>';return;}function ft(s){if(!s)return'-';var m=Math.floor(s/60),ss=Math.floor(s%60);return m>0?m+'m '+String(ss).padStart(2,'0')+'s':ss+'s';}function fd(iso){try{return new Date(iso).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});}catch(e){return'-';}}function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}var med=['&#129351;','&#129352;','&#129353;'];var tb=rows.map(function(r){return'<tr><td class=rank-col>'+(r.rank<=3?med[r.rank-1]:'#'+r.rank)+'</td><td>'+esc(r.ikandy_name||'-')+'</td><td class=num>'+Number(r.score).toLocaleString()+'</td><td class=num>'+ft(r.time_sec)+'</td><td class=num>'+fd(r.created_at)+'</td></tr>';}).join('');el.innerHTML='<div class=scores-table-wrap><table class=scores-table><thead><tr><th>#</th><th>Player</th><th class=num>Score</th><th class=num>Time</th><th class=num>Date</th></tr></thead><tbody>'+tb+'</tbody></table></div>';}
-  async function fetchMentions(){var el=document.getElementById('scores-content');if(!el)return;el.innerHTML='<div class=scores-msg>Loading...</div>';var url=SUPABASE_URL+'/rest/v1/arcade_mentions_leaderboard?order=rank&limit=20';var rows;try{var r=await fetch(url,{headers:{apikey:SUPABASE_ANON_KEY,Authorization:'Bearer '+SUPABASE_ANON_KEY,Accept:'application/json'}});if(!r.ok)throw new Error(r.status);rows=await r.json();}catch(e){el.innerHTML='<div class=scores-msg>Could not load mentions.</div>';return;}if(!Array.isArray(rows)||!rows.length){el.innerHTML='<div class=scores-msg>No mentions on record. The contest has ended.</div>';return;}function fd(iso){try{return new Date(iso).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});}catch(e){return'-';}}function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}var med=['&#129351;','&#129352;','&#129353;'];var tb=rows.map(function(r){return'<tr><td class=rank-col>'+(r.rank<=3?med[r.rank-1]:'#'+r.rank)+'</td><td>'+esc(r.ikandy_name||'-')+'</td><td class=num>'+Number(r.total_points).toLocaleString()+'</td><td class=num>'+r.mention_count+'</td><td class=num>'+fd(r.last_mention_at)+'</td></tr>';}).join('');el.innerHTML='<div class=scores-table-wrap><table class=scores-table><thead><tr><th>#</th><th>Player</th><th class=num>Total Points</th><th class=num>Mentions</th><th class=num>Last Post</th></tr></thead><tbody>'+tb+'</tbody></table></div>';}
-  async function fetchLeaders(){var el=document.getElementById("scores-content");if(!el)return;el.innerHTML="<div class=scores-msg>Loading...</div>";function fd(iso){try{return new Date(iso).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});}catch(e){return "-";}}function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;");}var H={apikey:SUPABASE_ANON_KEY,Authorization:"Bearer "+SUPABASE_ANON_KEY,Accept:"application/json"};var games=[["skifree","Powder"],["snake","Snake"],["pong","Volley"],["breakout","Bricked"],["pinball","Pinball"],["jezzball","Partition"]];var gp=games.map(function(g){return fetch(SUPABASE_URL+"/rest/v1/arcade_leaderboard?game=eq."+g[0]+"&order=rank&limit=1",{headers:H}).then(function(r){return r.ok?r.json():[];}).catch(function(){return[];});});var mp=fetch(SUPABASE_URL+"/rest/v1/arcade_mentions_leaderboard?order=rank&limit=1",{headers:H}).then(function(r){return r.ok?r.json():[];}).catch(function(){return[];});var results;try{results=await Promise.all(gp.concat([mp]));}catch(e){el.innerHTML="<div class=scores-msg>Could not load leaders.</div>";return;}var rowsHtml="";var EMPTY="<td style='color:#808080;font-style:italic'>(no scores yet)</td><td class=num>&mdash;</td><td class=num>&mdash;</td>";games.forEach(function(g,i){var rows=results[i];if(Array.isArray(rows)&&rows.length){var r=rows[0];rowsHtml+="<tr><td><b>"+esc(g[1])+"</b></td><td>"+esc(r.ikandy_name||"-")+"</td><td class=num>"+Number(r.score).toLocaleString()+"</td><td class=num>"+fd(r.created_at)+"</td></tr>";}else{rowsHtml+="<tr><td><b>"+esc(g[1])+"</b></td>"+EMPTY+"</tr>";}});var mrows=results[results.length-1];if(Array.isArray(mrows)&&mrows.length){var m=mrows[0];rowsHtml+="<tr><td><b>Spread the Word</b></td><td>"+esc(m.ikandy_name||"-")+"</td><td class=num>"+Number(m.total_points).toLocaleString()+" pts</td><td class=num>"+fd(m.last_mention_at)+"</td></tr>";}else{rowsHtml+="<tr><td><b>Spread the Word</b></td>"+EMPTY+"</tr>";}el.innerHTML="<div class=scores-table-wrap><table class=scores-table><thead><tr><th>Game</th><th>Leader</th><th class=num>Score</th><th class=num>Date</th></tr></thead><tbody>"+rowsHtml+"</tbody></table></div>";}
   // -- Actions --------------------------------------------------------
   function handleAction(action) {
     switch (action) {
@@ -1140,10 +976,6 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
       case 'open-jezzball': location.href = 'jezzball.html'; break;
       case 'open-pinball':  location.href = 'pinball.html'; break;
       case 'open-ikamp':   openIkamp(); break;
-      case 'open-spread':  location.href = 'spread.html'; break;
-      case 'open-scores':  openScores(); break;
-      case 'close-scores': closeScores(); break;
-      case 'logout':       clearIdentity(); location.href = location.pathname; break;
       case 'close-welcome':$('#welcome-window').classList.remove('show'); break;
       case 'back-home':    location.href = '../index.html'; break;
       case 'get-ikandy':   location.href = '../index.html#download'; break;
@@ -1152,28 +984,9 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
 
   // -- Wire up --------------------------------------------------------
   document.addEventListener('DOMContentLoaded', async () => {
-    const params = readParams();
-    const stored = loadIdentity();
-
     await runBoot();
-
-    if (isValidId(params.id)) {
-      saveIdentity(params.id, params.name || 'Guest');
-      history.replaceState(null, '', location.pathname);
-      showDesktop(params.name || 'Guest');
-    } else if (isValidId(stored.id)) {
-      showDesktop(stored.name || 'Guest');
-    } else {
-      showLogin();
-    }
-
-    $('#login-submit').addEventListener('click', () => tryLogin($('#login-input').value, $('#login-name-input').value));
-    $('#login-input').addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') { e.preventDefault(); tryLogin($('#login-input').value, $('#login-name-input').value); }
-    });
-    $('#login-help').addEventListener('click', () => {
-      setLoginError('> Install IKANDY at ikandy.app, then open the app menu and click Show My IKANDY ID.');
-    });
+    clearLegacyArcadeData();
+    showDesktop();
 
     $$('.icon').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -1209,146 +1022,11 @@ Open IKANDY &rarr; menu &rarr; <strong>Show My IKANDY ID</strong> to copy it, or
     $$('[data-action="close-welcome"]').forEach(b => {
       b.addEventListener('click', () => handleAction('close-welcome'));
     });
-    document.querySelectorAll("[data-action=close-scores]").forEach(function(b){b.addEventListener("click",closeScores);});
-    document.querySelectorAll(".score-tab").forEach(function(t){t.addEventListener("click",function(){document.querySelectorAll(".score-tab").forEach(function(x){x.classList.remove("active");x.style.background="#c0c0c0";});t.classList.add("active");t.style.background="#fff";fetchScores(t.dataset.game);});});
-    var srb=document.getElementById("scores-refresh-btn");if(srb)srb.addEventListener("click",function(){var at=document.querySelector(".score-tab.active");fetchScores(at?at.dataset.game:"skifree");});
     var th=document.getElementById("tray-help");if(th)th.addEventListener("click",function(){$("#welcome-window").classList.add("show");});
 
-    // --- IKQ: message tray + window ---
-    let ikqMessages = [];
-    let ikqReadIds = new Set();
-    const IKQ_LS_KEY = 'ikq_read_ids_v1';
-
-    function ikqLoadReadIds() {
-      try {
-        const arr = JSON.parse(localStorage.getItem(IKQ_LS_KEY) || '[]');
-        ikqReadIds = new Set(arr);
-      } catch(e) { ikqReadIds = new Set(); }
-    }
-    function ikqSaveReadIds() {
-      try { localStorage.setItem(IKQ_LS_KEY, JSON.stringify([...ikqReadIds])); } catch(e) {}
-    }
-
-    async function ikqFetch() {
-      const ident = loadIdentity();
-      if (!ident.id) return;
-      try {
-        // Fetch: messages for this user OR broadcast messages (ikandy_id is null)
-        const url = SUPABASE_URL + "/rest/v1/arcade_messages"
-          + "?or=(ikandy_id.eq." + ident.id + ",ikandy_id.is.null)"
-          + "&order=created_at.desc&limit=50";
-        const r = await fetch(url, { cache: "no-store",
-          headers: { apikey: SUPABASE_ANON_KEY, Authorization: "Bearer " + SUPABASE_ANON_KEY }
-        });
-        if (!r.ok) return;
-        ikqMessages = await r.json();
-        ikqRender();
-      } catch(e) { /* ignore */ }
-    }
-
-    function ikqUnreadCount() {
-      return ikqMessages.filter(m => !ikqReadIds.has(m.id)).length;
-    }
-
-    function ikqUpdateTray() {
-      const tray = document.getElementById('tray-ikq');
-      const badge = document.getElementById('ikq-badge');
-      if (!tray || !badge) return;
-      const n = ikqUnreadCount();
-      if (n > 0) {
-        tray.classList.add('has-unread');
-        badge.style.display = 'inline-block';
-        badge.textContent = n > 9 ? '9+' : String(n);
-      } else {
-        tray.classList.remove('has-unread');
-        badge.style.display = 'none';
-      }
-    }
-
-    function ikqFmtTime(iso) {
-      try {
-        const d = new Date(iso);
-        const now = new Date();
-        const sameDay = d.toDateString() === now.toDateString();
-        if (sameDay) return d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-        return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-      } catch(e) { return ''; }
-    }
-
-    function ikqEscape(s) {
-      return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    }
-
-    function ikqRender() {
-      const body = document.getElementById('ikq-body');
-      const count = document.getElementById('ikq-count');
-      if (!body) return;
-      const visible = ikqMessages.filter(m => !ikqReadIds.has(m.id));
-      if (!visible.length) {
-        body.innerHTML = '<div class="ikq-empty">No new messages. Keep playing.</div>';
-        if (count) count.textContent = '0 unread';
-        ikqUpdateTray();
-        return;
-      }
-      body.innerHTML = visible.map(m => {
-        return '<div class="ikq-msg unread" data-id="' + m.id + '" onclick="window.__ikqMarkRead(this.dataset.id)">'
-          + '<div class="ikq-msg-header"><span class="ikq-msg-from">'
-          + ikqEscape(m.from_handle) + '</span><span class="ikq-msg-time">'
-          + ikqFmtTime(m.created_at) + '</span></div>'
-          + '<div class="ikq-msg-subject">' + ikqEscape(m.subject) + '</div>'
-          + '<div class="ikq-msg-body">' + ikqEscape(m.body) + '</div>'
-          + '</div>';
-      }).join('');
-      if (count) count.textContent = visible.length + ' unread';
-      ikqUpdateTray();
-    }
-
-    function ikqOpen() {
-      const w = document.getElementById('ikq-window');
-      if (w) w.classList.add('show');
-      ikqRender();
-      ikqFetch();
-    }
-    function ikqClose() {
-      const w = document.getElementById('ikq-window');
-      if (w) w.classList.remove('show');
-    }
-
-    const ikqTray = document.getElementById('tray-ikq');
-    if (ikqTray) ikqTray.addEventListener('click', function() {
-      const w = document.getElementById('ikq-window');
-      if (w && w.classList.contains('show')) ikqClose(); else ikqOpen();
-    });
-    const ikqCloseBtn = document.getElementById('ikq-close');
-    if (ikqCloseBtn) ikqCloseBtn.addEventListener('click', ikqClose);
-    const ikqRefBtn = document.getElementById('ikq-refresh');
-    if (ikqRefBtn) ikqRefBtn.addEventListener('click', async function(){ const o=ikqRefBtn.textContent; ikqRefBtn.textContent='Refreshing...'; ikqRefBtn.disabled=true; try{ await ikqFetch(); } finally { ikqRefBtn.textContent=o; ikqRefBtn.disabled=false; } });
-    const ikqMarkBtn = document.getElementById('ikq-mark-read');
-    if (ikqMarkBtn) ikqMarkBtn.addEventListener('click', async function() { const o=ikqMarkBtn.textContent; ikqMarkBtn.textContent='Marking...'; ikqMarkBtn.disabled=true; try { await ikqFetch();
-      for (const m of ikqMessages) ikqReadIds.add(m.id); ikqSaveReadIds(); ikqRender(); } finally { ikqMarkBtn.textContent=o; ikqMarkBtn.disabled=false; } });
-
-    window.__ikqMarkRead = function(id) {
-      ikqReadIds.add(id);
-      ikqSaveReadIds();
-      ikqRender();
-    };
-    ikqLoadReadIds();
-    setTimeout(ikqFetch, 1500);
-    setInterval(ikqFetch, 30000);  // poll every 30s
   });
 
-  window.IKANDY_ARCADE = {
-    getName: () => loadIdentity().name,
-  };
 })();
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-

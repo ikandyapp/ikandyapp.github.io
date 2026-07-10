@@ -1,17 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FEJJH5VN5S"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-FEJJH5VN5S');
-</script>
+<!-- Third-party website analytics intentionally disabled. -->
+<script>window.gtag = function(){};</script>
 <script defer src="analytics.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
 <title>IKANDY — Rejoin Beta</title>
 <link rel="stylesheet" href="assets/fonts.css">
 <link rel="stylesheet" href="assets/ik.css">
@@ -437,12 +432,8 @@ if(t&&l)t.addEventListener('click',function(){l.classList.toggle('open')});})();
   const resultTitle= document.getElementById('result-title');
   const resultBody = document.getElementById('result-body');
 
-  // Pre-fill from URL parameter if present (e.g. /rejoin.html?id=<beta-id>)
-  const urlParams = new URLSearchParams(window.location.search);
-  const prefillId = urlParams.get('id') || urlParams.get('beta_id');
-  if (prefillId) {
-    input.value = prefillId.trim();
-  }
+  // Beta IDs are never accepted from or retained in the URL.
+  if (window.location.search) history.replaceState(null, '', window.location.pathname);
 
   function setStatus(message, type) {
     status.textContent = message;

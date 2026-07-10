@@ -1,14 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FEJJH5VN5S"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-FEJJH5VN5S');
-</script>
+<!-- Third-party website analytics intentionally disabled. -->
+<script>window.gtag = function(){};</script>
 <script defer src="/analytics.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -51,7 +45,6 @@ canvas { border: 1px solid #333; }
 <div class="hud">
   <span>SCORE: <strong id="score">0</strong></span>
   <span>LIVES: <strong id="lives">2</strong></span>
-  <span>BEST: <strong id="best">0</strong></span>
 </div>
 <canvas id="game" width="480" height="400"></canvas>
 <div class="overlay" id="start-overlay">
@@ -68,28 +61,7 @@ canvas { border: 1px solid #333; }
 <script>
 (() => {
   'use strict';
-  const SUPABASE_URL      = 'https://grimznincoiujnurhmlx.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdyaW16bmluY29pdWpudXJobWx4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxNDQ5NzAsImV4cCI6MjA5MjcyMDk3MH0.X-eXBp4gF3RthSt10As83Ft4z5rOc929IMdis5BSuxk';
-  const BEST_KEY = 'ikandy_breakout_best';
-
-  function getArcadeIdentity() {
-    return { id: localStorage.getItem('ikandy_arcade_id_v1') || null, name: localStorage.getItem('ikandy_arcade_name') || null };
-  }
-
-  let interactions = 0, sessionId = '', startTime = 0;
-
-  async function submitScore(score, timeSec) {
-    if (score === 0) return;
-    const ident = getArcadeIdentity();
-    if (!ident.id || !ident.name) return;
-    try {
-      await fetch(`${SUPABASE_URL}/functions/v1/arcade-submit-score`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${SUPABASE_ANON_KEY}`, 'apikey': SUPABASE_ANON_KEY },
-        body: JSON.stringify({ ikandyId: ident.id, ikandyName: ident.name, game: 'breakout', score, timeSec: Math.round(timeSec * 1000) / 1000, interactionCount: interactions, sessionId })
-      });
-    } catch (_) {}
-  }
+  let interactions = 0;
 
   const canvas = document.getElementById('game');
   const ctx = canvas.getContext('2d');
@@ -104,10 +76,6 @@ canvas { border: 1px solid #333; }
 
   let bricks, ball, paddleX, lives, score, running, animId, keys = {};
 
-  function getBest() { return parseInt(localStorage.getItem(BEST_KEY) || '0', 10); }
-  function setBest(v) { localStorage.setItem(BEST_KEY, String(Math.max(getBest(), v))); }
-  document.getElementById('best').textContent = getBest();
-
   function initBricks() {
     bricks = [];
     for (let r = 0; r < ROWS; r++)
@@ -121,8 +89,6 @@ canvas { border: 1px solid #333; }
 
   function startGame() {
     initBricks(); lives = 2; score = 0; running = true; interactions = 0;
-    startTime = performance.now();
-    sessionId = crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36);
     paddleX = W / 2 - PADDLE_W / 2;
     resetBall();
     document.getElementById('score').textContent = 0;
@@ -181,13 +147,9 @@ canvas { border: 1px solid #333; }
 
   function endGame(won) {
     running = false; cancelAnimationFrame(animId);
-    const timeSec = (performance.now() - startTime) / 1000;
-    setBest(score);
-    document.getElementById('best').textContent = getBest();
     document.getElementById('over-title').textContent = won ? 'YOU WIN!' : 'GAME OVER';
     document.getElementById('final-score').textContent = score;
     document.getElementById('over-overlay').classList.remove('hidden');
-    submitScore(score, timeSec);
   }
 
   document.getElementById('btn-start').addEventListener('click', startGame);
@@ -198,4 +160,3 @@ canvas { border: 1px solid #333; }
 </script>
 </body>
 </html>
-
