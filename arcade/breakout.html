@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-bM21Vftrii8eqlCzoAlnwGTM5spqoCHFCZcRhY6gJdg='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; media-src 'self' blob:; frame-src 'none'; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
 <!-- Third-party website analytics intentionally disabled. -->
-<script>window.gtag = function(){};</script>
 <script defer src="/analytics.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="robots" content="noindex,follow">
 <title>IKANDY ARCADE — Bricked</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -46,16 +48,16 @@ canvas { border: 1px solid #333; }
   <span>SCORE: <strong id="score">0</strong></span>
   <span>LIVES: <strong id="lives">2</strong></span>
 </div>
-<canvas id="game" width="480" height="400"></canvas>
-<div class="overlay" id="start-overlay">
-  <h1>BRICKED</h1>
-  <p>&larr; &rarr; ARROW KEYS &middot; MOUSE TO MOVE PADDLE</p>
+<canvas id="game" width="480" height="400" tabindex="0" role="application" aria-label="Bricked game board" aria-describedby="bricked-instructions"></canvas>
+<div class="overlay" id="start-overlay" role="dialog" aria-modal="true" aria-labelledby="bricked-title">
+  <h1 id="bricked-title">BRICKED</h1>
+  <p id="bricked-instructions">&larr; &rarr; ARROW KEYS &middot; MOUSE TO MOVE PADDLE</p>
   <p>CLEAR ALL BRICKS TO WIN</p>
-  <button id="btn-start">[ PRESS START ]</button>
+  <button id="btn-start" autofocus>[ PRESS START ]</button>
 </div>
-<div class="overlay hidden" id="over-overlay">
+<div class="overlay hidden" id="over-overlay" role="dialog" aria-modal="true" aria-labelledby="over-title">
   <h1 id="over-title">GAME OVER</h1>
-  <p>SCORE: <strong id="final-score">0</strong></p>
+  <p aria-live="polite">SCORE: <strong id="final-score">0</strong></p>
   <div class="btn-row"><button id="btn-retry">[ PLAY AGAIN ]</button><button id="btn-back" class="secondary">[ BACK TO ARCADE ]</button></div>
 </div>
 <script>
@@ -95,6 +97,7 @@ canvas { border: 1px solid #333; }
     document.getElementById('lives').textContent = 2;
     document.getElementById('start-overlay').classList.add('hidden');
     document.getElementById('over-overlay').classList.add('hidden');
+    canvas.focus();
     cancelAnimationFrame(animId); loop();
   }
 
@@ -150,6 +153,7 @@ canvas { border: 1px solid #333; }
     document.getElementById('over-title').textContent = won ? 'YOU WIN!' : 'GAME OVER';
     document.getElementById('final-score').textContent = score;
     document.getElementById('over-overlay').classList.remove('hidden');
+    document.getElementById('btn-retry').focus();
   }
 
   document.getElementById('btn-start').addEventListener('click', startGame);

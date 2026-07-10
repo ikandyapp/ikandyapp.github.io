@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-EV3tRvUxFizEL20+7/931NnzVAsCiRKFCjNZrBdSzGA='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; media-src 'self' blob:; frame-src 'none'; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
 <!-- Third-party website analytics intentionally disabled. -->
-<script>window.gtag = function(){};</script>
 <script defer src="/analytics.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="robots" content="noindex,follow">
 <title>IKANDY ARCADE — Snake</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -45,16 +47,16 @@ canvas { border: 2px solid #0f0; box-shadow: 0 0 24px #0f04; }
 <div class="hud">
   <span>SCORE: <strong id="score">0</strong></span>
 </div>
-<canvas id="game" width="400" height="400"></canvas>
-<div class="overlay" id="start-overlay">
-  <h1>SNAKE</h1>
-  <p>ARROW KEYS OR WASD TO STEER</p>
+<canvas id="game" width="400" height="400" tabindex="0" role="application" aria-label="Snake game board" aria-describedby="snake-instructions"></canvas>
+<div class="overlay" id="start-overlay" role="dialog" aria-modal="true" aria-labelledby="snake-title">
+  <h1 id="snake-title">SNAKE</h1>
+  <p id="snake-instructions">ARROW KEYS OR WASD TO STEER</p>
   <p>SPEEDS UP EVERY 3 PELLETS &middot; NO MERCY</p>
-  <button id="btn-start">[ PRESS START ]</button>
+  <button id="btn-start" autofocus>[ PRESS START ]</button>
 </div>
-<div class="overlay hidden" id="over-overlay">
-  <h1>GAME OVER</h1>
-  <p>SCORE: <strong id="final-score">0</strong></p>
+<div class="overlay hidden" id="over-overlay" role="dialog" aria-modal="true" aria-labelledby="snake-over-title">
+  <h1 id="snake-over-title">GAME OVER</h1>
+  <p aria-live="polite">SCORE: <strong id="final-score">0</strong></p>
   <div class="btn-row"><button id="btn-retry">[ PLAY AGAIN ]</button><button id="btn-back" class="secondary">[ BACK TO ARCADE ]</button></div>
 </div>
 <script>
@@ -80,6 +82,7 @@ canvas { border: 2px solid #0f0; box-shadow: 0 0 24px #0f04; }
     document.getElementById('score').textContent = 0;
     document.getElementById('start-overlay').classList.add('hidden');
     document.getElementById('over-overlay').classList.add('hidden');
+    canvas.focus();
     clearInterval(gameLoop);
     gameLoop = setInterval(tick, tickMs);
   }
@@ -119,6 +122,7 @@ canvas { border: 2px solid #0f0; box-shadow: 0 0 24px #0f04; }
     running = false; clearInterval(gameLoop);
     document.getElementById('final-score').textContent = score;
     document.getElementById('over-overlay').classList.remove('hidden');
+    document.getElementById('btn-retry').focus();
   }
 
   window.addEventListener('keydown', e => {

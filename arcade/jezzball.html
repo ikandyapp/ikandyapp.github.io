@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-iHxf/vvxQ3AyHu+ru4d/YAdgfylLIVHIcpHNYy696is='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; media-src 'self' blob:; frame-src 'none'; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
 <!-- Third-party website analytics intentionally disabled. -->
-<script>window.gtag = function(){};</script>
 <script defer src="/analytics.js"></script>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="robots" content="noindex,follow">
 <title>Partition — IKANDY Arcade</title>
 <link rel="stylesheet" href="../assets/fonts.css">
 <style>
@@ -73,15 +76,15 @@ canvas {
   <span><span class="label">AREA</span><span class="val" id="area">0%</span></span>
   <span><span class="label">LIVES</span><span class="val" id="lives">3</span></span>
 </div>
-<canvas id="game" width="600" height="400"></canvas>
-<div class="hint">LEFT CLICK: VERTICAL WALL &middot; RIGHT CLICK: HORIZONTAL WALL &middot; CLEAR 75% TO ADVANCE</div>
+<canvas id="game" width="600" height="400" tabindex="0" role="application" aria-label="Partition game board" aria-describedby="partition-instructions"></canvas>
+<div class="hint" id="partition-instructions">LEFT CLICK: VERTICAL WALL &middot; RIGHT CLICK: HORIZONTAL WALL &middot; CLEAR 75% TO ADVANCE</div>
 
-<div class="overlay hidden" id="overlay">
+<div class="overlay hidden" id="overlay" role="dialog" aria-modal="true" aria-labelledby="overlay-title">
   <h2 id="overlay-title">GAME OVER</h2>
-  <p id="overlay-sub">FINAL SCORE: 0</p>
+  <p id="overlay-sub" aria-live="polite">FINAL SCORE: 0</p>
   <div class="btn-row">
     <button id="play-again">[ PLAY AGAIN ]</button>
-    <button class="secondary" onclick="location.href='index.html'">[ BACK TO ARCADE ]</button>
+    <button class="secondary" id="back-to-arcade">[ BACK TO ARCADE ]</button>
   </div>
 </div>
 
@@ -140,6 +143,7 @@ canvas {
     document.getElementById('score').textContent = '0';
     document.getElementById('lives').textContent = '3';
     document.getElementById('overlay').classList.add('hidden');
+    canvas.focus();
     startLevel();
     requestAnimationFrame(loop);
   }
@@ -378,12 +382,16 @@ canvas {
     document.getElementById('overlay-title').textContent = 'GAME OVER';
     document.getElementById('overlay-sub').textContent = 'FINAL SCORE: ' + score;
     document.getElementById('overlay').classList.remove('hidden');
+    document.getElementById('play-again').focus();
   }
 
   document.getElementById('play-again').addEventListener('click', () => {
     gameStartTime = performance.now();
     interactionCount = 0;
     startGame();
+  });
+  document.getElementById('back-to-arcade').addEventListener('click', () => {
+    location.href = 'index.html';
   });
 
   // Start
