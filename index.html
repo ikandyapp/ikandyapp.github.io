@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self'; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://*.google-analytics.com https://*.googletagmanager.com; media-src 'self' blob:; frame-src https://www.youtube-nocookie.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
 <meta charset="UTF-8">
-<script>document.documentElement.classList.add("js")</script>
+<script src="assets/document-ready.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>IKANDY: see your music. Audio-reactive visualizer for Windows, on Steam.</title>
@@ -39,7 +40,7 @@
 <link rel="icon" href="icon.ico">
 
 <!-- Consent-based website analytics are managed by analytics.js; Google Analytics is not loaded before opt-in. -->
-<script>window.gtag = function(){};</script>
+<script src="assets/analytics-bootstrap.js"></script>
 
 <link rel="stylesheet" href="assets/fonts.css">
 <link rel="stylesheet" href="assets/ik.css">
@@ -706,18 +707,6 @@ html.js .unit-in.in{opacity:1;transform:none}
 <script src="analytics.js" defer></script>
 <script src="assets/site-shell.js" defer></script>
 <script src="assets/hero.js" defer></script>
-<script>
-// click-to-load YouTube (no third-party requests until asked)
-document.getElementById('vid-load').addEventListener('click', function(){
-  var box=document.getElementById('vid');
-  var f=document.createElement('iframe');
-  f.src='https://www.youtube-nocookie.com/embed/bOp0aDZlmeQ?autoplay=1&rel=0';
-  f.title='IKANDY demo video';
-  f.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
-  f.allowFullscreen=true;
-  box.innerHTML=''; box.appendChild(f);
-  if(window.ikandyTrack) window.ikandyTrack('video_play',{video:'demo'});
-});
-</script>
+<script src="assets/index-page.js" defer></script>
 </body>
 </html>

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self'; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://*.google-analytics.com https://*.googletagmanager.com; media-src 'self' blob:; frame-src https://www.youtube-nocookie.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -9,7 +10,7 @@
 <meta name="description" content="One-time Spotify setup for IKANDY: create a free developer app, paste the Client ID, done.">
 <link rel="icon" href="icon.ico">
 <!-- Consent-based website analytics are managed by analytics.js; Google Analytics is not loaded before opt-in. -->
-<script>window.gtag = function(){};</script>
+<script src="assets/analytics-bootstrap.js"></script>
 <link rel="stylesheet" href="assets/fonts.css">
 <link rel="stylesheet" href="assets/ik.css">
 <link rel="stylesheet" href="assets/guide.css">
