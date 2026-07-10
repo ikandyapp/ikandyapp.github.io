@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Audio sources + controls : IKANDY user guide</title>
-<meta name="description" content="Now Playing, Spotify, per-app capture with Smart Auto, bass/mid/treble drive, shuffle, playlists.">
+<meta name="description" content="Now Playing, Spotify, MusicBee, foobar2000, VLC, per-app capture, Smart Auto, shuffle, and playlists.">
 <link rel="icon" href="../icon.ico">
 <!-- Third-party website analytics intentionally disabled. -->
 <script>window.gtag = function(){};</script>
@@ -63,11 +63,11 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
 <main class="wiki-wrap" style="--hue:#ff3dd8">
   <div class="crumb"><a href="../guide.html">User guide</a><span>/</span><span class="hueled" aria-hidden="true"></span><span style="color:var(--ink-2)">Audio sources + controls</span></div>
   <h1>Audio sources + controls</h1>
-  <p class="wiki-lead">Now Playing, Spotify, per-app capture with Smart Auto, bass/mid/treble drive, shuffle, playlists.</p>
+  <p class="wiki-lead">Now Playing, Spotify, MusicBee, foobar2000, VLC, per-app capture with Smart Auto, shuffle, and playlists.</p>
   <section>
   <p class="section-tag">Audio Sources</p>
   <h2>Connect<br>Your Music</h2>
-  <p class="lead">IKANDY can connect to four different sources. Each one offers a different feature set depending on what its underlying API exposes. Switching between them automatically pauses the previous one.</p>
+  <p class="lead">IKANDY can connect to five source modes. Each one offers a different feature set depending on what its underlying API exposes. Switching between them automatically pauses the previous one.</p>
 
   <!-- SPOTIFY -->
   <div class="source-block" id="source-spotify" style="--c:var(--green);">
@@ -98,6 +98,34 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
     <div class="callout warn">
       <span class="callout-label">Premium required for transport</span>
       Spotify's Web API only allows playback control for Premium subscribers. Free accounts get track info, album art, and lyrics, but playback buttons are greyed out. Works with Spotify desktop, the web player, or any Spotify Connect device.
+    </div>
+  </div>
+
+  <!-- MUSICBEE -->
+  <div class="source-block" id="source-musicbee" style="--c:#f0b429;">
+    <div class="source-block-head">
+      <span class="source-block-icon">&#128029;</span>
+      <span class="source-block-name">MusicBee</span>
+      <span class="source-block-meta" style="color:var(--green);">&#9679; Full features &middot; MBXHub plugin</span>
+    </div>
+    <p class="body dim">Connects through the user-installed <strong>MBXHub</strong> plugin. IKANDY can read now-playing metadata and artwork, control playback, browse playlists, search, and use MusicBee's shuffle and repeat modes.</p>
+
+    <h3 class="first">One-time setup</h3>
+    <ol class="steps">
+      <li>Download <a href="https://wiki.getmusicbee.com/addons/plugins/568/mbxhub-the-bridge-to-everything-else/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;"><strong>MBXHub from the official MusicBee add-on page</strong></a>.</li>
+      <li>Extract the download and copy <code>mb_MBXHub.dll</code> and <code>MBXHub.exe</code> into MusicBee's <code>Plugins</code> folder.</li>
+      <li>Restart MusicBee, then confirm MBXHub appears under <strong>Edit &rarr; Preferences &rarr; Plugins</strong>.</li>
+      <li>In IKANDY, choose <strong>MusicBee</strong>. Leave host at <code>127.0.0.1</code> and port at <code>8080</code> unless you changed the MBXHub configuration, then click <strong>Connect</strong>.</li>
+    </ol>
+
+    <div class="callout tip">
+      <span class="callout-label">Connection check</span>
+      With MusicBee and MBXHub running, open <code>http://localhost:8080/docs</code>. If the API documentation loads, the plugin is reachable; use the configured port if you changed it.
+    </div>
+
+    <div class="callout warn">
+      <span class="callout-label">Plugin status</span>
+      MBXHub is currently published by its developer as release-candidate software. The plugin requires .NET Framework 4.8, and its companion shell requires the .NET 8 Desktop Runtime. Its API or setup may change; the official add-on page is authoritative.
     </div>
   </div>
 
@@ -175,11 +203,11 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
       <span class="source-block-name">Per-Process Capture</span>
       <span class="source-block-meta" style="color:var(--gold);">● Audio isolation &middot; Settings → SOURCE</span>
     </div>
-    <p class="body dim">Capture audio from one specific app rather than the whole system mix. If you&rsquo;re gaming while listening to Spotify, IKANDY normally reacts to everything : game effects, Discord pings, notification sounds. Per-Process Capture locks on to Spotify alone and ignores everything else.</p>
+    <p class="body dim">Capture audio from one specific app rather than the whole system mix. If you&rsquo;re gaming while listening through Spotify or MusicBee, IKANDY normally reacts to everything: game effects, Discord pings, notification sounds, and music. Per-Process Capture can lock on to the music app alone.</p>
 
     <h3 class="first">How to use it</h3>
     <ol class="steps">
-      <li>Start the app you want to capture (e.g. Spotify) and play something.</li>
+      <li>Start the app you want to capture (for example, Spotify or MusicBee) and play something.</li>
       <li>In IKANDY, open <strong>Settings (⚙) → SOURCE tab → Per-Process Capture</strong>.</li>
       <li>Click <strong>Scan</strong>. IKANDY lists every app currently producing audio, with its icon.</li>
       <li>Click <strong>Capture</strong> next to the app you want. The banner at the top of the section confirms which app is active.</li>
@@ -194,7 +222,7 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
     <div class="callout">
       <span class="callout-label">Use cases</span>
       <ul style="margin-top:6px;line-height:1.7">
-        <li>React to Spotify only, ignoring game audio and Discord</li>
+        <li>React to Spotify or MusicBee only, ignoring game audio and Discord</li>
         <li>Capture a DAW or audio editor output for a live mix visualization</li>
         <li>Isolate browser tab audio when YouTube is playing alongside other apps</li>
         <li>Test a specific app&rsquo;s audio routing without affecting the rest of the system</li>
@@ -203,12 +231,12 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
 
     <div class="callout warn">
       <span class="callout-label">Requires a connected source first</span>
-      Per-Process Capture shares the same audio graph as system audio. Connect a supported source (Spotify, VLC, etc.) or click <strong>🎤 Reconnect Audio</strong> once before using it: this initializes the audio context. After that, per-process capture works independently.
+      Per-Process Capture shares the same audio graph as system audio. Connect a supported source (Spotify, MusicBee, VLC, etc.) or click <strong>🎤 Reconnect Audio</strong> once before using it: this initializes the audio context. After that, per-process capture works independently.
     </div>
   </div>
 
 <h3>One tab runs the connections</h3>
-<p>Connect, disconnect, and switch available sources from <strong>&#9881; &rarr; SOURCE</strong>: Spotify, foobar2000, VLC, browser and system audio, plus the system-audio reconnect and your playlists. A source that still needs setup shows it on its row and routes you to the right place with one click. Transport buttons a source cannot perform (some apps do not expose skip or seek) grey out with a hint instead of failing silently. And if you just have a file: drag an audio file onto IKANDY and it plays it, no source setup at all.</p></section>
+<p>Connect, disconnect, and switch available sources from <strong>&#9881; &rarr; SOURCE</strong>: Spotify, MusicBee, foobar2000, VLC, browser and system audio, plus the system-audio reconnect and your playlists. A source that still needs setup shows it on its row and routes you to the right place with one click. Transport buttons a source cannot perform (some apps do not expose skip or seek) grey out with a hint instead of failing silently. And if you just have a file: drag an audio file onto IKANDY and it plays it, no source setup at all.</p></section>
 <section>
 <h2>Audio controls</h2>
 <p class="lead">Beyond picking a source, you shape how the audio drives the visuals.</p>
@@ -222,7 +250,7 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
 </section>
 <section>
 <h2>Shuffle + playlists</h2>
-<p>Shuffle follows the source. Spotify supports off, shuffle, and Smart Shuffle (Smart Shuffle is detected and shown, since the API treats it as read-only). foobar2000 exposes its own repeat and order modes. The playlist panel loads your playlists with search, so you can browse and play without leaving the visuals.</p>
+<p>Shuffle follows the source. Spotify supports off, shuffle, and Smart Shuffle (Smart Shuffle is detected and shown, since the API treats it as read-only). MusicBee and foobar2000 expose their own shuffle, repeat, and playback-order modes. The playlist panel loads supported-source playlists with search, so you can browse and play without leaving the visuals.</p>
 </section>
   <div class="pn"><a href="getting-started.html" style="--hue:#33e0ff"><span class="lbl">&larr; Previous</span><span class="ttl" style="display:block">Getting started</span></a><a class="nxt" href="visualizers.html" style="--hue:#46d96b"><span class="lbl">Next &rarr;</span><span class="ttl" style="display:block">Visualizers + presets</span></a></div>
 </main>

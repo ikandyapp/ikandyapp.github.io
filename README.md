@@ -1,6 +1,6 @@
 ﻿# IKANDY
 
-**Real-time music visualizer for Windows.** Reacts to Spotify, VLC, foobar2000, and any audio app on your PC.
+**Real-time music visualizer for Windows.** Reacts to Spotify, MusicBee, VLC, foobar2000, and any audio app on your PC.
 
 **Website:** [ikandy.app](https://ikandy.app) · **Support:** support@ikandy.app
 
@@ -14,7 +14,7 @@ IKANDY turns whatever you're listening to into living, cinematic visuals - hundr
 - Cinematic post-processing - bloom, film grain, color grading, and more
 - Per-app audio - react to one specific app's sound, independent of the system mix
 - Multi-monitor - mirror or span across displays
-- Metadata sources - Spotify, foobar2000, VLC, and Windows Now Playing
+- Metadata sources - Spotify, MusicBee (through MBXHub), foobar2000 (through Beefweb), VLC, and Windows Now Playing
 - Synced lyrics support
 
 ## Download
