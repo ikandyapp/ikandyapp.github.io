@@ -4,3 +4,10 @@ Fix-Emoji.ps1
 # Claude Code project files, never publish
 .claude/
 CLAUDE.md
+
+# Agent working docs, never publish
+AGENTS.md
+ANALYTICS.md
+
+# Local capture tooling (drives the desktop app), never publish
+scripts/capture-product-shots.js
