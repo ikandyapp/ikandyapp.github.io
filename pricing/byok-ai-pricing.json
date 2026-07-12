@@ -2,7 +2,7 @@
   "_comment": "BYOK generation pricing manifest — the HOSTED SOURCE OF TRUTH, served at ikandy.app/pricing/byok-ai-pricing.json and fetched at runtime (see PRICING_MANIFEST_URL in the IKANDY app's src/ai/cost/cost-estimator.js). The app's baked FALLBACK_MANIFEST is the dated offline fallback used only if this file is unreachable. Prices are per MILLION tokens, USD. visionPerMTok prices image/vision input (these providers bill images as input tokens, so it equals inPerMTok); perImage is for any provider that bills flat per image (none here). v2 adds per-model 'label' (dropdown display name), 'hidden' (legacy ids kept for price matching but omitted from the model dropdown), and 'recommended' (dropdown default badge) — all ignored by v1 readers. To change prices: edit THIS file and redeploy the site, no app rebuild.",
   "_priceNotes": "Verified 2026-07-09 against provider pricing pages/aggregators. claude-sonnet-5 is INTRO pricing through 2026-08-31, then $3/$15 — bump on 2026-09-01. xAI retired grok-4/-4.1/-3 on 2026-05-15; those ids silently redirect to grok-4.3 and bill at its rate.",
   "version": 2,
-  "lastUpdated": "2026-07-09",
+  "lastUpdated": "2026-07-12",
   "currency": "USD",
   "providers": {
     "claude": {
@@ -29,7 +29,7 @@
     },
     "gemini": {
       "_default": { "inPerMTok": 1.5, "outPerMTok": 9.0, "visionPerMTok": 1.5 },
-      "gemini-3.1-pro": { "label": "Gemini 3.1 Pro", "inPerMTok": 2.0, "outPerMTok": 12.0, "visionPerMTok": 2.0 },
+      "gemini-3.1-pro-preview": { "label": "Gemini 3.1 Pro", "inPerMTok": 2.0, "outPerMTok": 12.0, "visionPerMTok": 2.0 },
       "gemini-3.5-flash": { "label": "Gemini 3.5 Flash", "recommended": true, "inPerMTok": 1.5, "outPerMTok": 9.0, "visionPerMTok": 1.5 },
       "gemini-3.1-flash-lite": { "label": "Gemini 3.1 Flash-Lite", "inPerMTok": 0.25, "outPerMTok": 1.5, "visionPerMTok": 0.25 },
       "gemini-2.5-pro": { "label": "Gemini 2.5 Pro", "inPerMTok": 1.25, "outPerMTok": 10.0, "visionPerMTok": 1.25 },
@@ -39,8 +39,7 @@
     "xai": {
       "_default": { "inPerMTok": 1.25, "outPerMTok": 2.5, "visionPerMTok": 1.25 },
       "grok-4.3": { "label": "Grok 4.3", "recommended": true, "inPerMTok": 1.25, "outPerMTok": 2.5, "visionPerMTok": 1.25 },
-      "grok-4.20": { "label": "Grok 4.20", "inPerMTok": 2.0, "outPerMTok": 6.0, "visionPerMTok": 2.0 },
-      "grok-build-0.1": { "label": "Grok Build 0.1", "inPerMTok": 1.0, "outPerMTok": 2.0, "visionPerMTok": 1.0 }
+      "grok-4.5": { "label": "Grok 4.5", "inPerMTok": 2.0, "outPerMTok": 6.0, "visionPerMTok": 2.0 }
     },
     "ollama": {
       "_default": { "inPerMTok": 0.0, "outPerMTok": 0.0, "visionPerMTok": 0.0 },
