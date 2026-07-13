@@ -195,8 +195,7 @@ h1 .row{display:block}
 .knob{display:flex;flex-direction:column;align-items:center;gap:7px;
   cursor:ns-resize;user-select:none;touch-action:none;width:66px}
 .knob.grabbing{cursor:grabbing}
-.knob-ring{position:relative;width:56px;height:56px;
-  transform:translateZ(0);will-change:transform;contain:layout paint style;isolation:isolate}
+.knob-ring{position:relative;width:56px;height:56px}
 .knob-ticks{position:absolute;inset:0;width:100%;height:100%}
 .knob-arc{position:absolute;inset:0;width:100%;height:100%;transform:rotate(135deg);
   pointer-events:none}
@@ -588,6 +587,7 @@ html.js .unit-in.in{opacity:1;transform:none}
                 <line x1="43.4" y1="43.4" x2="40.6" y2="40.6"/>
               </g>
             </svg>
+            <svg class="knob-arc" viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="24" pathLength="100" style="stroke-dasharray:37.5 100"></circle></svg>
             <div class="knob-dial"></div>
           </div>
           <span class="knob-name">React</span><span class="knob-val">50</span>
@@ -603,6 +603,7 @@ html.js .unit-in.in{opacity:1;transform:none}
                 <line x1="43.4" y1="43.4" x2="40.6" y2="40.6"/>
               </g>
             </svg>
+            <svg class="knob-arc" viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="24" pathLength="100" style="stroke-dasharray:37.5 100"></circle></svg>
             <div class="knob-dial"></div>
           </div>
           <span class="knob-name">Glow</span><span class="knob-val">50</span>
@@ -618,6 +619,7 @@ html.js .unit-in.in{opacity:1;transform:none}
                 <line x1="43.4" y1="43.4" x2="40.6" y2="40.6"/>
               </g>
             </svg>
+            <svg class="knob-arc" viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="24" pathLength="100" style="stroke-dasharray:37.5 100"></circle></svg>
             <div class="knob-dial"></div>
           </div>
           <span class="knob-name">Speed</span><span class="knob-val">50</span>
@@ -633,6 +635,7 @@ html.js .unit-in.in{opacity:1;transform:none}
                 <line x1="43.4" y1="43.4" x2="40.6" y2="40.6"/>
               </g>
             </svg>
+            <svg class="knob-arc" viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="24" pathLength="100" style="stroke-dasharray:0 100"></circle></svg>
             <div class="knob-dial"></div>
           </div>
           <span class="knob-name">Hue</span><span class="knob-val">0&deg;</span>

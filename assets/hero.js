@@ -439,16 +439,22 @@
     if (!el) return;
     var dial = el.querySelector('.knob-dial');
     var out = el.querySelector('.knob-val');
-    // value arc: an amber trace that fills as you turn
+    // value arc: an amber trace that fills as you turn.
+    // Reuse the arc baked into the static markup so it is present at first paint
+    // (a fast reload must never flash an arc-less, flat-looking knob); only build
+    // one if the markup somehow lacks it.
     var ring = el.querySelector('.knob-ring');
-    var NS = 'http://www.w3.org/2000/svg';
-    var arcSvg = document.createElementNS(NS, 'svg');
-    arcSvg.setAttribute('class', 'knob-arc'); arcSvg.setAttribute('viewBox', '0 0 52 52');
-    var trace = document.createElementNS(NS, 'circle');
-    trace.setAttribute('cx','26'); trace.setAttribute('cy','26'); trace.setAttribute('r','24');
-    trace.setAttribute('pathLength','100');
-    arcSvg.appendChild(trace);
-    ring.insertBefore(arcSvg, dial);
+    var trace = ring.querySelector('.knob-arc circle');
+    if (!trace) {
+      var NS = 'http://www.w3.org/2000/svg';
+      var arcSvg = document.createElementNS(NS, 'svg');
+      arcSvg.setAttribute('class', 'knob-arc'); arcSvg.setAttribute('viewBox', '0 0 52 52');
+      trace = document.createElementNS(NS, 'circle');
+      trace.setAttribute('cx','26'); trace.setAttribute('cy','26'); trace.setAttribute('r','24');
+      trace.setAttribute('pathLength','100');
+      arcSvg.appendChild(trace);
+      ring.insertBefore(arcSvg, dial);
+    }
     var DETENT_COUNT = 7;
     var LAST_DETENT = DETENT_COUNT - 1;
     var knobV = key === 'hue' ? 0 : S[key];
