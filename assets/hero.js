@@ -3,8 +3,8 @@
    the app's scene library, formats, and pipeline are separate works.
  IKANDY homepage live unit.
    A real fragment shader driven by real controls. No library, no framework.
-   Scenes: PRISM / SIGNAL / VOID / RIFT / CATHEDRAL / NOVA. Audio: a silent demo signal drives the visuals;
-   flip the SOUND latch to hear it. Audio drives light and color only;
+   Scenes: PRISM / SIGNAL / VOID / RIFT / CATHEDRAL / NOVA. Audio: a demo signal drives the visuals;
+   flip the SOUND latch to hear it, or play the theme to hand the visuals to its synchronized frequency envelope. Audio drives light and color only;
    nothing on screen shakes to the beat. That is a house rule.
    (c) 2026 L&R Entertainment LLC. Original implementation. */
 (function () {
@@ -19,7 +19,7 @@
   var S = {
     mode: 0,              // 0 prism, 1 signal, 2 void, 3-5 WebGPU showcase
     react: 0.5, glow: 0.5, vol: 0.8, speed: 0.5, hue: 0.0,
-    bass: 0, mid: 0, treb: 0,
+    bass: 0, mid: 0, treb: 0, audioSource: 'demo',
     t: 0, ph: 12.0, last: 0, running: true, visible: true
   };
   var renderReady = false;
@@ -351,6 +351,160 @@
     return [Math.min(1, kick), Math.max(0, Math.min(1, mid)), Math.max(0, Math.min(1, hat))];
   }
 
+  /* Recorded tracks use deterministic 60 fps frequency envelopes generated
+     from their shipped audio. Sampling by each audible element's currentTime
+     keeps all six scenes synchronized without routing playback through Web Audio. */
+  var themeAudio = null, themeLevelBytes = null;
+  var programAudio = document.getElementById('program-audio');
+  var selectedProgram = 'default';
+  var programLevelBytes = {};
+  var programClockStart = performance.now() / 1000;
+
+  function themeIsPlaying() {
+    return !!themeAudio && !themeAudio.paused && !themeAudio.ended;
+  }
+
+  function syncThemeOverride() {
+    // Keep the Sound latch untouched. Its synth is only ducked while the
+    // theme owns the audio/visual feed, then restore the selected program.
+    applyGain(true);
+    syncProgramAudio(false);
+  }
+
+  function readThemeLevels() {
+    if (themeLevelBytes) return themeLevelBytes;
+    var packed = window.IKANDY_THEME_LEVELS;
+    if (!packed || packed.bands !== 3 || !packed.data) return null;
+    try {
+      var binary = atob(packed.data);
+      if (binary.length !== packed.frames * packed.bands) return null;
+      themeLevelBytes = new Uint8Array(binary.length);
+      for (var i = 0; i < binary.length; i++) themeLevelBytes[i] = binary.charCodeAt(i);
+      return themeLevelBytes;
+    } catch (error) {
+      console.warn('[ikandy hero] theme levels:', error && error.name ? error.name : error);
+      return null;
+    }
+  }
+
+  window.IKANDY_HERO_CONNECT_THEME = function (audio) {
+    if (!audio) return false;
+    if (themeAudio && themeAudio !== audio) return false;
+    if (!themeAudio) {
+      themeAudio = audio;
+      themeAudio.addEventListener('play', syncThemeOverride);
+      themeAudio.addEventListener('pause', syncThemeOverride);
+      themeAudio.addEventListener('ended', syncThemeOverride);
+    }
+    if (themeIsPlaying()) syncThemeOverride();
+    return !!readThemeLevels();
+  };
+
+  function themeSignal() {
+    if (!themeIsPlaying()) return null;
+    var packed = window.IKANDY_THEME_LEVELS;
+    var levels = readThemeLevels();
+    if (!packed || !levels) return null;
+
+    var position = Math.max(0, Math.min(packed.frames - 1, themeAudio.currentTime * packed.fps));
+    var first = Math.floor(position);
+    var second = Math.min(packed.frames - 1, first + 1);
+    var mix = position - first;
+    var a = first * 3, b = second * 3;
+    return [
+      (levels[a] + (levels[b] - levels[a]) * mix) / 255,
+      (levels[a + 1] + (levels[b + 1] - levels[a + 1]) * mix) / 255,
+      (levels[a + 2] + (levels[b + 2] - levels[a + 2]) * mix) / 255
+    ];
+  }
+
+  function readProgramLevels(key) {
+    if (programLevelBytes[key]) return programLevelBytes[key];
+    var packed = window.IKANDY_PROGRAMS && window.IKANDY_PROGRAMS[key];
+    if (!packed || packed.bands !== 3 || !packed.data) return null;
+    try {
+      var binary = atob(packed.data);
+      if (binary.length !== packed.frames * packed.bands) return null;
+      var levels = new Uint8Array(binary.length);
+      for (var i = 0; i < binary.length; i++) levels[i] = binary.charCodeAt(i);
+      programLevelBytes[key] = levels;
+      return levels;
+    } catch (error) {
+      console.warn('[ikandy hero] program levels:', key, error && error.name ? error.name : error);
+      return null;
+    }
+  }
+
+  function sampleProgramSignal(key) {
+    var packed = window.IKANDY_PROGRAMS && window.IKANDY_PROGRAMS[key];
+    var levels = readProgramLevels(key);
+    if (!packed || !levels) return null;
+
+    var elapsed = (performance.now() / 1000 - programClockStart) % packed.duration;
+    if (programAudio && !programAudio.paused && Number.isFinite(programAudio.currentTime)) {
+      elapsed = programAudio.currentTime % packed.duration;
+    }
+    var position = Math.max(0, Math.min(packed.frames - 1, elapsed * packed.fps));
+    var first = Math.floor(position);
+    var second = Math.min(packed.frames - 1, first + 1);
+    var mix = position - first;
+    var a = first * 3, b = second * 3;
+    return [
+      (levels[a] + (levels[b] - levels[a]) * mix) / 255,
+      (levels[a + 1] + (levels[b + 1] - levels[a + 1]) * mix) / 255,
+      (levels[a + 2] + (levels[b + 2] - levels[a + 2]) * mix) / 255
+    ];
+  }
+
+  function syncProgramAudio(tryPlay) {
+    if (!programAudio) return;
+    var packed = window.IKANDY_PROGRAMS && window.IKANDY_PROGRAMS[selectedProgram];
+    if (!packed || selectedProgram === 'default') {
+      if (!programAudio.paused) programAudio.pause();
+      programAudio.muted = true;
+      return;
+    }
+    if (programAudio.getAttribute('src') !== packed.src) {
+      programAudio.setAttribute('src', packed.src);
+      programAudio.load();
+    }
+    programAudio.loop = true;
+    programAudio.volume = S.vol;
+    programAudio.muted = !sndOn || themeIsPlaying();
+    if (tryPlay && programAudio.paused) {
+      programAudio.play().catch(function (error) {
+        console.warn('[ikandy hero] program playback:', error && error.name ? error.name : error);
+      });
+    }
+  }
+
+  var programBtns = Array.prototype.slice.call(document.querySelectorAll('.program-btn'));
+  var programName = document.getElementById('program-name');
+  var programBpm = document.getElementById('program-bpm');
+  var wavewell = document.querySelector('.wavewell');
+  function paintProgram() {
+    var packed = window.IKANDY_PROGRAMS && window.IKANDY_PROGRAMS[selectedProgram];
+    programBtns.forEach(function (button) {
+      button.setAttribute('aria-pressed', String(button.getAttribute('data-program') === selectedProgram));
+    });
+    if (programName) programName.textContent = packed ? packed.label : 'Pulse';
+    if (programBpm) programBpm.textContent = (packed ? packed.bpm : 126) + ' BPM';
+    if (wavewell) wavewell.style.setProperty('--program-color', packed ? packed.hue : '#ff5a1f');
+  }
+  function selectProgram(key) {
+    if (key !== 'default' && !(window.IKANDY_PROGRAMS && window.IKANDY_PROGRAMS[key])) return;
+    selectedProgram = key;
+    programClockStart = performance.now() / 1000;
+    paintProgram();
+    applyGain(true);
+    syncProgramAudio(true);
+    if (window.ikandyTrack) window.ikandyTrack('hero_program', { program: key });
+  }
+  programBtns.forEach(function (button) {
+    button.addEventListener('click', function () { selectProgram(button.getAttribute('data-program')); });
+  });
+  paintProgram();
+
   /* a small kit, scheduled ahead of time so it never stutters */
   var BPM = 126, SPB = 60 / BPM;
   function buildSynth() {
@@ -410,17 +564,20 @@
     }
   }
   var sndBtn = document.getElementById('snd-btn');
-  function targetGain() { return sndOn ? 0.62 * S.vol : 0.0; }
+  function targetGain() {
+    return sndOn && selectedProgram === 'default' && !themeIsPlaying() ? 0.62 * S.vol : 0.0;
+  }
   function applyGain(fast) {
     if (!AC) return;
     var t = AC.currentTime;
     master.gain.cancelScheduledValues(t);
-    master.gain.setTargetAtTime(targetGain(), t, fast ? 0.03 : 0.06);
+    master.gain.setTargetAtTime(targetGain(), t, fast ? 0.008 : 0.06);
   }
-  function setSound(on) {
+  function setSound(on, tryPlay) {
     sndOn = on;
     if (sndBtn) sndBtn.setAttribute('aria-pressed', String(on));
     applyGain(false);
+    syncProgramAudio(tryPlay);
   }
   if (sndBtn) sndBtn.addEventListener('click', function () {
     if (!AC) {
@@ -429,7 +586,7 @@
       schedTimer = setInterval(schedule, 30);
     }
     if (AC.state !== 'running') AC.resume().catch(function () {});
-    setSound(!sndOn);
+    setSound(!sndOn, true);
     if (sndOn && window.ikandyTrack) window.ikandyTrack('hero_sound_on');
   });
 
@@ -531,7 +688,7 @@
     }
     function setV(v) {
       S.vol = Math.max(0, Math.min(1, v));
-      paint(); applyGain(true);
+      paint(); applyGain(true); syncProgramAudio(false);
       if (!told && window.ikandyTrack) { told = true; window.ikandyTrack('hero_fader'); }
     }
     function fromEvent(e) {
@@ -642,7 +799,18 @@
     S.t += dt;                                        // music clock: tempo never changes
     if (!reduced) S.ph += dt * (0.25 + S.speed * 1.5); // visual clock: SPEED sets velocity, not position
 
-    var a = demoSignal(S.t);   // visuals always ride the demo program; SOUND is ears only
+    var themeActive = themeIsPlaying();
+    var programActive = !themeActive && selectedProgram !== 'default';
+    var a = themeActive ? themeSignal() : (programActive ? sampleProgramSignal(selectedProgram) : demoSignal(S.t));
+    S.audioSource = themeActive ? 'theme' : (programActive ? selectedProgram : 'demo');
+    if (themeActive || programActive) {
+      // Recorded programs never inherit the synthetic demo beat. A steady
+      // floor keeps quiet moments legible without adding unrelated rhythm.
+      if (!a) a = [0.025, 0.05, 0.03];
+      a[0] = Math.max(a[0], 0.025);
+      a[1] = Math.max(a[1], 0.05);
+      a[2] = Math.max(a[2], 0.03);
+    }
     a[1] = Math.min(1, a[1] * 1.2); a[2] = Math.min(1, a[2] * 1.35);
     // ease so light breathes instead of strobing
     smB = follow(smB, a[0], 0.012, 0.11, dt);

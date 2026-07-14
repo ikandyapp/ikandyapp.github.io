@@ -118,6 +118,43 @@ h1 .row{display:block}
   text-transform:uppercase;color:var(--ink-2);
   text-shadow:0 1px 0 rgba(0,0,0,.7)}
 .hero-date b{color:var(--vu-amber);font-weight:400}
+.hero-signature{width:min(100%,620px);margin-top:26px;padding:13px 14px 13px 16px;
+  display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:18px;
+  background:linear-gradient(100deg,rgba(10,10,14,.84),rgba(19,17,22,.62));
+  border:1px solid rgba(234,229,217,.18);border-left:2px solid var(--vu-amber);
+  border-radius:3px;box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 8px 24px rgba(0,0,0,.28);
+  backdrop-filter:blur(5px)}
+.hero-slogan{margin:0;line-height:1;text-shadow:0 2px 10px rgba(0,0,0,.75)}
+.hero-slogan-lead{display:block;margin-bottom:6px;font-family:var(--mono);font-size:9px;
+  font-weight:700;letter-spacing:.23em;text-transform:uppercase;color:var(--ink-2)}
+.hero-slogan-hit{display:block;font-family:var(--display);font-size:clamp(25px,2.4vw,34px);
+  font-weight:800;letter-spacing:.025em;text-transform:uppercase;color:var(--ink);white-space:nowrap}
+.hero-slogan-hit strong{font-weight:800;color:transparent;
+  background:linear-gradient(95deg,#33e0ff 0%,#fff 35%,#ff3dd8 68%,#ff7a42 100%);
+  -webkit-background-clip:text;background-clip:text;text-transform:none;
+  filter:drop-shadow(0 0 8px rgba(255,61,216,.22))}
+.hero-slogan-hit .iballs-i{font-family:var(--mono);font-size:.68em;letter-spacing:0;
+  vertical-align:.11em;margin-right:.02em;color:#33e0ff;-webkit-text-fill-color:#33e0ff;
+  text-shadow:0 0 9px rgba(51,224,255,.48)}
+.theme-play{min-width:148px;padding:9px 11px;display:grid;grid-template-columns:30px 1fr;
+  grid-template-areas:"icon label" "icon status";column-gap:10px;align-items:center;text-align:left;
+  font-family:var(--mono);text-transform:uppercase;color:var(--ink);cursor:pointer;
+  background:linear-gradient(180deg,#292931,#19191f);border:1px solid #000;border-radius:3px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 -1px 0 rgba(0,0,0,.45),
+    0 3px 8px rgba(0,0,0,.35)}
+.theme-play:hover{background:linear-gradient(180deg,#32323b,#1d1d24)}
+.theme-play:focus-visible{outline:2px solid var(--vu-amber);outline-offset:3px}
+.theme-play:active,.theme-play[aria-pressed="true"]{background:linear-gradient(180deg,#15151a,#22221f);
+  box-shadow:inset 0 2px 5px rgba(0,0,0,.62),inset 0 -1px 0 rgba(255,255,255,.05)}
+.theme-play-icon{grid-area:icon;position:relative;width:30px;height:30px;border-radius:50%;
+  background:var(--vu-amber);box-shadow:0 0 0 1px #c23f10,0 0 12px rgba(255,90,31,.28)}
+.theme-play-icon::before{content:"";position:absolute;left:12px;top:9px;border-style:solid;
+  border-width:6px 0 6px 9px;border-color:transparent transparent transparent #0d0d11}
+.theme-play[aria-pressed="true"] .theme-play-icon::before{left:9px;top:9px;width:11px;height:12px;
+  border:0;background:linear-gradient(90deg,#0d0d11 0 3px,transparent 3px 8px,#0d0d11 8px 11px)}
+.theme-play-label{grid-area:label;font-size:9px;font-weight:700;letter-spacing:.16em;white-space:nowrap}
+.theme-play-status{grid-area:status;font-size:8px;letter-spacing:.14em;color:var(--ink-3)}
+.theme-play[aria-pressed="true"] .theme-play-status{color:var(--vu-amber)}
 .hero-live{position:absolute;top:calc(var(--nav-h) + 16px);right:24px;z-index:2;
   font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;
   color:var(--ink-2);display:flex;gap:8px;align-items:center;
@@ -166,6 +203,8 @@ h1 .row{display:block}
 .grow{display:flex;align-items:center;gap:12px;flex:1}
 .scene-group .grow{display:grid;grid-template-columns:repeat(3,max-content);gap:8px}
 .overlay-group{min-width:96px}.overlay-group .grow{justify-content:center}
+.view-group{min-width:116px}.view-group .grow{display:grid;grid-template-columns:1fr;gap:5px}
+.view-group .scene-btn{width:100%;padding:7px 9px 6px;justify-content:flex-start}
 .cdivider{width:1px;align-self:stretch;margin:2px 0;background:
   linear-gradient(180deg,transparent,var(--rule) 25%,var(--rule) 75%,transparent)}
 
@@ -226,15 +265,46 @@ h1 .row{display:block}
 .knob:hover .knob-name{color:var(--ink-2)}
 
 
-/* waveform scope over a stacked sound group */
-.sound-group{flex:1;min-width:240px}
+/* waveform scope over a full-width music program bank */
+.sound-group{flex:1 1 100%;min-width:min(100%,620px)}
 .sound-group .grow{flex:1;flex-direction:column;align-items:stretch;gap:8px}
-.sound-row{display:flex;align-items:center;gap:12px}
-.wavewell{height:30px;border-radius:3px;background:var(--well);border:1px solid #000;overflow:hidden;
+.sound-row{display:grid;grid-template-columns:220px minmax(0,1fr);align-items:center;gap:10px}
+.sound-master{display:grid;grid-template-columns:max-content minmax(96px,132px);align-items:center;gap:11px}
+.wavewell{--program-color:var(--accent);position:relative;height:34px;border-radius:3px;background:var(--well);border:1px solid #000;overflow:hidden;
   box-shadow:inset 0 2px 6px rgba(0,0,0,.75),inset 0 -1px 0 rgba(255,255,255,.03)}
-.wavewell canvas{width:100%;height:100%;display:block}
+.wavewell::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--program-color);
+  box-shadow:0 0 9px var(--program-color);opacity:.7;pointer-events:none}
+.wavewell canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.wave-readout{position:absolute;inset:0 9px;display:flex;align-items:center;justify-content:flex-end;gap:11px;
+  pointer-events:none;font-family:var(--mono);font-size:8px;letter-spacing:.16em;text-transform:uppercase}
+.wave-readout::before{content:"Input";color:var(--ink-faint);margin-right:auto}
+.wave-readout strong{color:var(--program-color);font-size:9px;font-weight:600;text-shadow:0 0 8px color-mix(in srgb,var(--program-color) 55%,transparent)}
+.wave-readout span{color:var(--ink-3)}
+/* the default visual pulse plus five original electronic programs */
+.program-bank{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
+.program-btn{--genre:var(--accent);position:relative;min-width:0;overflow:hidden;cursor:pointer;
+  display:grid;grid-template-columns:7px minmax(0,1fr);grid-template-areas:"led name" "led meta";
+  column-gap:7px;align-items:center;text-align:left;padding:7px 8px 6px;border:1px solid #000;border-radius:3px;
+  color:var(--ink-3);background:linear-gradient(180deg,#25252d,#17171d 75%,#121217);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 2px 3px rgba(0,0,0,.42);
+  transition:color .12s,background .12s,box-shadow .12s,transform .06s}
+.program-btn::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:var(--genre);opacity:.18}
+.program-btn:hover{color:var(--ink);background:linear-gradient(180deg,#2b2b34,#1b1b22 75%,#141419)}
+.program-btn:active{transform:translateY(1px)}
+.program-btn:focus-visible{outline:1px solid var(--genre);outline-offset:2px}
+.program-led{grid-area:led;width:6px;height:6px;border-radius:50%;background:#111116;
+  box-shadow:inset 0 0 0 1px #000}
+.program-title{grid-area:name;min-width:0;overflow:hidden;text-overflow:ellipsis;
+  font-family:var(--mono);font-size:9px;line-height:1.1;letter-spacing:.11em;text-transform:uppercase;white-space:nowrap}
+.program-meta{grid-area:meta;font-family:var(--mono);font-size:7px;line-height:1.1;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-faint);white-space:nowrap}
+.program-btn[aria-pressed="true"]{color:var(--ink);background:linear-gradient(180deg,#101016,#201d19);
+  box-shadow:inset 0 2px 5px rgba(0,0,0,.6),inset 0 -1px 0 rgba(255,255,255,.04)}
+.program-btn[aria-pressed="true"]::before{height:2px;opacity:.95;box-shadow:0 0 8px var(--genre)}
+.program-btn[aria-pressed="true"] .program-led{background:var(--genre);box-shadow:0 0 8px var(--genre),0 0 2px var(--genre)}
+.program-btn[aria-pressed="true"] .program-meta{color:color-mix(in srgb,var(--genre) 68%,var(--ink-3))}
 /* volume fader: short-throw mixer slider */
-.fader{flex:1;min-width:120px;user-select:none;touch-action:none;cursor:ew-resize;outline:none}
+.fader{width:100%;min-width:0;user-select:none;touch-action:none;cursor:ew-resize;outline:none}
 .fader:focus-visible .fader-cap{box-shadow:0 0 0 2px var(--vu-amber),0 3px 8px rgba(0,0,0,.7)}
 .fader-track{position:relative;height:22px;border-radius:3px;background:var(--well);
   border:1px solid #000;
@@ -256,6 +326,29 @@ h1 .row{display:block}
   box-shadow:0 0 6px rgba(255,90,31,.7);border-top:1px solid rgba(0,0,0,.6);border-bottom:1px solid rgba(0,0,0,.6)}
 .fader:hover .fader-cap{background:linear-gradient(180deg,#3b3b45,#20202a 45%,#2b2b35 55%,#15151b)}
 .fader-legend{display:flex;justify-content:space-between;margin-top:5px;padding:0 1px}
+
+/* visual-only mode: keep one deliberately quiet escape hatch */
+.immersive-exit{display:none;position:fixed;z-index:1001;top:max(16px,env(safe-area-inset-top));
+  right:max(16px,env(safe-area-inset-right));align-items:center;gap:9px;padding:9px 11px;
+  color:var(--ink);background:rgba(12,12,16,.78);border:1px solid rgba(234,229,217,.26);border-radius:3px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 6px 20px rgba(0,0,0,.48);
+  backdrop-filter:blur(7px);cursor:pointer;font-family:var(--mono);font-size:9px;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;opacity:.30;transition:opacity .2s,background .2s,border-color .2s}
+.immersive-exit::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--vu-amber);
+  box-shadow:0 0 7px var(--vu-amber)}
+.immersive-exit kbd{padding-left:8px;border-left:1px solid rgba(234,229,217,.18);color:var(--ink-3);
+  font:inherit;font-size:7px;letter-spacing:.11em}
+.immersive-exit:hover,.immersive-exit:focus-visible,body.immersive-awake .immersive-exit{opacity:1;
+  background:rgba(16,16,21,.92);border-color:rgba(255,90,31,.55)}
+.immersive-exit:focus-visible{outline:2px solid var(--vu-amber);outline-offset:3px}
+body.visual-only{overflow:hidden;background:#060608}
+body.visual-only>.skip-link,body.visual-only>.rail,body.visual-only>#main-content>section,
+body.visual-only>.ftr{display:none!important}
+body.visual-only .hero{position:fixed;inset:0;z-index:999;width:100%;height:100dvh;min-height:100vh;border:0}
+body.visual-only .hero::after,body.visual-only .hero-copy,body.visual-only .hero-live,
+body.visual-only .hero-logo,body.visual-only .console{display:none!important}
+body.visual-only .immersive-exit{display:flex}
+@media(hover:none){body.visual-only .immersive-exit{opacity:.72}}
 /* knob help: zero-footprint hint */
 .khelp{position:relative;display:inline-flex;align-items:center;justify-content:center;
   width:13px;height:13px;margin-left:8px;vertical-align:-2px;padding:0;
@@ -278,6 +371,8 @@ h1 .row{display:block}
   .cdivider{display:none}
   .glabel{text-align:center}
   .grow{justify-content:center}
+  .sound-row{grid-template-columns:1fr}
+  .sound-master{grid-template-columns:max-content minmax(120px,180px);justify-content:center}
 }
 @media(max-width:640px){
   .hero-copy{padding-left:18px;padding-right:18px}
@@ -286,9 +381,16 @@ h1 .row{display:block}
   .console-panel{padding:16px 12px;gap:16px}
   .scene-btn{min-height:44px}
   .sound-group{min-width:100%}
+  .program-bank{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .program-btn{min-height:44px;padding-left:10px;padding-right:10px}
+  .wave-readout{gap:7px}.wave-readout::before{display:none}
   .hero-logo{top:31%;right:18px;transform:translateY(10px) scale(.78);transform-origin:right center}
   .hero-logo.on{transform:translateY(0) scale(.78)}
   .hero-logo-sub{font-size:8px;letter-spacing:.22em}
+}
+@media(max-width:440px){
+  .hero-signature{grid-template-columns:1fr;gap:11px}
+  .theme-play{width:100%}
 }
 
 /* ---------- signature micro-moments ---------- */
@@ -527,6 +629,10 @@ html.js .unit-in.in{opacity:1;transform:none}
   <span class="rail-progress" aria-hidden="true"></span>
 </nav>
 
+<button class="immersive-exit" id="immersive-exit" type="button" aria-label="Show the website controls" aria-hidden="true">
+  <span id="immersive-exit-label">Show UI</span><kbd>Esc</kbd>
+</button>
+
 <main id="main-content">
 <!-- ============ HERO / LIVE UNIT ============ -->
 <header class="hero">
@@ -548,6 +654,19 @@ html.js .unit-in.in{opacity:1;transform:none}
       <a class="btn-steam big" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam</a>
       <a class="btn-ghost" href="#watch">Watch the demo</a>
       <span class="hero-date">Out <b>July 31, 2026</b></span>
+    </div>
+    <div class="hero-signature" aria-label="IKANDY slogan and theme song">
+      <p class="hero-slogan">
+        <span class="hero-slogan-lead">It really grabs you</span>
+        <span class="hero-slogan-hit">by the <strong><span class="iballs-i">i</span>BALLS.</strong></span>
+      </p>
+      <button class="theme-play" id="theme-song-button" type="button" aria-pressed="false" aria-label="Play the IKANDY theme song">
+        <span class="theme-play-icon" aria-hidden="true"></span>
+        <span class="theme-play-label">Play the theme</span>
+        <span class="theme-play-status" id="theme-song-status">00:05</span>
+      </button>
+      <audio id="theme-song" preload="metadata" src="assets/audio/ikandy-theme.wav"></audio>
+      <audio id="program-audio" preload="auto" loop aria-hidden="true"></audio>
     </div>
   </div>
 
@@ -646,28 +765,43 @@ html.js .unit-in.in{opacity:1;transform:none}
 
       <div class="cdivider" aria-hidden="true"></div>
 
-      <div class="cgroup overlay-group" role="group" aria-label="Visual overlay">
-        <span class="glabel">Instant Logo</span>
+      <div class="cgroup overlay-group view-group" role="group" aria-label="Display controls">
+        <span class="glabel">Display</span>
         <div class="grow">
           <button class="scene-btn" id="logo-btn" aria-pressed="false"><span class="led" aria-hidden="true"></span>Logo</button>
+          <button class="scene-btn" id="hide-all-btn" aria-pressed="false"><span class="led" aria-hidden="true"></span>Hide All</button>
+          <button class="scene-btn" id="fullscreen-btn" aria-pressed="false"><span class="led" aria-hidden="true"></span>Fullscreen</button>
         </div>
       </div>
 
       <div class="cdivider" aria-hidden="true"></div>
 
-      <div class="cgroup sound-group" role="group" aria-label="Demo sound">
+      <div class="cgroup sound-group" role="group" aria-label="Visualizer sound and music programs">
         <span class="glabel">Sound</span>
         <div class="grow">
-          <div class="wavewell" aria-hidden="true"><canvas id="wave-scope"></canvas></div>
+          <div class="wavewell" aria-hidden="true">
+            <canvas id="wave-scope"></canvas>
+            <div class="wave-readout"><strong id="program-name">Pulse</strong><span id="program-bpm">126 BPM</span></div>
+          </div>
           <div class="sound-row">
-            <button class="scene-btn" id="snd-btn" aria-pressed="false"><span class="led" aria-hidden="true"></span>Sound</button>
-            <div class="fader" id="vol-fader" role="slider" tabindex="0" aria-label="Sound volume"
-                 aria-valuemin="0" aria-valuemax="100" aria-valuenow="80">
-              <div class="fader-track">
-                <div class="fader-fill" id="vol-fill"></div>
-                <div class="fader-cap" id="vol-cap"><span class="fader-cap-line" aria-hidden="true"></span></div>
+            <div class="sound-master">
+              <button class="scene-btn" id="snd-btn" aria-pressed="false"><span class="led" aria-hidden="true"></span>Sound</button>
+              <div class="fader" id="vol-fader" role="slider" tabindex="0" aria-label="Sound volume"
+                   aria-valuemin="0" aria-valuemax="100" aria-valuenow="80">
+                <div class="fader-track">
+                  <div class="fader-fill" id="vol-fill"></div>
+                  <div class="fader-cap" id="vol-cap"><span class="fader-cap-line" aria-hidden="true"></span></div>
+                </div>
+                <div class="fader-legend"><span class="knob-name">Vol</span><span class="knob-val" id="vol-val">80</span></div>
               </div>
-              <div class="fader-legend"><span class="knob-name">Vol</span><span class="knob-val" id="vol-val">80</span></div>
+            </div>
+            <div class="program-bank" role="group" aria-label="Music program">
+              <button class="program-btn" type="button" data-program="default" aria-pressed="true" style="--genre:#ff5a1f"><span class="program-led" aria-hidden="true"></span><span class="program-title">Pulse</span><span class="program-meta">Default</span></button>
+              <button class="program-btn" type="button" data-program="house" aria-pressed="false" style="--genre:#ff5a1f"><span class="program-led" aria-hidden="true"></span><span class="program-title">House</span><span class="program-meta">124 BPM</span></button>
+              <button class="program-btn" type="button" data-program="techno" aria-pressed="false" style="--genre:#ff2f70"><span class="program-led" aria-hidden="true"></span><span class="program-title">Techno</span><span class="program-meta">132 BPM</span></button>
+              <button class="program-btn" type="button" data-program="trance" aria-pressed="false" style="--genre:#9f62ff"><span class="program-led" aria-hidden="true"></span><span class="program-title">Trance</span><span class="program-meta">138 BPM</span></button>
+              <button class="program-btn" type="button" data-program="dnb" aria-pressed="false" style="--genre:#33e0ff"><span class="program-led" aria-hidden="true"></span><span class="program-title">D&amp;B</span><span class="program-meta">174 BPM</span></button>
+              <button class="program-btn" type="button" data-program="dubstep" aria-pressed="false" style="--genre:#8cff45"><span class="program-led" aria-hidden="true"></span><span class="program-title">Dubstep</span><span class="program-meta">140 BPM</span></button>
             </div>
           </div>
         </div>
@@ -873,6 +1007,8 @@ html.js .unit-in.in{opacity:1;transform:none}
 
 <script src="analytics.js" defer></script>
 <script src="assets/site-shell.js" defer></script>
+<script src="assets/audio/ikandy-theme-levels.js" defer></script>
+<script src="assets/audio/ikandy-program-levels.js" defer></script>
 <script src="assets/hero.js" defer></script>
 <script src="assets/hero-webgpu.js" defer></script>
 <script src="assets/index-page.js" defer></script>
