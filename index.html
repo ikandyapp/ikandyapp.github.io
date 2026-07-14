@@ -275,11 +275,17 @@ h1 .row{display:block}
 .wavewell::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--program-color);
   box-shadow:0 0 9px var(--program-color);opacity:.7;pointer-events:none}
 .wavewell canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
-.wave-readout{position:absolute;inset:0 9px;display:flex;align-items:center;justify-content:flex-end;gap:11px;
+.wave-readout{position:absolute;inset:0 5px;display:flex;align-items:center;gap:11px;
   pointer-events:none;font-family:var(--mono);font-size:8px;letter-spacing:.16em;text-transform:uppercase}
-.wave-readout::before{content:"Input";color:var(--ink-faint);margin-right:auto}
-.wave-readout strong{color:var(--program-color);font-size:9px;font-weight:600;text-shadow:0 0 8px color-mix(in srgb,var(--program-color) 55%,transparent)}
-.wave-readout span{color:var(--ink-3)}
+.wave-input{padding:2px 5px;color:var(--ink-faint);background:rgba(5,5,8,.78);border-radius:2px}
+.wave-source{position:relative;z-index:1;min-width:158px;margin-left:auto;padding:5px 8px 4px 10px;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;color:var(--ink-3);
+  background:linear-gradient(90deg,rgba(5,5,8,.96),rgba(10,10,14,.94));
+  border:1px solid #000;border-left:2px solid var(--program-color);border-radius:2px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.055),-7px 0 14px rgba(0,0,0,.45)}
+.wave-source strong{color:var(--program-color);font-size:9px;font-weight:600;
+  text-shadow:0 0 8px color-mix(in srgb,var(--program-color) 55%,transparent)}
+.wave-source span{color:var(--ink-2);white-space:nowrap}
 /* the default visual pulse plus five original electronic programs */
 .program-bank{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
 .program-btn{--genre:var(--accent);position:relative;min-width:0;overflow:hidden;cursor:pointer;
@@ -346,7 +352,8 @@ body.visual-only>.skip-link,body.visual-only>.rail,body.visual-only>#main-conten
 body.visual-only>.ftr{display:none!important}
 body.visual-only .hero{position:fixed;inset:0;z-index:999;width:100%;height:100dvh;min-height:100vh;border:0}
 body.visual-only .hero::after,body.visual-only .hero-copy,body.visual-only .hero-live,
-body.visual-only .hero-logo,body.visual-only .console{display:none!important}
+body.visual-only .console{display:none!important}
+body.visual-only .hero-logo:not(.on){display:none!important}
 body.visual-only .immersive-exit{display:flex}
 @media(hover:none){body.visual-only .immersive-exit{opacity:.72}}
 /* knob help: zero-footprint hint */
@@ -383,7 +390,7 @@ body.visual-only .immersive-exit{display:flex}
   .sound-group{min-width:100%}
   .program-bank{grid-template-columns:repeat(3,minmax(0,1fr))}
   .program-btn{min-height:44px;padding-left:10px;padding-right:10px}
-  .wave-readout{gap:7px}.wave-readout::before{display:none}
+  .wave-readout{gap:7px}.wave-input{display:none}.wave-source{min-width:142px}
   .hero-logo{top:31%;right:18px;transform:translateY(10px) scale(.78);transform-origin:right center}
   .hero-logo.on{transform:translateY(0) scale(.78)}
   .hero-logo-sub{font-size:8px;letter-spacing:.22em}
@@ -681,12 +688,12 @@ html.js .unit-in.in{opacity:1;transform:none}
       <div class="cgroup scene-group" role="group" aria-label="Scene select">
         <span class="glabel">Scene</span>
         <div class="grow">
-          <button class="scene-btn" data-tech="GLSL" aria-pressed="true"><span class="led" aria-hidden="true"></span>Prism</button>
-          <button class="scene-btn" data-tech="GLSL" aria-pressed="false"><span class="led" aria-hidden="true"></span>Signal</button>
-          <button class="scene-btn" data-tech="GLSL" aria-pressed="false"><span class="led" aria-hidden="true"></span>Void</button>
-          <button class="scene-btn" data-tech="WGPU" aria-pressed="false"><span class="led" aria-hidden="true"></span>Rift</button>
-          <button class="scene-btn" data-tech="WGPU" aria-pressed="false"><span class="led" aria-hidden="true"></span>Cathedral</button>
-          <button class="scene-btn" data-tech="WGPU" aria-pressed="false"><span class="led" aria-hidden="true"></span>Nova</button>
+          <button class="scene-btn" data-mode="2" data-tech="GLSL" aria-pressed="true"><span class="led" aria-hidden="true"></span>Void</button>
+          <button class="scene-btn" data-mode="1" data-tech="GLSL" aria-pressed="false"><span class="led" aria-hidden="true"></span>Signal</button>
+          <button class="scene-btn" data-mode="0" data-tech="GLSL" aria-pressed="false"><span class="led" aria-hidden="true"></span>Prism</button>
+          <button class="scene-btn" data-mode="3" data-tech="WGPU" aria-pressed="false"><span class="led" aria-hidden="true"></span>Rift</button>
+          <button class="scene-btn" data-mode="4" data-tech="WGPU" aria-pressed="false"><span class="led" aria-hidden="true"></span>Cathedral</button>
+          <button class="scene-btn" data-mode="5" data-tech="WGPU" aria-pressed="false"><span class="led" aria-hidden="true"></span>Nova</button>
         </div>
       </div>
 
@@ -781,7 +788,7 @@ html.js .unit-in.in{opacity:1;transform:none}
         <div class="grow">
           <div class="wavewell" aria-hidden="true">
             <canvas id="wave-scope"></canvas>
-            <div class="wave-readout"><strong id="program-name">Pulse</strong><span id="program-bpm">126 BPM</span></div>
+            <div class="wave-readout"><span class="wave-input">Input</span><span class="wave-source"><strong id="program-name">Pulse</strong><span id="program-bpm">126 BPM</span></span></div>
           </div>
           <div class="sound-row">
             <div class="sound-master">

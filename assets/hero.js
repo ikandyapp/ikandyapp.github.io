@@ -17,7 +17,7 @@
 
   /* ---------------- state ---------------- */
   var S = {
-    mode: 0,              // 0 prism, 1 signal, 2 void, 3-5 WebGPU showcase
+    mode: 2,              // 0 prism, 1 signal, 2 void, 3-5 WebGPU showcase
     react: 0.5, glow: 0.5, vol: 0.8, speed: 0.5, hue: 0.0,
     bass: 0, mid: 0, treb: 0, audioSource: 'demo',
     t: 0, ph: 12.0, last: 0, running: true, visible: true
@@ -712,10 +712,12 @@
 
   var sceneBtns = Array.prototype.slice.call(
     document.querySelectorAll('[aria-label="Scene select"] .scene-btn'));
-  sceneBtns.forEach(function (b, i) {
+  sceneBtns.forEach(function (b) {
     b.addEventListener('click', function () {
-      S.mode = i;
-      sceneBtns.forEach(function (x, j) { x.setAttribute('aria-pressed', String(i === j)); });
+      var mode = Number(b.getAttribute('data-mode'));
+      if (!Number.isFinite(mode)) return;
+      S.mode = mode;
+      sceneBtns.forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
       if (window.ikandyTrack) window.ikandyTrack('hero_scene', { scene: b.textContent.trim() });
       renderStill();
     });
