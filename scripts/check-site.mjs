@@ -59,7 +59,7 @@ for (const file of htmlFiles) {
   const html = fs.readFileSync(file, 'utf8');
   if (!/^\s*<!doctype html>/i.test(html)) fail(file, 'missing HTML5 doctype');
   if (!/<html\b[^>]*\blang=["'][^"']+["']/i.test(html)) fail(file, 'missing html lang attribute');
-  if (!/<title>[^<]+<\/title>/i.test(html)) fail(file, 'missing non-empty title');
+  if (!/<title\b[^>]*>[^<]+<\/title>/i.test(html)) fail(file, 'missing non-empty title');
   if (!/<meta\b[^>]*\bname=["']viewport["']/i.test(html)) fail(file, 'missing viewport metadata');
   const cspMatch = /<meta\b[^>]*http-equiv=["']Content-Security-Policy["'][^>]*content="([^"]+)"[^>]*>/i.exec(html);
   if (!cspMatch) fail(file, 'missing Content Security Policy');
