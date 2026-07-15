@@ -22,6 +22,22 @@
     Array.prototype.forEach.call(document.querySelectorAll('.ftr-plate .amber'), function (plate) {
       plate.textContent = 'AVAILABLE NOW ON STEAM';
     });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-post-release-text]'), function (el) {
+      el.textContent = el.getAttribute('data-post-release-text');
+    });
+  }
+
+  /* Steam launch offer ends 14 days after release: swap to regular prices and
+     hide the launch-offer copy. JSON-LD offers self-expire via priceValidUntil;
+     static meta descriptions still need a manual pass on this date. */
+  var offerEndsAt = Date.parse('2026-08-14T00:00:00-07:00');
+  if (Date.now() >= offerEndsAt) {
+    Array.prototype.forEach.call(document.querySelectorAll('.tier-price[data-regular]'), function (price) {
+      price.textContent = price.getAttribute('data-regular');
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('.tier-launch, .tier-flag'), function (el) {
+      el.style.display = 'none';
+    });
   }
 
   var nav = document.querySelector('nav.rail');

@@ -213,12 +213,8 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
     <details class="tr" id="settings-location">
       <summary>Where are my settings stored?</summary>
       <div class="tr-body">
-        <p>IKANDY stores all user data in the Electron <code>userData</code> folder:</p>
-        <ul style="margin-top:8px;">
-          <li><strong>Windows:</strong> <code>%APPDATA%\IKANDY</code> (paste into Explorer address bar)</li>
-          <li><strong>macOS:</strong> <code>~/Library/Application Support/IKANDY</code></li>
-        </ul>
-        <p style="margin-top:8px;">Files stored there include your Spotify tokens (encrypted via Windows DPAPI / macOS Keychain), source preferences, preset reactivity scores, favorites, hidden presets, and thumbnail cache.</p>
+        <p>IKANDY stores all user data in the Electron <code>userData</code> folder: <code>%APPDATA%\IKANDY</code> (paste into the Explorer address bar).</p>
+        <p style="margin-top:8px;">Files stored there include your Spotify tokens (encrypted via Windows DPAPI), source preferences, preset reactivity scores, favorites, hidden presets, and thumbnail cache.</p>
         <p style="margin-top:8px;"><strong>Uninstall note:</strong> the standard NSIS uninstaller on Windows does <em>not</em> delete <code>%APPDATA%\IKANDY</code>. Your settings, favorites, and cached thumbnails survive an uninstall and are picked up automatically when you reinstall. To fully reset IKANDY, delete that folder manually after uninstalling.</p>
       </div>
     </details>
