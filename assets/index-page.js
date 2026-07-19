@@ -2,7 +2,7 @@
 document.getElementById('vid-load').addEventListener('click', function () {
   var box = document.getElementById('vid');
   var frame = document.createElement('iframe');
-  frame.src = 'https://www.youtube-nocookie.com/embed/bOp0aDZlmeQ?autoplay=1&rel=0';
+  frame.src = 'https://www.youtube-nocookie.com/embed/GmMpX47Zdgs?autoplay=1&rel=0';
   frame.title = 'IKANDY demo video';
   frame.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
   frame.allowFullscreen = true;
