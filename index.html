@@ -500,6 +500,14 @@ html.js .unit-in.in{opacity:1;transform:none}
 .vid-cap{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;
   text-transform:uppercase;color:var(--ink-2)}
 .vid-alt{margin-top:12px;font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+.vid-grid{margin-top:20px;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.vid-mini{margin:0}
+.vid-sm .vid-load{gap:9px}
+.vid-sm .vid-play{width:44px;height:44px}
+.vid-sm .vid-play svg{width:15px;height:17px;margin-left:3px}
+.vid-sm .vid-cap{font-size:9px;letter-spacing:.14em}
+.vid-mini-cap{margin-top:8px;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-2)}
 
 /* ============ COLOR AS SIGNAL: the machine leaks light ============ */
 :root{--ch1:#33e0ff;--ch2:#ff3dd8;--ch3:#46d96b}
@@ -939,12 +947,23 @@ html.js .unit-in.in{opacity:1;transform:none}
     <div class="unit-tag"><b>U6</b> FOOTAGE</div>
     <h2 class="unit-title">Nineteen seconds, in motion.</h2>
     <div class="vid" id="vid">
-      <button class="vid-load" id="vid-load" aria-label="Play the teaser video">
+      <button class="vid-load" id="vid-load" aria-label="Play the teaser video" data-yt="GmMpX47Zdgs" data-title="IKANDY teaser video" data-track="demo">
         <span class="vid-play"><svg width="26" height="30" viewBox="0 0 26 30" fill="#0e0e11" aria-hidden="true"><path d="M0 0 L26 15 L0 30 Z"/></svg></span>
         <span class="vid-cap">Play teaser &middot; loads YouTube</span>
       </button>
     </div>
     <p class="vid-alt">Player not loading? <a href="https://www.youtube.com/watch?v=GmMpX47Zdgs" target="_blank" rel="noopener">Open on YouTube</a></p>
+    <div class="vid-grid">
+      <figure class="vid-mini">
+        <div class="vid vid-sm">
+          <button class="vid-load" aria-label="Play the 2D Mesh Logo video" data-yt="5La_k2-iWEU" data-title="IKANDY 2D Mesh Logo video" data-track="mesh-logo">
+            <span class="vid-play"><svg width="26" height="30" viewBox="0 0 26 30" fill="#0e0e11" aria-hidden="true"><path d="M0 0 L26 15 L0 30 Z"/></svg></span>
+            <span class="vid-cap">Play &middot; loads YouTube</span>
+          </button>
+        </div>
+        <figcaption class="vid-mini-cap">2D Mesh Logo &middot; <a href="https://www.youtube.com/watch?v=5La_k2-iWEU" target="_blank" rel="noopener">Open on YouTube</a></figcaption>
+      </figure>
+    </div>
   </div>
 </section>
 

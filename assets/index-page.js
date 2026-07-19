@@ -1,15 +1,23 @@
 // Click-to-load YouTube: no third-party request is made until the visitor asks.
-document.getElementById('vid-load').addEventListener('click', function () {
-  var box = document.getElementById('vid');
-  var frame = document.createElement('iframe');
-  frame.src = 'https://www.youtube-nocookie.com/embed/GmMpX47Zdgs?autoplay=1&rel=0';
-  frame.title = 'IKANDY teaser video';
-  frame.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
-  frame.allowFullscreen = true;
-  box.innerHTML = '';
-  box.appendChild(frame);
-  if (window.ikandyTrack) window.ikandyTrack('video_play', { video: 'demo' });
-});
+// Every player is a .vid-load button carrying its clip in data attributes
+// (data-yt, data-title, data-track), so adding a video is markup-only.
+(function () {
+  var buttons = document.querySelectorAll('.vid-load[data-yt]');
+  Array.prototype.forEach.call(buttons, function (button) {
+    button.addEventListener('click', function () {
+      var box = button.closest('.vid');
+      if (!box) return;
+      var frame = document.createElement('iframe');
+      frame.src = 'https://www.youtube-nocookie.com/embed/' + button.getAttribute('data-yt') + '?autoplay=1&rel=0';
+      frame.title = button.getAttribute('data-title') || 'IKANDY video';
+      frame.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      frame.allowFullscreen = true;
+      box.innerHTML = '';
+      box.appendChild(frame);
+      if (window.ikandyTrack) window.ikandyTrack('video_play', { video: button.getAttribute('data-track') || 'video' });
+    });
+  });
+})();
 
 // The brand sting is intentionally opt-in: the slogan stays visible, but the
 // attached theme never surprises a visitor with autoplay audio.
