@@ -33,6 +33,24 @@ the open items are release-time mechanics, not unresolved rights questions.
 - [x] **AI-authored scene provenance tracked.** `docs/gallery-provenance-ledger.json`
   retains the original metadata (run, model, scores) for AI-generated gallery scenes,
   per the CLAUDE.md scene-code provenance rule.
+- [x] **Contamination sweep of the shipped app (2026-07-22).** Runtime deps are all
+  permissive (three, ws, qrcode, @sentry/electron, electron-*, steamworks.js,
+  gaussian-splats-3d = MIT/BSD/Apache); native modules: WIL (MIT), Spout (BSD),
+  `wallpaper_host` + `process_loopback` (original IKANDY, MIT/Non-Commercial). **No
+  GPL/LGPL/AGPL** bundled or linked; the GPL-3.0 Lively Wallpaper is explicitly *not*
+  bundled (user installs it separately). **No FFmpeg/codec** libraries bundled.
+- [x] **Non-commercial "shader trap" guardrailed.** The team correctly treats Shadertoy
+  (CC-BY-NC-SA default) and LYGIA (Prosperity/Patron) as study-for-technique only, never
+  pasted; a "verified Shadertoy import" flow with a rights-affirmation gate makes any
+  imported shader the *user's* responsibility (UGC), and math techniques (IQ/Hvidtfeldt
+  distance estimators) are attributed but independently implemented. Standing rules in
+  `AGENTS.md` and `docs/STRATEGY-ai-generation.md`.
+- [x] **`package.json` license field** = `"SEE LICENSE IN LICENSE"` (the IKANDY
+  Non-Commercial License), consistent with the shipped `LICENSE`.
+- [x] **No hardcoded secrets/keys** found in source (quick scan of JS/JSON/env/HTML).
+- [ ] **Fonts:** 6 Google Fonts in `assets-dev/` (Orbitron, Syne, Monoton, Archivo
+  Black, Bungee, Bebas Neue) are SIL OFL 1.1 (commercial OK). If they — or geometry/atlas
+  derivatives baked via `opentype.js` — ship in the build, include the OFL 1.1 notice.
 - [ ] **Regenerate `THIRD_PARTY_LICENSES.txt` into the signed archive.** It is
   gitignored and bundled from disk at build time — a stale copy ships silently. Run
   `npm run licenses` (`build-licenses.js`) as the last step before packaging. Already
