@@ -48,19 +48,29 @@ the open items are release-time mechanics, not unresolved rights questions.
 - [x] **`package.json` license field** = `"SEE LICENSE IN LICENSE"` (the IKANDY
   Non-Commercial License), consistent with the shipped `LICENSE`.
 - [x] **No hardcoded secrets/keys** found in source (quick scan of JS/JSON/env/HTML).
-- [ ] **Fonts:** 6 Google Fonts in `assets-dev/` (Orbitron, Syne, Monoton, Archivo
-  Black, Bungee, Bebas Neue) are SIL OFL 1.1 (commercial OK). If they — or geometry/atlas
-  derivatives baked via `opentype.js` — ship in the build, include the OFL 1.1 notice.
-- [ ] **Regenerate `THIRD_PARTY_LICENSES.txt` into the signed archive.** It is
-  gitignored and bundled from disk at build time — a stale copy ships silently. Run
-  `npm run licenses` (`build-licenses.js`) as the last step before packaging. Already
-  tracked at `RELEASE_CHECKLIST.md:30`; re-confirm the file is present *inside* the
-  signed build, not just on the build machine.
-- [ ] **Confirm the Solar System Scope moon texture attribution ships.** CC BY 4.0
-  requires attribution + indication of changes; both are in `credits.html` — verify
-  that credits page (or its content) is included in the packaged app, not only on the
-  website.
+- [x] **Third-party-adapted scenes cleared by written permission.** The Ferrofluid,
+  Trails, Disco Ball, and Hyperspace Tunnel scenes are adapted from works by **Sabo Sugi,
+  used with the author's express permission (confirmed 2026-07-09)** — recorded in the
+  shipped license file (`scripts/build-licenses.js:128`) and correctly flagged as not
+  open-source (forks need separate permission). Direct permission is stronger than a
+  license for adapted creative work.
+- [x] **`THIRD_PARTY_LICENSES.txt` reaches the signed build — automatically.** It is
+  listed in `build.files`, and every `build:*` script runs `release:prepare` →
+  `npm run licenses` (regenerating it) **before** `electron-builder` packages. So it
+  ships fresh, not stale. The `RELEASE_CHECKLIST.md:30` checkbox is now belt-and-suspenders.
+- [x] **Solar System Scope moon texture attribution ships.** The texture ships as
+  `assets/moon-2k.jpg` (in `build.files`), and `scripts/build-licenses.js:343` emits its
+  **CC BY 4.0 + Solar System Scope** attribution into the shipped `THIRD_PARTY_LICENSES.txt`
+  — so the credit travels with the app, independent of the (unshipped) website
+  `credits.html`. *Optional polish:* add the "downscaled / resampled" change indication to
+  that entry to fully satisfy CC BY's modification-notice clause.
+- [x] **Fonts are not redistributed.** The 6 `.ttf` files live in `assets-dev/`, which is
+  **excluded** from `build.files`. They are used at dev time (`scripts/gen-wordmark.js`,
+  `opentype.js`) only to bake a rendered SVG wordmark into shipped assets — permitted OFL
+  use of a font to create artwork, not redistribution of the font software. No OFL notice
+  is required for the shipped derivative.
 - [ ] **Release counsel sign-off** on the final signed package and its NOTICE files.
+  *(The only remaining item — a human legal review, not an engineering gap.)*
 
 ## B. Website + browser arcade — this repository
 
