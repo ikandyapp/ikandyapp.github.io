@@ -58,6 +58,45 @@
   var links = nav.querySelector('.rail-links');
   if (!toggle || !links) return;
 
+  /* The rail is duplicated in static HTML for resilient first paint, but this
+     shared contract is authoritative. It keeps root and nested pages aligned
+     even if an older page's fallback markup has not been refreshed. */
+  var shellScript = document.currentScript;
+  if (!shellScript || !shellScript.src) {
+    shellScript = document.querySelector('script[src$="assets/site-shell.js"]');
+  }
+  var siteRoot = shellScript && shellScript.src
+    ? new URL('../', shellScript.src)
+    : new URL('./', window.location.href);
+  var pagePath = (window.location.pathname || '').replace(/\\/g, '/').toLowerCase();
+  var onPricing = pagePath.indexOf('/pricing/') !== -1;
+  var onHome = !onPricing && (pagePath.slice(-11) === '/index.html' || pagePath.slice(-1) === '/');
+  var railItems = [
+    { label: 'Why IKANDY', href: 'idea.html', current: pagePath.slice(-10) === '/idea.html' },
+    { label: 'The app', href: 'index.html#product', current: onHome },
+    { label: 'Pricing', href: 'pricing/index.html', current: onPricing },
+    { label: 'Artists', href: 'artists.html', current: pagePath.slice(-13) === '/artists.html' }
+  ];
+
+  while (links.firstChild) links.removeChild(links.firstChild);
+  railItems.forEach(function (item) {
+    var link = document.createElement('a');
+    link.href = new URL(item.href, siteRoot).href;
+    link.textContent = item.label;
+    if (item.current) {
+      link.className = 'active';
+      link.setAttribute('aria-current', 'page');
+    }
+    links.appendChild(link);
+  });
+
+  var logo = nav.querySelector('.rail-logo');
+  if (logo) logo.href = new URL('index.html', siteRoot).href;
+
+  Array.prototype.forEach.call(nav.querySelectorAll('.rail-beta-note'), function (note) {
+    note.parentNode.removeChild(note);
+  });
+
   if (!links.id) links.id = 'rail-menu';
   toggle.setAttribute('aria-controls', links.id);
   toggle.setAttribute('aria-expanded', 'false');
@@ -67,6 +106,7 @@
   });
 
   var desktopCta = nav.querySelector('.rail-cta-group .rail-cta');
+  if (desktopCta) desktopCta.textContent = isReleased ? 'Get IKANDY on Steam' : 'Wishlist on Steam';
   if (desktopCta && !links.querySelector('.rail-mobile-actions')) {
     var mobileActions = document.createElement('div');
     mobileActions.className = 'rail-mobile-actions';
@@ -76,10 +116,6 @@
     mobileCta.classList.add('rail-mobile-cta');
     mobileActions.appendChild(mobileCta);
 
-    var betaNote = document.createElement('span');
-    betaNote.className = 'rail-beta-note';
-    betaNote.textContent = isReleased ? 'Available now' : 'Beta now closed';
-    mobileActions.appendChild(betaNote);
     links.appendChild(mobileActions);
   }
 

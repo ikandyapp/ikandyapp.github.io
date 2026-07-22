@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self'; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://*.google-analytics.com https://*.googletagmanager.com; media-src 'self' blob:; frame-src https://www.youtube-nocookie.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>The idea behind IKANDY: a playground for music-reactive art.</title>
+<meta name="description" content="Why IKANDY exists: a playground where listeners watch music-reactive art, people create with guided AI, artists publish their own work, and DJs and VJs perform it live.">
+<link rel="canonical" href="https://ikandy.app/idea.html">
+<meta property="og:title" content="The idea behind IKANDY">
+<meta property="og:description" content="Watch it. Make it. Publish it. Perform it. A playground for music-reactive art.">
+<meta property="og:image" content="https://ikandy.app/assets/social-card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="IKANDY audio-reactive visualizer with vivid spectral light">
+<meta property="og:url" content="https://ikandy.app/idea.html">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The idea behind IKANDY">
+<meta name="twitter:description" content="A playground for music-reactive art: watch, create, publish, perform.">
+<meta name="twitter:image" content="https://ikandy.app/assets/social-card.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  "name": "The idea behind IKANDY",
+  "url": "https://ikandy.app/idea.html",
+  "description": "IKANDY is a playground for music-reactive art: a place to watch, create, publish, and perform live visuals.",
+  "about": {
+    "@type": "SoftwareApplication",
+    "name": "IKANDY",
+    "applicationCategory": "MultimediaApplication",
+    "operatingSystem": "Windows 10, Windows 11",
+    "sameAs": ["https://store.steampowered.com/app/4813240/IKANDY/"]
+  }
+}
+</script>
+<link rel="icon" href="icon.ico">
+<script src="assets/analytics-bootstrap.js"></script>
+<link rel="stylesheet" href="assets/fonts.css">
+<link rel="stylesheet" href="assets/ik.css">
+
+<style>
+/* The page extends the shared "Rig" shell. Color remains signal, not decoration. */
+:root{
+  --idea-cyan:#33e0ff;
+  --idea-magenta:#ff3dd8;
+  --idea-green:#46d96b;
+  --idea-violet:#a777ff;
+}
+
+.idea-hero{
+  min-height:94svh;padding:calc(var(--nav-h) + 9vh) 24px 72px;overflow:hidden;
+  display:flex;align-items:center;border-bottom:1px solid #000;
+  background:
+    linear-gradient(90deg,rgba(14,14,17,.98) 0%,rgba(14,14,17,.90) 52%,rgba(14,14,17,.35) 100%),
+    radial-gradient(ellipse at 82% 42%,rgba(51,224,255,.24),transparent 25%),
+    radial-gradient(ellipse at 88% 58%,rgba(255,61,216,.22),transparent 28%),
+    radial-gradient(ellipse at 74% 70%,rgba(255,90,31,.18),transparent 34%),#0e0e11;
+}
+.idea-hero::before,.idea-hero::after{
+  content:"";position:absolute;pointer-events:none;right:-10vw;top:12%;width:min(66vw,900px);aspect-ratio:1;
+  border:1px solid rgba(255,255,255,.08);border-radius:50%;transform:rotate(-11deg);
+  box-shadow:0 0 0 5vw rgba(255,255,255,.012),0 0 0 12vw rgba(255,255,255,.009);
+  animation:idea-breathe 8s ease-in-out infinite alternate;
+}
+.idea-hero::after{right:2vw;top:25%;width:min(39vw,520px);border-color:rgba(51,224,255,.18);
+  box-shadow:0 0 90px rgba(51,224,255,.08);animation-delay:-3s}
+@keyframes idea-breathe{to{transform:rotate(-7deg) scale(1.045);opacity:.68}}
+.idea-hero-in{position:relative;z-index:2;width:100%;max-width:var(--maxw);margin:0 auto}
+.idea-kicker{font-family:var(--mono);font-size:10.5px;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--idea-green);display:flex;align-items:center;gap:11px;margin:0 0 26px}
+.idea-kicker::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;box-shadow:0 0 8px currentColor}
+.idea-hero h1{font-family:var(--display);font-weight:800;font-size:clamp(72px,13vw,176px);
+  line-height:.78;letter-spacing:-.012em;text-transform:uppercase;max-width:900px;margin:0;color:var(--ink)}
+.idea-hero h1 span{display:block;color:transparent;-webkit-text-stroke:1.5px var(--vu-amber);
+  text-shadow:0 0 38px rgba(255,90,31,.18)}
+.idea-hero-lead{max-width:680px;margin:38px 0 0;font-size:clamp(18px,2.2vw,25px);line-height:1.45;color:var(--ink)}
+.idea-hero-copy{max-width:620px;margin:18px 0 0;color:var(--ink-2);font-size:16px}
+.idea-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:30px}
+.idea-jump{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  border:1px solid var(--rule);color:var(--ink);padding:10px 15px;border-radius:var(--radius)}
+.idea-jump:hover{border-color:var(--idea-cyan);color:var(--idea-cyan);text-decoration:none}
+.hero-legend{position:absolute;z-index:2;right:max(24px,calc((100vw - var(--maxw))/2 + 24px));bottom:52px;
+  display:flex;gap:20px;font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3)}
+.hero-legend span{display:flex;align-items:center;gap:7px}
+.hero-legend i{width:24px;height:2px;background:var(--signal);box-shadow:0 0 8px var(--signal)}
+
+.idea-section{border-top:1px solid #000;box-shadow:inset 0 1px 0 rgba(255,255,255,.045)}
+.idea-in{max-width:var(--maxw);margin:0 auto;padding:96px 24px}
+.idea-tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--ink-3);display:flex;align-items:center;gap:13px;margin-bottom:28px}
+.idea-tag b{font-weight:400;color:var(--vu-amber)}
+.idea-tag::after{content:"";height:1px;flex:1;background:var(--rule)}
+.idea-title{font-family:var(--display);font-size:clamp(44px,7vw,82px);line-height:.94;
+  letter-spacing:.005em;text-transform:uppercase;margin:0;color:var(--ink);max-width:900px}
+.idea-lead{font-size:clamp(18px,2.4vw,24px);line-height:1.5;color:var(--ink-2);max-width:760px;margin:26px 0 0}
+
+/* The opening problem is deliberately spacious: one thought, not a feature grid. */
+.gap-layout{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr);gap:70px;align-items:end}
+.gap-note{margin:0;border-left:2px solid var(--idea-magenta);padding:8px 0 8px 24px;
+  color:var(--ink-2);font-size:16px;line-height:1.75}
+.gap-note strong{display:block;color:var(--ink);font-family:var(--display);font-size:27px;
+  line-height:1.05;text-transform:uppercase;margin-bottom:13px;letter-spacing:.03em}
+
+/* Signature: a patchable signal path that tells the product story. */
+.signal-board{margin-top:58px;border:1px solid #000;border-radius:5px;background:
+  linear-gradient(180deg,rgba(255,255,255,.035),transparent 14%),#111116;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 28px 70px rgba(0,0,0,.35);overflow:hidden}
+.signal-board-head{display:flex;justify-content:space-between;gap:20px;align-items:center;
+  padding:13px 17px;border-bottom:1px solid #000;background:#18181e;
+  font-family:var(--mono);font-size:9px;letter-spacing:.17em;text-transform:uppercase;color:var(--ink-3)}
+.signal-board-head b{color:var(--idea-green);font-weight:400}
+.signal-path{position:relative;display:grid;grid-template-columns:repeat(5,1fr);padding:42px 28px 38px}
+.signal-path::before{content:"";position:absolute;left:10%;right:10%;top:71px;height:2px;
+  background:linear-gradient(90deg,var(--idea-cyan),var(--idea-magenta),var(--vu-amber),var(--idea-green),var(--idea-violet));opacity:.42}
+.signal-path::after{content:"";position:absolute;top:67px;left:9%;width:10px;height:10px;border-radius:50%;
+  background:#fff;box-shadow:0 0 7px #fff,0 0 18px var(--idea-cyan);animation:signal-travel 5.4s linear infinite}
+@keyframes signal-travel{0%{left:9%;box-shadow:0 0 7px #fff,0 0 18px var(--idea-cyan)}
+  28%{box-shadow:0 0 7px #fff,0 0 18px var(--idea-magenta)}
+  52%{box-shadow:0 0 7px #fff,0 0 18px var(--vu-amber)}
+  76%{box-shadow:0 0 7px #fff,0 0 18px var(--idea-green)}
+  100%{left:90%;box-shadow:0 0 7px #fff,0 0 18px var(--idea-violet)}}
+.signal-node{--node:var(--vu-amber);position:relative;z-index:2;border:0;background:none;color:var(--ink-3);
+  min-width:0;padding:0 8px;cursor:pointer;text-align:center;font-family:var(--mono)}
+.signal-node::before{content:"";display:block;width:23px;height:23px;margin:0 auto 17px;border-radius:50%;
+  background:#09090b;border:2px solid color-mix(in srgb,var(--node) 42%,#222);box-shadow:inset 0 0 0 4px #111116;transition:.2s}
+.signal-node:hover::before,.signal-node[aria-pressed="true"]::before{background:var(--node);border-color:var(--node);
+  box-shadow:0 0 9px var(--node),0 0 26px color-mix(in srgb,var(--node) 50%,transparent)}
+.signal-node[aria-pressed="true"]{color:var(--ink)}
+.signal-node b{display:block;font-size:10px;letter-spacing:.14em;text-transform:uppercase}
+.signal-node small{display:block;font-size:8.5px;letter-spacing:.05em;color:var(--ink-faint);margin-top:5px;line-height:1.35}
+.signal-node:nth-child(1){--node:var(--idea-cyan)}.signal-node:nth-child(2){--node:var(--idea-magenta)}
+.signal-node:nth-child(3){--node:var(--vu-amber)}.signal-node:nth-child(4){--node:var(--idea-green)}
+.signal-node:nth-child(5){--node:var(--idea-violet)}
+.signal-detail{display:grid;grid-template-columns:150px 1fr;gap:24px;align-items:start;min-height:132px;
+  padding:27px 30px 29px;border-top:1px solid #000;background:var(--well)}
+.signal-step{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--idea-cyan)}
+.signal-detail h3{font-family:var(--display);font-size:27px;line-height:1;text-transform:uppercase;letter-spacing:.025em;margin:0 0 10px}
+.signal-detail p{color:var(--ink-2);font-size:15px;line-height:1.65;max-width:750px;margin:0}
+.signal-meter{height:3px;background:#16161b;border-top:1px solid #000}
+.signal-meter span{display:block;height:100%;width:10%;background:linear-gradient(90deg,var(--idea-cyan),var(--idea-magenta),var(--vu-amber),var(--idea-green),var(--idea-violet));
+  box-shadow:0 0 12px rgba(51,224,255,.4);transition:width .25s ease}
+
+/* Game-shaped thought: this is a readout, not a comparison-card section. */
+.game-section{background:
+  radial-gradient(circle at 18% 45%,rgba(255,61,216,.075),transparent 30%),
+  radial-gradient(circle at 80% 55%,rgba(51,224,255,.065),transparent 34%),var(--chassis)}
+.game-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(330px,.85fr);gap:68px;align-items:center}
+.game-copy p{color:var(--ink-2);font-size:17px;max-width:610px;margin:24px 0 0}
+.game-copy strong{color:var(--ink)}
+.game-readout{border:1px solid #000;border-radius:4px;background:#08080a;padding:11px;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.04),0 22px 55px rgba(0,0,0,.32)}
+.game-screen{border:1px solid #24242d;background:linear-gradient(180deg,#111a17,#09100e);padding:24px 24px 20px;
+  box-shadow:inset 0 0 35px rgba(70,217,107,.035)}
+.game-screen-head{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--idea-green);
+  padding-bottom:17px;margin-bottom:11px;border-bottom:1px solid rgba(70,217,107,.18)}
+.game-row{display:grid;grid-template-columns:90px 1fr;gap:18px;padding:9px 0;font-family:var(--mono);font-size:11px;line-height:1.45}
+.game-row span{color:#60806a;text-transform:uppercase;letter-spacing:.12em}.game-row b{font-weight:400;color:#bceec8}
+.game-cursor{display:inline-block;width:8px;height:14px;margin-left:6px;vertical-align:-2px;background:var(--idea-green);animation:cursor-blink 1s steps(1) infinite}
+@keyframes cursor-blink{50%{opacity:0}}
+
+/* Technology presented as artistic consequence. */
+.craft-layout{display:grid;grid-template-columns:minmax(300px,.72fr) minmax(0,1.28fr);gap:72px;margin-top:52px;align-items:start}
+.craft-statement{position:sticky;top:calc(var(--nav-h) + 36px);color:var(--ink-2);font-size:17px;line-height:1.7}
+.craft-statement strong{color:var(--ink);font-weight:500}
+.craft-ledger{border-top:1px solid var(--rule)}
+.craft-line{display:grid;grid-template-columns:110px minmax(180px,.7fr) 1fr;gap:24px;padding:23px 0;
+  border-bottom:1px solid var(--rule);align-items:start}
+.craft-line .craft-key{font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--signal)}
+.craft-line h3{font-family:var(--display);font-size:24px;line-height:1.05;text-transform:uppercase;letter-spacing:.035em;margin:0;color:var(--ink)}
+.craft-line p{font-size:14px;line-height:1.6;color:var(--ink-2);margin:0}
+.craft-line:nth-child(1){--signal:var(--vu-amber)}.craft-line:nth-child(2){--signal:var(--idea-violet)}
+.craft-line:nth-child(3){--signal:var(--idea-cyan)}.craft-line:nth-child(4){--signal:var(--idea-magenta)}
+.craft-line:nth-child(5){--signal:var(--idea-green)}
+
+/* People are peers, so the layout avoids numbered hierarchy. */
+.hands{margin-top:54px;border-top:1px solid var(--rule)}
+.hand{display:grid;grid-template-columns:210px 1fr 220px;gap:30px;align-items:center;padding:31px 0;border-bottom:1px solid var(--rule)}
+.hand-role{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--role)}
+.hand h3{font-family:var(--display);font-size:clamp(27px,4vw,40px);line-height:1;text-transform:uppercase;margin:0 0 9px}
+.hand p{font-size:15px;color:var(--ink-2);line-height:1.65;margin:0;max-width:650px}
+.hand-proof{font-family:var(--mono);font-size:9.5px;line-height:1.65;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);
+  border-left:1px solid color-mix(in srgb,var(--role) 50%,transparent);padding-left:18px}
+.hand:nth-child(1){--role:var(--idea-magenta)}.hand:nth-child(2){--role:var(--idea-green)}.hand:nth-child(3){--role:var(--idea-cyan)}
+
+.loop-panel{margin-top:56px;padding:35px;border:1px solid #000;border-radius:4px;background:#111116;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+.loop-label{font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);margin-bottom:24px}
+.loop-line{display:flex;align-items:center;justify-content:space-between;gap:10px;overflow:hidden}
+.loop-line span{font-family:var(--display);font-size:clamp(18px,2.5vw,28px);text-transform:uppercase;white-space:nowrap;color:var(--loop)}
+.loop-line i{height:1px;flex:1;min-width:24px;background:linear-gradient(90deg,var(--loop-a),var(--loop-b));position:relative}
+.loop-line i::after{content:"";position:absolute;right:0;top:-3px;border-left:5px solid var(--loop-b);border-top:3px solid transparent;border-bottom:3px solid transparent}
+.loop-line span:nth-of-type(1){--loop:var(--idea-cyan)}.loop-line span:nth-of-type(2){--loop:var(--idea-magenta)}
+.loop-line span:nth-of-type(3){--loop:var(--idea-green)}.loop-line span:nth-of-type(4){--loop:var(--idea-violet)}
+.loop-line i:nth-of-type(1){--loop-a:var(--idea-cyan);--loop-b:var(--idea-magenta)}
+.loop-line i:nth-of-type(2){--loop-a:var(--idea-magenta);--loop-b:var(--idea-green)}
+.loop-line i:nth-of-type(3){--loop-a:var(--idea-green);--loop-b:var(--idea-violet)}
+
+.ambition{overflow:hidden;background:
+  radial-gradient(ellipse at 50% 100%,rgba(255,90,31,.14),transparent 43%),#0a0a0d;text-align:center}
+.ambition .idea-in{padding-top:112px;padding-bottom:112px}
+.ambition-mark{font-family:var(--mono);font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--vu-amber);margin-bottom:26px}
+.ambition blockquote{font-family:var(--display);font-size:clamp(42px,7.6vw,90px);line-height:.92;text-transform:uppercase;
+  max-width:1000px;margin:0 auto;color:var(--ink)}
+.ambition blockquote em{font-style:normal;color:var(--idea-magenta)}
+.ambition-copy{max-width:700px;margin:34px auto 0;color:var(--ink-2);font-size:17px;line-height:1.7}
+.future-note{max-width:760px;margin:34px auto 0;padding:21px 24px;border:1px solid var(--rule);background:rgba(255,255,255,.025);
+  color:var(--ink-2);font-size:14px;text-align:left}
+.future-note b{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--idea-green);margin-right:8px}
+.ambition-actions{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:34px}
+
+.idea-subtle-link{margin:34px 0 0;font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase}
+
+@media(max-width:900px){
+  .hero-legend{display:none}.gap-layout,.game-layout,.craft-layout{grid-template-columns:1fr;gap:38px}
+  .craft-statement{position:static}.hand{grid-template-columns:160px 1fr}.hand-proof{grid-column:2}
+  .signal-path{padding-left:12px;padding-right:12px}.signal-node{padding:0 3px}
+  .loop-line{flex-wrap:wrap;justify-content:center}.loop-line i{flex:0 0 24px}
+}
+@media(max-width:650px){
+  .idea-hero{min-height:auto;padding-top:calc(var(--nav-h) + 76px);padding-bottom:76px;background:
+    linear-gradient(180deg,rgba(14,14,17,.94),rgba(14,14,17,.76)),radial-gradient(circle at 78% 30%,rgba(51,224,255,.2),transparent 30%),radial-gradient(circle at 65% 70%,rgba(255,61,216,.16),transparent 38%),#0e0e11}
+  .idea-hero::before{right:-38vw;top:28%;width:100vw}.idea-hero::after{right:-16vw;top:34%;width:70vw}
+  .idea-hero h1{font-size:clamp(66px,22vw,105px)}.idea-hero-lead{margin-top:30px}.idea-in{padding-top:72px;padding-bottom:72px}
+  .signal-path{grid-template-columns:1fr;padding:23px 22px;gap:0}
+  .signal-path::before{left:32px;right:auto;top:35px;bottom:35px;width:2px;height:auto;background:linear-gradient(180deg,var(--idea-cyan),var(--idea-magenta),var(--vu-amber),var(--idea-green),var(--idea-violet))}
+  .signal-path::after{display:none}.signal-node{display:grid;grid-template-columns:30px 90px 1fr;gap:12px;text-align:left;align-items:center;padding:13px 0}
+  .signal-node::before{margin:0;width:20px;height:20px}.signal-node small{margin:0}.signal-detail{grid-template-columns:1fr;gap:8px;min-height:0;padding:24px}
+  .craft-line{grid-template-columns:82px 1fr;gap:13px}.craft-line p{grid-column:2}.hand{grid-template-columns:1fr;gap:9px}.hand-proof{grid-column:1;margin-top:8px}
+  .loop-panel{padding:26px 18px}.loop-line{display:grid;grid-template-columns:1fr;text-align:center}.loop-line i{width:1px;height:22px;min-width:0;margin:0 auto;background:linear-gradient(180deg,var(--loop-a),var(--loop-b))}
+  .loop-line i::after{right:-3px;top:auto;bottom:0;border-left:3px solid transparent;border-right:3px solid transparent;border-top:5px solid var(--loop-b);border-bottom:0}
+  .ambition .idea-in{padding-top:84px;padding-bottom:84px}.future-note{text-align:left}
+}
+@media(prefers-reduced-motion:reduce){
+  .idea-hero::before,.idea-hero::after,.signal-path::after,.game-cursor{animation:none}
+  .signal-meter span{transition:none}
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<nav class="rail" aria-label="Main">
+  <div class="rail-in">
+    <a class="rail-logo" href="index.html"><span class="rail-led" aria-hidden="true"></span>IKANDY</a>
+    <button class="rail-toggle" aria-label="Menu">MENU</button>
+    <div class="rail-links">
+      <a href="idea.html" class="active">Why IKANDY</a>
+      <a href="index.html#product">The app</a>
+      <a href="pricing/index.html">Pricing</a>
+      <a href="artists.html">Artists</a>
+    </div>
+    <div class="rail-cta-group"><a class="btn-steam rail-cta" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam</a></div>
+  </div>
+</nav>
+
+<main id="main-content">
+  <header class="idea-hero">
+    <div class="idea-hero-in">
+      <p class="idea-kicker">Why IKANDY exists</p>
+      <h1>Art should <span>move.</span></h1>
+      <p class="idea-hero-lead">Music never sits still. Visual art shouldn't have to either.</p>
+      <p class="idea-hero-copy">IKANDY is a playground for music-reactive art: a place to watch it, make it, publish it, and perform it. It gives listeners a beautiful first frame, creators a way in, and artists a path to the people putting visuals on screens.</p>
+      <div class="idea-actions">
+        <a class="idea-jump" href="#signal">Follow the signal</a>
+        <a class="btn-steam" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam</a>
+      </div>
+    </div>
+    <div class="hero-legend" aria-hidden="true">
+      <span style="--signal:var(--idea-cyan)"><i></i>Listen</span>
+      <span style="--signal:var(--idea-magenta)"><i></i>Create</span>
+      <span style="--signal:var(--idea-green)"><i></i>Perform</span>
+    </div>
+  </header>
+
+  <section class="idea-section">
+    <div class="idea-in gap-layout">
+      <div>
+        <div class="idea-tag"><b>THE GAP</b> TWO WORLDS, ONE SCREEN</div>
+        <h2 class="idea-title">The artist and the stage rarely share a door.</h2>
+        <p class="idea-lead">Shader artists make extraordinary living images. DJs, VJs, streamers, and listeners need extraordinary images that can live with sound. The work exists. The audience exists. They just tend to meet through formats, folders, and tools that were never designed to introduce them.</p>
+      </div>
+      <p class="gap-note"><strong>IKANDY is the common room.</strong>A creator can bring an idea or original shader. The engine gives it music, light, controls, and places to go. The person watching or performing it can still see who made it.</p>
+    </div>
+  </section>
+
+  <section class="idea-section" id="signal">
+    <div class="idea-in">
+      <div class="idea-tag"><b>THE PLAYGROUND</b> FOLLOW THE SIGNAL</div>
+      <h2 class="idea-title">Watch it. Make it. Send it somewhere.</h2>
+      <p class="idea-lead">The larger idea is a loop, not a feature list. Choose any point below to see where you enter.</p>
+
+      <div class="signal-board" data-signal-board>
+        <div class="signal-board-head"><span>IKANDY / LIVE ART ROUTE</span><b>Signal present</b></div>
+        <div class="signal-path" role="group" aria-label="Explore the IKANDY creative path">
+          <button class="signal-node" type="button" aria-pressed="true" data-step="1" data-title="Music is the controller." data-copy="Start with whatever is playing. IKANDY listens to the sound you choose and gives every live scene something to answer: the weight of the low end, the shape of the mids, the brightness of the top, and the changing energy of the room."><b>Listen</b><small>Any music</small></button>
+          <button class="signal-node" type="button" aria-pressed="false" data-step="2" data-title="There is more than one way in." data-copy="Describe a direction and use guided AI to make and refine a live scene, or bring original shader work you already own. AI lowers the first step; artists bring the voice, judgment, and work worth returning to."><b>Create</b><small>AI + artists</small></button>
+          <button class="signal-node" type="button" aria-pressed="false" data-step="3" data-title="A scene becomes playable." data-copy="IKANDY treats the artwork like a live world, not a finished video. Music, scene controls, movement, light, color, and finishing continue to meet in real time. The same work can feel different because the music is different."><b>Play</b><small>Living scenes</small></button>
+          <button class="signal-node" type="button" aria-pressed="false" data-step="4" data-title="Authorship travels with the work." data-copy="Creators can publish eligible scenes through Steam Workshop. Artist names, origin, and a chosen profile link give the person behind the image somewhere to stand instead of disappearing behind a download button."><b>Publish</b><small>Workshop</small></button>
+          <button class="signal-node" type="button" aria-pressed="false" data-step="5" data-title="The same art can reach different rooms." data-copy="A listener can let it fill a second monitor. A streamer can send it to OBS. A VJ can route it into a live rig or perform from IKANDY's Stage console. One scene can move from headphones to a wall without becoming a different product."><b>Perform</b><small>Screen + stage</small></button>
+        </div>
+        <div class="signal-detail">
+          <div class="signal-step" data-signal-step>Entry 01 / 05</div>
+          <div><h3 data-signal-title>Music is the controller.</h3><p data-signal-copy>Start with whatever is playing. IKANDY listens to the sound you choose and gives every live scene something to answer: the weight of the low end, the shape of the mids, the brightness of the top, and the changing energy of the room.</p></div>
+        </div>
+        <div class="signal-meter" aria-hidden="true"><span data-signal-meter></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="idea-section game-section">
+    <div class="idea-in game-layout">
+      <div class="game-copy">
+        <div class="idea-tag"><b>THE SHAPE</b> WHY IT FEELS LIKE A GAME</div>
+        <h2 class="idea-title">A world, not a slideshow.</h2>
+        <p>Games are good at making complicated systems feel immediate. An input matters now. A world redraws now. You can enter, move, change something, and feel the response without waiting for an export.</p>
+        <p><strong>IKANDY borrows that discipline for visual art.</strong> The artwork stays alive on the GPU, the music keeps talking to it, and the controls remain in reach. You do not merely watch a file. You play the conditions around it.</p>
+      </div>
+      <div class="game-readout" aria-label="IKANDY live world readout">
+        <div class="game-screen">
+          <div class="game-screen-head">LIVE WORLD / READY</div>
+          <div class="game-row"><span>Input</span><b>Music, motion, control</b></div>
+          <div class="game-row"><span>World</span><b>Rendered in real time</b></div>
+          <div class="game-row"><span>Player</span><b>Listener, creator, performer</b></div>
+          <div class="game-row"><span>Output</span><b>Fullscreen, wallpaper, OBS, Spout, Stage</b></div>
+          <div class="game-row"><span>State</span><b>Never exactly the same twice<span class="game-cursor" aria-hidden="true"></span></b></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="idea-section">
+    <div class="idea-in">
+      <div class="idea-tag"><b>THE CRAFT</b> TECHNOLOGY IN SERVICE OF THE IMAGE</div>
+      <h2 class="idea-title">The technology is not the idea. What it gives the art is.</h2>
+      <div class="craft-layout">
+        <p class="craft-statement">Technical language matters only when it changes what someone can feel. <strong>HDR rendering</strong> matters because light can feel luminous. <strong>Ray marching</strong> matters because impossible spaces can exist. <strong>WebGPU</strong> matters because thousands of moving parts can remain alive instead of being baked into a clip.</p>
+        <div class="craft-ledger">
+          <div class="craft-line"><span class="craft-key">Light</span><h3>HDR range, bloom, god rays</h3><p>Highlights glow, beams hold shape, and a flat image can feel staged inside atmosphere.</p></div>
+          <div class="craft-line"><span class="craft-key">Space</span><h3>Ray-marched worlds and 3D forms</h3><p>Scenes can suggest depth, material, scale, and places that could not exist in a camera.</p></div>
+          <div class="craft-line"><span class="craft-key">Motion</span><h3>WebGPU particles, fluids, feedback</h3><p>Large systems can flow, gather, scatter, and keep changing while the music plays.</p></div>
+          <div class="craft-line"><span class="craft-key">Finish</span><h3>Color, grain, vignette, chromatic detail</h3><p>Different engines and sources can arrive with a deliberate final character instead of looking unfinished.</p></div>
+          <div class="craft-line"><span class="craft-key">Response</span><h3>Music-aware controls</h3><p>The sound does more than shake the picture. It can shape emphasis, light, energy, and the way a scene is performed.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="idea-section">
+    <div class="idea-in">
+      <div class="idea-tag"><b>THE PEOPLE</b> DIFFERENT HANDS, ONE STAGE</div>
+      <h2 class="idea-title">You do not need the same skills to belong here.</h2>
+      <div class="hands">
+        <div class="hand">
+          <span class="hand-role">People with an idea</span>
+          <div><h3>Start with a direction.</h3><p>Guided AI can turn a vibe into live candidates you choose, refine, and save. You do not have to begin by learning shader code. AI is optional and uses a supported provider account you connect.</p></div>
+          <div class="hand-proof">Pro / guided creation / your library</div>
+        </div>
+        <div class="hand">
+          <span class="hand-role">Visual artists</span>
+          <div><h3>Arrive with your name attached.</h3><p>Bring compatible original GLSL or WGSL work, connect your Shadertoy account for supported imports, and choose where your artist profile points. Your work remains yours; IKANDY gives it another place to be experienced.</p></div>
+          <div class="hand-proof">Original work / creator credit / profile link</div>
+        </div>
+        <div class="hand">
+          <span class="hand-role">DJs, VJs, streamers</span>
+          <div><h3>Find it, shape it, perform it.</h3><p>Discover scenes, make them answer the room, and send the result to a monitor, a stream, another visual tool, or a stage. The person performing the art can still find the person who made it.</p></div>
+          <div class="hand-proof">Workshop / OBS / Spout / Stage</div>
+        </div>
+      </div>
+
+      <div class="loop-panel">
+        <div class="loop-label">The product loop</div>
+        <div class="loop-line" aria-label="Free audience leads to Pro creation, Workshop discovery, and Studio performance">
+          <span>Free audience</span><i aria-hidden="true"></i><span>Pro creation</span><i aria-hidden="true"></i><span>Workshop discovery</span><i aria-hidden="true"></i><span>Studio performance</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="idea-section ambition">
+    <div class="idea-in">
+      <div class="ambition-mark">The larger ambition</div>
+      <blockquote>AI widens the door. It should not erase the <em>artist.</em></blockquote>
+      <p class="ambition-copy">AI is one way into the playground. Original artist work is another. The value comes from what people choose to keep, perform, share, and return to &mdash; with authorship still visible when the work travels.</p>
+      <div class="future-note"><b>Where this can go</b> IKANDY launches as a visualizer, creator, and performance instrument. The long game includes artist-led collections released under separate agreements, giving exceptional creators a way to sell their strongest work without disappearing behind the software. That is a direction, not a launch promise.</div>
+      <div class="ambition-actions">
+        <a class="btn-steam" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist IKANDY on Steam</a>
+        <a class="idea-jump" href="artists.html">Bring your art</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="ftr">
+  <div class="ftr-in">
+    <div class="ftr-grid">
+      <div>
+        <p class="ftr-brand">IKANDY</p>
+        <p class="ftr-note">Audio-reactive visualizer and VJ instrument for Windows 10 / 11. Core visual playback runs locally; optional online features require an internet connection.</p>
+        <p style="margin-top:18px"><a class="btn-steam" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam</a></p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="idea.html">The idea</a></li>
+          <li><a href="guide.html">User guide</a></li>
+          <li><a href="pricing/index.html">Pricing</a></li>
+          <li><a href="artists.html">Artist program</a></li>
+          <li><a href="arcade/index.html">Arcade</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Technical disclosures</h4>
+        <ul>
+          <li><a href="ikandy-smart-auto-prior-art.html">Smart Auto prior art</a></li>
+          <li><a href="ikandy-ai-error-sandbox.html">AI error sandbox</a></li>
+          <li><a href="ikandy-vis-format.html">.vis format</a></li>
+          <li><a href="scene-contract.html">Scene contract</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal + contact</h4>
+        <ul>
+          <li><a href="privacy.html">Privacy policy</a></li>
+          <li><a href="security.html">Security</a></li>
+          <li><a href="license.html">License</a></li>
+          <li><a href="eula.html">EULA</a></li>
+          <li><a href="credits.html">Credits</a></li>
+          <li><a href="mailto:support@ikandy.app">support@ikandy.app</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ftr-plate">
+      <span>MODEL IKANDY &middot; REV 2026.2 &middot; <span class="amber">SHIPS 2026-07-31 ON STEAM</span></span>
+      <span>Made by a human who likes loud music. &copy; 2026 L&amp;R Entertainment LLC &middot; IKANDY&trade;</span>
+    </div>
+  </div>
+</footer>
+
+<script src="analytics.js" defer></script>
+<script src="assets/site-shell.js" defer></script>
+<script src="assets/idea-page.js" defer></script>
+</body>
+</html>
