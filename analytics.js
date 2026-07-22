@@ -172,7 +172,9 @@
       'border-color:#ff5a1f;color:#ff7a42}' +
       '.ikandy-analytics-settings{padding:0;border:0;background:none;color:inherit;text-align:left}' +
       '.ikandy-analytics-fixed{position:fixed;z-index:9998;left:12px;bottom:12px;padding:7px 9px!important;' +
-      'background:#17171b!important;border:1px solid #45454f!important;color:#b5ae9c!important}';
+      'background:#17171b!important;border:1px solid #45454f!important;color:#b5ae9c!important}' +
+      '@media(min-width:2200px){.ikandy-consent{max-width:760px;padding:22px;font-size:16px}' +
+      '.ikandy-consent strong{font-size:17px}.ikandy-consent button{padding:11px 15px;font-size:11px}}';
     document.head.appendChild(style);
   }
 

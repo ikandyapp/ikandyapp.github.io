@@ -116,6 +116,17 @@ img{max-width:100%;height:auto}
   font-family:var(--mono);font-size:8px;letter-spacing:.12em;line-height:1.25;
   text-transform:uppercase;color:var(--ink-3);white-space:nowrap}
 
+/* Keep the shared masthead proportionate on ultrawide displays. */
+@media(min-width:2200px){
+  :root{--nav-h:68px}
+  .rail-in{max-width:min(88vw,2240px);padding:0 32px;gap:28px}
+  .rail-logo{font-size:27px}
+  .rail-links{gap:27px}
+  .rail-links a{font-size:12px}
+  .btn-steam{font-size:12px;padding:11px 18px}
+  .rail-beta-note{font-size:9px}
+}
+
 @media(max-width:860px){
   .rail-links{
     display:none;position:fixed;top:var(--nav-h);left:0;right:0;

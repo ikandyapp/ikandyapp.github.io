@@ -373,6 +373,39 @@ body.visual-only .immersive-exit{display:flex}
   padding:6px 9px;box-shadow:0 6px 14px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.06)}
 .khelp:hover .khelp-tip,.khelp:focus-visible .khelp-tip{opacity:1}
 
+/* A real ultrawide composition, not a desktop-width island in a large canvas. */
+@media(min-width:2200px){
+  .hero-copy{max-width:min(88vw,2240px);padding:calc(var(--nav-h) + 4vh) 32px 24px}
+  .hero-eyebrow{font-size:14px;margin-bottom:22px}
+  h1{font-size:clamp(190px,6.6vw,225px);margin-bottom:30px}
+  .hero-sub{max-width:720px;font-size:20px;margin-bottom:34px}
+  .btn-steam.big{font-size:14px;padding:17px 29px}
+  .btn-ghost{font-size:13px;padding:16px 23px}
+  .hero-date{font-size:12px}
+  .hero-signature{width:min(100%,760px);padding:16px 17px 16px 19px}
+  .hero-slogan-lead{font-size:10px}
+  .hero-slogan-hit{font-size:39px}
+  .theme-play{min-width:176px;padding:11px 13px;grid-template-columns:34px 1fr}
+  .theme-play-icon{width:34px;height:34px}
+  .theme-play-icon::before{left:14px;top:10px;border-width:7px 0 7px 10px}
+  .theme-play[aria-pressed="true"] .theme-play-icon::before{left:11px;top:10px}
+  .theme-play-label{font-size:10px}.theme-play-status{font-size:9px}
+  .hero-live{top:calc(var(--nav-h) + 20px);right:32px;font-size:11px;padding:8px 13px}
+
+  .console{width:min(78vw,1920px);padding:0 32px 32px}
+  .console-panel{padding:20px 32px 22px;gap:30px}
+  .glabel{font-size:10px}
+  .scene-btn{font-size:11px;padding:11px 15px 10px}
+  .knob{width:76px}.knob-ring{width:64px;height:64px}
+  .knob-name{font-size:10px}.knob-val{font-size:11.5px}
+  .view-group{min-width:132px}
+  .sound-row{grid-template-columns:280px minmax(0,1fr);gap:14px}
+  .wavewell{height:40px}
+  .wave-readout{font-size:9px}
+  .program-btn{padding:9px 10px 8px}
+  .program-title{font-size:10px}.program-meta{font-size:8px}
+}
+
 @media(max-width:900px){
 
   .console-panel{gap:18px;justify-content:center}
