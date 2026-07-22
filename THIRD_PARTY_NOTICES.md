@@ -17,6 +17,15 @@ This file records the third-party material shipped by the IKANDY website and bro
 | Butterchurn engine | Desktop visualizer engine disclosed on the credits page | MIT; `legal/licenses/BUTTERCHURN-MIT.txt` |
 | butterchurn-presets repository | Upstream preset package | Repository MIT notice; `legal/licenses/BUTTERCHURN-PRESETS-MIT.txt` |
 
+## First-party artwork (recorded here to close the provenance trail)
+
+The browser arcade's IKAMP player skin, `arcade/ikamp.wsz`, is **original artwork
+authored for IKANDY** (© 2026 L&R Entertainment LLC), not a third-party work. Every
+bitmap was generated from scratch; only the `.wsz` sprite-coordinate layout — the
+functional interoperability spec of the classic skin format — is shared with other
+skins. This entry is kept because it replaced (2026-07-22) an earlier third-party skin
+("winamp noir", © Nathanael Cabral, 2000) that had shipped without a license grant.
+
 ## Evidence retained elsewhere and still requiring a release-package check
 
 The retail app credits identify Electron/Chromium, Three.js, Spout2/SpoutDX, cmake-js, native modules, npm dependencies, imported shaders, and a Solar System Scope texture. Before a Steam release, copy the app build's generated `THIRD_PARTY_LICENSES.txt`, applicable source/permission receipts, and any required NOTICE files into the signed release archive. The website repository alone cannot prove which versions and files the packaged executable contains.

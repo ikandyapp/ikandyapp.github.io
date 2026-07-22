@@ -56,16 +56,15 @@ Cleanly documented overall, with one open third-party item.
 - [x] **Copyleft contamination scan** — no GPL/AGPL/LGPL/MPL/non-commercial code or
   FFmpeg/x264 present in the repo. (The lone "GPLv2" string is inside Mousetrap's
   license granting a GPL-compat exception; Mousetrap itself is Apache-2.0.)
-- [ ] **⚠️ `arcade/ikamp.wsz` — unlicensed third-party Winamp skin.** The archive is
-  the skin **"winamp noir" © Nathanael Cabral, dated 2000-12-12** (per its embedded
-  `readme.txt`), renamed to look like IKANDY branding. It carries **no license grant**
-  and is **not listed in `THIRD_PARTY_NOTICES.md`**. It does **not** reach the retail
-  app (no `.wsz` in `ikandy-private`), so exposure is limited to this website's arcade
-  easter-egg — but it is currently unlicensed third-party artwork redistributed
-  alongside a commercial product. **Resolve one of:** obtain the author's written
-  permission; confirm a real prior license release; replace it with an original or a
-  verifiably CC0/permissively-licensed skin; or remove it. Then record the outcome in
-  `THIRD_PARTY_NOTICES.md`.
+- [x] **`arcade/ikamp.wsz` — replaced with original first-party artwork (2026-07-22).**
+  The prior archive was the third-party skin *"winamp noir" © Nathanael Cabral,
+  dated 2000-12-12* (per its embedded `readme.txt`), which carried no license grant.
+  It has been replaced with an **original IKAMP skin authored for IKANDY** — every
+  bitmap generated from scratch; only the `.wsz` sprite-coordinate layout (the format's
+  functional interoperability spec) is shared with the classic format. Authorship +
+  copyright are recorded in the skin's own `readme.txt` and in `THIRD_PARTY_NOTICES.md`.
+  Verified to render correctly in the actual Webamp player (the same
+  `initialSkin: { url: "ikamp.wsz" }` path used by `arcade/index.html`).
 
 ## C. Process notes — corrections to common "AI-code-theft" advice
 
