@@ -2,7 +2,15 @@
 (function () {
   'use strict';
 
-  var releaseAt = Date.parse('2026-07-31T00:00:00-07:00');
+  /* Release flip. 10:00 Pacific, not midnight, because that is when Steam actually
+     turns a release over — and because the two possible errors here are NOT equal.
+     Flipping LATE is harmless: the page keeps saying "Out July 31, 2026", which is
+     true. Flipping EARLY says "Available now on Steam" and links to a store page
+     that cannot be bought from yet, on the highest-traffic morning of the year.
+     Midnight was the early/dangerous side of that trade for up to ten hours.
+     If Steam is configured to release at a different hour, match it here — the
+     partner site is authoritative, this constant is the copy. */
+  var releaseAt = Date.parse('2026-07-31T10:00:00-07:00');
   var isReleased = Date.now() >= releaseAt;
 
   if (isReleased) {
@@ -29,7 +37,16 @@
 
   /* Steam launch offer ends 14 days after release: swap to regular prices and
      hide the launch-offer copy. JSON-LD offers self-expire via priceValidUntil;
-     static meta descriptions still need a manual pass on this date. */
+     static meta descriptions still need a manual pass on this date (see the
+     LAUNCH TODO block at the top of pricing/index.html).
+
+     The window is Jul 31 through Aug 13 inclusive, which is exactly 14 days, so
+     midnight on the 14th is the correct arithmetic. Midnight is also deliberately
+     the SAFE side here, and for the opposite reason to the release flip above:
+     showing the regular price a few hours early only ever undersells us, whereas
+     advertising $4.95 after Steam has stopped honouring it is advertising a price
+     we do not charge. Do not "align" this to 10:00 to match the release flip —
+     the asymmetry is the point. */
   var offerEndsAt = Date.parse('2026-08-14T00:00:00-07:00');
   if (Date.now() >= offerEndsAt) {
     Array.prototype.forEach.call(document.querySelectorAll('.tier-price[data-regular]'), function (price) {
