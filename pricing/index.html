@@ -1,5 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+<!--
+  ============================================================================
+  LAUNCH TODO: MANUAL PASS DUE 2026-08-14 (added 2026-07-25)
+  ----------------------------------------------------------------------------
+  The 14-day Steam launch offer (Pro $4.95, Studio $39.59) ends at 00:00 Pacific
+  on 2026-08-14. assets/site-shell.js swaps the VISIBLE tier prices to the
+  regular $7.99 / $59.99 automatically on that date, and the JSON-LD offers
+  self-expire via priceValidUntil. Everything below is STATIC and does NOT
+  self-update. It will keep advertising the launch price until a human edits it.
+
+  1. This file, static meta (all three carry launch prices):
+       - <meta name="description">           line ~9
+       - <meta property="og:description">    line ~12
+       - <meta name="twitter:description">   line ~21
+  2. This file, the pricing unit-lead sentence (~line 199): "A 14-day launch
+     offer begins when IKANDY releases July 31, 2026; regular prices follow."
+     Reads as future tense after the offer has been and gone.
+  3. This file + index.html, the JSON-LD Offer blocks: "price" stays "4.95" /
+     "39.59" in the markup. priceValidUntil makes them expire rather than lie,
+     but the honest edit is to move price to the regular figure and drop the
+     launch-offer Offer entries.
+  4. index.html tier cards carry data-regular, so they swap themselves. No
+     action, listed so a future pass does not go hunting.
+
+  Cross-reference: the desktop app ALSO hardcodes the discount prices
+  (ikandy.html:8300 $4.95, ~:11433 $39.59) and has no date logic at all, so it
+  understates the price from Aug 14 until someone ships a build. That is tracked
+  in the app repo's CLAUDE.md under "v1 launch decisions"; it is not fixable from
+  this repo, but whoever does this pass should raise it.
+  ============================================================================
+-->
 <head>
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self'; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://*.google-analytics.com https://*.googletagmanager.com; media-src 'self' blob:; frame-src https://www.youtube-nocookie.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
 <meta charset="UTF-8">
@@ -196,7 +227,7 @@ main .unit:first-of-type::after{width:460px;height:460px;left:-150px;bottom:-220
   <div class="unit-in">
     <div class="unit-tag"><b>PRICING</b> ONE-TIME PURCHASE</div>
     <h1 class="unit-title" style="font-size:clamp(38px,6vw,64px)">Buy once. No subscription.</h1>
-    <p class="unit-lead">Three tiers, one purchase, no subscription. A 14-day launch offer begins when IKANDY releases July 31, 2026; regular prices follow. Core visual playback runs locally on your GPU. Optional AI scene generation uses a supported provider account. Optional expansions or add-on content may come later &mdash; the core app stays a one-time purchase, and the bundled community preset library stays free.</p>
+    <p class="unit-lead">Three tiers, one purchase, no subscription. A 14-day launch offer begins when IKANDY releases July 31, 2026; regular prices follow. Core visual playback runs locally on your GPU. Optional AI scene generation uses a supported provider account. Optional expansions or add-on content may come later, but the core app stays a one-time purchase, and the bundled community preset library stays free.</p>
 
     <div class="tiers">
       <div class="tier">
