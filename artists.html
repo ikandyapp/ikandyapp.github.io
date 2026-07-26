@@ -10,7 +10,7 @@
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Artist Program — IKANDY</title>
 <link rel="canonical" href="https://ikandy.app/artists.html">
-<meta name="description" content="Bring your audio-reactive art to IKANDY. Selected work can be distributed with creator credit and a link back to your fans. Shaders, WebGPU, and generative art are welcome.">
+<meta name="description" content="Bring your audio-reactive art to IKANDY. Import your shaders in the app and publish them to Steam Workshop under your own name, with your credit and link traveling with the scene.">
 <link rel="stylesheet" href="assets/fonts.css">
 <link rel="stylesheet" href="assets/ik.css">
 <style>
@@ -527,7 +527,7 @@ footer.ftr a{text-decoration:none}
   <section class="hero">
     <p class="hero-eyebrow">Artist Program</p>
     <h1 class="hero-title">Bring Your Art<br>to IKANDY</h1>
-    <p class="hero-lead">If you make audio-reactive visuals — shaders, generative art, WebGPU experiments — <strong>IKANDY wants to see them.</strong> Selected work can be distributed in IKANDY with creator credit and a link back to wherever you send fans.</p>
+    <p class="hero-lead">If you make audio-reactive visuals (shaders, generative art, WebGPU experiments), <strong>IKANDY is built for you.</strong> Import your work in the app, make it react to music, and publish it to Steam Workshop under your own name, with your credit and link traveling with the scene.</p>
   </section>
 
   <div class="wrap">
@@ -539,18 +539,18 @@ footer.ftr a{text-decoration:none}
       <div class="card-grid">
         <div class="card">
           <div class="card-icon">📦</div>
-          <div class="card-h">Distribution in IKANDY</div>
-          <p class="card-p">If selected, your scene can be bundled with IKANDY so people can experience it with their own music. We agree the scope in writing before it ships.</p>
+          <div class="card-h">Publish to Steam Workshop</div>
+          <p class="card-p">Import your scene in IKANDY Pro and submit it to the Workshop yourself. Anyone who subscribes gets it inside IKANDY, reacting to their own music.</p>
         </div>
         <div class="card">
           <div class="card-icon">🔗</div>
-          <div class="card-h">Credit + link</div>
-          <p class="card-p">For as long as your work is included, we credit your preferred name and link in the app and on the website.</p>
+          <div class="card-h">Your name travels with it</div>
+          <p class="card-p">Publish under your Steam persona, your IKANDY handle, or your Shadertoy name. Your credit and chosen link ride inside the scene package and show on screen in every subscriber's app.</p>
         </div>
         <div class="card">
           <div class="card-icon">🕊️</div>
           <div class="card-h">You keep ownership</div>
-          <p class="card-p">You retain ownership of your work. Any permission you give IKANDY is non-exclusive and limited to the written terms you approve before release.</p>
+          <p class="card-p">Importing and publishing never transfers ownership. You affirm you hold the rights each time you publish, and scenes shared under a use-only license are protected from republishing by others.</p>
         </div>
       </div>
     </section>
@@ -561,8 +561,8 @@ footer.ftr a{text-decoration:none}
       <div class="featured">
         <p class="featured-eyebrow">The model</p>
         <div class="featured-body">
-          <p>Find artists doing brilliant work, agree the distribution terms, and bundle it with credit. The goal is simple: more people seeing your art with a clear link back to you.</p>
-          <p>Accepted artists are credited by name on the <a href="credits.html" style="color:inherit;">credits page</a> and in the app's About panel, with a link of their choosing.</p>
+          <p>Open the Visualizer Studio in IKANDY Pro and use the <strong>Import</strong> tab: paste your GLSL or WGSL, drop a Shadertoy export, build multipass (Common plus Buffers A to D), or link your Shadertoy account to bring in your own shaders with verified authorship. Make it react with the built-in reactivity tools, save it, and it is yours to perform.</p>
+          <p>When it is ready, submit it to <strong>Steam Workshop</strong> from inside the app. You pick the credit line (your Steam persona, your IKANDY handle, or your Shadertoy name), you affirm you hold the rights, and your artist name and link ship inside the scene package. Subscribers see your credit on screen while your art plays to their music.</p>
         </div>
       </div>
     </section>
@@ -572,11 +572,10 @@ footer.ftr a{text-decoration:none}
       <p class="section-tag">What we're looking for</p>
       <h2 class="section-title">If it visualizes music, we want to see it</h2>
       <ul class="want-list">
-        <li><span class="bullet">01</span><span><strong>GLSL fragment shaders</strong> — Shadertoy-style, the bread and butter.</span></li>
-        <li><span class="bullet">02</span><span><strong>WebGPU compute scenes</strong> — WGSL, particles, fluids, the heavy stuff.</span></li>
-        <li><span class="bullet">03</span><span><strong>Three.js / generative scenes</strong> — meshes, geometry, procedural worlds.</span></li>
-        <li><span class="bullet">04</span><span><strong>Any audio-reactive visual you've made</strong> — if it moves to sound, send it.</span></li>
-        <li class="note"><span class="bullet">+</span><span>MilkDrop presets accepted, but lower priority right now.</span></li>
+        <li><span class="bullet">01</span><span><strong>GLSL fragment shaders</strong>: Shadertoy-style, single pass or full multipass. Imports today, straight into the app.</span></li>
+        <li><span class="bullet">02</span><span><strong>WGSL shaders</strong>: WebGPU-native fragment work. Paste it in and the app compiles it.</span></li>
+        <li><span class="bullet">03</span><span><strong>Your Shadertoy catalog</strong>: link your account once and import your own shaders with verified authorship attached.</span></li>
+        <li><span class="bullet">04</span><span><strong>Three.js / generative / MilkDrop work</strong>: not importable in-app yet; these go through the featured program below.</span></li>
       </ul>
     </section>
 
@@ -584,48 +583,48 @@ footer.ftr a{text-decoration:none}
     <section class="block">
       <p class="section-tag">Before you submit</p>
       <h2 class="section-title">Read the Scene Contract</h2>
-      <p class="card-p">Every IKANDY scene has to be <strong>genuinely audio-reactive</strong> — that's the one load-bearing rule, and it's checked automatically before anything ships. The <strong>Scene Contract</strong> is the technical reference: the audio surface your scene receives each frame (bands, smoothed bands, kick/beat events, FFT), the lifecycle hooks per category (fragment&nbsp;/ canvas2d / Three.js / WebGPU compute), the color-space contract, who owns which GPU resources, and exactly how reactivity is verified.</p>
-      <p class="card-p">You don't have to memorize it to submit — send your work and I'll help fit it in. But if you want your scene to drop in clean, this is the spec it'll be measured against.</p>
+      <p class="card-p">Every IKANDY scene has to be <strong>genuinely audio-reactive</strong>: that is the one load-bearing rule, and it is checked automatically before anything ships. The <strong>Scene Contract</strong> is the technical reference: the audio surface your scene receives each frame (bands, smoothed bands, kick/beat events, FFT), the lifecycle hooks per category (fragment&nbsp;/ canvas2d / Three.js / WebGPU compute), the color-space contract, who owns which GPU resources, and exactly how reactivity is verified.</p>
+      <p class="card-p">You don't have to memorize it: the app's reactivity tools do most of the fitting for you. But if you want your scene to drop in clean, this is the spec it will be measured against.</p>
       <a href="scene-contract.html" class="featured-link">Read the Scene Contract →</a>
     </section>
 
     <!-- HOW TO SUBMIT -->
     <section class="block">
-      <p class="section-tag">How to submit</p>
-      <h2 class="section-title">Email me</h2>
+      <p class="section-tag">How to publish</p>
+      <h2 class="section-title">Through the app</h2>
       <div class="submit-block">
+        <p class="submit-help">No portal, no email, no waiting on review. Publishing is self-serve in IKANDY Pro:</p>
+        <ul class="include-list">
+          <li>Open the <strong>Visualizer Studio</strong> and switch to the <strong>Import</strong> tab</li>
+          <li>Paste or drop your shader, or link your Shadertoy account and import your own work</li>
+          <li>Tune the audio reactivity and save it to My Scenes</li>
+          <li>Pick <strong>Submit to Steam Workshop</strong>, choose your credit line, and affirm you hold the rights</li>
+          <li>Accept Steam's Workshop terms once (Steam keeps new items hidden until you do)</li>
+        </ul>
+        <p class="submit-help" style="margin-top:22px"><strong>Want to be featured in IKANDY itself?</strong> The curated program continues alongside the Workshop: selected work gets bundled with the app, with credit on the <a href="credits.html" style="color:inherit;">credits page</a> and terms agreed in writing first.</p>
         <a
-          href="mailto:support@ikandy.app?subject=Artist%20Submission"
+          href="mailto:support@ikandy.app?subject=Featured%20Artist%20Submission"
           class="btn-email"
           id="artist-submit-btn"
-        >✉ Submit Your Art</a>
-
-        <p class="submit-help">No portal, no form to wrangle — just an email. To make it quick to review, include:</p>
-        <ul class="include-list">
-          <li>Your name</li>
-          <li>Preferred display credit (how you want to be named)</li>
-          <li>A link to your work (CodePen, Shadertoy, portfolio…)</li>
-          <li>The link you want fans sent to (X, IG, store, site)</li>
-          <li>A brief description of the piece</li>
-          <li>A note confirming that you own the rights or have permission to submit it</li>
-        </ul>
+        >✉ Pitch a Featured Spot</a>
         <p class="submit-alt">
           Prefer to chat first? Find me on <a href="https://discord.gg/hnNNJNTx5m" target="_blank" rel="noopener">Discord</a>.
-          <span class="response">Reviewed personally — usually within a few days.</span>
+          <span class="response">Featured pitches are reviewed personally, usually within a few days.</span>
         </p>
       </div>
     </section>
 
     <!-- SUBMISSION TERMS -->
     <section class="block">
-      <p class="section-tag">Artist submission terms</p>
+      <p class="section-tag">The terms, in plain words</p>
       <h2 class="section-title">Short, specific, and in writing</h2>
       <div class="fine">
         <ul>
-          <li>Submitting work does not transfer ownership to IKANDY.</li>
-          <li>You confirm that you own the work or have permission to submit it, including any included code, images, textures, audio, or other third-party material.</li>
-          <li>If we both approve inclusion in writing, you grant L&amp;R Entertainment LLC a non-exclusive, worldwide, royalty-free license to reproduce, technically adapt where needed for compatibility, distribute, publicly display, and promote that work as part of IKANDY and its marketing.</li>
-          <li>You can request that we stop using accepted work in future releases. We will work with you on removal; copies already distributed may remain with users who downloaded them earlier.</li>
+          <li>Publishing through the app never transfers ownership to IKANDY. Your scenes stay yours.</li>
+          <li>Each Workshop submission asks you to affirm that you own the work or have permission to publish it, including any included code, images, textures, or other third-party material. Workshop items are also governed by Steam's Workshop terms and the <a href="license.html" style="color:inherit;">IKANDY license</a>.</li>
+          <li>Scenes you share can be marked use-only: others can play them but the app refuses to let anyone republish them as their own.</li>
+          <li>For the featured program only: if we both approve inclusion in writing, you grant L&amp;R Entertainment LLC a non-exclusive, worldwide, royalty-free license to reproduce, technically adapt where needed for compatibility, distribute, publicly display, and promote that work as part of IKANDY and its marketing.</li>
+          <li>Featured work can be withdrawn: you can request that we stop using it in future releases, and we will work with you on removal. Copies already distributed may remain with users who downloaded them earlier.</li>
         </ul>
       </div>
     </section>
@@ -635,10 +634,10 @@ footer.ftr a{text-decoration:none}
       <div class="fine">
         <p class="fine-h">The fine print</p>
         <ul>
-          <li>Selection is at my discretion. Any future community-voting process will be announced separately.</li>
+          <li>Workshop publishing is self-serve; featured selection is at my discretion. Any future community-voting process will be announced separately.</li>
           <li>No money changes hands unless we agree otherwise in writing.</li>
           <li>Your attribution is preserved for as long as your work ships in IKANDY.</li>
-          <li>You can request removal at any time; removal applies to future releases as described above.</li>
+          <li>Featured work can be removed on request; removal applies to future releases as described above.</li>
         </ul>
       </div>
     </section>
