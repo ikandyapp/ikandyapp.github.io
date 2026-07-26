@@ -342,6 +342,8 @@ nav {
     padding: 2px 8px;
     border-radius: 2px;
     border: 1px solid rgba(91,200,245,.15);
+    /* long unbroken tokens (URLs, config keys) must wrap, not push the page sideways on phones */
+    overflow-wrap: anywhere;
   }
 
   kbd {

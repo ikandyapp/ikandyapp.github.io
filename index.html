@@ -371,7 +371,9 @@ body.visual-only .immersive-exit{display:flex}
   font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;
   color:var(--ink-2);background:var(--panel);border:1px solid #000;border-radius:3px;
   padding:6px 9px;box-shadow:0 6px 14px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.06)}
-.khelp:hover .khelp-tip,.khelp:focus-visible .khelp-tip{opacity:1}
+.khelp:hover .khelp-tip,.khelp:focus .khelp-tip,.khelp:focus-visible .khelp-tip{opacity:1}
+/* 13px visual stays; the invisible hit area reaches ~45px for touch. */
+.khelp::after{content:"";position:absolute;inset:-16px}
 
 /* A real ultrawide composition, not a desktop-width island in a large canvas. */
 @media(min-width:2200px){
@@ -420,7 +422,12 @@ body.visual-only .immersive-exit{display:flex}
   .hero-live{left:18px;right:auto;max-width:calc(100% - 36px);font-size:8px;letter-spacing:.12em}
   .console{padding:0 12px 18px}
   .console-panel{padding:16px 12px;gap:16px}
-  .scene-btn{min-height:44px}
+  /* max-content tracks cannot shrink: at 375px the 3-across grid renders ~388px
+     inside a ~327px panel and .hero{overflow:hidden} chops the outer buttons in
+     half. Two fr columns fit every phone down to 320px. */
+  .scene-group .grow{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .scene-btn{min-height:44px;justify-content:center}
+  .khelp-tip{left:0;transform:none;white-space:normal;width:max-content;max-width:calc(100vw - 60px)}
   .sound-group{min-width:100%}
   .program-bank{grid-template-columns:repeat(3,minmax(0,1fr))}
   .program-btn{min-height:44px;padding-left:10px;padding-right:10px}
@@ -432,6 +439,9 @@ body.visual-only .immersive-exit{display:flex}
 @media(max-width:440px){
   .hero-signature{grid-template-columns:1fr;gap:11px}
   .theme-play{width:100%}
+  /* 4 fixed 66px knobs + gaps = 300px; below ~330px of panel width they must
+     wrap instead of clipping (the knob row has no other escape valve). */
+  .grow{flex-wrap:wrap}
 }
 
 /* ---------- signature micro-moments ---------- */
@@ -1009,7 +1019,7 @@ html.js .unit-in.in{opacity:1;transform:none}
       <details><summary>Does it require Spotify?</summary><p>No. IKANDY can react to system audio, a chosen app, line-in, an audio interface, or a virtual cable. Spotify is one optional metadata and playback source.</p></details>
       <details><summary>Will Discord trigger the visuals?</summary><p>Only if you choose the whole system mix. Per-app capture can listen to one selected music app while ignoring Discord, notification sounds, and everything else.</p></details>
       <details><summary>Is the AI a subscription?</summary><p>No. AI scene generation is optional and bring-your-own-key. You pay the supported provider directly at its published rates; IKANDY sells no AI credits.</p></details>
-      <details><summary>What is the difference between Pro and Studio?</summary><p>Pro adds creation, wallpaper, Steam Workshop publishing and subscriptions, multi-display output, and OBS output. Studio adds live capture, higher-performance Spout output, MIDI and OSC, and the performance console.</p></details>
+      <details><summary>What is the difference between Pro and Studio?</summary><p>Pro adds creation, wallpaper on any of your monitors, Steam Workshop publishing and subscriptions, a second-screen output window, and OBS output. Studio adds multi-monitor span, simultaneous mirrors across displays, live capture, higher-performance Spout output, MIDI and OSC, and the performance console.</p></details>
       <details><summary>Can it run as wallpaper?</summary><p>Yes. Supported visuals can run behind your Windows desktop icons using the same visual pipeline as the full-screen app.</p></details>
       <details><summary>Does it upload my music?</summary><p>No. Core playback and audio analysis run locally. Optional metadata, AI, updates, and enabled diagnostics use online services as described in the privacy policy.</p></details>
     </div>

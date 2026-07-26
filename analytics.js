@@ -168,7 +168,9 @@
       '.ikandy-consent-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}' +
       '.ikandy-consent button,.ikandy-analytics-settings{border:1px solid #666;background:#232329;color:#eae5d9;' +
       'padding:9px 13px;font:700 10px/1 "Martian Mono",Consolas,monospace;letter-spacing:.08em;' +
-      'text-transform:uppercase;cursor:pointer}.ikandy-consent button:hover,.ikandy-analytics-settings:hover{' +
+      'text-transform:uppercase;cursor:pointer}' +
+      '.ikandy-consent button{min-height:44px}' +
+      '.ikandy-consent button:hover,.ikandy-analytics-settings:hover{' +
       'border-color:#ff5a1f;color:#ff7a42}' +
       '.ikandy-analytics-settings{padding:0;border:0;background:none;color:inherit;text-align:left}' +
       '.ikandy-analytics-fixed{position:fixed;z-index:9998;left:12px;bottom:12px;padding:7px 9px!important;' +
