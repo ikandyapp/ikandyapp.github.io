@@ -87,6 +87,8 @@ body{background:var(--chassis)!important;color:var(--ink);padding-top:var(--nav-
 h1,h2{font-weight:800!important}
 h3{font-weight:700!important}
 code,pre,kbd{font-family:var(--mono)}
+code{overflow-wrap:anywhere} /* long tokens (file names, URLs) must wrap on phones */
+.npm-table{display:block;overflow-x:auto;max-width:100%} /* wide package table scrolls in its own box instead of dragging the page sideways on phones */
 /* neutralize legacy element-level nav/footer rules leaking into the shell */
 nav.rail{position:fixed!important;top:0!important;left:0!important;right:0!important;
   display:block!important;padding:0!important;margin:0!important;height:var(--nav-h)!important;

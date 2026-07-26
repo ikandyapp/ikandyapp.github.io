@@ -225,6 +225,7 @@ nav {
     color: var(--cyan);
     padding: 2px 7px;
     border-radius: 3px;
+    overflow-wrap: anywhere; /* long tokens must wrap, not push the page sideways on phones */
   }
 
   pre {
@@ -348,6 +349,9 @@ nav {
     border-collapse: collapse;
     margin: 24px 0;
     font-size: 12px;
+    display: block; /* wide tables scroll in their own box instead of dragging the page sideways on phones */
+    overflow-x: auto;
+    max-width: 100%;
   }
 
   th {
