@@ -5,9 +5,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<title>Connect Spotify : IKANDY</title>
+<title>Spotify + IKANDY : no setup needed</title>
 <link rel="canonical" href="https://ikandy.app/spotify-setup.html">
-<meta name="description" content="One-time Spotify setup for IKANDY: create a free developer app, paste the Client ID, done.">
+<meta name="description" content="Spotify works with IKANDY out of the box through Windows media controls. No account connection, no developer app, no setup.">
 <link rel="icon" href="icon.ico">
 <!-- Consent-based website analytics are managed by analytics.js; Google Analytics is not loaded before opt-in. -->
 <script src="assets/analytics-bootstrap.js"></script>
@@ -66,40 +66,21 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
 </nav>
 <main id="main-content" class="wiki-wrap" style="--hue:#46d96b">
   <div class="crumb"><a href="guide.html">User guide</a><span>/</span><a href="guide/audio-sources.html">Audio sources</a><span>/</span><span class="hueled" aria-hidden="true"></span><span style="color:var(--ink-2)">Spotify</span></div>
-  <h1>Connect Spotify</h1>
-  <p class="wiki-lead">The one-time setup for the richest source in IKANDY: track info, art, synced lyrics, playlists, and full transport.</p>
+  <h1>No setup needed</h1>
+  <p class="wiki-lead">Spotify works with IKANDY out of the box. Press play in Spotify and IKANDY follows.</p>
   <section><div class="source-block" id="source-spotify" style="--c:var(--green);">
     <div class="source-block-head">
       <span class="source-block-icon">🎵</span>
       <span class="source-block-name">Spotify</span>
-      <span class="source-block-meta" style="color:var(--green);">● Full features &middot; Premium recommended</span>
+      <span class="source-block-meta" style="color:var(--green);">● Works out of the box &middot; No account connection</span>
     </div>
-    <p class="body dim">The richest integration. Track info, album art, synced lyrics, playlist browser with search, and full transport: play, pause, skip, and shuffle modes including Smart Shuffle detection. IKANDY uses <em>Bring Your Own Key</em> auth: you create a Spotify Developer app and paste the Client ID once. The Client ID and authorization data are stored using Windows DPAPI and used to connect to Spotify.</p>
-
-    <h3 class="first">One-time setup</h3>
-    <ol class="steps">
-      <li>In IKANDY, open the source selector and choose <strong>Spotify</strong>. The settings panel shows the exact <strong>Redirect URI</strong> to register.</li>
-      <li>Go to <code>developer.spotify.com/dashboard</code>, log in, and click <strong>Create app</strong>.</li>
-      <li>Give it any name and description. Under <strong>Redirect URIs</strong>, paste the URI shown in IKANDY. Check the <strong>Web API</strong> box. Save.</li>
-      <li>Open the new app → <strong>Settings</strong> → copy the <strong>Client ID</strong>.</li>
-      <li>Paste the Client ID into IKANDY's Spotify settings and click <strong>Connect</strong>. Spotify opens in your browser to authorise. Done.</li>
-    </ol>
-
-    
-    <p class="guide-screenshot-caption">IKANDY's Spotify settings panel showing the Client ID field and Redirect URI</p>
+    <p class="body dim">Spotify plays through Windows media controls, the same lane as any modern media app. IKANDY picks up track info, album art when the app publishes it, and the transport controls Windows exposes: play, pause, and skip. Per-Process Capture can lock the visuals onto Spotify's audio alone. There is no sign-in, no developer app, and no keys; IKANDY has no Spotify account integration.</p>
 
     <div class="callout">
-      <span class="callout-label">Why BYOK</span>
-      BYOK gives your IKANDY connection its own Spotify app configuration. Spotify limits, Development Mode rules, and provider availability still apply.
-    </div>
-
-    <div class="callout warn">
-      <span class="callout-label">Premium required for transport</span>
-      Spotify's Web API only allows playback control for Premium subscribers. Free accounts get track info, album art, and lyrics, but playback buttons are greyed out. Works with Spotify desktop, the web player, or any Spotify Connect device.
+      <span class="callout-label">Came here from an older build or guide?</span>
+      Earlier builds offered a separate Spotify connection with a Client ID setup, and this page documented it. That integration has been removed. Nothing is required from you: play in Spotify and IKANDY follows automatically. If IKANDY does not react, see the <a href="guide/audio-sources.html">audio sources guide</a>.
     </div>
   </div>
-
-  <!-- FOOBAR -->
   </section>
   <div class="pn"><a href="guide/audio-sources.html" style="--hue:#ff3dd8"><span class="lbl">&larr; All sources</span><span class="ttl" style="display:block">Audio sources</span></a><span></span></div>
 </main>

@@ -93,7 +93,7 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
       <summary>Now Playing controls grey out / Next or Previous don't work</summary>
       <div class="tr-body">
         <p>By design. IKANDY queries the active app for which transport commands it actually exposes: some apps (single YouTube videos, podcasts) don&rsquo;t advertise Next or Previous, so IKANDY locks those buttons.</p>
-        <p>Hover any greyed-out button to see the reason. For broader transport controls, connect a dedicated source such as Spotify, MusicBee, foobar2000, or VLC.</p>
+        <p>Hover any greyed-out button to see the reason. For broader transport controls, connect a dedicated source such as MusicBee, foobar2000, or VLC, or play in an app that publishes full controls to Windows media controls.</p>
       </div>
     </details>
 
@@ -107,19 +107,10 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
     </details>
 
     <details class="tr">
-      <summary>Spotify playback controls are greyed out</summary>
+      <summary>Spotify: which controls work?</summary>
       <div class="tr-body">
-        <p>Spotify only allows external playback control for <strong>Premium</strong> subscribers: this is a Spotify API restriction. Free accounts still get track info, album art, and synced lyrics.</p>
-        <p>Premium users: the dedicated source works whether you&rsquo;re playing in Spotify desktop, web player, mobile, or a Spotify Connect speaker.</p>
-      </div>
-    </details>
-
-    <details class="tr">
-      <summary>Spotify won't connect / authentication fails</summary>
-      <div class="tr-body">
-        <p><strong>Most common cause:</strong> the Redirect URI in your Spotify Developer app doesn't exactly match the one IKANDY shows.</p>
-        <p>Open IKANDY's Spotify settings, copy the Redirect URI, then go to <code>developer.spotify.com/dashboard</code> → your app → Settings → paste it into <strong>Redirect URIs</strong>. Save, then retry Connect from IKANDY.</p>
-        <p>Also check: Client ID pasted with no leading/trailing spaces, Web API box is ticked.</p>
+        <p>Spotify plays through Windows media controls. Play, pause, and skip work when Spotify publishes them; some controls (seek, volume, shuffle) live inside Spotify itself. There is no sign-in and no account connection: press play in Spotify and IKANDY follows.</p>
+        <p>If you followed an older guide that asked for a Client ID and a Spotify Developer app, that connection has been removed from IKANDY. No setup is needed anymore.</p>
       </div>
     </details>
 
@@ -188,8 +179,8 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
     <details class="tr">
       <summary>Lyrics aren't showing up</summary>
       <div class="tr-body">
-        <p>Lyrics come from <a href="https://lrclib.net" target="_blank" rel="noopener" style="color:var(--ice);">LRCLIB</a>, which is community-maintained. Very new or obscure tracks may not have an entry. Search <code>lrclib.net</code> directly to confirm.</p>
-        <p>Also check: if your local files have incorrect artist/title tags, lyrics will look up the wrong song.</p>
+        <p>Lyrics load from your own files, matched by the artist and title of the playing track: a synced .lrc next to the track, or one in your linked lyrics folder. If no local file matches, IKANDY shows nothing instead of guessing. Use <strong>Add Lyrics</strong> and <strong>Tap to Time</strong> to create one; see the <a href="lyrics.html">lyrics guide</a>.</p>
+        <p>Also check: if your files have incorrect artist/title tags, the match can land on the wrong song.</p>
       </div>
     </details>
 
@@ -214,7 +205,7 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
       <summary>Where are my settings stored?</summary>
       <div class="tr-body">
         <p>IKANDY stores all user data in the Electron <code>userData</code> folder: <code>%APPDATA%\IKANDY</code> (paste into the Explorer address bar).</p>
-        <p style="margin-top:8px;">Files stored there include your Spotify tokens (encrypted via Windows DPAPI), source preferences, preset reactivity scores, favorites, hidden presets, and thumbnail cache.</p>
+        <p style="margin-top:8px;">Files stored there include source preferences, preset reactivity scores, favorites, hidden presets, and thumbnail cache.</p>
         <p style="margin-top:8px;"><strong>Uninstall note:</strong> the standard NSIS uninstaller on Windows does <em>not</em> delete <code>%APPDATA%\IKANDY</code>. Your settings, favorites, and cached thumbnails survive an uninstall and are picked up automatically when you reinstall. To fully reset IKANDY, delete that folder manually after uninstalling.</p>
       </div>
     </details>
