@@ -372,7 +372,7 @@ footer.ftr a{text-decoration:none}
   <p class="page-tag">Legal — Privacy Policy</p>
   <h1 class="page-title">Your Data.<br>Your Rules.</h1>
   <p class="page-lead">A plain-language explanation of what IKANDY collects, what it doesn't, and how you can control or request deletion of your data.</p>
-  <div class="meta-line">Version 2.5 · Effective 2026-07-10</div>
+  <div class="meta-line">Version 2.6 · Effective 2026-07-26</div>
 </header>
 
 <main id="main-content">
@@ -381,6 +381,7 @@ footer.ftr a{text-decoration:none}
     <div class="callout-title">Quick Summary</div>
     <ul>
       <li><strong>Optional telemetry is off by default.</strong> Usage analytics and crash diagnostics are separate, optional controls. You may enable either in Settings &rarr; Privacy and change your choice at any time.</li>
+      <li><strong>A few connections are required rather than optional.</strong> Checking a paid tier, checking for an update outside Steam, and completing a deletion request all contact a server so the feature can work. They carry your install ID and app version, they are not telemetry, and the telemetry toggles do not switch them off. They are listed in full below.</li>
       <li><strong>Optional app analytics are tied to a random install ID</strong> generated on your machine, not a Steam account identifier.</li>
       <li><strong>For app telemetry, we derive a coarse region</strong> (country level) from your connection to see where IKANDY is used. Our application database does not store the raw IP address.</li>
       <li><strong>We do not ask for your name or email to use the app.</strong> We do not collect music or audio content, file names, or account credentials for our own servers.</li>
@@ -428,9 +429,55 @@ footer.ftr a{text-decoration:none}
       </tbody>
     </table>
     <p><strong>Historical beta builds (pre-release).</strong> Before the beta closed, access could validate against our server with a random Beta ID (a UUID generated on first install) and a one-way SHA-256 device-fingerprint hash derived from device attributes. Historical records may remain subject to the retention and deletion terms below. The original device attributes are not recoverable from the hash, but the resulting value is treated as a pseudonymous identifier where applicable law considers it personal data.</p>
+
+    <h3>Connections that are not telemetry</h3>
+    <p>Some features contact a server in order to work at all. These are separate from the optional telemetry described in the next section: they are <strong>not</strong> covered by the telemetry toggles, and each one happens only when the feature it belongs to actually runs. None of them carries your name, email, Steam identity, or anything about what you are playing or making.</p>
+    <table class="data-table">
+      <thead>
+        <tr><th>Connection</th><th>What it involves</th><th>When it happens</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Pro or Studio entitlement check</strong></td>
+          <td>Your install ID, used to look up whether a paid tier is recorded for it. The answer is cached, so the app keeps working while you are offline.</td>
+          <td>When a Pro or Studio feature is used. Ownership bought through Steam is confirmed locally by the Steam client instead, and our servers are not involved in that check.</td>
+        </tr>
+        <tr>
+          <td><strong>Concurrent-device check</strong></td>
+          <td>Your install ID and the one-way device hash described above, so that one paid licence is not run on many machines at once.</td>
+          <td>Periodically while a paid tier is active. If the check fails or cannot be reached, the app leaves your features enabled.</td>
+        </tr>
+        <tr>
+          <td><strong>Deletion-proof registration</strong></td>
+          <td>Your install ID and a random value generated on your machine, stored together so that a later deletion request can be proved to come from your installation.</td>
+          <td>Once per installation, automatically, on an early launch. It is a safeguard on your deletion right rather than analytics, so it deliberately runs whether or not telemetry is on.</td>
+        </tr>
+        <tr>
+          <td><strong>Deletion request</strong></td>
+          <td>Your install ID and that same value, so we can verify the request before acting on it.</td>
+          <td>Only when you use the delete button described under Your Rights.</td>
+        </tr>
+        <tr>
+          <td><strong>Update check</strong></td>
+          <td>A request to our release feed, which is hosted on GitHub, asking whether a newer version exists. It carries no install ID. GitHub receives your IP address and standard request information as the host of that feed.</td>
+          <td>At launch, on builds installed outside Steam. Steam builds skip this entirely, because Steam handles their updates.</td>
+        </tr>
+        <tr>
+          <td><strong>Agreement validation</strong></td>
+          <td>The Beta ID and device hash described above.</td>
+          <td>Pre-release beta builds only. Retail builds record your acceptance of the agreement on your own machine and make no such call, so a retail install works fully offline.</td>
+        </tr>
+        <tr>
+          <td><strong>AI price list</strong></td>
+          <td>A request to ikandy.app for a small published price file, so the Create panel can show an estimated cost before you generate. It carries no ID and sends nothing about your prompt.</td>
+          <td>At most once a day, while the Create panel is open. If it fails, a built-in price table is used instead.</td>
+        </tr>
+      </tbody>
+    </table>
   <p class="section-tag">03</p>
     <h2>Diagnostics &amp; Usage Analytics</h2>
     <p>IKANDY has two telemetry channels: usage analytics and crash diagnostics. Both are off by default and are enabled only through separate, affirmative choices in <strong>Settings &rarr; Privacy</strong>. You can change either choice at any time; future events stop when you turn the relevant control off.</p>
+    <p>These two controls govern the telemetry described in this section. They do not govern the required connections listed in the previous section, which run because the features they belong to cannot work without them.</p>
     <h3>Usage Analytics</h3>
     <p>When on, IKANDY records:</p>
     <ul>
@@ -464,12 +511,15 @@ footer.ftr a{text-decoration:none}
       <li>Screenshots or video</li>
       <li>Biometric data of any kind</li>
     </ul>
+    <p>Those statements are about <strong>our</strong> servers. Separately, a few features send limited information from your device straight to someone else, without it passing through us. Those are listed next, and the artist lookup in particular does send the name of the artist you are playing.</p>
     <h3>Optional features that talk to other services</h3>
-    <p>A few features you can turn on send limited data to third-party services, only while you use them:</p>
+    <p>A few features send limited information beyond your own machine, and only while you use them:</p>
     <ul>
       <li><strong>Lyrics.</strong> Lyrics load from your own local files (a synced .lrc beside the track, or your linked lyrics folder). Nothing is sent to any lyrics service.</li>
+      <li><strong>Artist Bio card.</strong> When you open the Artist Bio card, IKANDY looks the playing artist up directly from your device on Wikipedia, MusicBrainz, Wikidata, and Wikimedia Commons. The artist name is sent to those services, and each receives your IP address and a header identifying IKANDY as the client, as any web request would. Our servers play no part in this and receive nothing from it. Nothing is looked up until you open the card, and attribution for whatever comes back is shown inside the card.</li>
+      <li><strong>Media player connections.</strong> Connecting MusicBee, foobar2000, or VLC sends requests to the address you configure for that player, which is your own machine by default. Those requests stay on the network you point them at and are not sent to us.</li>
       <li><strong>Bug reports.</strong> If you submit a bug report you may optionally include an email address so we can follow up. It is used only for that report.</li>
-      <li><strong>AI generation (BYOK).</strong> Your prompts go to the AI provider whose key you supplied, under that provider's privacy policy.</li>
+      <li><strong>AI generation (BYOK).</strong> Your prompt goes to the AI provider whose key you supplied, under that provider's privacy policy. So do the frames IKANDY renders of the result, which that provider's model reads in order to score the scene and improve it.</li>
     </ul>
     <p><strong>Local logs stay local unless you choose to send a report.</strong> IKANDY writes a diagnostic log on your machine that can include your Windows username and the titles of songs you played. Optional crash diagnostics send the sanitized report described above only when crash diagnostics are enabled; bug reports send only when you submit them.</p>
   </section>
@@ -485,8 +535,8 @@ footer.ftr a{text-decoration:none}
   <section class="policy">
     <p class="section-tag">06</p>
     <h2>Where Your Data Is Stored</h2>
-    <p>Product telemetry, deletion records, and beta-management records are processed using <a href="https://supabase.com" target="_blank" rel="noopener" class="inline-link">Supabase</a>. If crash diagnostics are enabled, sanitized crash reports may additionally be processed by <a href="https://sentry.io" target="_blank" rel="noopener" class="inline-link">Sentry</a>. If website analytics are allowed, limited website events are processed by <a href="https://policies.google.com/privacy" target="_blank" rel="noopener" class="inline-link">Google Analytics</a>. These providers process data for us under their own applicable terms and privacy commitments.</p>
-    <p>We do not sell or rent personal data. We share data only with service providers that help operate the app, or with a third-party service you choose to use, such as an AI or lyrics provider, as described in this policy.</p>
+    <p>Product telemetry, licence and entitlement records, deletion records, and beta-management records are processed using <a href="https://supabase.com" target="_blank" rel="noopener" class="inline-link">Supabase</a>. Our release files, and the update check that reads them on builds installed outside Steam, are hosted by <a href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener" class="inline-link">GitHub</a>. If crash diagnostics are enabled, sanitized crash reports may additionally be processed by <a href="https://sentry.io" target="_blank" rel="noopener" class="inline-link">Sentry</a>. If website analytics are allowed, limited website events are processed by <a href="https://policies.google.com/privacy" target="_blank" rel="noopener" class="inline-link">Google Analytics</a>. These providers process data for us under their own applicable terms and privacy commitments.</p>
+    <p>We do not sell or rent personal data. We share data only with service providers that help operate the app, or with a third-party service you choose to use, such as an AI provider or the artist-information sources named above, as described in this policy.</p>
     <h3>Retention and international processing</h3>
     <p>We retain optional telemetry, crash records, and website analytics only as long as reasonably needed for the purposes described above, then delete or aggregate them where practical. Google Analytics retention controls do not necessarily apply to aggregated reports. We retain beta-access and agreement records only as long as needed to administer access, keep required records, resolve disputes, or comply with law. Service providers may process data outside your country; where applicable, their contractual and legal transfer safeguards apply.</p>
     <h3>Legal bases</h3>
@@ -535,9 +585,16 @@ footer.ftr a{text-decoration:none}
     <h3>Delete Your Data</h3>
     <p>Use the <strong>"Delete my data from IKANDY servers"</strong> button in <strong>Settings → Privacy</strong> to request deletion. The flow:</p>
     <ul>
-      <li>Deletes all usage and crash report records tied to your installation</li>
-      <li>Anonymizes your beta installation record (removes personal identifiers while keeping the row to prevent beta-slot recycling)</li>
+      <li>Deletes your usage records, error and crash records, and any bug reports tied to your installation, together with the stored value that proves a request came from you</li>
+      <li>Anonymizes your beta installation record and any record of a declined agreement (removes personal identifiers while keeping the row to prevent beta-slot recycling)</li>
       <li>Generates a fresh anonymous ID locally so future sessions start clean</li>
+    </ul>
+    <p><strong>Requests are verified.</strong> Your installation registers a random value with us on an early launch, and a deletion request has to present that same value. This exists so that anyone who merely learns or guesses an install ID cannot delete someone else's records. An installation that predates this mechanism, or one whose stored value has been lost, may not be able to complete the request in the app: email <a href="mailto:support@ikandy.app?subject=Data%20Deletion%20Request" class="inline-link">support@ikandy.app</a> and we will carry it out for you.</p>
+    <p><strong>A few records are kept.</strong> A small set survives a deletion request, because removing it would defeat what it is there for:</p>
+    <ul>
+      <li>Your record of accepting the agreement, which is already held in anonymous form, kept as evidence that the terms were accepted</li>
+      <li>The anti-abuse records behind the concurrent-device check, kept so that deletion cannot be used to reset a device limit</li>
+      <li>Paid licence records, which are never removed automatically, so that a deletion request does not erase a purchase. Ask us if you want a paid record removed as well.</li>
     </ul>
     <p>For website analytics already sent to Google, contact <a href="mailto:support@ikandy.app?subject=Website%20Analytics%20Privacy%20Request" class="inline-link">support@ikandy.app</a>. We will use the deletion tools reasonably available to us where the relevant data can be identified. Because website events are deliberately not attached to your name, email, Steam account, or IKANDY account, we may need additional non-identifying details such as the approximate date and page involved, and it may not always be possible to isolate a particular event.</p>
 
