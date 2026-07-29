@@ -372,7 +372,7 @@ footer.ftr a{text-decoration:none}
   <p class="page-tag">Legal: Privacy Policy</p>
   <h1 class="page-title">Your Data.<br>Your Rules.</h1>
   <p class="page-lead">A plain-language explanation of what IKANDY collects, what it doesn't, and how you can control or request deletion of your data.</p>
-  <div class="meta-line">Version 2.7 · Effective 2026-07-27</div>
+  <div class="meta-line">Version 2.8 · Effective 2026-07-29</div>
 </header>
 
 <main id="main-content">
@@ -412,7 +412,7 @@ footer.ftr a{text-decoration:none}
           <td>Unlocks the tier you purchased for core local playback. Steam and optional online features may require a connection.</td>
         </tr>
         <tr>
-          <td><strong>Anonymous install ID</strong></td>
+          <td><strong>Pseudonymous install ID</strong></td>
           <td>A random UUID generated on your machine at first launch. It is not derived from your Steam account and is not used by IKANDY to identify you by name or email.</td>
           <td>Identifies your install for telemetry (if you enabled it), bug reports you send, and the "delete my data" flow.</td>
         </tr>
@@ -439,8 +439,8 @@ footer.ftr a{text-decoration:none}
       <tbody>
         <tr>
           <td><strong>Pro or Studio entitlement check</strong></td>
-          <td>Your install ID, used to look up whether a paid tier is recorded for it. The answer is cached, so the app keeps working while you are offline.</td>
-          <td>When a Pro or Studio feature is used. Ownership bought through Steam is confirmed locally by the Steam client instead, and our servers are not involved in that check.</td>
+          <td>Your install ID, used to look up whether a paid tier is recorded for it. The answer is signed by our server and cached on your machine, so your paid features keep working offline for up to 37 days between checks. IKANDY itself never stops working offline: if the cached answer does go stale, the app continues on the free tier rather than shutting you out.</td>
+          <td>When a Pro or Studio feature is used, and in the background roughly once a week to renew the cached answer while you are online. Ownership bought through Steam is confirmed locally by the Steam client instead, and our servers are not involved in that check.</td>
         </tr>
         <tr>
           <td><strong>Concurrent-device check</strong></td>
@@ -519,7 +519,7 @@ footer.ftr a{text-decoration:none}
       <li><strong>Artist Bio card.</strong> When you open the Artist Bio card, IKANDY looks the playing artist up directly from your device on Wikipedia and Wikimedia Commons. The artist name is sent to those services, and each receives your IP address and a header identifying IKANDY as the client, as any web request would. Our servers play no part in this and receive nothing from it. Nothing is looked up until you open the card, and attribution for whatever comes back is shown inside the card.</li>
       <li><strong>Media player connections.</strong> Connecting MusicBee, foobar2000, or VLC sends requests to the address you configure for that player, which is your own machine by default. Those requests stay on the network you point them at and are not sent to us.</li>
       <li><strong>Bug reports.</strong> If you submit a bug report you may optionally include an email address so we can follow up. It is used only for that report.</li>
-      <li><strong>AI generation (BYOK).</strong> Your prompt goes to the AI provider whose key you supplied, under that provider's privacy policy. So do the frames IKANDY renders of the result, which that provider's model reads in order to score the scene and improve it.</li>
+      <li><strong>AI generation (BYOK).</strong> IKANDY's AI features currently connect only to Anthropic. Your prompt goes to Anthropic, using the API key you supply, under Anthropic's privacy policy. So do the frames IKANDY renders of the result, which Anthropic's model reads in order to score the scene and improve it.</li>
     </ul>
     <p><strong>Local logs stay local unless you choose to send a report.</strong> IKANDY writes a diagnostic log on your machine that can include your Windows username and the titles of songs you played. Optional crash diagnostics send the sanitized report described above only when crash diagnostics are enabled; bug reports send only when you submit them.</p>
   </section>
@@ -587,7 +587,7 @@ footer.ftr a{text-decoration:none}
     <ul>
       <li>Deletes your usage records, error and crash records, and any bug reports tied to your installation, together with the stored value that proves a request came from you</li>
       <li>Anonymizes your beta installation record and any record of a declined agreement (removes personal identifiers while keeping the row to prevent beta-slot recycling)</li>
-      <li>Generates a fresh anonymous ID locally so future sessions start clean</li>
+      <li>Generates a fresh pseudonymous ID locally so future sessions start clean</li>
     </ul>
     <p><strong>Requests are verified.</strong> Your installation registers a random value with us on an early launch, and a deletion request has to present that same value. This exists so that anyone who merely learns or guesses an install ID cannot delete someone else's records. An installation that predates this mechanism, or one whose stored value has been lost, may not be able to complete the request in the app: email <a href="mailto:support@ikandy.app?subject=Data%20Deletion%20Request" class="inline-link">support@ikandy.app</a> and we will carry it out for you.</p>
     <p><strong>A few records are kept.</strong> A small set survives a deletion request, because removing it would defeat what it is there for:</p>
