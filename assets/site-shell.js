@@ -46,13 +46,30 @@
      showing the regular price a few hours early only ever undersells us, whereas
      advertising $4.95 after Steam has stopped honouring it is advertising a price
      we do not charge. Do not "align" this to 10:00 to match the release flip —
-     the asymmetry is the point. */
+     the asymmetry is the point.
+
+     STUDIO EXEMPTION (2026-07-30): the Studio DLC slipped past the app's Jul 31
+     release, so Studio's 14-day offer starts at STUDIO's release, date not yet
+     known. Studio tier cards carry data-coming-soon="studio" and are skipped by
+     this flip; otherwise Aug 14 would strip Studio's coming-soon offer copy and
+     swap it to $59.99 before the DLC ever went on sale. When Studio ships:
+     remove data-coming-soon from both Studio cards (index.html + pricing) and
+     give Studio its own offer-end date here. */
   var offerEndsAt = Date.parse('2026-08-14T00:00:00-07:00');
+  function inComingSoonTier(el) {
+    while (el && el.nodeType === 1) {
+      if (el.hasAttribute && el.hasAttribute('data-coming-soon')) return true;
+      el = el.parentNode;
+    }
+    return false;
+  }
   if (Date.now() >= offerEndsAt) {
     Array.prototype.forEach.call(document.querySelectorAll('.tier-price[data-regular]'), function (price) {
+      if (inComingSoonTier(price)) return;
       price.textContent = price.getAttribute('data-regular');
     });
     Array.prototype.forEach.call(document.querySelectorAll('.tier-launch, .tier-flag'), function (el) {
+      if (inComingSoonTier(el)) return;
       el.style.display = 'none';
     });
   }

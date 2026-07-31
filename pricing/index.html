@@ -3,10 +3,19 @@
 <!--
   ============================================================================
   LAUNCH TODO: MANUAL PASS DUE 2026-08-14 (added 2026-07-25)
+  STUDIO DECOUPLED 2026-07-30: the Studio DLC slipped past the 2026-07-31 app
+  release. Studio cards now carry data-coming-soon="studio" (here and on
+  index.html), which EXEMPTS them from the Aug 14 price swap in site-shell.js.
+  Studio's own 14-day offer ($39.59, then $59.99) starts whenever Studio ships.
+  WHEN STUDIO SHIPS: remove data-coming-soon from both Studio cards, restore the
+  "14-day launch offer" tier-flag, put real dates back in the Studio JSON-LD
+  offers (validFrom = its release date, priceValidUntil = +14 days), and set a
+  Studio-specific offer-end date in site-shell.js.
   ----------------------------------------------------------------------------
-  The 14-day Steam launch offer (Pro $4.95, Studio $39.59) ends at 00:00 Pacific
-  on 2026-08-14. assets/site-shell.js swaps the VISIBLE tier prices to the
-  regular $7.99 / $59.99 automatically on that date, and the JSON-LD offers
+  The 14-day Steam launch offer (Pro $4.95; Studio $39.59 deferred, see above)
+  ends at 00:00 Pacific on 2026-08-14 for Pro. assets/site-shell.js swaps the
+  VISIBLE tier prices to the regular $7.99 / $59.99 automatically on that date
+  (Studio excluded while data-coming-soon is present), and the JSON-LD offers
   self-expire via priceValidUntil. Everything below is STATIC and does NOT
   self-update. It will keep advertising the launch price until a human edits it.
 
@@ -37,10 +46,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>IKANDY pricing: Base, Pro, Studio. One-time purchase on Steam.</title>
-<meta name="description" content="IKANDY pricing: Base is free. Planned 14-day launch offer: Pro $4.95, Studio $39.59. Regular prices: $7.99 and $59.99. On Steam July 31, 2026.">
+<meta name="description" content="IKANDY pricing: Base is free. Planned 14-day launch offer: Pro $4.95 on Steam July 31, 2026. Studio is coming soon with a planned $39.59 launch offer. Regular prices: $7.99 and $59.99.">
 <link rel="canonical" href="https://ikandy.app/pricing/">
 <meta property="og:title" content="IKANDY pricing">
-<meta property="og:description" content="Base $0. Planned 14-day launch offer: Pro $4.95, Studio $39.59. Regular prices: Pro $7.99, Studio $59.99.">
+<meta property="og:description" content="Base $0. Planned 14-day launch offer: Pro $4.95. Studio coming soon with a planned $39.59 launch offer. Regular prices: Pro $7.99, Studio $59.99.">
 <meta property="og:image" content="https://ikandy.app/assets/social-card.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -49,7 +58,7 @@
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="IKANDY pricing">
-<meta name="twitter:description" content="Planned 14-day launch offer: Pro $4.95, Studio $39.59. Then $7.99 and $59.99 regular on Steam.">
+<meta name="twitter:description" content="Planned 14-day launch offer: Pro $4.95. Studio coming soon with a planned $39.59 launch offer. Then $7.99 and $59.99 regular on Steam.">
 <meta name="twitter:image" content="https://ikandy.app/assets/social-card.jpg">
 <script type="application/ld+json">
 {
@@ -86,13 +95,11 @@
       },
       {
         "@type": "Offer",
-        "name": "IKANDY Studio: 14-day launch offer",
+        "name": "IKANDY Studio: planned 14-day launch offer (coming soon)",
         "price": "39.59",
         "priceCurrency": "USD",
-        "validFrom": "2026-07-31",
-        "priceValidUntil": "2026-08-14",
         "url": "https://store.steampowered.com/app/4813240/IKANDY/",
-        "description": "Planned U.S. price during the first 14 days after release; regular price is $59.99."
+        "description": "Studio has not released yet. Planned U.S. price during the first 14 days after the Studio release; regular price is $59.99."
       }
     ]
   }
@@ -236,7 +243,7 @@ main .unit:first-of-type::after{width:460px;height:460px;left:-150px;bottom:-220
   <div class="unit-in">
     <div class="unit-tag"><b>PRICING</b> ONE-TIME PURCHASE</div>
     <h1 class="unit-title" style="font-size:clamp(38px,6vw,64px)">Buy once. No subscription.</h1>
-    <p class="unit-lead">Three tiers, one purchase, no subscription. A 14-day launch offer begins when IKANDY releases July 31, 2026; regular prices follow. Core visual playback runs locally on your GPU. Optional AI scene generation uses a supported provider account. Optional expansions or add-on content may come later. Today the core app is a one-time purchase, and the bundled community preset library is free.</p>
+    <p class="unit-lead">Three tiers, one purchase, no subscription. A 14-day launch offer on Pro begins when IKANDY releases July 31, 2026; regular prices follow. Studio is coming soon and opens with its own 14-day launch offer when it arrives. Core visual playback runs locally on your GPU. Optional AI scene generation uses a supported provider account. Optional expansions or add-on content may come later. Today the core app is a one-time purchase, and the bundled community preset library is free.</p>
 
     <div class="tiers">
       <div class="tier">
@@ -269,13 +276,13 @@ main .unit:first-of-type::after{width:460px;height:460px;left:-150px;bottom:-220
         </ul>
       </div>
 
-      <div class="tier">
-        <span class="tier-flag">14-day launch offer</span>
+      <div class="tier" data-coming-soon="studio">
+        <span class="tier-flag">Coming soon</span>
         <div class="tier-head"><span class="tier-model">IK-2</span></div>
         <h2>Studio</h2>
         <p class="tier-role">The full VJ rig.</p>
         <p class="tier-price" data-regular="$59.99">$39.59<span class="tier-was">$59.99</span></p>
-        <p class="tier-launch">$59.99 regular after the launch offer</p>
+        <p class="tier-launch">14-day launch offer when Studio arrives; $59.99 regular after</p>
         <ul>
           <li class="plus">Everything in Pro, plus</li>
           <li>Multi-monitor span + simultaneous mirrors</li>
@@ -350,7 +357,7 @@ main .unit:first-of-type::after{width:460px;height:460px;left:-150px;bottom:-220
       <span><span class="led on" aria-hidden="true"></span> INCLUDED IN TIER</span>
       <span><span class="led off" aria-hidden="true"></span> NOT INCLUDED IN TIER</span>
     </div>
-    <p class="foot-note">Planned U.S. launch prices are shown. The 14-day offer begins with the Steam release; Steam displays final regional pricing and the exact end time and is authoritative. Tiers, features, prices, and offerings may change over time; see the <a href="../license.html">license terms</a>.</p>
+    <p class="foot-note">Planned U.S. launch prices are shown. Each tier's 14-day offer begins with that tier's Steam release; Studio is coming soon and its offer begins when it arrives. Steam displays final regional pricing and the exact end time and is authoritative. Tiers, features, prices, and offerings may change over time; see the <a href="../license.html">license terms</a>.</p>
   </div>
 </section>
 </main>
