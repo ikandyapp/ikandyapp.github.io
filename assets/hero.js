@@ -14,6 +14,15 @@
   if (!canvas) return;
 
   var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* Touch devices get a render budget. The hero section grows 2+ screens tall
+     when the console stacks on narrow layouts, so the full-bleed canvas reaches
+     ~2M fragments of this shader per frame; mid-range phone GPUs saturate,
+     which also makes page scrolling janky (field report, 2026-08). The glow
+     content upscales invisibly, so cap the backing store area and hold 30fps
+     on coarse pointers only; desktop rendering is byte-identical. */
+  var coarse = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+  var MOBILE_MAX_PIXELS = 700000;
+  var MOBILE_FRAME_MS = 30;
 
   /* ---------------- state ---------------- */
   var S = {
@@ -329,6 +338,10 @@
     var dpr = Math.min(window.devicePixelRatio || 1, 1.75);
     var w = canvas.clientWidth, h = canvas.clientHeight;
     var W = Math.round(w * dpr), H = Math.round(h * dpr);
+    if (coarse && W * H > MOBILE_MAX_PIXELS) {
+      var s = Math.sqrt(MOBILE_MAX_PIXELS / (W * H));
+      W = Math.max(1, Math.round(W * s)); H = Math.max(1, Math.round(H * s));
+    }
     if (canvas.width !== W || canvas.height !== H) {
       canvas.width = W; canvas.height = H; gl.viewport(0, 0, W, H);
     }
@@ -794,9 +807,14 @@
   function renderStill() {
     if (renderReady && reduced && S.running && S.visible) frame(performance.now());
   }
+  var lastDraw = 0;
   function frame(now) {
     rafId = 0;
     if (!S.running || !S.visible) { S.last = now; return; }
+    // 30fps gate for touch devices; S.last only advances on rendered frames,
+    // so dt stays correct and the clocks never drift.
+    if (coarse && !reduced && now - lastDraw < MOBILE_FRAME_MS) { requestFrame(); return; }
+    lastDraw = now;
     var dt = Math.min(0.05, (now - (S.last || now)) / 1000); S.last = now;
     S.t += dt;                                        // music clock: tempo never changes
     if (!reduced) S.ph += dt * (0.25 + S.speed * 1.5); // visual clock: SPEED sets velocity, not position

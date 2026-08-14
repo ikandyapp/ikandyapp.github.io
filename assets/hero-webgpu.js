@@ -284,17 +284,30 @@ fn nova(uv: vec2<f32>) -> vec3<f32> {
         var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
         var width = Math.max(1, Math.round(canvas.clientWidth * dpr));
         var height = Math.max(1, Math.round(canvas.clientHeight * dpr));
+        // Same touch-device render budget as hero.js: the full-bleed canvas
+        // can exceed 2M fragments on stacked narrow layouts.
+        var coarse = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+        if (coarse && width * height > 700000) {
+          var s = Math.sqrt(700000 / (width * height));
+          width = Math.max(1, Math.round(width * s));
+          height = Math.max(1, Math.round(height * s));
+        }
         if (canvas.width !== width || canvas.height !== height) {
           canvas.width = width;
           canvas.height = height;
         }
       }
 
-      function frame() {
+      var coarsePtr = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+      var lastDraw = 0;
+      function frame(now) {
         var s = window.IKANDY_HERO_STATE;
         var selected = !!s && s.mode >= 3 && s.mode <= 5 && window.IKANDY_WEBGPU_READY;
         var active = selected && s.visible && !document.hidden;
         showWebGPU(selected);
+        // 30fps gate for touch devices, matching hero.js.
+        if (coarsePtr && !reduced && now - lastDraw < 30) { requestAnimationFrame(frame); return; }
+        lastDraw = now || 0;
         if (active) {
           resize();
           var renderKey = [canvas.width, canvas.height, s.mode, s.ph, s.bass, s.mid, s.treb, s.hue, s.glow, s.react, s.speed].join('|');
