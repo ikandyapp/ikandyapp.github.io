@@ -417,7 +417,7 @@ body.visual-only .immersive-exit{display:flex}
 }
 @media(max-width:640px){
   .hero-copy{padding-left:18px;padding-right:18px}
-  .hero-live{left:18px;right:auto;max-width:calc(100% - 36px);font-size:8px;letter-spacing:.12em}
+  .hero-live{left:18px;right:auto;max-width:calc(100% - 36px);font-size:10px;letter-spacing:.1em}
   .console{padding:0 12px 18px}
   .console-panel{padding:16px 12px;gap:16px}
   /* max-content tracks cannot shrink: at 375px the 3-across grid renders ~388px
@@ -425,14 +425,41 @@ body.visual-only .immersive-exit{display:flex}
      half. Two fr columns fit every phone down to 320px. */
   .scene-group .grow{grid-template-columns:repeat(2,minmax(0,1fr))}
   .scene-btn{min-height:44px;justify-content:center}
-  .khelp-tip{left:0;transform:none;white-space:normal;width:max-content;max-width:calc(100vw - 60px)}
+  /* Phone readability floor: the console silkscreen labels render 7-9px on
+     desktop scale; at handset widths they lift to a 9.5-11.5px floor. */
+  .glabel{font-size:10.5px;letter-spacing:.2em}
+  .knob-name{font-size:10.5px}.knob-val{font-size:11.5px}
+  .scene-btn{font-size:11px}
+  .scene-btn[data-tech]::after{font-size:8px}
+  .program-title{font-size:10.5px}.program-meta{font-size:9px}
+  .wave-readout{font-size:10px}.wave-source strong{font-size:10.5px}
+  .theme-play-label{font-size:10.5px}.theme-play-status{font-size:9.5px}
+  .hero-slogan-lead{font-size:10px}
+  .immersive-exit{font-size:10px;min-height:44px;padding:9px 14px}
+  .immersive-exit kbd{font-size:8.5px}
+  /* The volume fader hit area: 4px of invisible padding lifts it past 44px
+     (handlers live on .fader and read the track rect, so padding is inert). */
+  .fader{padding:4px 0}
+  /* The knob tooltip cannot fit beside its button on a phone: anchored to the
+     button it ran ~140px past the right edge. Pin it to the bottom of the
+     viewport instead (no transformed ancestor, so fixed means the viewport). */
+  .khelp-tip{position:fixed;left:12px;right:12px;top:auto;
+    bottom:calc(14px + env(safe-area-inset-bottom));transform:none;
+    white-space:normal;width:auto;max-width:none;text-align:center;
+    font-size:10px;padding:10px 12px;z-index:60}
   .sound-group{min-width:100%}
   .program-bank{grid-template-columns:repeat(3,minmax(0,1fr))}
   .program-btn{min-height:44px;padding-left:10px;padding-right:10px}
   .wave-readout{gap:7px}.wave-input{display:none}.wave-source{min-width:142px}
   .hero-logo{top:31%;right:18px;transform:translateY(10px) scale(.78);transform-origin:right center}
   .hero-logo.on{transform:translateY(0) scale(.78)}
-  .hero-logo-sub{font-size:8px;letter-spacing:.22em}
+  .hero-logo-sub{font-size:11px;letter-spacing:.16em}
+}
+@media(max-width:360px){
+  /* At 320px the lifted 11px scene type ran 3px past its key and the program
+     titles ellipsized; one size step + a 2-across bank keeps every label whole. */
+  .scene-btn{font-size:10.5px;letter-spacing:.1em}
+  .program-bank{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media(max-width:440px){
   .hero-signature{grid-template-columns:1fr;gap:11px}
@@ -664,6 +691,23 @@ html.js .unit-in.in{opacity:1;transform:none}
   background:rgba(70,217,107,.055);color:var(--ink-2);font-size:14.5px}
 .requirements b{color:var(--ink)}
 @media(max-width:700px){.faq-grid{grid-template-columns:1fr}}
+
+/* ---------- phone readability floor for the lower sections ----------
+   (these classes are declared above, so their handset overrides must sit
+   after them; same 640px cut as the hero/console block) */
+@media(max-width:640px){
+  .room-ch{font-size:11px}
+  .product-note{font-size:11px}
+  .product-note a{display:inline-block;padding:13px 0}
+  .tier-model{font-size:11px}
+  .tier-launch{font-size:10.5px}
+  .vid-cap{font-size:11px}
+  .vid-sm .vid-cap{font-size:10px}
+  .vid-mini-cap{font-size:11px}
+  /* Inline text links reach a 44px effective touch height via padding. */
+  .vid-alt a,.vid-mini-cap a{display:inline-block;padding:13px 0}
+  p>a.mono{display:inline-block;padding:13px 0}
+}
 </style>
 </head>
 <body>

@@ -36,7 +36,9 @@
     '#bw-close{position:absolute;top:10px;right:12px;background:none;border:0;color:var(--ink-3,#8a8371);font-size:20px;cursor:pointer;font-family:inherit;line-height:1}',
     '#bw-close:hover{color:var(--ink,#eae5d9)}',
     '#bw-later{display:block;background:none;border:0;color:var(--ink-3,#8a8371);text-decoration:underline;cursor:pointer;font-family:var(--mono,monospace);font-size:11px;letter-spacing:.08em;margin-top:14px;padding:0}',
-    '#bw-later:hover{color:var(--ink-2,#b5ae9c)}'
+    '#bw-later:hover{color:var(--ink-2,#b5ae9c)}',
+    // Phone touch targets: every control reaches ~44px of effective hit size.
+    '@media(max-width:640px){#bw-close{top:2px;right:2px;padding:12px 15px;font-size:22px}#bw-later{min-height:44px;padding:12px 0;font-size:12px}#bw-pop a.bw-mail{padding:13px 16px;font-size:12px}}'
   ].join('');
 
   var style = document.createElement('style');

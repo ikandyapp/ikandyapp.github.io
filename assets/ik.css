@@ -133,7 +133,13 @@ img{max-width:100%;height:auto}
     background:var(--rail);border-bottom:1px solid #000;
     flex-direction:column;align-items:flex-start;gap:0;padding:8px 0}
   .rail-links.open{display:flex}
-  .rail-links a{padding:12px 24px;width:100%}
+  /* 44px minimum touch rows in the open menu (11px type + 14px pads = 45.6px). */
+  .rail-links a{padding:14px 24px;width:100%}
+  /* The wordmark is a 22px-tall anchor inside the 52px rail; padding carries
+     its touch height to 44px without moving the visual. */
+  .rail-logo{padding:11px 0}
+  .skip-link{min-height:44px;display:inline-flex;align-items:center}
+  .rail-beta-note{font-size:10px}
   .rail-toggle{display:block;margin-left:auto;background:none;border:1px solid var(--rule);
     color:var(--ink);font-family:var(--mono);font-size:11px;letter-spacing:.1em;
     padding:8px 12px;border-radius:var(--radius);cursor:pointer;min-height:44px}
@@ -193,7 +199,16 @@ h1.unit-title,h2.unit-title{
   display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;
   font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--ink-faint)}
 .ftr-plate .amber{color:var(--vu-amber)}
-@media(max-width:860px){.ftr-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:860px){
+  .ftr-grid{grid-template-columns:1fr 1fr}
+  /* Footer list links measured ~15px tall on phones; 11px pads carry each row
+     to ~44px of touch height (list margins shrink so the rhythm stays close).
+     Scoped to li so the footer's .btn-steam CTA keeps its own padding. */
+  .ftr li a{display:inline-block;padding:11px 10px 11px 0}
+  .ftr li{margin:0 0 2px}
+  .ftr h4{font-size:11px}
+  .ftr-plate{font-size:11px}
+}
 @media(max-width:520px){.ftr-grid{grid-template-columns:1fr}}
 
 /* ---------- shared bits ---------- */
