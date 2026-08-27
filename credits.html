@@ -115,7 +115,7 @@ footer.ftr a{text-decoration:none}
       <a href="guide.html">Guide</a>
       <a href="artists.html">Artists</a>
     </div>
-    <div class="rail-cta-group"><a class="btn-steam rail-cta" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam <span aria-hidden="true">&middot;</span> Coming Soon</a><span class="rail-beta-note">Beta now closed</span></div>
+    <div class="rail-cta-group"><a class="btn-steam rail-cta" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Get IKANDY on Steam</a><span class="rail-beta-note">Free to play</span></div>
   </div>
 </nav>
 
@@ -141,14 +141,54 @@ footer.ftr a{text-decoration:none}
       <div class="credit-card" style="--stripe: #46d96b;">
         <div class="credit-top">
           <div>
+            <div class="credit-name">WARPCORE</div>
+            <div class="credit-author">IKANDY's MilkDrop engine</div>
+          </div>
+          <span class="license-badge badge-comm">Proprietary</span>
+        </div>
+        <div class="credit-body">
+          <p>WARPCORE renders every MilkDrop preset in IKANDY, converting the legacy per-frame and per-pixel math equations into real-time WebGL shaders. It is our own engine, but it is not independent work: substantial parts of it are ported from Jordan Berg's Butterchurn, in places verbatim &mdash; the seeded RNG, the noise and blur kernels, the warp mesh, the GLSL preambles and uniform tables that make preset shaders work, the drawables, the frame orchestration. Butterchurn's MIT licence allows exactly that, and what it asks for in return is credit. So: this engine exists because Jordan Berg's does.</p>
+        </div>
+      </div>
+
+      <div class="credit-card" style="--stripe: #46d96b;">
+        <div class="credit-top">
+          <div>
             <div class="credit-name">Butterchurn</div>
             <div class="credit-author">by <a href="https://github.com/jberg/butterchurn" target="_blank" rel="noopener">Jordan Berg</a> &nbsp;·&nbsp; v3.0.0-beta.5</div>
           </div>
           <span class="license-badge badge-mit">MIT License</span>
         </div>
         <div class="credit-body">
-          <p>The WebGL port of the legendary MilkDrop music visualizer. Butterchurn powers all of IKANDY's MilkDrop preset renders &mdash; hundreds of them &mdash; converting the legacy per-frame and per-pixel math equations into real-time WebGL shaders.</p>
+          <p>The WebGL port of the legendary MilkDrop music visualizer, and the origin of WARPCORE. Butterchurn is what made MilkDrop possible on the web; its code lives on inside IKANDY's engine.</p>
           <p><a href="https://github.com/jberg/butterchurn" target="_blank" rel="noopener">github.com/jberg/butterchurn</a></p>
+        </div>
+      </div>
+
+      <div class="credit-card" style="--stripe: #46d96b;">
+        <div class="credit-top">
+          <div>
+            <div class="credit-name">eel-wasm</div>
+            <div class="credit-author">by <a href="https://github.com/captbaritone/eel-wasm" target="_blank" rel="noopener">Jordan Eldredge</a> &nbsp;·&nbsp; v0.0.17</div>
+          </div>
+          <span class="license-badge badge-mit">MIT License</span>
+        </div>
+        <div class="credit-body">
+          <p>The EEL-to-WebAssembly compiler built into WARPCORE. Every preset's math equations run as sandboxed WebAssembly rather than generated JavaScript, which is both faster and safer.</p>
+          <p><a href="https://github.com/captbaritone/eel-wasm" target="_blank" rel="noopener">github.com/captbaritone/eel-wasm</a></p>
+        </div>
+      </div>
+
+      <div class="credit-card" style="--stripe: #ff5a1f;">
+        <div class="credit-top">
+          <div>
+            <div class="credit-name">MilkDrop</div>
+            <div class="credit-author">by Ryan Geiss &nbsp;·&nbsp; Nullsoft, Inc. &nbsp;·&nbsp; 2001</div>
+          </div>
+          <span class="license-badge badge-mit">BSD 3-Clause</span>
+        </div>
+        <div class="credit-body">
+          <p>Ryan Geiss created MilkDrop in 2001 and gave it to the world. WARPCORE's rendering semantics and constants reference the MilkDrop 2.25c source, released by Nullsoft under the BSD 3-Clause licence. IKANDY is MilkDrop-compatible; it is not affiliated with or endorsed by Nullsoft.</p>
         </div>
       </div>
 
@@ -600,6 +640,13 @@ footer.ftr a{text-decoration:none}
 </section>
 
 <section class="credit-section">
+<p class="section-tag">TEMPO SYNC</p>
+<h3 class="credit-title">Ableton Link</h3>
+<p class="credit-meta">Ableton AG &middot; <a href="https://github.com/Ableton/link" target="_blank" rel="noopener" class="inline-link">github.com/Ableton/link</a> &middot; under license from Ableton</p>
+<p>Ableton Link keeps musical tempo and beat phase in sync across applications on a local network. IKANDY works with Ableton Link so its tempo can lock to other Link-enabled software and hardware. Ableton and Link are trademarks of Ableton AG. IKANDY is not affiliated with, sponsored by, or endorsed by Ableton AG.</p>
+</section>
+
+<section class="credit-section">
 <p class="section-tag">BUILD TOOLING</p>
 <h3 class="credit-title">cmake-js</h3>
 <p class="credit-meta">cmake-js contributors &middot; <a href="https://github.com/cmake-js/cmake-js" target="_blank" rel="noopener" class="inline-link">github.com/cmake-js/cmake-js</a> &middot; MIT license</p>
@@ -679,7 +726,7 @@ footer.ftr a{text-decoration:none}
       <div>
         <p class="ftr-brand">IKANDY</p>
         <p class="ftr-note">Audio-reactive visualizer and VJ instrument for Windows 10 / 11. Core visual playback runs locally; optional online features require an internet connection.</p>
-        <p style="margin-top:18px"><a class="btn-steam" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam</a></p>
+        <p style="margin-top:18px"><a class="btn-steam" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Get IKANDY on Steam</a></p>
       </div>
       <div>
         <h4>Product</h4>
@@ -712,7 +759,7 @@ footer.ftr a{text-decoration:none}
       </div>
     </div>
     <div class="ftr-plate">
-      <span>MODEL IKANDY &middot; REV 2026.2 &middot; <span class="amber">SHIPS 2026-07-31 ON STEAM</span></span>
+      <span>MODEL IKANDY &middot; REV 2026.2 &middot; <span class="amber">OUT NOW ON STEAM</span></span>
       <span>Made by a human who likes loud music. &copy; 2026 L&amp;R Entertainment LLC &middot; IKANDY&trade;</span>
     </div>
   </div>

@@ -102,7 +102,7 @@ footer.ftr a{text-decoration:none}
       <a href="guide.html">Guide</a>
       <a href="artists.html">Artists</a>
     </div>
-    <div class="rail-cta-group"><a class="btn-steam rail-cta" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam <span aria-hidden="true">&middot;</span> Coming Soon</a><span class="rail-beta-note">Beta now closed</span></div>
+    <div class="rail-cta-group"><a class="btn-steam rail-cta" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Get IKANDY on Steam</a><span class="rail-beta-note">Free to play</span></div>
   </div>
 </nav>
 
@@ -591,7 +591,7 @@ shipping any layered-additive compute scene.</p>
 compute-tesla-orb.js (canonical <em>imperative</em> scene — see Section 11 for why it&#39;s
 the heavily-iterated reference point).</p>
 <h3><code>category: &#39;milkdrop&#39;</code> — not a pipeline category</h3>
-<p>Butterchurn owns its own preset lifecycle, render loop, post-FX, and DOM canvas (<code>#viz</code> + <code>#mdpp-canvas</code>). It runs as a peer to the pipeline, not under it. </p>
+<p>WARPCORE, IKANDY&rsquo;s own MilkDrop engine, owns the preset lifecycle and the MilkDrop render loop. Since the HDR-native flip it renders into a pipeline framebuffer that the pipeline consumes as a texture source, so MilkDrop is composited through the shared post chain rather than running beside it. The older <code>#mdpp-canvas</code> presenter is gone.</p>
 <hr>
 <h2>Section 6 — Color space</h2>
 <p>Two output modes, declared by <code>hints.selfTonemapped</code>.</p>
@@ -935,9 +935,11 @@ init into a <code>createMeshScene</code> adapter (mirroring <code>createGlslScen
 the new scene plugs into the same adapter. Until then, ferrofluid is a
 one-off and the bypass stays documented here.</p>
 <h3>MilkDrop — permanent exception (not a category)</h3>
-<p>Butterchurn owns its own preset lifecycle, render loop, post-FX, and DOM
-canvas (<code>#viz</code> + <code>#mdpp-canvas</code>). It runs as a peer system to the pipeline,
-not a category under it. Future MilkDrop integration extensions (mdpp
+<p>WARPCORE, IKANDY&rsquo;s own MilkDrop engine, owns the preset lifecycle and the
+MilkDrop render loop. Since the HDR-native flip it renders into a pipeline framebuffer
+that the pipeline consumes as a texture source, so MilkDrop is composited through the
+shared post chain rather than running beside it. The older <code>#mdpp-canvas</code>
+presenter is gone. Future MilkDrop integration extensions (mdpp
 post-FX, texture injection) belong in the mdpp and main-process integration layers, not in this
 contract.</p>
 <p>The reactivity gate still applies to MilkDrop <em>presets</em> — they ARE music
@@ -1033,7 +1035,7 @@ reactivity gates (Section 9) still bind.</p>
       <div>
         <p class="ftr-brand">IKANDY</p>
         <p class="ftr-note">Audio-reactive visualizer and VJ instrument for Windows 10 / 11. Core visual playback runs locally; optional online features require an internet connection.</p>
-        <p style="margin-top:18px"><a class="btn-steam" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Wishlist on Steam</a></p>
+        <p style="margin-top:18px"><a class="btn-steam" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Get IKANDY on Steam</a></p>
       </div>
       <div>
         <h4>Product</h4>
@@ -1066,7 +1068,7 @@ reactivity gates (Section 9) still bind.</p>
       </div>
     </div>
     <div class="ftr-plate">
-      <span>MODEL IKANDY &middot; REV 2026.2 &middot; <span class="amber">SHIPS 2026-07-31 ON STEAM</span></span>
+      <span>MODEL IKANDY &middot; REV 2026.2 &middot; <span class="amber">OUT NOW ON STEAM</span></span>
       <span>Made by a human who likes loud music. &copy; 2026 L&amp;R Entertainment LLC &middot; IKANDY&trade;</span>
     </div>
   </div>
