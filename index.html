@@ -92,7 +92,11 @@
   radial-gradient(900px 500px at 30% 20%,#3a1608,transparent 70%),
   radial-gradient(800px 600px at 75% 70%,#141420,transparent 70%),#060608}
 .hero-copy{position:relative;z-index:2;max-width:var(--maxw);width:100%;
-  margin:0 auto;padding:calc(var(--nav-h) + 8vh) 24px 24px;flex:1;
+  /* 8vh alone collapses on a short viewport (a phone held landscape) and let
+     the copy start above the absolutely-placed status pill, which is wide
+     enough at these widths to reach the eyebrow. The 62px floor clears the
+     pill; above ~775px tall 8vh wins and nothing moves. */
+  margin:0 auto;padding:calc(var(--nav-h) + max(8vh,62px)) 24px 24px;flex:1;
   display:flex;flex-direction:column;justify-content:center}
 .hero-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.24em;
   text-transform:uppercase;color:var(--ink);margin:0 0 18px;
@@ -425,8 +429,19 @@ body.visual-only .immersive-exit{display:flex}
   .sound-master{grid-template-columns:max-content minmax(120px,180px);justify-content:center}
 }
 @media(max-width:640px){
-  .hero-copy{padding-left:18px;padding-right:18px}
-  .hero-live{left:18px;right:auto;max-width:calc(100% - 36px);font-size:10px;letter-spacing:.1em}
+  .hero-copy{padding-left:18px;padding-right:18px;padding-top:22px}
+  /* Absolute positioning is safe at desktop widths, where the pill floats top
+     right and never meets the left-aligned copy. On a phone it moves into the
+     copy's own column and wraps to two or three lines (hero-webgpu.js swaps a
+     longer renderer string in at runtime), which ran it straight through the
+     eyebrow. In the flow it cannot collide, at any string length. */
+  .hero-live{position:static;align-self:flex-start;top:auto;left:auto;right:auto;
+    margin:calc(var(--nav-h) + 14px) 18px 0;max-width:calc(100% - 36px);
+    flex-wrap:wrap;row-gap:3px;font-size:10px;letter-spacing:.1em}
+  /* One badge above the headline on a phone, not two. The pill is the keeper:
+     it carries the page's only photosensitivity notice (WCAG 2.3.1), while the
+     eyebrow's claim is restated by the sub-paragraph below it and by <title>. */
+  .hero-eyebrow{display:none}
   .console{padding:0 12px 18px}
   .console-panel{padding:16px 12px;gap:16px}
   /* max-content tracks cannot shrink: at 375px the 3-across grid renders ~388px
@@ -469,6 +484,9 @@ body.visual-only .immersive-exit{display:flex}
      titles ellipsized; one size step + a 2-across bank keeps every label whole. */
   .scene-btn{font-size:10.5px;letter-spacing:.1em}
   .program-bank{grid-template-columns:repeat(2,minmax(0,1fr))}
+  /* Same story in the status pill: at 320px the renderer segment was ~10px too
+     wide to sit beside the LED, which stranded the LED alone on line one. */
+  .hero-live{font-size:9.5px;letter-spacing:.05em}
 }
 @media(max-width:440px){
   .hero-signature{grid-template-columns:1fr;gap:11px}
