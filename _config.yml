@@ -1,0 +1,44 @@
+# GitHub Pages / Jekyll build configuration.
+#
+# This file exists for two reasons, both security-related (added 2026-08-30):
+#
+# 1. include: .well-known
+#    Jekyll drops dot-directories from its output by default, so
+#    .well-known/security.txt was committed but never reached production
+#    (404 live, while SECURITY.md publicly claimed it was present and
+#    scripts/check-site.mjs validated it green pre-deploy). Listing it here
+#    is what actually publishes it.
+#
+# 2. exclude:
+#    Pages runs Jekyll with defaults, which renders ANY tracked .md into a
+#    matching .html AND serves the raw .md alongside it. That silently
+#    published internal working documents as fully-formed indexable pages
+#    (rel=canonical, og: tags, no noindex). Excluding them removes both the
+#    render and the raw file from _site.
+#
+#    NOTE: exclusion only stops the WEBSITE serving them. This repo is
+#    public, so anything listed here is still readable on github.com unless
+#    it is also removed from the repo.
+#
+# Jekyll REPLACES its default exclude list when this key is set, so the
+# stock entries are repeated below. Do not drop them.
+
+include:
+  - .well-known
+
+exclude:
+  # Jekyll defaults, preserved
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  # Internal working documents, never to be served
+  - legal/
+  - SECURITY.md
+  # CI tooling; not referenced by any page, and its secret-detection regexes
+  # trip third-party scanners when served publicly
+  - scripts/
+  - .github/

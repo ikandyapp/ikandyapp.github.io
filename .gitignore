@@ -11,3 +11,33 @@ ANALYTICS.md
 
 # Local capture tooling (drives the desktop app), never publish
 scripts/capture-product-shots.js
+
+# Internal design docs. Previously protected only by .git/info/exclude, which
+# does not survive a copy that loses the .git directory or a backup restore.
+SPEC-aerial-rig.md
+IKANDY-AI-WOW-SYSTEM-DESIGN.md
+
+# Defensive patterns. Pages serves the repo root verbatim and this repo is
+# public, so a stray credential file is published the moment it is committed.
+admin.html
+**/admin.html
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+.npmrc
+.netrc
+*.bak
+*.orig
+.DS_Store
+
+# Local scratch captures (e.g. ikandy-live-check.png)
+/scratch/
+
+# Internal legal working documents. Untracked 2026-08-30: Pages was rendering
+# these into indexable HTML pages AND serving the raw .md, and this repo is
+# public. Files remain on disk; they must never be re-committed.
+legal/LAUNCH-CLEARANCE.md
+legal/MILKDROP-LICENSE-REVIEW.md

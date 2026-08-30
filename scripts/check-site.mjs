@@ -9,7 +9,7 @@ const warnings = [];
 function walk(dir) {
   const out = [];
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    if (entry.name === '.git' || entry.name === 'node_modules') continue;
+    if (entry.name === '.git' || entry.name === 'node_modules' || entry.name === '.claude') continue;
     const full = path.join(dir, entry.name);
     if (entry.isDirectory()) out.push(...walk(full));
     else out.push(full);
@@ -184,7 +184,7 @@ for (const file of files) {
       if (payload?.role === 'service_role') fail(file, 'Supabase service_role JWT found');
     } catch {}
   }
-  if (/^(?:admin\.html)$/i.test(name)) fail(file, 'admin.html must never be committed');
+  if (/(?:^|\/)admin\.html$/i.test(name)) fail(file, 'admin.html must never be committed');
 }
 
 const mojibakeFiles = files.filter(file => /\.(?:html|css|js)$/i.test(file) && !/webamp\.bundle|min\.js$/i.test(file));
