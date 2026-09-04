@@ -1,17 +1,18 @@
 {
   "_comment": "BYOK generation pricing manifest — the HOSTED SOURCE OF TRUTH, served at ikandy.app/pricing/byok-ai-pricing.json and fetched at runtime (see PRICING_MANIFEST_URL in the IKANDY app's src/ai/cost/cost-estimator.js). The app's baked FALLBACK_MANIFEST is the dated offline fallback used only if this file is unreachable. Prices are per MILLION tokens, USD. visionPerMTok prices image/vision input (these providers bill images as input tokens, so it equals inPerMTok); perImage is for any provider that bills flat per image (none here). v2 adds per-model 'label' (dropdown display name), 'hidden' (legacy ids kept for price matching but omitted from the model dropdown), and 'recommended' (dropdown default badge) — all ignored by v1 readers. To change prices: edit THIS file and redeploy the site, no app rebuild.",
-  "_priceNotes": "Verified 2026-08-17 against provider pricing pages/aggregators. claude-sonnet-5 is INTRO pricing through 2026-08-31, then $3/$15 — bump on 2026-09-01. OpenAI cut GPT-5.6 Terra to $2/$12 and Luna to $0.20/$1.20 on 2026-07-30 (applied here 2026-08-17; the recommended badge moved from gpt-5.4 to the now-cheaper Terra). gemini-3.7-flash (launched 2026-08-13) is INTRO pricing $0.75/$3.75 until 2027-01-01, then $1.50/$7.50 — bump then. grok-4.6 launched 2026-08-12 at grok-4.5's rate. Long-context surcharges (GPT-5.6, Gemini 3.1 Pro >200K, Grok 4.6 >200K) are deliberately not modeled — the estimator prices the standard tier. xAI retired grok-4/-4.1/-3 on 2026-05-15; those ids silently redirect to grok-4.3 and bill at its rate.",
+  "_priceNotes": "Verified 2026-09-03 against provider pricing pages. STANDING DATED CHECKS: (1) gpt-5.6-sol's $4/$20 is PROMOTIONAL, announced 2026-08-21 (was $5/$30) and stated as available 'at least through 2026-11-21' — on/after 2026-11-22, re-check and restore $5/$30 if it lapsed. (2) gemini-3.7-flash and gemini-3.8-flash run INTRO $0.75/$3.75 through 2026-12-31; on/after 2027-01-01 set BOTH to $1.50/$7.50 and drop this clause. RESOLVED 2026-09-03: claude-sonnet-5's $2/$10 launch intro is now the PERMANENT standard price — Anthropic cancelled the scheduled 2026-09-01 rise to $3/$15 (stated on the official pricing page), so do NOT bump it; the old bump-on-2026-09-01 instruction is dead. Added claude-fable-5-1 ($10/$50; claude-fable-5 is same-price and now hidden as superseded) and gemini-3.8-flash (GA 2026-09-02); the gemini recommended badge moved from gemini-3.5-flash to gemini-3.8-flash, and 3.5 Flash is hidden because at $1.50/$9 it is dominated on both price and recency. gemini-3.6-flash exists at the same $0.75/$3.75 rate but is deliberately omitted — it was never in the dropdown, so no saved setting can reference it. xAI lineup unchanged (grok-4.6/4.5 $2/$6, grok-4.3 $1.25/$2.50); the grok-4.20-* and grok-build-0.1 ids on docs.x.ai are deliberately not carried. Long-context surcharges (GPT-5.6, Gemini Pro >200K, Grok >200K) are deliberately not modeled — the estimator prices the standard tier. xAI retired grok-4/-4.1/-3 on 2026-05-15; those ids silently redirect to grok-4.3 and bill at its rate.",
   "version": 2,
-  "lastUpdated": "2026-08-17",
+  "lastUpdated": "2026-09-03",
   "currency": "USD",
   "providers": {
     "claude": {
       "_default": { "inPerMTok": 5.0, "outPerMTok": 25.0, "visionPerMTok": 5.0 },
-      "claude-fable-5": { "label": "Fable 5", "inPerMTok": 10.0, "outPerMTok": 50.0, "visionPerMTok": 10.0 },
+      "claude-fable-5-1": { "label": "Fable 5.1", "inPerMTok": 10.0, "outPerMTok": 50.0, "visionPerMTok": 10.0 },
       "claude-opus-5": { "label": "Opus 5", "inPerMTok": 5.0, "outPerMTok": 25.0, "visionPerMTok": 5.0 },
       "claude-opus-4-8": { "label": "Opus 4.8", "inPerMTok": 5.0, "outPerMTok": 25.0, "visionPerMTok": 5.0 },
       "claude-sonnet-5": { "label": "Sonnet 5", "recommended": true, "inPerMTok": 2.0, "outPerMTok": 10.0, "visionPerMTok": 2.0 },
       "claude-haiku-4-5": { "label": "Haiku 4.5", "inPerMTok": 1.0, "outPerMTok": 5.0, "visionPerMTok": 1.0 },
+      "claude-fable-5": { "hidden": true, "inPerMTok": 10.0, "outPerMTok": 50.0, "visionPerMTok": 10.0 },
       "claude-opus-4-7": { "hidden": true, "inPerMTok": 5.0, "outPerMTok": 25.0, "visionPerMTok": 5.0 },
       "claude-opus-4-6": { "hidden": true, "inPerMTok": 5.0, "outPerMTok": 25.0, "visionPerMTok": 5.0 },
       "claude-sonnet-4-6": { "hidden": true, "inPerMTok": 3.0, "outPerMTok": 15.0, "visionPerMTok": 3.0 },
@@ -19,7 +20,7 @@
     },
     "openai": {
       "_default": { "inPerMTok": 5.0, "outPerMTok": 30.0, "visionPerMTok": 5.0 },
-      "gpt-5.6-sol": { "label": "GPT-5.6 Sol", "inPerMTok": 5.0, "outPerMTok": 30.0, "visionPerMTok": 5.0 },
+      "gpt-5.6-sol": { "label": "GPT-5.6 Sol", "inPerMTok": 4.0, "outPerMTok": 20.0, "visionPerMTok": 4.0 },
       "gpt-5.6-terra": { "label": "GPT-5.6 Terra", "recommended": true, "inPerMTok": 2.0, "outPerMTok": 12.0, "visionPerMTok": 2.0 },
       "gpt-5.6-luna": { "label": "GPT-5.6 Luna", "inPerMTok": 0.2, "outPerMTok": 1.2, "visionPerMTok": 0.2 },
       "gpt-5.5": { "label": "GPT-5.5", "inPerMTok": 5.0, "outPerMTok": 30.0, "visionPerMTok": 5.0 },
@@ -30,12 +31,13 @@
     },
     "gemini": {
       "_default": { "inPerMTok": 1.5, "outPerMTok": 9.0, "visionPerMTok": 1.5 },
+      "gemini-3.8-flash": { "label": "Gemini 3.8 Flash", "recommended": true, "inPerMTok": 0.75, "outPerMTok": 3.75, "visionPerMTok": 0.75 },
       "gemini-3.7-flash": { "label": "Gemini 3.7 Flash", "inPerMTok": 0.75, "outPerMTok": 3.75, "visionPerMTok": 0.75 },
       "gemini-3.1-pro-preview": { "label": "Gemini 3.1 Pro", "inPerMTok": 2.0, "outPerMTok": 12.0, "visionPerMTok": 2.0 },
-      "gemini-3.5-flash": { "label": "Gemini 3.5 Flash", "recommended": true, "inPerMTok": 1.5, "outPerMTok": 9.0, "visionPerMTok": 1.5 },
       "gemini-3.1-flash-lite": { "label": "Gemini 3.1 Flash-Lite", "inPerMTok": 0.25, "outPerMTok": 1.5, "visionPerMTok": 0.25 },
       "gemini-2.5-pro": { "label": "Gemini 2.5 Pro", "inPerMTok": 1.25, "outPerMTok": 10.0, "visionPerMTok": 1.25 },
       "gemini-2.5-flash-lite": { "label": "Gemini 2.5 Flash-Lite", "inPerMTok": 0.1, "outPerMTok": 0.4, "visionPerMTok": 0.1 },
+      "gemini-3.5-flash": { "hidden": true, "inPerMTok": 1.5, "outPerMTok": 9.0, "visionPerMTok": 1.5 },
       "gemini-2.5-flash": { "hidden": true, "inPerMTok": 0.3, "outPerMTok": 2.5, "visionPerMTok": 0.3 }
     },
     "xai": {
