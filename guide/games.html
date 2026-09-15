@@ -5,10 +5,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<title>FX shaders : IKANDY user guide</title>
-<link rel="canonical" href="https://ikandy.app/guide/fx.html">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"IKANDY","item":"https://ikandy.app/"},{"@type":"ListItem","position":2,"name":"User guide","item":"https://ikandy.app/guide.html"},{"@type":"ListItem","position":3,"name":"FX shaders : IKANDY user guide","item":"https://ikandy.app/guide/fx.html"}]}</script>
-<meta name="description" content="Real-time post effects and the FX image pipeline.">
+<title>Games : IKANDY user guide</title>
+<link rel="canonical" href="https://ikandy.app/guide/games.html">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"IKANDY","item":"https://ikandy.app/"},{"@type":"ListItem","position":2,"name":"User guide","item":"https://ikandy.app/guide.html"},{"@type":"ListItem","position":3,"name":"Games : IKANDY user guide","item":"https://ikandy.app/guide/games.html"}]}</script>
+<meta name="description" content="One Small Step, a shared moon that dances to everyone's music, and Slingshot, a gravity-well melee. Both free.">
 <link rel="icon" href="../icon.ico">
 <!-- Consent-based website analytics are managed by analytics.js; Google Analytics is not loaded before opt-in. -->
 <script src="../assets/analytics-bootstrap.js"></script>
@@ -66,27 +66,49 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
   </div>
 </nav>
 <main id="main-content" class="wiki-wrap" style="--hue:#8f6bff">
-  <div class="crumb"><a href="../guide.html">User guide</a><span>/</span><span class="hueled" aria-hidden="true"></span><span style="color:var(--ink-2)">FX shaders</span></div>
-  <h1>FX shaders</h1>
-  <p class="wiki-lead">Real-time post effects and the FX image pipeline.</p>
-  <section>
-  <p class="section-tag">FX</p>
-  <h2>Real-Time<br>FX Shaders</h2>
-  <p class="lead">FX is three layers deep in IKANDY: living treatments over an image, a post chain over everything, and a play layer for your hands.</p>
+  <div class="crumb"><a href="../guide.html">User guide</a><span>/</span><span class="hueled" aria-hidden="true"></span><span style="color:var(--ink-2)">Games</span></div>
+  <h1>Games</h1>
+  <p class="wiki-lead">One Small Step, a shared moon that dances to everyone's music, and Slingshot, a gravity-well melee. Both free.</p>
+  
 
-  <h3>FX images</h3>
-  <p>Pick a background photo on the Image engine and run a live treatment over it. The set covers weather and texture (rain, fog, heat haze, dust film), analog and broadcast decay (VHS warp, data corruption, hologram), and paint and material (ink bleed, watercolor, liquid metal, shatter, plasma arc). Every treatment is audio-aware, and the library keeps growing.</p>
+<section>
+  <h2>The GAME tab</h2>
+  <p class="lead">Open the Library and pick GAME. One Small Step and Slingshot live there. A gamepad is the way to play both, and Slingshot also works on the keyboard. PILOT and AUTO never rotate away from a running game.</p>
 
-  <h3>The post chain</h3>
-  <p>A multi-pass post chain runs over the whole show: bloom, chromatic aberration, grain, scanlines, vignette, and contrast, each on a live knob with its own status light, plus tone and LUT color grading and a god-rays pass. Beat-reactive particle bursts ride on top as their own layer. This is the finish that makes everything underneath read like one image.</p>
+  <h3>One Small Step</h3>
+  <p>A shared moon. Everyone on it hears their own music, and the moon turns all of it into one sky. You drive a rover across lunar terrain, jump craters, transform into a plane, and hang out at the Drive In, where the screen plays visuals to your soundtrack on a 15 second cycle. Other players appear as lights, each in their own permanent color, pulsing at the tempo of whatever they are listening to.</p>
+  <ol class="steps">
+    <li>The first time you arrive, the moon asks one question: <strong>Join the shared moon</strong>, or <strong>Play solo</strong>. Joining is free and shares your handle and rover position while you play. You can show up as your IKANDY name or your Steam name, and switch later in Settings under Privacy.</li>
+    <li>Change your mind any time with the SOLO or SHARED chip at the top of the moon, or the Shared Moon switch in Settings.</li>
+    <li>Press <kbd>C</kbd> for the controller map. <strong>A</strong> jumps, <strong>Y</strong> transforms to the plane, <strong>B</strong> fires a paint comet, <kbd>M</kbd> opens the radar map, <kbd>G</kbd> opens the GIF tray, and a click of the right stick opens and sends a GIF. On the D-pad: up for the GIF tray, down for a greeting flash, left for the palette, right for a waypoint.</li>
+  </ol>
+  <ul class="b">
+    <li><strong>Your music is your paint.</strong> Fire a comet during a drop and it paints a fat blazing ribbon; in a quiet bridge, a thin filament. The sky keeps the day's paintings and they fade slowly over hours, so someone arriving late inherits the sky everyone else made.</li>
+    <li><strong>Fly like you mean it.</strong> Jump, then jump again with the stick held: side throws a barrel roll, back a backflip, forward a front flip, with full air control on the sticks. Other players see every flip.</li>
+    <li><strong>Six mini games:</strong> Drop Chasing, Prospecting, Groove Runs, Trick Sessions, Constellation Raising and Canvas Flats. Crystals: park close and hold through the beats. Rings: pass them in order on the pulse. The Boneyard rewards air tricks.</li>
+    <li><strong>Four points of interest:</strong> Earthrise Overlook, Prism Springs, the Boneyard and Tranquility Ring.</li>
+    <li><strong>The handshake.</strong> Flash your headlights at someone. If they flash back within a few seconds, an arc of light in both your colors bridges your rovers.</li>
+    <li><strong>Sparks and the rover shop.</strong> Earn Sparks through play and spend them on light rigs, trail tints and horn chimes that nearby players can see and hear. Every GIF plays its sender's horn chime; a GIF sounds switch in Settings keeps the moon silent.</li>
+  </ul>
 
-  <h3>The play layer</h3>
-  <p>Mouse FX and draw mode put the pointer in the show: click ripples, freehand drawing with adjustable width, and particle trails, all blended over the visuals without ever touching the camera.</p>
+  <h3>Slingshot</h3>
+  <p>A modern gravity-well melee. Build a fleet from 25 ships on a 200 point budget, five distinct hulls per fleet with a reserve switch, and fight around a planet whose gravity well is the arena. The nebula paints the live spectrum and the well pulses on the beat.</p>
+  <ul class="b">
+    <li>Solo against easy, medium or hard bots.</li>
+    <li>Two players on one keyboard.</li>
+    <li>Online, with picks sealed until both players are READY and a ready-up showdown. Both players need the same IKANDY version; the lobby says so instead of desyncing.</li>
+    <li>Xbox pattern controllers throughout. <kbd>Enter</kbd> or <kbd>Space</kbd> selects, <kbd>Backspace</kbd> goes back, and a LAUNCH bar ends fleet building.</li>
+    <li>The match is a fixed step simulation with checksums, so a tampered client can only void a match, never win it.</li>
+    <li>Slingshot's clean stage puts the pets away.</li>
+  </ul>
 
-  <h3>Performance</h3>
-  <p>Quality tiers (Battery, Standard, High, Ultra) scale the render resolution and supersampling, so the same show runs right on a laptop on battery and on a desktop pushing a wall.</p>
+  <div class="callout tip">
+    <span class="callout-label">Tier note</span>
+    Joining the moon, driving, flying, painting, the mini games, cosmetics and Slingshot in every mode are free. Sending a GIF on the moon is a Pro feature; receiving them is free. See <a href="../pricing/index.html">pricing</a>.
+  </div>
 </section>
-  <div class="pn"><a href="hdr.html" style="--hue:#ffb14a"><span class="lbl">&larr; Previous</span><span class="ttl" style="display:block">HDR + 4K</span></a><a class="nxt" href="capture-fx.html" style="--hue:#46d96b"><span class="lbl">Next &rarr;</span><span class="ttl" style="display:block">Capture FX</span></a></div>
+
+  <div class="pn"><a href="workshop.html" style="--hue:#ff3dd8"><span class="lbl">&larr; Previous</span><span class="ttl" style="display:block">Steam Workshop</span></a><a class="nxt" href="pets.html" style="--hue:#ff7a2f"><span class="lbl">Next &rarr;</span><span class="ttl" style="display:block">Pets</span></a></div>
 </main>
 <footer class="ftr">
   <div class="ftr-in">

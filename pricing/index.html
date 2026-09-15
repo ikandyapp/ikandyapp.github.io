@@ -14,6 +14,17 @@
   ALSO RAISED (see the cross-reference at the bottom): the desktop app's own
   hardcoded launch prices.
   ----------------------------------------------------------------------------
+  TIER COPY PASS 2026-09-14: the tier cards and the matrix were re-aligned to
+  the app's gate table, E:\test\src\license\license.js FEATURE_TIER (plus the
+  || 'pro' fallback for every gated key not listed there). Since the 2026-07-26
+  alignment the app moved span + mirror to PRO (2026-08-24) and added Studio
+  keys for projection mapping (display-geometry), NDI out, Spout in, the
+  Preset Lab, combos, AI Mesh and Set Pieces, and Pro keys for the Milk Deck,
+  the Quick Access Ring, GIF sending on the moon and the 4K Spout/NDI size.
+  Video loops are Studio (main/media-loops.js). MIDI/OSC carries NO gate in
+  code today; it stays under Studio here per the launch announcement until
+  Kevin rules. Re-read FEATURE_TIER on every future pass.
+  ----------------------------------------------------------------------------
   ORIGINAL NOTE (added 2026-07-25), kept for the Studio half:
   STUDIO DECOUPLED 2026-07-30: the Studio DLC slipped past the 2026-07-31 app
   release. Studio cards now carry data-coming-soon="studio" (here and on
@@ -45,7 +56,7 @@
   4. index.html tier cards carry data-regular, so they swap themselves. No
      action, listed so a future pass does not go hunting.
 
-  Cross-reference (RESOLVED — re-verified in the app repo 2026-08-27): this note
+  Cross-reference (RESOLVED: re-verified in the app repo 2026-08-27): this note
   used to say the desktop app hardcoded the discount prices with no date logic
   and would understate the price from Aug 14. That was fixed in the app before
   this pass ran. ikandy.html now carries LAUNCH_PRICE_END =
@@ -257,18 +268,19 @@ main .unit:first-of-type::after{width:460px;height:460px;left:-150px;bottom:-220
   <div class="unit-in">
     <div class="unit-tag"><b>PRICING</b> ONE-TIME PURCHASE</div>
     <h1 class="unit-title" style="font-size:clamp(38px,6vw,64px)">Buy once. No subscription.</h1>
-    <p class="unit-lead">Three tiers, one purchase, no subscription. IKANDY is out now on Steam. Studio is coming soon and opens with its own 14-day launch offer when it arrives. Core visual playback runs locally on your GPU. Optional AI scene generation uses a supported provider account. Optional expansions or add-on content may come later. Today the core app is a one-time purchase, and the bundled community preset library is free.</p>
+    <p class="unit-lead">Three tiers, one purchase, no subscription. IKANDY is out now on Steam. Studio is not on Steam yet: its features ship inside the app today, locked until the DLC arrives, and it opens with its own 14-day launch offer when it does. Core visual playback runs locally on your GPU. Optional AI scene generation uses a supported provider account. Optional expansions or add-on content may come later. Today the core app is a one-time purchase, and every visual in the library is free.</p>
 
     <div class="tiers">
       <div class="tier">
         <div class="tier-head"><span class="tier-model">IK-0</span></div>
         <h2>Base</h2>
-        <p class="tier-role">Watch and listen.</p>
+        <p class="tier-role">Watch, listen, play.</p>
         <p class="tier-price">$0</p>
         <ul>
-          <li>All visualizers</li>
+          <li>Every visual, every engine, in HDR</li>
           <li>Audio routing + Smart Auto</li>
-          <li>Music controls + preset browser</li>
+          <li>PILOT, music controls + library</li>
+          <li>One Small Step, Slingshot, pets</li>
         </ul>
       </div>
 
@@ -277,20 +289,21 @@ main .unit:first-of-type::after{width:460px;height:460px;left:-150px;bottom:-220
         <h2>Pro</h2>
         <p class="tier-role">Create and stream.</p>
         <p class="tier-price">$7.99</p>
-        <p class="tier-launch">$7.99 regular after the launch offer</p>
+        <p class="tier-launch">One-time purchase, on Steam</p>
         <ul>
           <li class="plus">Everything in Base, plus</li>
-          <li>Per-preset scene control</li>
-          <li>AI scene generation (guided)</li>
-          <li>Desktop wallpaper</li>
-          <li>OBS output (30 fps)</li>
-          <li>Second-screen output window</li>
+          <li>Create: AI, shader import, Image Studio, My Scenes</li>
+          <li>Per-preset scene control, lyrics, Now Playing</li>
+          <li>Desktop wallpaper, HDR included</li>
+          <li>Multi-monitor span + mirrors</li>
+          <li>Output window + OBS/Spout at 30 fps, up to 4K</li>
           <li>Steam Workshop: publish and subscribe</li>
+          <li>Milk Deck, Quick Access Ring, ISF, .ikpack</li>
         </ul>
       </div>
 
       <div class="tier" data-coming-soon="studio">
-        <span class="tier-flag">Coming soon</span>
+        <span class="tier-flag">Not on Steam yet</span>
         <div class="tier-head"><span class="tier-model">IK-2</span></div>
         <h2>Studio</h2>
         <p class="tier-role">The full VJ rig.</p>
@@ -298,11 +311,12 @@ main .unit:first-of-type::after{width:460px;height:460px;left:-150px;bottom:-220
         <p class="tier-launch">14-day launch offer when Studio arrives; $59.99 regular after</p>
         <ul>
           <li class="plus">Everything in Pro, plus</li>
-          <li>Multi-monitor span + simultaneous mirrors</li>
-          <li>Capture any app, game, or video</li>
-          <li>Spout output (60 fps+)</li>
+          <li>Stage: decks, cues, combos, Phrase Tape, MIX</li>
+          <li>Capture any app, game or video + 11 Capture FX</li>
+          <li>Spout in, Spout out 60 to 120 fps, NDI out</li>
+          <li>Projection mapping per display</li>
           <li>MIDI and OSC control</li>
-          <li>Stage console: perform, plan, combos</li>
+          <li>Preset Lab + video loop library</li>
         </ul>
       </div>
     </div>
@@ -313,7 +327,7 @@ main .unit:first-of-type::after{width:460px;height:460px;left:-150px;bottom:-220
 
     <div class="cta-strip">
       <a class="btn-steam" style="font-size:13px;padding:15px 26px" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Get IKANDY on Steam</a>
-      <span class="cta-date">Out <b>July 31, 2026</b></span>
+      <span class="cta-date">Available <b>now on Steam</b></span>
     </div>
   </div>
 </section>
@@ -334,33 +348,43 @@ main .unit:first-of-type::after{width:460px;height:460px;left:-150px;bottom:-220
         </tr>
       </thead>
       <tbody>
-        <tr><th>Live audio-reactive visuals</th>
+        <tr><th>Live audio-reactive visuals, every engine</th>
+          <td><span class="led on" aria-hidden="true"></span><span class="sr-only">Included</span></td><td><span class="led on" aria-hidden="true"></span><span class="sr-only">Included</span></td><td class="ik"><span class="led on" aria-hidden="true"></span><span class="sr-only">Included</span></td></tr>
+        <tr><th>HDR output + wide gamut</th>
           <td><span class="led on" aria-hidden="true"></span><span class="sr-only">Included</span></td><td><span class="led on" aria-hidden="true"></span><span class="sr-only">Included</span></td><td class="ik"><span class="led on" aria-hidden="true"></span><span class="sr-only">Included</span></td></tr>
         <tr><th>Audio routing + Smart Auto</th>
           <td><span class="led on" aria-hidden="true"></span><span class="sr-only">Included</span></td><td><span class="led on" aria-hidden="true"></span><span class="sr-only">Included</span></td><td class="ik"><span class="led on" aria-hidden="true"></span><span class="sr-only">Included</span></td></tr>
-        <tr><th>Preset browser + music controls</th>
+        <tr><th>PILOT, library + music controls</th>
+          <td><span class="led on" aria-hidden="true"></span><span class="sr-only">Included</span></td><td><span class="led on" aria-hidden="true"></span><span class="sr-only">Included</span></td><td class="ik"><span class="led on" aria-hidden="true"></span><span class="sr-only">Included</span></td></tr>
+        <tr><th>One Small Step, Slingshot, pets</th>
           <td><span class="led on" aria-hidden="true"></span><span class="sr-only">Included</span></td><td><span class="led on" aria-hidden="true"></span><span class="sr-only">Included</span></td><td class="ik"><span class="led on" aria-hidden="true"></span><span class="sr-only">Included</span></td></tr>
         <tr><th>Per-preset scene controls</th>
           <td><span class="led off" aria-hidden="true"></span><span class="sr-only">Not included</span></td><td><span class="led on" aria-hidden="true"></span><span class="sr-only">Included</span></td><td class="ik"><span class="led on" aria-hidden="true"></span><span class="sr-only">Included</span></td></tr>
-        <tr><th>Guided AI scene generation (BYOK)</th>
+        <tr><th>Create: AI (BYOK), shader import, Image Studio</th>
+          <td><span class="led off" aria-hidden="true"></span><span class="sr-only">Not included</span></td><td><span class="led on" aria-hidden="true"></span><span class="sr-only">Included</span></td><td class="ik"><span class="led on" aria-hidden="true"></span><span class="sr-only">Included</span></td></tr>
+        <tr><th>Synced lyrics + Now Playing card</th>
           <td><span class="led off" aria-hidden="true"></span><span class="sr-only">Not included</span></td><td><span class="led on" aria-hidden="true"></span><span class="sr-only">Included</span></td><td class="ik"><span class="led on" aria-hidden="true"></span><span class="sr-only">Included</span></td></tr>
         <tr><th>Desktop wallpaper mode</th>
           <td><span class="led off" aria-hidden="true"></span><span class="sr-only">Not included</span></td><td><span class="led on" aria-hidden="true"></span><span class="sr-only">Included</span></td><td class="ik"><span class="led on" aria-hidden="true"></span><span class="sr-only">Included</span></td></tr>
-        <tr><th>OBS output (up to 30 fps)</th>
+        <tr><th>Multi-monitor span + mirrors</th>
           <td><span class="led off" aria-hidden="true"></span><span class="sr-only">Not included</span></td><td><span class="led on" aria-hidden="true"></span><span class="sr-only">Included</span></td><td class="ik"><span class="led on" aria-hidden="true"></span><span class="sr-only">Included</span></td></tr>
-        <tr><th>Second-screen output window</th>
+        <tr><th>Output window + OBS/Spout output (30 fps, 4K)</th>
           <td><span class="led off" aria-hidden="true"></span><span class="sr-only">Not included</span></td><td><span class="led on" aria-hidden="true"></span><span class="sr-only">Included</span></td><td class="ik"><span class="led on" aria-hidden="true"></span><span class="sr-only">Included</span></td></tr>
         <tr><th>Steam Workshop: publish and subscribe</th>
           <td><span class="led off" aria-hidden="true"></span><span class="sr-only">Not included</span></td><td><span class="led on" aria-hidden="true"></span><span class="sr-only">Included</span></td><td class="ik"><span class="led on" aria-hidden="true"></span><span class="sr-only">Included</span></td></tr>
-        <tr><th>Multi-monitor span + simultaneous mirrors</th>
+        <tr><th>Milk Deck, Quick Access Ring, ISF import</th>
+          <td><span class="led off" aria-hidden="true"></span><span class="sr-only">Not included</span></td><td><span class="led on" aria-hidden="true"></span><span class="sr-only">Included</span></td><td class="ik"><span class="led on" aria-hidden="true"></span><span class="sr-only">Included</span></td></tr>
+        <tr><th>Stage console: Phrase Tape, MIX, cues, combos</th>
           <td><span class="led off" aria-hidden="true"></span><span class="sr-only">Not included</span></td><td><span class="led off" aria-hidden="true"></span><span class="sr-only">Not included</span></td><td class="ik"><span class="led on" aria-hidden="true"></span><span class="sr-only">Included</span></td></tr>
-        <tr><th>App, game, and video capture</th>
+        <tr><th>App, game and video capture + Capture FX</th>
           <td><span class="led off" aria-hidden="true"></span><span class="sr-only">Not included</span></td><td><span class="led off" aria-hidden="true"></span><span class="sr-only">Not included</span></td><td class="ik"><span class="led on" aria-hidden="true"></span><span class="sr-only">Included</span></td></tr>
-        <tr><th>Spout output (60 fps+)</th>
+        <tr><th>Spout input, Spout 60 to 120 fps, NDI output</th>
+          <td><span class="led off" aria-hidden="true"></span><span class="sr-only">Not included</span></td><td><span class="led off" aria-hidden="true"></span><span class="sr-only">Not included</span></td><td class="ik"><span class="led on" aria-hidden="true"></span><span class="sr-only">Included</span></td></tr>
+        <tr><th>Projection mapping</th>
           <td><span class="led off" aria-hidden="true"></span><span class="sr-only">Not included</span></td><td><span class="led off" aria-hidden="true"></span><span class="sr-only">Not included</span></td><td class="ik"><span class="led on" aria-hidden="true"></span><span class="sr-only">Included</span></td></tr>
         <tr><th>MIDI and OSC control</th>
           <td><span class="led off" aria-hidden="true"></span><span class="sr-only">Not included</span></td><td><span class="led off" aria-hidden="true"></span><span class="sr-only">Not included</span></td><td class="ik"><span class="led on" aria-hidden="true"></span><span class="sr-only">Included</span></td></tr>
-        <tr><th>Stage console: perform, plan, combos</th>
+        <tr><th>Preset Lab + video loop library</th>
           <td><span class="led off" aria-hidden="true"></span><span class="sr-only">Not included</span></td><td><span class="led off" aria-hidden="true"></span><span class="sr-only">Not included</span></td><td class="ik"><span class="led on" aria-hidden="true"></span><span class="sr-only">Included</span></td></tr>
       </tbody>
     </table>
@@ -370,7 +394,7 @@ main .unit:first-of-type::after{width:460px;height:460px;left:-150px;bottom:-220
       <span><span class="led on" aria-hidden="true"></span> INCLUDED IN TIER</span>
       <span><span class="led off" aria-hidden="true"></span> NOT INCLUDED IN TIER</span>
     </div>
-    <p class="foot-note">U.S. prices are shown. Studio is coming soon and opens with its own 14-day launch offer when it arrives. Steam displays final regional pricing and the exact end time and is authoritative. Tiers, features, prices, and offerings may change over time; see the <a href="../license.html">license terms</a>.</p>
+    <p class="foot-note">U.S. prices are shown. Studio is not on Steam yet and opens with its own 14-day launch offer when it arrives. Steam displays final regional pricing and the exact end time and is authoritative. Tiers, features, prices, and offerings may change over time; see the <a href="../license.html">license terms</a>.</p>
   </div>
 </section>
 </main>
@@ -380,7 +404,7 @@ main .unit:first-of-type::after{width:460px;height:460px;left:-150px;bottom:-220
     <div class="ftr-grid">
       <div>
         <p class="ftr-brand">IKANDY</p>
-        <p class="ftr-note">Audio-reactive visualizer and VJ instrument for Windows 10 / 11.</p>
+        <p class="ftr-note">Music visualizer and live visual engine for Windows 10 / 11.</p>
         <p style="margin-top:18px"><a class="btn-steam" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Get IKANDY on Steam</a></p>
       </div>
       <div>

@@ -5,10 +5,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<title>FX shaders : IKANDY user guide</title>
-<link rel="canonical" href="https://ikandy.app/guide/fx.html">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"IKANDY","item":"https://ikandy.app/"},{"@type":"ListItem","position":2,"name":"User guide","item":"https://ikandy.app/guide.html"},{"@type":"ListItem","position":3,"name":"FX shaders : IKANDY user guide","item":"https://ikandy.app/guide/fx.html"}]}</script>
-<meta name="description" content="Real-time post effects and the FX image pipeline.">
+<title>Loops + recording : IKANDY user guide</title>
+<link rel="canonical" href="https://ikandy.app/guide/loops.html">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"IKANDY","item":"https://ikandy.app/"},{"@type":"ListItem","position":2,"name":"User guide","item":"https://ikandy.app/guide.html"},{"@type":"ListItem","position":3,"name":"Loops + recording : IKANDY user guide","item":"https://ikandy.app/guide/loops.html"}]}</script>
+<meta name="description" content="Your own video loops as a layer in the show, plus F9 replay, Shift+F9 recording and bar-locked loop capture.">
 <link rel="icon" href="../icon.ico">
 <!-- Consent-based website analytics are managed by analytics.js; Google Analytics is not loaded before opt-in. -->
 <script src="../assets/analytics-bootstrap.js"></script>
@@ -65,28 +65,45 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
     <div class="rail-cta-group"><a class="btn-steam rail-cta" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Get IKANDY on Steam</a><span class="rail-beta-note">Free to play</span></div>
   </div>
 </nav>
-<main id="main-content" class="wiki-wrap" style="--hue:#8f6bff">
-  <div class="crumb"><a href="../guide.html">User guide</a><span>/</span><span class="hueled" aria-hidden="true"></span><span style="color:var(--ink-2)">FX shaders</span></div>
-  <h1>FX shaders</h1>
-  <p class="wiki-lead">Real-time post effects and the FX image pipeline.</p>
-  <section>
-  <p class="section-tag">FX</p>
-  <h2>Real-Time<br>FX Shaders</h2>
-  <p class="lead">FX is three layers deep in IKANDY: living treatments over an image, a post chain over everything, and a play layer for your hands.</p>
+<main id="main-content" class="wiki-wrap" style="--hue:#37d9b5">
+  <div class="crumb"><a href="../guide.html">User guide</a><span>/</span><span class="hueled" aria-hidden="true"></span><span style="color:var(--ink-2)">Loops + recording</span></div>
+  <h1>Loops + recording</h1>
+  <p class="wiki-lead">Your own video loops as a layer in the show, plus F9 replay, Shift+F9 recording and bar-locked loop capture.</p>
+  
 
-  <h3>FX images</h3>
-  <p>Pick a background photo on the Image engine and run a live treatment over it. The set covers weather and texture (rain, fog, heat haze, dust film), analog and broadcast decay (VHS warp, data corruption, hologram), and paint and material (ink bleed, watercolor, liquid metal, shatter, plasma arc). Every treatment is audio-aware, and the library keeps growing.</p>
+<section>
+  <h2>My Loops</h2>
+  <p class="lead">The LOOPS tab of the Library is a video library of your own files. A loop plays as a feed on the show, so every Capture FX and live-input effect can run on top of it.</p>
 
-  <h3>The post chain</h3>
-  <p>A multi-pass post chain runs over the whole show: bloom, chromatic aberration, grain, scanlines, vignette, and contrast, each on a live knob with its own status light, plus tone and LUT color grading and a god-rays pass. Beat-reactive particle bursts ride on top as their own layer. This is the finish that makes everything underneath read like one image.</p>
+  <h3>Add and play</h3>
+  <ol class="steps">
+    <li>Open the Library and the <strong>LOOPS</strong> tab. Press <strong>Add Video</strong>, or drop a video anywhere in the IKANDY window. MP4, WebM, MOV, M4V and MKV are accepted; the file is copied into your library, deduplicated, and given a cover.</li>
+    <li>Click a loop to play it. The Library closes, the playing canvas comes forward, and the INPUT effects go to AUTO.</li>
+    <li>Each card has a favorite, a name and a BPM tag you can set. Loops play muted: the reaction always comes from the audio source IKANDY is listening to.</li>
+    <li>Loops do not join AUTO rotation on their own. A fresh install ships with one starter clip, a 30 second Big Buck Bunny excerpt (Blender Foundation, CC BY 3.0), so the library is never empty.</li>
+  </ol>
 
-  <h3>The play layer</h3>
-  <p>Mouse FX and draw mode put the pointer in the show: click ripples, freehand drawing with adjustable width, and particle trails, all blended over the visuals without ever touching the camera.</p>
+  <h3>HDR loops</h3>
+  <p>High bit depth video keeps its color and highlight range through Loops, MIX and the canvas, and Image Studio plays HDR loops natively. Display P3 video keeps its gamut all the way to the screen.</p>
 
-  <h3>Performance</h3>
-  <p>Quality tiers (Battery, Standard, High, Ultra) scale the render resolution and supersampling, so the same show runs right on a laptop on battery and on a desktop pushing a wall.</p>
+  <h3>Replay and record</h3>
+  <ul class="b">
+    <li><strong><kbd>F9</kbd> saves the last 30 seconds.</strong> Rolling replay keeps a buffer running in the background so F9 has those seconds. It is off by default because it costs some GPU, and pressing F9 turns it on for you.</li>
+    <li><strong><kbd>Shift</kbd> + <kbd>F9</kbd> records from now until you press it again</strong> and saves the clip, whether or not Replay is on. It pauses automatically when you turn on span, mirror or wallpaper.</li>
+    <li>Turning on Spout or NDI output pauses the background replay recorder so the live feed stays smooth. Press F9 again after the show if you want the replay back.</li>
+    <li>In Stage, the CAPTURE bank records 8, 16 or 32 bar loops locked to the live tempo.</li>
+  </ul>
+
+  <h3>Export settings</h3>
+  <p>In <strong>Settings, Output</strong>, beside the Replay switch: <strong>Export quality</strong> SOCIAL (1080p at 60 frames per second, sized for social platforms) or MASTER (the native render resolution and a much higher bitrate, for editing); <strong>Export format</strong> MP4 (H.264 and AAC, the one container Instagram, TikTok and X all accept) or WEBM (VP9 and Opus, encoded in software, so slower); <strong>Recording dynamic range</strong> SDR, SDR 10 BIT, HDR PQ or HDR HLG; and the <strong>Recording watermark</strong> switch. Changing quality, format or range restarts the replay buffer.</p>
+
+  <div class="callout tip">
+    <span class="callout-label">Tier note</span>
+    F9 replay, Shift+F9 recording and loop export are free for everyone, with a watermark on the clip; turning the watermark off is a Studio feature. Adding and playing video loops ships in the Studio tier, which is not on Steam yet; browsing the loop library is open at every tier. See <a href="../pricing/index.html">pricing</a>. The Steam page is authoritative.
+  </div>
 </section>
-  <div class="pn"><a href="hdr.html" style="--hue:#ffb14a"><span class="lbl">&larr; Previous</span><span class="ttl" style="display:block">HDR + 4K</span></a><a class="nxt" href="capture-fx.html" style="--hue:#46d96b"><span class="lbl">Next &rarr;</span><span class="ttl" style="display:block">Capture FX</span></a></div>
+
+  <div class="pn"><a href="wallpaper.html" style="--hue:#ffe14a"><span class="lbl">&larr; Previous</span><span class="ttl" style="display:block">Wallpaper + displays</span></a><a class="nxt" href="lyrics.html" style="--hue:#5b9dff"><span class="lbl">Next &rarr;</span><span class="ttl" style="display:block">Lyrics</span></a></div>
 </main>
 <footer class="ftr">
   <div class="ftr-in">

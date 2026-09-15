@@ -5,10 +5,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<title>FX shaders : IKANDY user guide</title>
-<link rel="canonical" href="https://ikandy.app/guide/fx.html">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"IKANDY","item":"https://ikandy.app/"},{"@type":"ListItem","position":2,"name":"User guide","item":"https://ikandy.app/guide.html"},{"@type":"ListItem","position":3,"name":"FX shaders : IKANDY user guide","item":"https://ikandy.app/guide/fx.html"}]}</script>
-<meta name="description" content="Real-time post effects and the FX image pipeline.">
+<title>Capture FX : IKANDY user guide</title>
+<link rel="canonical" href="https://ikandy.app/guide/capture-fx.html">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"IKANDY","item":"https://ikandy.app/"},{"@type":"ListItem","position":2,"name":"User guide","item":"https://ikandy.app/guide.html"},{"@type":"ListItem","position":3,"name":"Capture FX : IKANDY user guide","item":"https://ikandy.app/guide/capture-fx.html"}]}</script>
+<meta name="description" content="Run any app, game, window, Spout feed or video loop through effects that answer kick, snare and hats. Studio.">
 <link rel="icon" href="../icon.ico">
 <!-- Consent-based website analytics are managed by analytics.js; Google Analytics is not loaded before opt-in. -->
 <script src="../assets/analytics-bootstrap.js"></script>
@@ -65,28 +65,49 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
     <div class="rail-cta-group"><a class="btn-steam rail-cta" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Get IKANDY on Steam</a><span class="rail-beta-note">Free to play</span></div>
   </div>
 </nav>
-<main id="main-content" class="wiki-wrap" style="--hue:#8f6bff">
-  <div class="crumb"><a href="../guide.html">User guide</a><span>/</span><span class="hueled" aria-hidden="true"></span><span style="color:var(--ink-2)">FX shaders</span></div>
-  <h1>FX shaders</h1>
-  <p class="wiki-lead">Real-time post effects and the FX image pipeline.</p>
-  <section>
-  <p class="section-tag">FX</p>
-  <h2>Real-Time<br>FX Shaders</h2>
-  <p class="lead">FX is three layers deep in IKANDY: living treatments over an image, a post chain over everything, and a play layer for your hands.</p>
+<main id="main-content" class="wiki-wrap" style="--hue:#46d96b">
+  <div class="crumb"><a href="../guide.html">User guide</a><span>/</span><span class="hueled" aria-hidden="true"></span><span style="color:var(--ink-2)">Capture FX</span></div>
+  <h1>Capture FX</h1>
+  <p class="wiki-lead">Run any app, game, window, Spout feed or video loop through effects that answer kick, snare and hats. Studio.</p>
+  
 
-  <h3>FX images</h3>
-  <p>Pick a background photo on the Image engine and run a live treatment over it. The set covers weather and texture (rain, fog, heat haze, dust film), analog and broadcast decay (VHS warp, data corruption, hologram), and paint and material (ink bleed, watercolor, liquid metal, shatter, plasma arc). Every treatment is audio-aware, and the library keeps growing.</p>
+<section>
+  <h2>Effects that need a feed</h2>
+  <p class="lead">The INPUT tab of the Library holds effects rather than standalone visuals. They run on top of video coming from somewhere else: a screen or window on this PC, a video file from your loop library, or another app such as OBS, Resolume, TouchDesigner or MadMapper.</p>
 
-  <h3>The post chain</h3>
-  <p>A multi-pass post chain runs over the whole show: bloom, chromatic aberration, grain, scanlines, vignette, and contrast, each on a live knob with its own status light, plus tone and LUT color grading and a god-rays pass. Beat-reactive particle bursts ride on top as their own layer. This is the finish that makes everything underneath read like one image.</p>
+  <h3>Three ways in</h3>
+  <ol class="steps">
+    <li><strong>Capture a screen or window.</strong> The quickest way in: point IKANDY at any monitor, game or app window and the effect processes it live. Native Windows capture keeps HDR sources in HDR, survives a resize of the captured window, and accepts every current source. The Capture toggle also lives per monitor in Output Stage.</li>
+    <li><strong>Connect a Spout sender.</strong> For a real VJ rig: send a feed out of OBS, Resolume, TouchDesigner or MadMapper and receive it here at up to 60 fps.</li>
+    <li><strong>Play one of your own video loops.</strong> No other app needed: add a file on the LOOPS tab and play it, and every effect here runs on top of it.</li>
+  </ol>
+  <p>Pick an effect while nothing is feeding IKANDY and the app opens this same choice, the three doors plus Preview Anyway.</p>
 
-  <h3>The play layer</h3>
-  <p>Mouse FX and draw mode put the pointer in the show: click ripples, freehand drawing with adjustable width, and particle trails, all blended over the visuals without ever touching the camera.</p>
+  <h3>The eleven Capture FX</h3>
+  <ul class="b">
+    <li><strong>Time Slits and Time Echo:</strong> time sculpture, with recorded beat ribbons and echoes of the feed.</li>
+    <li><strong>Press, Pixel Press and Glyph Press:</strong> the print lab, the feed pressed into ink, pixels and glyphs.</li>
+    <li><strong>Living Paint and Contour Light:</strong> the feed's structure repainted, and traced in light.</li>
+    <li><strong>Feedback Cathedral, Liquid Glass, Flow Ink, and Shatter and Reform:</strong> retained highlights, refractive glass, source colored fluid motion, and spring driven fragments.</li>
+  </ul>
+  <p>Each effect responds to kick, snare and hats with its own gestures instead of one generic pulse, and each keeps its intended color and retained state through the shared output pipeline, HDR included.</p>
 
-  <h3>Performance</h3>
-  <p>Quality tiers (Battery, Standard, High, Ultra) scale the render resolution and supersampling, so the same show runs right on a laptop on battery and on a desktop pushing a wall.</p>
+  <h3>The classic live-input scenes</h3>
+  <p>The same shelf carries the earlier Spout effect scenes: Live Key for chroma and luma keying over a generated backdrop, Datamosh, Halftone, Anamorphic, Painterly, Displace, Slit Scan, Echo, Kaleidoscope, Feedback, Glitch, Pixelate, Tunnel, Edge, Mirror, Prism, Liquid, ASCII, Vortex, Heatwave, and a clean Passthrough.</p>
+
+  <h3>Good to know</h3>
+  <ul class="b">
+    <li>AUTO on the INPUT shelf keeps rotating: an effect that cannot start moves on to the next.</li>
+    <li>Saved numbered presets, Stage transitions and Spout AUTO all work with Capture FX, and switching effects repeatedly does not grow GPU memory.</li>
+    <li>With a Spout or NDI output attached, the show paces itself for that output at 4K instead of the console preview.</li>
+  </ul>
+  <div class="callout tip">
+    <span class="callout-label">Tier note</span>
+    Capture FX, screen and window capture, Spout input and the video loop library ship in the Studio tier, which is not on Steam yet. Spout output up to 30 fps is Pro; see <a href="../pricing/index.html">pricing</a>. The Steam page is authoritative.
+  </div>
 </section>
-  <div class="pn"><a href="hdr.html" style="--hue:#ffb14a"><span class="lbl">&larr; Previous</span><span class="ttl" style="display:block">HDR + 4K</span></a><a class="nxt" href="capture-fx.html" style="--hue:#46d96b"><span class="lbl">Next &rarr;</span><span class="ttl" style="display:block">Capture FX</span></a></div>
+
+  <div class="pn"><a href="fx.html" style="--hue:#8f6bff"><span class="lbl">&larr; Previous</span><span class="ttl" style="display:block">FX shaders</span></a><a class="nxt" href="spout.html" style="--hue:#37d9b5"><span class="lbl">Next &rarr;</span><span class="ttl" style="display:block">Spout in + out</span></a></div>
 </main>
 <footer class="ftr">
   <div class="ftr-in">

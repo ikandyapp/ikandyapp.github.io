@@ -5,10 +5,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<title>FX shaders : IKANDY user guide</title>
-<link rel="canonical" href="https://ikandy.app/guide/fx.html">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"IKANDY","item":"https://ikandy.app/"},{"@type":"ListItem","position":2,"name":"User guide","item":"https://ikandy.app/guide.html"},{"@type":"ListItem","position":3,"name":"FX shaders : IKANDY user guide","item":"https://ikandy.app/guide/fx.html"}]}</script>
-<meta name="description" content="Real-time post effects and the FX image pipeline.">
+<title>Pets : IKANDY user guide</title>
+<link rel="canonical" href="https://ikandy.app/guide/pets.html">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"IKANDY","item":"https://ikandy.app/"},{"@type":"ListItem","position":2,"name":"User guide","item":"https://ikandy.app/guide.html"},{"@type":"ListItem","position":3,"name":"Pets : IKANDY user guide","item":"https://ikandy.app/guide/pets.html"}]}</script>
+<meta name="description" content="Five companions who live on the show and dance to the tempo of your music. Free for everyone.">
 <link rel="icon" href="../icon.ico">
 <!-- Consent-based website analytics are managed by analytics.js; Google Analytics is not loaded before opt-in. -->
 <script src="../assets/analytics-bootstrap.js"></script>
@@ -65,28 +65,46 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
     <div class="rail-cta-group"><a class="btn-steam rail-cta" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Get IKANDY on Steam</a><span class="rail-beta-note">Free to play</span></div>
   </div>
 </nav>
-<main id="main-content" class="wiki-wrap" style="--hue:#8f6bff">
-  <div class="crumb"><a href="../guide.html">User guide</a><span>/</span><span class="hueled" aria-hidden="true"></span><span style="color:var(--ink-2)">FX shaders</span></div>
-  <h1>FX shaders</h1>
-  <p class="wiki-lead">Real-time post effects and the FX image pipeline.</p>
-  <section>
-  <p class="section-tag">FX</p>
-  <h2>Real-Time<br>FX Shaders</h2>
-  <p class="lead">FX is three layers deep in IKANDY: living treatments over an image, a post chain over everything, and a play layer for your hands.</p>
+<main id="main-content" class="wiki-wrap" style="--hue:#ff7a2f">
+  <div class="crumb"><a href="../guide.html">User guide</a><span>/</span><span class="hueled" aria-hidden="true"></span><span style="color:var(--ink-2)">Pets</span></div>
+  <h1>Pets</h1>
+  <p class="wiki-lead">Five companions who live on the show and dance to the tempo of your music. Free for everyone.</p>
+  
 
-  <h3>FX images</h3>
-  <p>Pick a background photo on the Image engine and run a live treatment over it. The set covers weather and texture (rain, fog, heat haze, dust film), analog and broadcast decay (VHS warp, data corruption, hologram), and paint and material (ink bleed, watercolor, liquid metal, shatter, plasma arc). Every treatment is audio-aware, and the library keeps growing.</p>
+<section>
+  <h2>Who is out</h2>
+  <p class="lead">Four cats, Fruitbat, Hobbes, Suki and Pixel, each with their own personality, and Cooper, a blue merle Aussie puppy. One cat at a time; Cooper can join whoever is out, or run solo.</p>
 
-  <h3>The post chain</h3>
-  <p>A multi-pass post chain runs over the whole show: bloom, chromatic aberration, grain, scanlines, vignette, and contrast, each on a live knob with its own status light, plus tone and LUT color grading and a god-rays pass. Beat-reactive particle bursts ride on top as their own layer. This is the finish that makes everything underneath read like one image.</p>
+  <h3>Pick a companion</h3>
+  <ol class="steps">
+    <li>Middle-click anywhere, or press <kbd>Q</kbd>, to open the Shortcuts wheel of the Quick Access ring, then pick <strong>Pets</strong>. <kbd>Shift</kbd> plus right-click opens the same wheel for a mouse without a middle button.</li>
+    <li>Choose Off, Fruitbat, Hobbes, Suki, Pixel or Cooper. The choice persists.</li>
+  </ol>
 
-  <h3>The play layer</h3>
-  <p>Mouse FX and draw mode put the pointer in the show: click ripples, freehand drawing with adjustable width, and particle trails, all blended over the visuals without ever touching the camera.</p>
+  <h3>Play with them</h3>
+  <ul class="b">
+    <li>Click a pet to say hello.</li>
+    <li>Drag to carry. They always land on their feet.</li>
+    <li>Double-click to feed a treat.</li>
+    <li>Throw the ball for Cooper: throw, bounce, chase, retrieve, return. He will bring it back. Always.</li>
+    <li>Wiggle the mouse near a cat and watch what happens.</li>
+    <li>Each pet has ten dance styles keyed to the live tempo of your music, and its own show commentary.</li>
+    <li>They walk across the whole screen, including the console bar.</li>
+  </ul>
 
-  <h3>Performance</h3>
-  <p>Quality tiers (Battery, Standard, High, Ultra) scale the render resolution and supersampling, so the same show runs right on a laptop on battery and on a desktop pushing a wall.</p>
+  <h3>On every output</h3>
+  <p>Pets live on the show itself, so mirrors, recordings, Spout, NDI and the wallpaper all see them, at native resolution on 4K output. They stay out when you hide the UI, because Hide UI clears the controls, not the show. Slingshot's clean stage puts them away.</p>
+
+  <h3>Cost</h3>
+  <p>Having a pet out is cheap: the pet layer is capped at 30 frames per second and uploads only the region it draws. If frames matter more than company, choose Off.</p>
+
+  <div class="callout tip">
+    <span class="callout-label">Tier note</span>
+    Pets are free for everyone.
+  </div>
 </section>
-  <div class="pn"><a href="hdr.html" style="--hue:#ffb14a"><span class="lbl">&larr; Previous</span><span class="ttl" style="display:block">HDR + 4K</span></a><a class="nxt" href="capture-fx.html" style="--hue:#46d96b"><span class="lbl">Next &rarr;</span><span class="ttl" style="display:block">Capture FX</span></a></div>
+
+  <div class="pn"><a href="games.html" style="--hue:#8f6bff"><span class="lbl">&larr; Previous</span><span class="ttl" style="display:block">Games</span></a><a class="nxt" href="controls.html" style="--hue:#33e0ff"><span class="lbl">Next &rarr;</span><span class="ttl" style="display:block">Controls, themes, tips</span></a></div>
 </main>
 <footer class="ftr">
   <div class="ftr-in">

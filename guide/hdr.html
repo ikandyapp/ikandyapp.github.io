@@ -5,10 +5,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<title>FX shaders : IKANDY user guide</title>
-<link rel="canonical" href="https://ikandy.app/guide/fx.html">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"IKANDY","item":"https://ikandy.app/"},{"@type":"ListItem","position":2,"name":"User guide","item":"https://ikandy.app/guide.html"},{"@type":"ListItem","position":3,"name":"FX shaders : IKANDY user guide","item":"https://ikandy.app/guide/fx.html"}]}</script>
-<meta name="description" content="Real-time post effects and the FX image pipeline.">
+<title>HDR + 4K : IKANDY user guide</title>
+<link rel="canonical" href="https://ikandy.app/guide/hdr.html">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"IKANDY","item":"https://ikandy.app/"},{"@type":"ListItem","position":2,"name":"User guide","item":"https://ikandy.app/guide.html"},{"@type":"ListItem","position":3,"name":"HDR + 4K : IKANDY user guide","item":"https://ikandy.app/guide/hdr.html"}]}</script>
+<meta name="description" content="True HDR on an HDR display, wide gamut on a P3 panel, and 10 bit recording. Every tier.">
 <link rel="icon" href="../icon.ico">
 <!-- Consent-based website analytics are managed by analytics.js; Google Analytics is not loaded before opt-in. -->
 <script src="../assets/analytics-bootstrap.js"></script>
@@ -65,28 +65,49 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
     <div class="rail-cta-group"><a class="btn-steam rail-cta" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Get IKANDY on Steam</a><span class="rail-beta-note">Free to play</span></div>
   </div>
 </nav>
-<main id="main-content" class="wiki-wrap" style="--hue:#8f6bff">
-  <div class="crumb"><a href="../guide.html">User guide</a><span>/</span><span class="hueled" aria-hidden="true"></span><span style="color:var(--ink-2)">FX shaders</span></div>
-  <h1>FX shaders</h1>
-  <p class="wiki-lead">Real-time post effects and the FX image pipeline.</p>
-  <section>
-  <p class="section-tag">FX</p>
-  <h2>Real-Time<br>FX Shaders</h2>
-  <p class="lead">FX is three layers deep in IKANDY: living treatments over an image, a post chain over everything, and a play layer for your hands.</p>
+<main id="main-content" class="wiki-wrap" style="--hue:#ffb14a">
+  <div class="crumb"><a href="../guide.html">User guide</a><span>/</span><span class="hueled" aria-hidden="true"></span><span style="color:var(--ink-2)">HDR + 4K</span></div>
+  <h1>HDR + 4K</h1>
+  <p class="wiki-lead">True HDR on an HDR display, wide gamut on a P3 panel, and 10 bit recording. Every tier.</p>
+  
 
-  <h3>FX images</h3>
-  <p>Pick a background photo on the Image engine and run a live treatment over it. The set covers weather and texture (rain, fog, heat haze, dust film), analog and broadcast decay (VHS warp, data corruption, hologram), and paint and material (ink bleed, watercolor, liquid metal, shatter, plasma arc). Every treatment is audio-aware, and the library keeps growing.</p>
+<section>
+  <h2>Light above white</h2>
+  <p class="lead">A normal screen stops at white. An HDR screen can go brighter than white, so a sun, a flare or a spark glows instead of flattening out. IKANDY does this automatically once Windows and the display are set up for it, and it tells you in plain words whether you are seeing it.</p>
 
-  <h3>The post chain</h3>
-  <p>A multi-pass post chain runs over the whole show: bloom, chromatic aberration, grain, scanlines, vignette, and contrast, each on a live knob with its own status light, plus tone and LUT color grading and a god-rays pass. Beat-reactive particle bursts ride on top as their own layer. This is the finish that makes everything underneath read like one image.</p>
+  <h3>Set it up</h3>
+  <ol class="steps">
+    <li>In Windows, open <strong>Settings, System, Display</strong>, pick the HDR monitor and turn on <strong>Use HDR</strong>. Without this, Windows hands IKANDY a standard screen.</li>
+    <li>In IKANDY, open <strong>Settings</strong> and the <strong>About</strong> tab. <strong>HDR output</strong> is on by default when an HDR display is detected. Read the status line under the switch: it names exactly why the current frame is or is not in HDR, and which destinations are receiving it.</li>
+    <li><strong>HDR headroom</strong> sets how far highlights may rise above white: 1.5x, 2x, 3x or 4x. 2x suits most displays. Try 3x or 4x on a bright panel and step back down if it feels like too much. The cap is 4x for viewing comfort.</li>
+    <li><strong>Wide gamut output</strong> turns on by itself when the display reports Display P3. Leave it on: the SDR show presents in P3, colors stay exact on every display, and feeds and recordings stay sRGB.</li>
+    <li>On a 4K display, open the <strong>Output</strong> tab and set <strong>Visual Quality</strong> to HIGH or ULTRA so the GPU worlds render at the panel's native size. AUTO picks a tier from your GPU.</li>
+    <li>HDR output and headroom apply on the next frame. Turning HDR output on or off also changes the canvas format, and that part takes effect on the next launch.</li>
+  </ol>
 
-  <h3>The play layer</h3>
-  <p>Mouse FX and draw mode put the pointer in the show: click ripples, freehand drawing with adjustable width, and particle trails, all blended over the visuals without ever touching the camera.</p>
+  <h3>What stays HDR</h3>
+  <ul class="b">
+    <li><strong>Every engine finishes on one pipe.</strong> Shader imports, compute worlds, MilkDrop, WGSL scenes and video loops all enter the same chain, so god rays, the color grade and temporal AA look the same in HDR.</li>
+    <li><strong>Supported HDR sources keep their range:</strong> PQ and HLG PNG and AVIF files, JPEG gain map images, high bit depth video, Windows screen capture and Spout input.</li>
+    <li><strong>Mirror and span</strong> map the finished frame for each display's own capability, so an HDR screen and an SDR screen beside it each get the right picture.</li>
+    <li><strong>Wallpaper</strong> presents scRGB on an HDR display and a mapped SDR result elsewhere.</li>
+    <li><strong>Spout</strong> offers a separate FP16 HDR sender beside the compatible SDR one. <strong>NDI</strong> output stays SDR: HDR NDI needs the separately licensed NDI Advanced SDK.</li>
+  </ul>
 
-  <h3>Performance</h3>
-  <p>Quality tiers (Battery, Standard, High, Ultra) scale the render resolution and supersampling, so the same show runs right on a laptop on battery and on a desktop pushing a wall.</p>
+  <h3>Record in 10 bit</h3>
+  <p>In the <strong>Output</strong> tab, under Rolling replay, pick a <strong>Recording dynamic range</strong>: SDR, SDR 10 BIT, HDR PQ or HDR HLG. SDR 10 bit writes 10 bit WebM with BT.709 color from the full precision show frame, so smooth gradients keep 1024 levels instead of 256. The HDR options write 10 bit WebM with BT.2020 color: PQ for HDR mastering, HLG for broadcast workflows. Changing the range restarts the replay buffer. If the encoder cannot do HDR, IKANDY says so instead of silently writing SDR.</p>
+
+  <div class="callout tip">
+    <span class="callout-label">Comfort</span>
+    The photosensitivity warning says that HDR displays can present brighter than standard, and where the headroom control is. Intensity all the way down keeps every visual calm at any headroom.
+  </div>
+  <div class="callout tip">
+    <span class="callout-label">Tier note</span>
+    HDR output, wide gamut and 10 bit recording work at every tier, Base included. The Steam page is authoritative.
+  </div>
 </section>
-  <div class="pn"><a href="hdr.html" style="--hue:#ffb14a"><span class="lbl">&larr; Previous</span><span class="ttl" style="display:block">HDR + 4K</span></a><a class="nxt" href="capture-fx.html" style="--hue:#46d96b"><span class="lbl">Next &rarr;</span><span class="ttl" style="display:block">Capture FX</span></a></div>
+
+  <div class="pn"><a href="scenes.html" style="--hue:#ff7a2f"><span class="lbl">&larr; Previous</span><span class="ttl" style="display:block">Scenes</span></a><a class="nxt" href="fx.html" style="--hue:#8f6bff"><span class="lbl">Next &rarr;</span><span class="ttl" style="display:block">FX shaders</span></a></div>
 </main>
 <footer class="ftr">
   <div class="ftr-in">

@@ -23,9 +23,9 @@ const outPath = join(root, 'assets', 'guide-index.json');
 // Canonical display order (search results surface in array order). New pages
 // not listed here are appended alphabetically.
 const ORDER = [
-  'getting-started', 'audio-sources', 'visualizers', 'library', 'scenes', 'fx',
-  'spout', 'wallpaper', 'lyrics', 'stage', 'logo', 'remote-control',
-  'ai-generation', 'controls', 'troubleshooting',
+  'getting-started', 'audio-sources', 'visualizers', 'library', 'scenes', 'hdr', 'fx',
+  'capture-fx', 'spout', 'wallpaper', 'loops', 'lyrics', 'stage', 'logo', 'remote-control',
+  'ai-generation', 'workshop', 'games', 'pets', 'controls', 'troubleshooting',
 ];
 
 const ENTITIES = {

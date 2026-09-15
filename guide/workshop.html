@@ -5,10 +5,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<title>FX shaders : IKANDY user guide</title>
-<link rel="canonical" href="https://ikandy.app/guide/fx.html">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"IKANDY","item":"https://ikandy.app/"},{"@type":"ListItem","position":2,"name":"User guide","item":"https://ikandy.app/guide.html"},{"@type":"ListItem","position":3,"name":"FX shaders : IKANDY user guide","item":"https://ikandy.app/guide/fx.html"}]}</script>
-<meta name="description" content="Real-time post effects and the FX image pipeline.">
+<title>Steam Workshop : IKANDY user guide</title>
+<link rel="canonical" href="https://ikandy.app/guide/workshop.html">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"IKANDY","item":"https://ikandy.app/"},{"@type":"ListItem","position":2,"name":"User guide","item":"https://ikandy.app/guide.html"},{"@type":"ListItem","position":3,"name":"Steam Workshop : IKANDY user guide","item":"https://ikandy.app/guide/workshop.html"}]}</script>
+<meta name="description" content="Publish scenes you made, pull in what other players made, and keep your name on the work.">
 <link rel="icon" href="../icon.ico">
 <!-- Consent-based website analytics are managed by analytics.js; Google Analytics is not loaded before opt-in. -->
 <script src="../assets/analytics-bootstrap.js"></script>
@@ -65,28 +65,42 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
     <div class="rail-cta-group"><a class="btn-steam rail-cta" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Get IKANDY on Steam</a><span class="rail-beta-note">Free to play</span></div>
   </div>
 </nav>
-<main id="main-content" class="wiki-wrap" style="--hue:#8f6bff">
-  <div class="crumb"><a href="../guide.html">User guide</a><span>/</span><span class="hueled" aria-hidden="true"></span><span style="color:var(--ink-2)">FX shaders</span></div>
-  <h1>FX shaders</h1>
-  <p class="wiki-lead">Real-time post effects and the FX image pipeline.</p>
-  <section>
-  <p class="section-tag">FX</p>
-  <h2>Real-Time<br>FX Shaders</h2>
-  <p class="lead">FX is three layers deep in IKANDY: living treatments over an image, a post chain over everything, and a play layer for your hands.</p>
+<main id="main-content" class="wiki-wrap" style="--hue:#ff3dd8">
+  <div class="crumb"><a href="../guide.html">User guide</a><span>/</span><span class="hueled" aria-hidden="true"></span><span style="color:var(--ink-2)">Steam Workshop</span></div>
+  <h1>Steam Workshop</h1>
+  <p class="wiki-lead">Publish scenes you made, pull in what other players made, and keep your name on the work.</p>
+  
 
-  <h3>FX images</h3>
-  <p>Pick a background photo on the Image engine and run a live treatment over it. The set covers weather and texture (rain, fog, heat haze, dust film), analog and broadcast decay (VHS warp, data corruption, hologram), and paint and material (ink bleed, watercolor, liquid metal, shatter, plasma arc). Every treatment is audio-aware, and the library keeps growing.</p>
+<section>
+  <h2>The Workshop shelf</h2>
+  <p class="lead">The Library's WORKSHOP shelf browses everything the community has published, straight from the Steam Workshop, without leaving the app.</p>
 
-  <h3>The post chain</h3>
-  <p>A multi-pass post chain runs over the whole show: bloom, chromatic aberration, grain, scanlines, vignette, and contrast, each on a live knob with its own status light, plus tone and LUT color grading and a god-rays pass. Beat-reactive particle bursts ride on top as their own layer. This is the finish that makes everything underneath read like one image.</p>
+  <h3>Browse and download</h3>
+  <ol class="steps">
+    <li>Open the Library and choose <strong>WORKSHOP</strong> on the rail. Search, filter by Everything, AI Art, Shader Works or Downloaded, and sort by Trending, Newest or Most subscribed.</li>
+    <li>Every card says where the item will land before you take it: AI art lands in <strong>My Scenes</strong> under its own vibe, and shader works land in <strong>Artists</strong> under their maker's name.</li>
+    <li>Press <strong>DOWNLOAD</strong>. IKANDY subscribes to the item on Steam and files it for you. The Subscribed tab of the Workshop panel lists what you have taken, and Workshop items enter the finishing chain like every other scene.</li>
+  </ol>
 
-  <h3>The play layer</h3>
-  <p>Mouse FX and draw mode put the pointer in the show: click ripples, freehand drawing with adjustable width, and particle trails, all blended over the visuals without ever touching the camera.</p>
+  <h3>Publish your work</h3>
+  <ol class="steps">
+    <li>Launch IKANDY through Steam: publishing needs the Steam client.</li>
+    <li>On the WORKSHOP shelf press <strong>PUBLISH YOUR WORK</strong>, or open the Workshop panel from the My Scenes header.</li>
+    <li>Choose the scene, give it a title and a description, and pick who it publishes as: your Steam name or your IKANDY handle. Shader credits and filenames always use the IKANDY handle.</li>
+    <li>Tick the rights box, press <strong>Publish to Workshop</strong>, and accept Steam's one-time Workshop legal agreement, or the item stays hidden.</li>
+    <li>Items are tagged by how they were made and published as Public, with a preview image generated for you. Renaming a scene later keeps its identity, so the Workshop preview does not go missing.</li>
+  </ol>
 
-  <h3>Performance</h3>
-  <p>Quality tiers (Battery, Standard, High, Ultra) scale the render resolution and supersampling, so the same show runs right on a laptop on battery and on a desktop pushing a wall.</p>
+  <h3>Preset packs</h3>
+  <p>Outside the Workshop, <strong>.ikpack</strong> files export a scene as a verified package you can share by hand and import on another PC. Verified Shadertoy imports carry a sealed provenance receipt, so an import that was tampered with cannot pass as the original.</p>
+
+  <div class="callout tip">
+    <span class="callout-label">Tier note</span>
+    Browsing the Workshop is free. Downloading, publishing and .ikpack export ship in the Pro tier; see <a href="../pricing/index.html">pricing</a>. The Steam page is authoritative.
+  </div>
 </section>
-  <div class="pn"><a href="hdr.html" style="--hue:#ffb14a"><span class="lbl">&larr; Previous</span><span class="ttl" style="display:block">HDR + 4K</span></a><a class="nxt" href="capture-fx.html" style="--hue:#46d96b"><span class="lbl">Next &rarr;</span><span class="ttl" style="display:block">Capture FX</span></a></div>
+
+  <div class="pn"><a href="ai-generation.html" style="--hue:#33e0ff"><span class="lbl">&larr; Previous</span><span class="ttl" style="display:block">AI scene generation</span></a><a class="nxt" href="games.html" style="--hue:#8f6bff"><span class="lbl">Next &rarr;</span><span class="ttl" style="display:block">Games</span></a></div>
 </main>
 <footer class="ftr">
   <div class="ftr-in">

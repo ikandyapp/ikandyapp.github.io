@@ -6,11 +6,11 @@
 <script src="assets/document-ready.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<title>IKANDY: see your music. Audio-reactive visualizer for Windows, on Steam.</title>
-<meta name="description" content="IKANDY listens to whatever your PC is playing and paints it across your screen, live. A deep library of MilkDrop presets and hand-built scenes, a full HDR render engine, and an AI that writes new scenes. On Steam July 31, 2026.">
+<title>IKANDY: see your music. Music visualizer and live visual engine for Windows, on Steam.</title>
+<meta name="description" content="Sold as a music visualizer, built as a real-time visual engine for Windows: five render engines behind one HDR finish, over 500 reactive visuals, a director that hears bars and drops, AI and shader creation, a performance rig, and every screen you own. Free on Steam, Pro $7.99.">
 <link rel="canonical" href="https://ikandy.app/">
 <meta property="og:title" content="IKANDY: see your music.">
-<meta property="og:description" content="Audio-reactive visualizer and VJ instrument for Windows. MilkDrop presets, hand-built scenes, AI scene generation, wallpaper to full VJ rig. On Steam July 31, 2026.">
+<meta property="og:description" content="Music visualizer and live visual engine for Windows. Five engines, one HDR finish, MilkDrop on our own engine, AI and shader creation, a performance rig, a shared moon. Free on Steam, Pro $7.99.">
 <meta property="og:image" content="https://ikandy.app/assets/social-card.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -19,7 +19,7 @@
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="IKANDY: see your music.">
-<meta name="twitter:description" content="Audio-reactive visualizer and VJ instrument for Windows. Coming to Steam July 31, 2026.">
+<meta name="twitter:description" content="Music visualizer and live visual engine for Windows. Five engines, one HDR finish, over 500 reactive visuals. Free on Steam, Pro $7.99.">
 <meta name="twitter:image" content="https://ikandy.app/assets/social-card.jpg">
 <script type="application/ld+json">
 {
@@ -30,7 +30,7 @@
   "sameAs": ["https://store.steampowered.com/app/4813240/IKANDY/"],
   "applicationCategory": "MultimediaApplication",
   "operatingSystem": "Windows 10, Windows 11",
-  "description": "An audio-reactive visualizer and VJ instrument for Windows.",
+  "description": "A music visualizer and real-time visual engine for Windows: five render engines behind one HDR finish, AI and shader scene creation, a performance console, and multi-display, wallpaper, Spout, NDI and OBS output.",
   "releaseDate": "2026-07-31",
   "offers": [
     {
@@ -735,6 +735,52 @@ html.js .unit-in.in{opacity:1;transform:none}
   .vid-alt a,.vid-mini-cap a{display:inline-block;padding:13px 0}
   p>a.mono{display:inline-block;padding:13px 0}
 }
+
+/* ---------- platform map: six verbs ---------- */
+.verbs{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:34px}
+.verb{position:relative;border:1px solid var(--rule-soft);border-radius:6px;padding:26px 24px 24px;
+  background:linear-gradient(180deg,#18181f,#15151b);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 10px 26px rgba(0,0,0,.35);
+  display:flex;flex-direction:column;gap:10px;
+  transition:transform .25s cubic-bezier(.16,1,.3,1),border-color .25s,box-shadow .25s}
+.verb::before{content:"";position:absolute;top:-1px;left:-1px;right:-1px;height:3px;
+  border-radius:6px 6px 0 0;background:linear-gradient(90deg,var(--vh),transparent 85%)}
+.verb:nth-child(6n+1){--vh:var(--ch1)}.verb:nth-child(6n+2){--vh:var(--ch2)}
+.verb:nth-child(6n+3){--vh:var(--vu-amber)}.verb:nth-child(6n+4){--vh:var(--ch3)}
+.verb:nth-child(6n+5){--vh:#8f6bff}.verb:nth-child(6n+6){--vh:#ffe14a}
+.verb:hover{transform:translateY(-6px);border-color:color-mix(in srgb,var(--vh) 45%,var(--rule-soft));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 22px 44px -14px color-mix(in srgb,var(--vh) 35%,transparent)}
+.verb-n{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--vh)}
+.verb h3{font-family:var(--display);font-weight:700;font-size:24px;letter-spacing:.03em;text-transform:uppercase;margin:0}
+.verb p{color:var(--ink-2);font-size:14.5px;margin:0;line-height:1.6;flex:1}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.chip{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;
+  padding:4px 8px;border-radius:2px;border:1px solid;color:var(--cc);border-color:color-mix(in srgb,var(--cc) 55%,transparent)}
+.chip-free{--cc:var(--ch3)}.chip-pro{--cc:var(--ch2)}.chip-studio{--cc:var(--vu-amber)}
+.chip-all{--cc:var(--ch1)}.chip-soon{--cc:var(--ink-3)}
+#platform::before{width:600px;height:600px;left:-200px;top:-200px;
+  background:radial-gradient(circle,var(--ch3),transparent 70%);opacity:.07;
+  animation:drift 30s ease-in-out infinite alternate}
+#platform::after{width:460px;height:460px;right:-160px;bottom:-220px;
+  background:radial-gradient(circle,var(--ch2),transparent 70%);opacity:.07;
+  animation:drift 26s ease-in-out infinite alternate-reverse}
+#platform .unit-tag b{color:var(--ch3)}
+@media(max-width:1000px){.verbs{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.verbs{grid-template-columns:1fr;gap:14px}.verb-n,.chip{font-size:11px}}
+
+/* ---------- first in class: the numbered leads ---------- */
+.leads{list-style:none;margin:30px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:6px 30px;max-width:1100px}
+.lead{display:grid;grid-template-columns:44px 1fr;gap:14px;padding:20px 0;border-top:1px dotted var(--rule)}
+.lead-n{font-family:var(--mono);font-size:22px;color:var(--ch1);line-height:1;padding-top:3px;
+  text-shadow:0 0 12px rgba(51,224,255,.35)}
+.lead:nth-child(even) .lead-n{color:var(--ch2);text-shadow:0 0 12px rgba(255,61,216,.35)}
+.lead h3{font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:.02em;text-transform:uppercase;margin:0 0 8px}
+.lead p{color:var(--ink-2);font-size:14.5px;margin:0;line-height:1.6}
+@media(max-width:860px){.leads{grid-template-columns:1fr}}
+
+/* the spec ladder grew past twelve rows; carry the spectrum around */
+.spec-row:nth-child(13){--rh:#ff4238}.spec-row:nth-child(14){--rh:#ff7a2f}
+.spec-row:nth-child(15){--rh:#ffe14a}.spec-row:nth-child(16){--rh:#46d96b}
 </style>
 </head>
 <body>
@@ -773,9 +819,9 @@ html.js .unit-in.in{opacity:1;transform:none}
   </div>
 
   <div class="hero-copy">
-    <p class="hero-eyebrow"><span class="led on" style="background:var(--vu-green);box-shadow:0 0 7px var(--vu-green)" aria-hidden="true"></span> AUDIO-REACTIVE VISUALIZER FOR WINDOWS</p>
+    <p class="hero-eyebrow"><span class="led on" style="background:var(--vu-green);box-shadow:0 0 7px var(--vu-green)" aria-hidden="true"></span> MUSIC VISUALIZER &middot; LIVE VISUAL ENGINE &middot; WINDOWS</p>
     <h1><span class="row">See your</span><span class="row">music<span class="dot" id="beat-dot" aria-hidden="true"></span></span></h1>
-    <p class="hero-sub">IKANDY listens to whatever your PC is playing and paints it across your screen, live. A deep library of MilkDrop presets and hand-built scenes, an AI that writes new ones, and outputs that run from your desktop wallpaper to a full VJ rig. This page is running the engine's little cousin right now. Grab a knob.</p>
+    <p class="hero-sub">IKANDY listens to whatever your PC is playing and paints it across every screen you own, live and in HDR. Sold as a music visualizer. Built as an engine: five renderers behind one finish, a director that hears bars and drops, a studio that makes new scenes, and a rig that performs them. This page is running the engine's little cousin right now. Grab a knob.</p>
     <div class="hero-cta">
       <a class="btn-steam big" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Get IKANDY on Steam</a>
       <a class="btn-ghost" href="#watch">Watch the teaser</a>
@@ -957,80 +1003,159 @@ html.js .unit-in.in{opacity:1;transform:none}
         <figcaption><b>Stage console</b>Prepare the next look, crossfade, hit cues, route outputs, and keep performing from one surface.</figcaption>
       </figure>
     </div>
-    <p class="product-note">Captured from the July 2026 desktop build.</p>
+    <p class="product-note">Captured from the July 2026 launch build. The September build has since gained the workspace rail, HDR output and the Create lanes.</p>
   </div>
 </section>
 
-<!-- ============ U2 SIGNAL ============ -->
+<!-- ============ U2 PLATFORM ============ -->
+<section class="unit" id="platform">
+  <div class="unit-in">
+    <div class="unit-tag"><b>U2</b> WHAT IT IS</div>
+    <h2 class="unit-title">Sold as a visualizer. Built as an engine.</h2>
+    <p class="unit-lead">Nobody can digest the whole feature list, so here is the shape of it: six things one app does, all on the same audio brain, the same HDR finish and the same library. Everything you can watch is free. Pro opens creation and outputs. Studio opens the performance rig, and Studio is not on Steam yet.</p>
+    <div class="verbs">
+      <div class="verb">
+        <span class="verb-n">01 &middot; Listen</span>
+        <h3>Point it at anything.</h3>
+        <p>Spotify, a browser, a game, foobar2000, MusicBee, VLC or a line-in. Smart Auto follows whichever app is actually making sound, per-app capture ignores your Discord, and PILOT rotates the library on the structure of the track, not a timer. On an HDR display the highlights rise above white.</p>
+        <div class="chips"><span class="chip chip-free">Free</span></div>
+      </div>
+      <div class="verb">
+        <span class="verb-n">02 &middot; Create</span>
+        <h3>Make scenes you own.</h3>
+        <p>AI Create writes a new scene from a prompt on your own provider key. Shader Import brings Shadertoy, ISF, GLSL and WGSL work in with knobs attached. Image Studio turns a photo into a living scene, Logo Studio sets your mark in liquid metal or glass, and Steam Workshop carries all of it to other players.</p>
+        <div class="chips"><span class="chip chip-pro">Pro</span></div>
+      </div>
+      <div class="verb">
+        <span class="verb-n">03 &middot; Perform</span>
+        <h3>Run the night from one surface.</h3>
+        <p>Stage holds a Now deck and a Next deck, GO with crossfades, hot cues, combos and a Phrase Tape that arranges the show on bars and phrases at the live tempo. MIX blends layers on a crossfader, Ableton Link locks it to the room, and your phone becomes the remote.</p>
+        <div class="chips"><span class="chip chip-studio">Studio</span><span class="chip chip-soon">Not on Steam yet</span></div>
+      </div>
+      <div class="verb">
+        <span class="verb-n">04 &middot; Broadcast</span>
+        <h3>Every screen you own.</h3>
+        <p>Span one picture across all your monitors, mirror it, or run it as HDR wallpaper behind your icons. Send Spout or NDI to Resolume and OBS, warp it onto a projector with corner pin and edge masks, record 10 bit HDR video, and save the last 30 seconds with one key.</p>
+        <div class="chips"><span class="chip chip-pro">Pro</span><span class="chip chip-studio">Studio</span></div>
+      </div>
+      <div class="verb">
+        <span class="verb-n">05 &middot; Play</span>
+        <h3>It is also a place.</h3>
+        <p>One Small Step is a shared moon: everyone hears their own music, the sky is painted by all of it, and other players glow in their own permanent color. Slingshot is a gravity-well melee with 25 ships and online lobbies. Five pets dance along the bottom of the show at the tempo of your track.</p>
+        <div class="chips"><span class="chip chip-free">Free</span></div>
+      </div>
+      <div class="verb">
+        <span class="verb-n">06 &middot; Finish</span>
+        <h3>Five engines, one HDR finish.</h3>
+        <p>MilkDrop on our own WARPCORE engine, GLSL, WGSL, WebGPU compute worlds and Three.js all enter the same post chain: bloom in linear light, god rays that calibrate themselves, a color grade, grain, and a clip governor that meters every frame. On a Display P3 panel the color goes as wide as the panel.</p>
+        <div class="chips"><span class="chip chip-all">Every tier</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ U3 FIRST IN CLASS ============ -->
 <section class="unit" id="signal">
   <div class="unit-in">
-    <div class="unit-tag"><b>U2</b> SIGNAL PATH</div>
-    <h2 class="unit-title">An instrument, not a screensaver.</h2>
-    <p class="unit-lead">IKANDY is built like the gear it sits next to: an audio engine that can focus on the source you choose (one app, the whole mix, or a line-in), a render pipeline with an HDR post chain, and outputs that connect to the rest of your rig. Core visual playback runs locally on your GPU. Optional online features, including provider-based AI and metadata services, require an internet connection.</p>
-    <p class="unit-lead" style="margin-top:14px">And when you do want wallpaper, it's a music-reactive wallpaper mode built into the same visual pipeline. Supported presets can run as your Windows desktop, moving with your music behind your icons while you work. One library of presets, wherever you point it: your desktop, a second monitor, an OBS overlay, a projector wall, or a stage.</p>
+    <div class="unit-tag"><b>U3</b> WHY IT LEADS</div>
+    <h2 class="unit-title">Seven things nothing else in the category does at once.</h2>
+    <p class="unit-lead">Every line below describes shipped behavior in the current build. Where a feature belongs to a paid tier, the tier is named. Where that tier is not on Steam yet, that is said too.</p>
+    <ol class="leads">
+      <li class="lead"><span class="lead-n">01</span><div>
+        <h3>Five engines, one finish.</h3>
+        <p>GLSL, WGSL, WebGPU compute, Three.js and MilkDrop render through one HDR post chain, so god rays, the color grade and temporal AA look the same whether a scene is a shader import, a compute world or a 2001 preset. Every source enters at the same reference white, and a clip governor meters the presented frame so bright scenes glow instead of washing out.</p>
+      </div></li>
+      <li class="lead"><span class="lead-n">02</span><div>
+        <h3>MilkDrop, on our own engine, in HDR.</h3>
+        <p>WARPCORE is IKANDY's MilkDrop engine: per-pixel warp on the GPU, high dynamic range, 440 presets plus 117 WarpField visuals built on Ryan Geiss's authored motion, and preset folders proven at 10,000 files. When a classic looks wrong, the engine gets fixed here instead of waiting on someone else's project.</p>
+      </div></li>
+      <li class="lead"><span class="lead-n">03</span><div>
+        <h3>It hears music as music.</h3>
+        <p>A Musical Director measures tempo, sections and 8, 16 and 32 bar phrases from the raw signal and publishes how confident it is. PILOT changes scenes on that structure, AI Create choreographs a scene over 16 and 32 bars, the Phrase Tape arranges a show on bars at the live tempo, and Ableton Link brings the room's clock in.</p>
+      </div></li>
+      <li class="lead"><span class="lead-n">04</span><div>
+        <h3>It makes its own content.</h3>
+        <p>AI Create generates scenes on your own provider key inside a contract that carries the motion law and a strobe check. Shader Import takes Shadertoy, ISF, GLSL and WGSL with sealed provenance receipts. Image Studio gives any photo a depth map and a life. Workshop carries all of it between players.</p>
+      </div></li>
+      <li class="lead"><span class="lead-n">05</span><div>
+        <h3>Safety is engineered, not vibed.</h3>
+        <p>A written Visual Safety Standard governs motion: no periodic whole-field motion in the vestibular band from any driver, beat-locked accents within stated bounds, and Intensity 0 exactly inert, all held by tests. The photosensitivity warning names HDR headroom. Reactivity you can turn all the way down is reactivity you can trust on a stage.</p>
+      </div></li>
+      <li class="lead"><span class="lead-n">06</span><div>
+        <h3>Every display treated as its own display.</h3>
+        <p>Span across monitors of mixed size and DPI, mirror at full quality, or run HDR wallpaper on one screen and SDR on the next. Each display receives the frame mapped for its own capability. Projection mapping, Spout, NDI, OBS and 10 bit recording all leave from the same finished frame.</p>
+      </div></li>
+      <li class="lead"><span class="lead-n">07</span><div>
+        <h3>Provenance travels with the art.</h3>
+        <p>Every preset card carries where it came from, its license and what it needs. Shadertoy imports are cryptographically verified, Workshop uploads publish under the name you choose, and an artist's credit stays attached when the work runs on someone else's wall.</p>
+      </div></li>
+    </ol>
   </div>
 </section>
 
-<!-- ============ U3 ROOMS ============ -->
+<!-- ============ U4 ROOMS ============ -->
 <section class="unit" id="rooms">
   <div class="unit-in">
-    <div class="unit-tag"><b>U3</b> WHO IT'S FOR</div>
+    <div class="unit-tag"><b>U4</b> WHO IT'S FOR</div>
     <h2 class="unit-title">One app. Three rooms.</h2>
     <div class="rooms">
       <div class="room">
         <span class="room-ch">CH 1</span>
         <h3>Listeners</h3>
-        <p>Open it on a second monitor, start a supported audio source such as Spotify, MusicBee, YouTube, foobar2000, or VLC, and walk away. IKANDY auto-cycles through hundreds of scenes, scrolls synced lyrics, and reacts to your music, not your Discord pings.</p>
+        <p>Open it on a second monitor, start Spotify, MusicBee, YouTube, foobar2000 or VLC, and walk away. IKANDY cycles through hundreds of scenes on the structure of the track and reacts to your music, not your Discord pings. Everything you can watch is free, in HDR too. Pro adds synced lyrics, a Now Playing card and wallpaper.</p>
       </div>
       <div class="room">
         <span class="room-ch">CH 2</span>
         <h3>DJs &amp; VJs</h3>
-        <p>A node in the rig, not a walled garden. Send Spout output to compatible receivers such as Resolume or OBS, or bring a Spout feed in for live effects. Per-app audio capture can focus on a booth signal, and line-in, audio interfaces, and virtual cables can use the same engine. MIDI, OSC, and a console built to be performed.</p>
+        <p>A node in the rig, not a walled garden. Send Spout or NDI to Resolume, OBS or a media server, or bring a Spout feed or a screen capture in and run it through Capture FX that answer kick, snare and hats. Per-app capture focuses on the booth signal, line-in and interfaces use the same engine, and Stage, MIDI, OSC and Ableton Link are built to be performed. Studio tier, coming to Steam.</p>
       </div>
       <div class="room">
         <span class="room-ch">CH 3</span>
         <h3>Shader artists</h3>
-        <p>Import compatible GLSL or WGSL fragments with audio uniforms and mouse input, then shape the result with the HDR post chain. Your work can run fullscreen with the credit you choose.</p>
+        <p>Paste a Shadertoy, ISF, GLSL or WGSL fragment and it renders as written, with audio, mouse and date inputs that behave like the original. Declare knobs in a comment and they appear on the console. Hit IGNITE and the engine wires the music in deeper. Your name stays on it in Workshop and on every card.</p>
       </div>
     </div>
     <p class="product-note"><a href="idea.html">Read the larger idea behind IKANDY &rarr;</a></p>
   </div>
 </section>
 
-<!-- ============ U4 SPEC ============ -->
+<!-- ============ U5 SPEC ============ -->
 <section class="unit" id="spec">
   <div class="unit-in">
-    <div class="unit-tag"><b>U4</b> ENGINE SPEC</div>
+    <div class="unit-tag"><b>U5</b> ENGINE SPEC</div>
     <h2 class="unit-title">The sheet.</h2>
     <div class="spec">
-      <div class="spec-row"><span class="spec-k">Included presets</span><span class="spec-dots"></span><span class="spec-v">a deep library across the included engines</span></div>
-      <div class="spec-row"><span class="spec-k">Built-in scenes</span><span class="spec-dots"></span><span class="spec-v">hand-built scene library</span></div>
-      <div class="spec-row"><span class="spec-k">Render engines</span><span class="spec-dots"></span><span class="spec-v">GLSL &middot; WebGPU compute &middot; MilkDrop</span></div>
-      <div class="spec-row"><span class="spec-k">Post chain</span><span class="spec-dots"></span><span class="spec-v">multi-pass HDR, bloom to grain</span></div>
-      <div class="spec-row"><span class="spec-k">Audio capture</span><span class="spec-dots"></span><span class="spec-v">per-app WASAPI, true 7.1 downmix</span></div>
-      <div class="spec-row"><span class="spec-k">Line-in / interfaces</span><span class="spec-dots"></span><span class="spec-v">mixer-direct capture, tempo from signal</span></div>
-      <div class="spec-row"><span class="spec-k">Spout</span><span class="spec-dots"></span><span class="spec-v">in + out, live effect scenes</span></div>
-      <div class="spec-row"><span class="spec-k">Shader import</span><span class="spec-dots"></span><span class="spec-v">compatible GLSL and WGSL scenes</span></div>
-      <div class="spec-row"><span class="spec-k">AI generation</span><span class="spec-dots"></span><span class="spec-v">bring your own key, <em>at cost</em></span></div>
-      <div class="spec-row"><span class="spec-k">Control</span><span class="spec-dots"></span><span class="spec-v">MIDI &middot; OSC &middot; gamepad flight</span></div>
-      <div class="spec-row"><span class="spec-k">Ableton Link</span><span class="spec-dots"></span><span class="spec-v">tempo &amp; beat sync with Link-enabled apps</span></div>
-      <div class="spec-row"><span class="spec-k">Displays</span><span class="spec-dots"></span><span class="spec-v">multi-monitor span + desktop wallpaper</span></div>
-      <div class="spec-row"><span class="spec-k">Lyrics</span><span class="spec-dots"></span><span class="spec-v">synced, drawn on screen</span></div>
+      <div class="spec-row"><span class="spec-k">Reactive visuals</span><span class="spec-dots"></span><span class="spec-v">over 500: MilkDrop, WarpField, shader scenes, 3D and compute worlds <em>free</em></span></div>
+      <div class="spec-row"><span class="spec-k">MilkDrop engine</span><span class="spec-dots"></span><span class="spec-v">WARPCORE, in-house, per-pixel GPU warp, HDR, .milk and .milk2, 10,000-file folders</span></div>
+      <div class="spec-row"><span class="spec-k">Render engines</span><span class="spec-dots"></span><span class="spec-v">GLSL &middot; WGSL &middot; WebGPU compute &middot; Three.js &middot; MilkDrop</span></div>
+      <div class="spec-row"><span class="spec-k">Finish</span><span class="spec-dots"></span><span class="spec-v">one HDR post chain: linear-light bloom, self-calibrating god rays, LUT grade, temporal AA, grain, clip governor</span></div>
+      <div class="spec-row"><span class="spec-k">HDR output</span><span class="spec-dots"></span><span class="spec-v">scRGB on HDR displays, 1.5x to 4x headroom, Display P3 wide gamut, per-display mapping <em>every tier</em></span></div>
+      <div class="spec-row"><span class="spec-k">Audio capture</span><span class="spec-dots"></span><span class="spec-v">per-app WASAPI loopback, Smart Auto, true 5.1 and 7.1 downmix, line-in and interfaces</span></div>
+      <div class="spec-row"><span class="spec-k">Musical Director</span><span class="spec-dots"></span><span class="spec-v">tempo, beat, sections, 8, 16 and 32 bar phrases, with confidence, from the raw signal</span></div>
+      <div class="spec-row"><span class="spec-k">Create</span><span class="spec-dots"></span><span class="spec-v">AI Create (bring your own key) &middot; Shadertoy, ISF, GLSL, WGSL import &middot; Image Studio &middot; Logo Studio &middot; Workshop <em>pro</em></span></div>
+      <div class="spec-row"><span class="spec-k">Displays</span><span class="spec-dots"></span><span class="spec-v">span across all monitors, mirrors, Output Window, HDR wallpaper <em>pro</em></span></div>
+      <div class="spec-row"><span class="spec-k">Broadcast</span><span class="spec-dots"></span><span class="spec-v">Spout SDR and FP16 HDR, NDI, OBS, 4K feeds, 60 to 120 fps <em>pro / studio</em></span></div>
+      <div class="spec-row"><span class="spec-k">Capture</span><span class="spec-dots"></span><span class="spec-v">any app, game or Spout feed, plus a video loop library, through 11 Capture FX <em>studio</em></span></div>
+      <div class="spec-row"><span class="spec-k">Record</span><span class="spec-dots"></span><span class="spec-v">F9 saves the last 30 seconds, Shift+F9 records, PQ, HLG and SDR 10 bit</span></div>
+      <div class="spec-row"><span class="spec-k">Stage</span><span class="spec-dots"></span><span class="spec-v">Now/Next decks, GO, cues, combos, Phrase Tape, MIX compositor, projection mapping, phone remote <em>studio</em></span></div>
+      <div class="spec-row"><span class="spec-k">Control</span><span class="spec-dots"></span><span class="spec-v">MIDI &middot; OSC &middot; Ableton Link &middot; gamepad &middot; touch &middot; Quick Access Ring</span></div>
+      <div class="spec-row"><span class="spec-k">Play</span><span class="spec-dots"></span><span class="spec-v">One Small Step shared moon &middot; Slingshot &middot; five pets <em>free</em></span></div>
       <div class="spec-row"><span class="spec-k">Core playback</span><span class="spec-dots"></span><span class="spec-v">runs locally; optional online features need internet</span></div>
     </div>
+    <p class="product-note">Tier tags name the tier that unlocks a row. Studio is not on Steam yet.</p>
   </div>
 </section>
 
-<!-- ============ U5 PRICING ============ -->
+<!-- ============ U6 PRICING ============ -->
 <section class="unit" id="pricing"><span id="pro" style="position:absolute;top:-52px" aria-hidden="true"></span>
   <div class="unit-in">
-    <div class="unit-tag"><b>U5</b> PRICING</div>
+    <div class="unit-tag"><b>U6</b> PRICING</div>
     <h2 class="unit-title">Buy once. No subscription.</h2>
     <div class="tiers">
       <div class="tier">
         <span class="tier-model">IK-0</span>
         <h3>Base</h3>
-        <p class="tier-role">Watch and listen.</p>
+        <p class="tier-role">Watch, listen, play.</p>
         <p class="tier-price">$0</p>
       </div>
       <div class="tier">
@@ -1044,18 +1169,19 @@ html.js .unit-in.in{opacity:1;transform:none}
         <h3>Studio</h3>
         <p class="tier-role">The full VJ rig.</p>
         <p class="tier-price" data-regular="$59.99">$39.59</p>
-        <p class="tier-launch">Coming soon &middot; 14-day deal at release &middot; $59.99 after</p>
+        <p class="tier-launch">Not on Steam yet &middot; 14-day deal at release &middot; $59.99 after</p>
       </div>
     </div>
-    <p class="pricing-note"><b>No subscription.</b> AI generation is bring-your-own-key: provider charges and availability vary, and IKANDY does not sell separate AI credits.</p>
+    <p class="pricing-note"><b>Everything you can watch is free.</b> Every visual, every engine, HDR, PILOT, the moon, the games and the pets are in Base. Pro opens creation, wallpaper, span and mirrors, Workshop publishing and outputs. Studio opens the performance rig, capture and broadcast; it ships inside the app today, locked until the DLC reaches Steam.</p>
+    <p class="pricing-note" style="margin-top:12px"><b>No subscription.</b> AI generation is bring-your-own-key: provider charges and availability vary, and IKANDY does not sell separate AI credits.</p>
     <p style="margin-top:18px"><a href="pricing/index.html" class="mono" style="font-size:12px;letter-spacing:.12em;text-transform:uppercase">Full pricing + tier guide &rarr;</a></p>
   </div>
 </section>
 
-<!-- ============ U6 FOOTAGE ============ -->
+<!-- ============ U7 FOOTAGE ============ -->
 <section class="unit" id="watch">
   <div class="unit-in">
-    <div class="unit-tag"><b>U6</b> FOOTAGE</div>
+    <div class="unit-tag"><b>U7</b> FOOTAGE</div>
     <h2 class="unit-title">Nineteen seconds, in motion.</h2>
     <div class="vid" id="vid">
       <button class="vid-load" id="vid-load" aria-label="Play the teaser video" data-yt="GmMpX47Zdgs" data-title="IKANDY teaser video" data-track="demo">
@@ -1078,17 +1204,21 @@ html.js .unit-in.in{opacity:1;transform:none}
   </div>
 </section>
 
-<!-- ============ U7 FAQ ============ -->
+<!-- ============ U8 FAQ ============ -->
 <section class="unit" id="questions">
   <div class="unit-in">
-    <div class="unit-tag"><b>U7</b> BEFORE YOU PATCH IN</div>
+    <div class="unit-tag"><b>U8</b> BEFORE YOU PATCH IN</div>
     <h2 class="unit-title">The useful answers.</h2>
     <div class="requirements"><b>What it needs:</b> Windows 10 or 11 (64-bit), Steam, 8 GB RAM, 2 GB of free storage, an audio output device, and a DirectX 12 GPU with WebGPU support (NVIDIA GTX 900 series, AMD RX 400 series, or Intel UHD 600 and newer). Core visual playback runs locally. Internet access is used for installation, updates, and optional online features.</div>
     <div class="faq-grid">
       <details><summary>Does it require Spotify?</summary><p>No. IKANDY can react to system audio, a chosen app, line-in, an audio interface, or a virtual cable. Spotify works like any other media app: IKANDY reads its track info through Windows media controls, with no account connection and nothing to set up.</p></details>
       <details><summary>Will Discord trigger the visuals?</summary><p>Only if you choose the whole system mix. Per-app capture can listen to one selected music app while ignoring Discord, notification sounds, and everything else.</p></details>
       <details><summary>Is the AI a subscription?</summary><p>No. AI scene generation is optional and bring-your-own-key. You pay the supported provider directly at its published rates; IKANDY sells no AI credits.</p></details>
-      <details><summary>What is the difference between Pro and Studio?</summary><p>Pro adds creation, wallpaper on any of your monitors, Steam Workshop publishing and subscriptions, a second-screen output window, and OBS output. Studio adds multi-monitor span, simultaneous mirrors across displays, live capture, higher-performance Spout output, MIDI and OSC, and the performance console.</p></details>
+      <details><summary>What is the difference between Pro and Studio?</summary><p>Pro adds creation (AI Create, Shader Import, Image Studio, My Scenes), desktop wallpaper, multi-monitor span and mirrors, the Output Window, OBS and Spout output up to 30 fps at 4K, Steam Workshop publishing, the Milk Deck and the Quick Access Ring. Studio adds the Stage console with the Phrase Tape and MIX, app and game capture with Capture FX, Spout input, Spout at 60 to 120 fps, NDI output, projection mapping, MIDI and OSC, the Preset Lab and the video loop library.</p></details>
+      <details><summary>Is Studio available?</summary><p>Not yet. The Studio DLC is not on Steam as of September 2026. Its features ship inside the app today and unlock when the DLC goes live, with its own 14-day launch offer. Locked workspaces show a live preview behind the upgrade card, so you can see exactly what you would be buying.</p></details>
+      <details><summary>Does it do HDR?</summary><p>Yes, at every tier. On an HDR display IKANDY presents in scRGB with headroom you set from 1.5x to 4x, and a status line in Settings names exactly why a frame is or is not in HDR. Wide gamut output follows displays that report Display P3. Recording can write PQ, HLG or SDR 10 bit video.</p></details>
+      <details><summary>Is it just MilkDrop?</summary><p>No, and the MilkDrop part is not the MilkDrop you remember. Presets run on WARPCORE, IKANDY's own engine, in HDR, next to GLSL and WGSL shaders, WebGPU compute worlds, seven 3D fractal families, Three.js scenes, your own imports and AI-written scenes, all finished by the same post chain.</p></details>
+      <details><summary>Does it run on a Mac?</summary><p>No. IKANDY is a Windows 10 and 11 application, sold on Steam.</p></details>
       <details><summary>Can it run as wallpaper?</summary><p>Yes. Supported visuals can run behind your Windows desktop icons using the same visual pipeline as the full-screen app.</p></details>
       <details><summary>Does it upload my music?</summary><p>No. Core playback and audio analysis run locally. Optional metadata, AI, updates, and enabled diagnostics use online services as described in the privacy policy.</p></details>
     </div>
@@ -1103,7 +1233,7 @@ html.js .unit-in.in{opacity:1;transform:none}
     <div class="ftr-grid">
       <div>
         <p class="ftr-brand">IKANDY</p>
-        <p class="ftr-note">Audio-reactive visualizer and VJ instrument for Windows 10 / 11. Core visual playback runs locally; optional online features require an internet connection.</p>
+        <p class="ftr-note">Music visualizer and live visual engine for Windows 10 / 11. Core visual playback runs locally; optional online features require an internet connection.</p>
         <p style="margin-top:18px"><a class="btn-steam" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Get IKANDY on Steam</a></p>
       </div>
       <div>
@@ -1133,12 +1263,13 @@ html.js .unit-in.in{opacity:1;transform:none}
           <li><a href="license.html">License</a></li>
           <li><a href="eula.html">EULA</a></li>
           <li><a href="credits.html">Credits</a></li>
+          <li><a href="https://discord.gg/V2XcssgeW5" target="_blank" rel="noopener">Discord</a></li>
           <li><a href="mailto:support@ikandy.app">support@ikandy.app</a></li>
         </ul>
       </div>
     </div>
     <div class="ftr-plate">
-      <span>MODEL IKANDY &middot; REV 2026.2 &middot; <span class="amber">OUT NOW ON STEAM</span></span>
+      <span>MODEL IKANDY &middot; REV 2026.3 &middot; APP 1.6 &middot; <span class="amber">OUT NOW ON STEAM</span></span>
       <span>Made by a human who likes loud music. &copy; 2026 L&amp;R Entertainment LLC &middot; IKANDY&trade;</span>
       <span style="opacity:.65">Ableton and Link are trademarks of Ableton AG. Other product and company names are trademarks of their respective owners; use does not imply endorsement.</span>
     </div>
