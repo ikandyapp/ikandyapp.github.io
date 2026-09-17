@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self'; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://*.google-analytics.com https://*.googletagmanager.com; media-src 'self' blob:; frame-src https://www.youtube-nocookie.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Shader import + reactivity : IKANDY user guide</title>
+<link rel="canonical" href="https://ikandy.app/guide/shader-import.html">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"IKANDY","item":"https://ikandy.app/"},{"@type":"ListItem","position":2,"name":"User guide","item":"https://ikandy.app/guide.html"},{"@type":"ListItem","position":3,"name":"Shader import + reactivity : IKANDY user guide","item":"https://ikandy.app/guide/shader-import.html"}]}</script>
+<meta name="description" content="Paste a shader, drive it from the music. Console knobs, your own knobs, and the audio uniforms. No AI key needed.">
+<link rel="icon" href="../icon.ico">
+<!-- Consent-based website analytics are managed by analytics.js; Google Analytics is not loaded before opt-in. -->
+<script src="../assets/analytics-bootstrap.js"></script>
+<link rel="stylesheet" href="../assets/fonts.css">
+<link rel="stylesheet" href="../assets/ik.css">
+<link rel="stylesheet" href="../assets/guide.css">
+<style>
+body{padding-top:var(--nav-h)}
+nav.rail{position:fixed!important;top:0!important;left:0!important;right:0!important;
+  display:block!important;padding:0!important;height:var(--nav-h)!important;
+  background:linear-gradient(180deg,#191920,var(--rail))!important;
+  border-bottom:1px solid #000!important;max-width:none!important}
+nav.rail .rail-in{max-width:var(--maxw);margin:0 auto;height:100%;padding:0 24px;
+  display:flex;align-items:center;gap:22px}
+footer.ftr{display:block!important;text-align:left!important;padding:0!important;margin:0!important;
+  background:var(--chassis-deep)!important;border-top:1px solid #000!important;max-width:none!important}
+.wiki-wrap{max-width:880px;margin:0 auto;padding:56px 24px 80px}
+.crumb{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink-3);margin-bottom:22px;display:flex;gap:10px;align-items:center}
+.crumb a{color:var(--ink-3)} .crumb a:hover{color:var(--vu-amber)}
+.crumb .hueled{width:7px;height:7px;border-radius:50%;background:var(--hue);
+  box-shadow:0 0 8px var(--hue)}
+.wiki-wrap h1{font-family:var(--display);font-weight:800;text-transform:uppercase;
+  font-size:clamp(34px,6vw,54px);line-height:1;margin:0 0 14px;letter-spacing:.01em}
+.wiki-lead{color:var(--ink-2);font-size:16.5px;max-width:640px;margin:0 0 34px}
+.wiki-wrap section{padding:34px 0 6px}
+.pn{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:56px}
+.pn a{border:1px solid var(--rule);border-radius:5px;padding:16px 18px;display:block;
+  background:var(--panel);transition:border-color .18s,transform .18s}
+.pn a:hover{text-decoration:none;border-color:var(--hue,#8f3512);transform:translateY(-2px)}
+.pn .lbl{font-family:var(--mono);font-size:9px;letter-spacing:.2em;color:var(--ink-3);
+  text-transform:uppercase}
+.pn .ttl{color:var(--ink);font-weight:600;margin-top:4px}
+.pn .nxt{text-align:right}
+@media(max-width:640px){.pn{grid-template-columns:1fr}}
+.wiki-note{border:1px solid var(--rule);border-left:3px solid var(--vu-amber);
+  border-radius:3px;background:var(--panel);padding:14px 18px;color:var(--ink-2);
+  font-size:14px;margin:26px 0}
+/* page-local: code blocks + reference tables (the shared guide sheet styles
+   inline <code> only, and no other guide page needs either of these) */
+.si-pre{background:var(--well);border:1px solid var(--rule);border-radius:var(--radius);
+  padding:15px 17px;overflow-x:auto;margin:20px 0}
+.si-pre code{background:none;border:0;padding:0;display:block;
+  font-size:12.5px;line-height:1.65;color:var(--ink);white-space:pre;overflow-wrap:normal}
+.si-pre .c{color:var(--ink-3)}
+.si-pre .k{color:var(--vu-amber)}
+.si-pre .s{color:var(--vu-green)}
+.si-tbl{overflow-x:auto;border:1px solid var(--rule);border-radius:var(--radius);margin:20px 0}
+.si-tbl table{border-collapse:collapse;width:100%;font-size:14px}
+.si-tbl th,.si-tbl td{text-align:left;padding:9px 13px;border-bottom:1px solid var(--rule-soft);
+  vertical-align:top;color:var(--ink-2)}
+.si-tbl tr:last-child td{border-bottom:0}
+.si-tbl th{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-3);background:var(--panel);white-space:nowrap}
+.si-tbl td code{white-space:nowrap}
+.si-formula{border:1px solid var(--rule);border-left:3px solid var(--hue,#33c9e0);
+  border-radius:var(--radius);background:var(--panel);padding:14px 18px;margin:20px 0;
+  font-family:var(--mono);font-size:13px;line-height:1.7;color:var(--ink);overflow-x:auto}
+.si-formula .lbl{display:block;font-size:9px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink-3);margin-bottom:6px}
+.si-knobs{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;
+  background:var(--rule);border:1px solid var(--rule);border-radius:var(--radius);
+  overflow:hidden;margin:20px 0}
+.si-knobs div{background:var(--panel);padding:13px 15px 15px}
+.si-knobs .nm{font-family:var(--mono);font-size:10px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--vu-amber)}
+.si-knobs .rg{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);margin:4px 0 7px}
+.si-knobs .ds{font-size:13.5px;line-height:1.5;color:var(--ink-2)}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<nav class="rail" aria-label="Main">
+  <div class="rail-in">
+    <a class="rail-logo" href="../index.html"><span class="rail-led" aria-hidden="true"></span>IKANDY</a>
+    <button class="rail-toggle" aria-label="Menu">MENU</button>
+    <div class="rail-links">
+      <a href="../index.html#rooms">Who it's for</a>
+      <a href="../index.html#spec">Engine</a>
+      <a href="../pricing/index.html">Pricing</a>
+      <a href="../guide.html" class="active">Guide</a>
+      <a href="../artists.html">Artists</a>
+    </div>
+    <div class="rail-cta-group"><a class="btn-steam rail-cta" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Get IKANDY on Steam</a><span class="rail-beta-note">Free to play</span></div>
+  </div>
+</nav>
+<main id="main-content" class="wiki-wrap" style="--hue:#33c9e0">
+  <div class="crumb"><a href="../guide.html">User guide</a><span>/</span><span class="hueled" aria-hidden="true"></span><span style="color:var(--ink-2)">Shader import + reactivity</span></div>
+  <h1>Shader import + reactivity</h1>
+  <p class="wiki-lead">Paste a shader, drive it from the music. Three layers, in the order to reach for them: the knobs that already exist, your own knobs from one comment block, then the audio uniforms read straight from your code. None of it needs an AI key.</p>
+
+<section>
+<h2>Layer one: the knobs you already have</h2>
+<p class="lead">Open the Console. These act on whatever is on screen right now, imported shaders included, with no editing and no reload.</p>
+
+<div class="si-knobs">
+  <div><div class="nm">Bass</div><div class="rg">0 &ndash; 2 &middot; starts at 1</div><div class="ds">Multiplies the low band before your shader sees it.</div></div>
+  <div><div class="nm">Mid</div><div class="rg">0 &ndash; 2 &middot; starts at 1</div><div class="ds">Same, for the middle band.</div></div>
+  <div><div class="nm">Treble</div><div class="rg">0 &ndash; 2 &middot; starts at 1</div><div class="ds">Same, for the top band.</div></div>
+  <div><div class="nm">Smooth</div><div class="rg">0.30 &ndash; 0.98 &middot; starts at 0.40</div><div class="ds">Higher glides, lower twitches. One global analyser setting.</div></div>
+  <div><div class="nm">Intensity</div><div class="rg">1 &ndash; 11 &middot; starts at 8</div><div class="ds">The big fader. Multiplies all three bands on top of the knobs above.</div></div>
+  <div><div class="nm">Speed</div><div class="rg">0.1 &ndash; 2 &middot; starts at 1</div><div class="ds">Scales the scene clock for imported GLSL. Never touches the music.</div></div>
+</div>
+
+<p>They stack, and the stacking is the part most people miss:</p>
+
+<div class="si-formula"><span class="lbl">What your shader actually receives</span>
+u_bass = rawBass &times; Bass knob (0&ndash;2) &times; Intensity (0&ndash;2)</div>
+
+<p>The Intensity fader reads 1 to 11 on screen but drives 0 to 2 underneath: <strong>display 6 is 1.0&times;</strong>, <strong>display 11 is 2.0&times;</strong>, and the default <strong>display 8 is 1.4&times;</strong>. A factory-fresh IKANDY is already feeding your shader 1.4 times what it was written for.</p>
+
+<ul class="include-list">
+<li><strong>Want more?</strong> Bass at 2 with Intensity at 11 gives you 4&times; the raw band, roughly three times the default. That is the ceiling from the Console alone.</li>
+<li><strong>Want it dead still?</strong> Intensity at 1 sends every band to exactly zero. That is deliberate: it is the defeat switch, not a low setting.</li>
+<li>Bass, Mid and Treble are saved per engine, so your imported-shader settings do not follow you into MilkDrop. Intensity is one global value.</li>
+</ul>
+
+<h3>The Reactivity section</h3>
+<p>Two of its four knobs act on an imported shader:</p>
+<ul class="include-list">
+<li><strong>Light-Sync</strong> (starts at 85%) lets the beat drive brightness and glow in the post chain.</li>
+<li><strong>FX Pulse</strong> (starts at 50%) lets hits pump the bloom, chromatic aberration and vignette for a moment.</li>
+<li><strong>Motion Warp</strong> and <strong>Transform</strong> start at zero and stay inert on GLSL and WebGPU by design. See <a href="#motion">Colour, zoom, and the motion rule</a>.</li>
+</ul>
+</section>
+
+<section>
+<h2>Layer two: your own knobs, one comment block</h2>
+<p class="lead">Put a single line comment in your pasted source and IKANDY builds you real knobs in the Console's SCENE section: sliders, toggles, dropdowns, a proper colour picker. They persist with the scene and come back when it reloads.</p>
+
+<div class="si-pre"><code><span class="c">// ikandy-controls: [</span>
+<span class="c">//   {"id":"glow", "label":"Glow", "type":"float", "range":[0,2], "default":0.8, "mapsTo":"u_glow"},</span>
+<span class="c">//   {"id":"tint", "label":"Tint", "type":"color", "default":"#66ccff",          "mapsTo":"u_tint"},</span>
+<span class="c">//   {"id":"spin", "label":"Spin", "type":"bool",  "default":true,               "mapsTo":"u_spin"}</span>
+<span class="c">// ]</span>
+
+void mainImage(out vec4 fragColor, in vec2 fragCoord) {
+    vec2 uv = fragCoord / iResolution.xy;
+    vec3 col = <span class="k">u_tint</span> * smoothstep(0.8, 0.0, length(uv - 0.5));
+    col *= 1.0 + <span class="k">u_glow</span> * u_bassS;          <span class="c">// your knob, times the music</span>
+    fragColor = vec4(col, 1.0);
+}</code></div>
+
+<p>Put it anywhere in the pasted source. On a multipass shader it goes in the <strong>Common</strong> tab, or the top of <strong>Image</strong> if you have no Common tab, and every pass can read the uniform.</p>
+
+<h3>Four rules that will bite you</h3>
+<ul class="include-list">
+<li><strong>Do not declare the uniform yourself.</strong> IKANDY writes <code>uniform float u_glow;</code> for you. Adding your own is a redefinition error, and you get a message telling you to delete the line.</li>
+<li><strong>Read it or lose it.</strong> A control that is declared but never actually read in the code is dropped, and the Load status names it. No dead knobs. Reading it inside a comment does not count, because comments are stripped before the check.</li>
+<li><strong>One block per shader.</strong> A second block is an error, not a merge.</li>
+<li><strong>A malformed block stops the Load</strong> and tells you the block line and the source line. It never quietly gives you zero knobs.</li>
+</ul>
+
+<h3>Fields</h3>
+<div class="si-tbl">
+<table>
+<thead><tr><th>Field</th><th>Needed</th><th>What it does</th></tr></thead>
+<tbody>
+<tr><td><code>mapsTo</code></td><td>yes</td><td>The uniform name: <code>u_</code> plus letters, digits, underscore. Cannot be a built-in like <code>u_bass</code>.</td></tr>
+<tr><td><code>label</code></td><td>should</td><td>The name on the knob.</td></tr>
+<tr><td><code>type</code></td><td>should</td><td><code>float</code> (knob, the default), <code>int</code>, <code>color</code> (picker, arrives as a vec3), <code>bool</code> (toggle), <code>enum</code> (dropdown, needs <code>options</code>).</td></tr>
+<tr><td><code>range</code></td><td>float / int</td><td><code>[min, max]</code></td></tr>
+<tr><td><code>default</code></td><td>should</td><td>Starting value. Colours take <code>"#rrggbb"</code> or <code>[r,g,b]</code> in 0&ndash;1.</td></tr>
+<tr><td><code>id</code></td><td>should</td><td>Short key used for saving. Defaults to <code>mapsTo</code>.</td></tr>
+<tr><td><code>options</code></td><td>enum</td><td><code>[{"value":0,"label":"Soft"}, ...]</code></td></tr>
+<tr><td><code>audioDefault</code></td><td>no</td><td>Wires the knob to a band. See below.</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>Up to 12 controls. Duplicate or reserved <code>mapsTo</code> names are dropped, with the reason logged to the developer console.</p>
+
+<div class="wiki-note">In a WGSL import you read <code>uc.glow</code> inside <code>fs_main</code>, which is your <code>mapsTo</code> with the <code>u_</code> prefix removed. Everything else is identical.</div>
+</section>
+
+<section>
+<h2>Point a knob at a band</h2>
+<p class="lead">This is the direct answer to &ldquo;how do I put the bass on something else?&rdquo; Add <code>audioDefault</code> to any float or int control and that knob is modulated by the band every frame, without touching your shader code.</p>
+
+<div class="si-pre"><code><span class="c">// ikandy-controls: [</span>
+<span class="c">//   {"id":"zoom", "label":"Zoom", "type":"float", "range":[0.5,3], "default":1.0,</span>
+<span class="c">//    "mapsTo":"u_zoom", <span class="k">"audioDefault"</span>: {"band":<span class="s">"bass"</span>, "gain":1.5}},</span>
+<span class="c">//</span>
+<span class="c">//   {"id":"hue",  "label":"Hue",  "type":"float", "range":[0,1],   "default":0.2,</span>
+<span class="c">//    "mapsTo":"u_hue",  <span class="k">"audioDefault"</span>: {"band":<span class="s">"treble"</span>, "gain":0.6}}</span>
+<span class="c">// ]</span></code></div>
+
+<div class="si-formula"><span class="lbl">How the value is computed each frame</span>
+value = knob position &times; (1 + band &times; gain)</div>
+
+<p>Bands are <code>bass</code>, <code>mid</code>, <code>treble</code> and <code>volume</code>. Gain is clamped to 0&ndash;8. The knob you set by hand stays the base, so you keep a manual trim on top of the music.</p>
+
+<h3>Repointing it live, without editing</h3>
+<p>You can move a control from one band to another while the shader runs:</p>
+<ul class="include-list">
+<li>Load the shader, then <strong>Save</strong> it.</li>
+<li>Reopen it from the <strong>My Scenes</strong> dropdown with <strong>Open</strong>, in the same panel.</li>
+<li>Every float and int control now shows a small pill under its name: off, bass, mid, treble, volume. Pick one. It applies immediately and is remembered.</li>
+</ul>
+<p>The pill appears only on a shader the panel itself opened, which is why the save-then-open step matters. Loading a fresh paste gives you the knobs but not the pills. One more thing worth knowing: if you later edit the <code>ikandy-controls</code> block in the saved file, the file wins over the remembered pill settings on the next load.</p>
+</section>
+
+<section>
+<h2>Layer three: straight into the source</h2>
+<p class="lead">The fastest loop. The paste box is the editor: type in it and press Ctrl+Enter to recompile. IKANDY declares all of these for you, so just read them.</p>
+
+<div class="si-tbl">
+<table>
+<thead><tr><th>Uniform</th><th>What it carries</th></tr></thead>
+<tbody>
+<tr><td><code>u_bass</code> <code>u_mid</code> <code>u_treble</code></td><td>The three bands, after your Console knobs and Intensity. Fast and spiky.</td></tr>
+<tr><td><code>u_bassS</code> <code>u_midS</code> <code>u_trebS</code></td><td>The same bands, envelope-smoothed. Use these for anything that should glide.</td></tr>
+<tr><td><code>u_kickTight</code></td><td>The kick drum transient, 50&ndash;110 Hz. The structural pulse.</td></tr>
+<tr><td><code>u_snare</code></td><td>Backbeat body and crack. Good for colour and saturation flares.</td></tr>
+<tr><td><code>u_hihat</code></td><td>6&ndash;16 kHz tick. Fast, fine sparkle.</td></tr>
+<tr><td><code>u_subBass</code></td><td>20&ndash;60 Hz rumble. Slow glow and depth.</td></tr>
+<tr><td><code>u_air</code></td><td>16&ndash;22 kHz sheen. Slow shimmer.</td></tr>
+<tr><td><code>u_bassHit</code> <code>u_midHit</code> <code>u_trebHit</code></td><td>Raw onset envelopes per band.</td></tr>
+<tr><td><code>u_buildup</code> <code>u_peak</code> <code>u_calm</code> <code>u_release</code> <code>u_sustain</code> <code>u_arc</code></td><td>Song shape. These rise and fall over seconds, not beats. Stage the drop with them.</td></tr>
+<tr><td><code>u_beat</code> <code>u_beatPhase</code> <code>u_barPhase</code> <code>u_bpm</code></td><td>The live beat clock.</td></tr>
+<tr><td><code>u_drive</code></td><td>The Intensity fader itself, 0&ndash;2. Multiply your reactivity by it so your shader goes fully still at zero.</td></tr>
+<tr><td><code>u_volume</code> <code>u_intensity</code></td><td>Overall loudness. <code>u_volume</code> is the RMS of the bands, <code>u_intensity</code> is their mean.</td></tr>
+<tr><td><code>spectrumAt(x)</code> <code>waveformAt(x)</code></td><td>Helper functions. Sample the full spectrum or waveform; <code>x</code> and the result are both 0&ndash;1.</td></tr>
+</tbody>
+</table>
+</div>
+
+<p><strong>Shadertoy shaders work unchanged.</strong> Every <code>iChannel</code> resolves to IKANDY's live audio in the exact 512&times;2 texture format Shadertoy uses: FFT on one row, waveform on the other. A shader that already samples a music channel reacts the moment it loads, with nothing to press. <code>iResolution</code>, <code>iMouse</code>, <code>iDate</code>, <code>iFrame</code> and the rest are wired too. Shadertoy library textures do not travel with an export, so bind your own image or the shader renders without them.</p>
+
+<div class="wiki-note"><strong>The one real craft rule.</strong> Give each instrument its own job: kick drives one thing, snare another, hats another. That separation is the difference between a shader that pumps and a shader that just brightens all over. Driving everything from <code>u_bass</code> is the most common reason an import looks flat.</div>
+</section>
+
+<section id="motion">
+<h2>Colour, zoom, and the motion rule</h2>
+<p class="lead">Colour, brightness, glow, sparkle, saturation and contrast are open season. Drive any of it from any signal, as hard as you like.</p>
+<p>Zoom, camera and whole-frame motion are different. Your hand-written shader can do it, because a fresh paste renders exactly as written and nothing rewrites your code. But IKANDY's own automatic tools will not wire audio into motion for you, and that is a decision rather than an oversight:</p>
+<ul class="include-list">
+<li><strong>Motion Warp</strong> and <strong>Transform</strong> on the Console ship at zero, and Transform is inert on GLSL and WebGPU entirely.</li>
+<li>The <strong>Basic</strong> button injects brightness, warmth and glow only. It used to warp time; that was removed.</li>
+<li><strong>IGNITE</strong>, the AI path, refuses to propose audio-driven camera, zoom or geometry bindings.</li>
+</ul>
+<p>The reason is motion comfort. Repetitive whole-field movement in roughly the 0.08 to 0.5 Hz band is what makes people queasy, and music sitting at 100 to 140 BPM puts a bass-driven zoom uncomfortably close to it. If you want breathing zoom, write it yourself, keep the amplitude small, and watch it on a big screen for a few minutes before you put it in front of a room.</p>
+</section>
+
+<section>
+<h2>Two things people ask</h2>
+<h3>Does an AI key change any of this?</h3>
+<p>No. Every layer above is free of provider cost and works offline. A key buys three things: <strong>IGNITE</strong>, which reads a non-reactive shader and proposes audio bindings for you to review before anything applies; <strong>Tune</strong>, which looks at the running frame and balances the gains; and <strong>AI Create</strong>, which writes whole scenes from a prompt. If you already write your own reactivity, a key mostly buys you the gain-balancing pass. See <a href="ai-generation.html">AI scene generation</a>.</p>
+
+<h3>Can I build .milk presets in IKANDY?</h3>
+<p>Not today. IKANDY reads them very well: drop a folder of <code>.milk</code> files and they convert in the app, get security-screened, and land in rotation, tested with ten thousand presets at once. But nothing in the app writes a <code>.milk</code> file, so authoring still needs MilkDrop itself or a preset editor. See <a href="visualizers.html">Visualizers + presets</a>.</p>
+
+<div class="wiki-note">Shader import ships in the Pro tier, alongside the AI shader studio. See <a href="../pricing/index.html">pricing</a>; the Steam page is authoritative. Accurate as of IKANDY 1.6.5.</div>
+</section>
+
+  <div class="pn"><a href="remote-control.html" style="--hue:#d24dff"><span class="lbl">&larr; Previous</span><span class="ttl" style="display:block">MIDI, phone remote, gamepad</span></a><a class="nxt" href="ai-generation.html" style="--hue:#33e0ff"><span class="lbl">Next &rarr;</span><span class="ttl" style="display:block">AI scene generation</span></a></div>
+</main>
+<footer class="ftr">
+  <div class="ftr-in">
+    <div class="ftr-grid">
+      <div>
+        <p class="ftr-brand">IKANDY</p>
+        <p class="ftr-note">Audio-reactive visualizer and VJ instrument for Windows 10 / 11. Core visual playback runs locally; optional online features require an internet connection.</p>
+        <p style="margin-top:18px"><a class="btn-steam" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Get IKANDY on Steam</a></p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="../guide.html">User guide</a></li>
+          <li><a href="../pricing/index.html">Pricing</a></li>
+          <li><a href="../artists.html">Artist program</a></li>
+          <li><a href="../arcade/index.html">Arcade</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Technical disclosures</h4>
+        <ul>
+          <li><a href="../ikandy-smart-auto-prior-art.html">Smart Auto prior art</a></li>
+          <li><a href="../ikandy-ai-error-sandbox.html">AI error sandbox</a></li>
+          <li><a href="../ikandy-vis-format.html">.vis format</a></li>
+          <li><a href="../scene-contract.html">Scene contract</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal + contact</h4>
+        <ul>
+          <li><a href="../privacy.html">Privacy policy</a></li>
+          <li><a href="../security.html">Security</a></li>
+          <li><a href="../license.html">License</a></li>
+          <li><a href="../eula.html">EULA</a></li>
+          <li><a href="../credits.html">Credits</a></li>
+          <li><a href="mailto:support@ikandy.app">support@ikandy.app</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ftr-plate">
+      <span>MODEL IKANDY &middot; REV 2026.2 &middot; <span class="amber">OUT NOW ON STEAM</span></span>
+      <span>Made by a human who likes loud music. &copy; 2026 L&amp;R Entertainment LLC &middot; IKANDY&trade;</span>
+    </div>
+  </div>
+</footer>
+<script src="../analytics.js" defer></script>
+<script src="../assets/site-shell.js" defer></script>
+</body>
+</html>
