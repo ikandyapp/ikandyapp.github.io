@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg class="huddle" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="MBXHub" data-skin="hive"><style>.huddle{--speed: 1;}
+.huddle .hd-ring {
+  transform-box: view-box;
+  transform-origin: 256px 256px;
+}
+.huddle .hd-slot {
+  transform-box: view-box;
+  transform-origin: 256px 256px;
+  transform: rotate(calc(var(--i) * var(--step, 51.42857deg)));
+}
+.huddle .hd-dot {
+  fill: var(--c);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.huddle .hd-core {
+  fill: var(--core);
+}
+.huddle[data-skin="hive"] {
+  --p0: #FFC93C;
+  --p1: #F7B733;
+  --p2: #FFD45E;
+  --p3: #EFA92B;
+  --p4: #FFCE4A;
+  --p5: #F4B02E;
+  --p6: #FFDA72;
+  --core: #3FC9D6;          
+  --ink:  #0E1B33;          
+  --wing: rgba(214, 244, 255, .92);
+  --orbit: rgba(255, 201, 60, .30);
+  --ok:   #4FD69A;
+  --warn: #FFC93C;
+  --err:  #FF6B5A;
+  --idle: #3FC9D6;
+  --off:  #5C6B87;
+  --dim: 0.18;
+  --word-ink: rgba(14, 27, 51, .52);
+  --word-lit: rgba(255, 255, 255, .40);
+}
+.huddle[data-skin="hive"] .hd-orbit {
+  fill: none;
+  stroke: var(--orbit);
+  stroke-width: 3;
+}
+.huddle[data-skin="hive"] .hd-bee { fill: var(--c); }
+.huddle[data-skin="hive"] .hd-body { fill: inherit; }
+.huddle[data-skin="hive"] .hd-body,
+.huddle[data-skin="hive"] .hd-head {
+  stroke: var(--ink);
+  stroke-width: 3;
+}
+.huddle[data-skin="hive"] .hd-head   { fill: var(--ink); stroke: none; opacity: .9; }
+.huddle[data-skin="hive"] .hd-stripe { fill: var(--ink); }
+.huddle[data-skin="hive"] .hd-wing {
+  fill: var(--wing);
+  stroke: rgba(14, 27, 51, .35);
+  stroke-width: 2;
+}
+.huddle[data-skin="hive"] .hd-wing {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+.huddle[data-skin="hive"] .hd-bee {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.huddle[data-skin="hive"] .hd-slot:nth-child(7n+1) .hd-bee { --beat: 2.2s; }
+.huddle[data-skin="hive"] .hd-slot:nth-child(7n+2) .hd-bee { --beat: 3.3s; }
+.huddle[data-skin="hive"] .hd-slot:nth-child(7n+3) .hd-bee { --beat: 5.5s; }
+.huddle[data-skin="hive"] .hd-slot:nth-child(7n+4) .hd-bee { --beat: 3.3s; }
+.huddle[data-skin="hive"] .hd-slot:nth-child(7n+5) .hd-bee { --beat: 8.8s; }
+.huddle[data-skin="hive"] .hd-slot:nth-child(7n+6) .hd-bee { --beat: 2.2s; }
+.huddle[data-skin="hive"] .hd-slot:nth-child(7n+7) .hd-bee { --beat: 5.5s; }
+.huddle[data-skin="hive"]
+.huddle[data-skin="hive"] .hd-core {
+  fill: var(--core);
+  stroke: rgba(14, 27, 51, .55);
+  stroke-width: 5;
+  stroke-linejoin: round;
+}
+.huddle[data-skin="hive"] .hd-facet {
+  fill: none;
+  stroke: rgba(255, 255, 255, .38);
+  stroke-width: 4;
+  stroke-linejoin: round;
+}
+.huddle[data-skin="hive"] .hd-word-ink { fill: var(--word-ink); }
+.huddle[data-skin="hive"] .hd-word-lit { fill: var(--word-lit); }
+.huddle[data-skin="hive"].noword .hd-word { display: none; }
+.huddle[data-skin="hive"] .hd-glyph path { fill: var(--ink); opacity: .9; }
+.huddle[data-skin="hive"]:not(.noword) .hd-glyph { display: none; }.huddle[data-skin="hive"][data-tint] .hd-bee { fill: var(--tint); }
+.huddle[data-skin="hive"][data-tint] .hd-core { fill: var(--tint); }
+.huddle[data-skin="hive"][data-tint="offline"] .hd-wing { fill: rgba(200, 214, 235, .32); }
+.huddle[data-skin="hive"].simplify .hd-wing,
+.huddle[data-skin="hive"].simplify .hd-stripe,
+.huddle[data-skin="hive"].simplify .hd-head { display: none; }
+.huddle[data-skin="hive"].simplify .hd-body {
+  rx: 46px;
+  ry: 46px;
+  stroke-width: 4;
+}
+.huddle[data-skin="hive"].simplify .hd-facet { display: none; }
+.huddle[data-skin="hive"].simplify .hd-orbit { stroke-width: 5; }</style><title>MBXHub</title><circle class="hd-orbit" cx="256" cy="256" r="156"></circle><g class="hd-ring"><g class="hd-slot" style="--i: 0; --step: 51.42857142857143deg;"><g class="hd-dot hd-bee" data-i="0" style="--i: 0; --c: var(--p0);"><g class="hd-wing-mount" transform="rotate(-40 223 86)"><ellipse class="hd-wing" cx="223" cy="86" rx="27" ry="13"></ellipse></g><g class="hd-wing-mount" transform="rotate(40 289 86)"><ellipse class="hd-wing" cx="289" cy="86" rx="27" ry="13"></ellipse></g><ellipse class="hd-body" cx="256" cy="104" rx="34" ry="31"></ellipse><circle class="hd-head" cx="256" cy="85" r="13"></circle><rect class="hd-stripe" x="225" y="92" width="62" height="9" rx="4.5"></rect><rect class="hd-stripe" x="229" y="112" width="54" height="9" rx="4.5"></rect></g></g><g class="hd-slot" style="--i: 1; --step: 51.42857142857143deg;"><g class="hd-dot hd-bee" data-i="1" style="--i: 1; --c: var(--p1);"><g class="hd-wing-mount" transform="rotate(-40 223 86)"><ellipse class="hd-wing" cx="223" cy="86" rx="27" ry="13"></ellipse></g><g class="hd-wing-mount" transform="rotate(40 289 86)"><ellipse class="hd-wing" cx="289" cy="86" rx="27" ry="13"></ellipse></g><ellipse class="hd-body" cx="256" cy="104" rx="34" ry="31"></ellipse><circle class="hd-head" cx="256" cy="85" r="13"></circle><rect class="hd-stripe" x="225" y="92" width="62" height="9" rx="4.5"></rect><rect class="hd-stripe" x="229" y="112" width="54" height="9" rx="4.5"></rect></g></g><g class="hd-slot" style="--i: 2; --step: 51.42857142857143deg;"><g class="hd-dot hd-bee" data-i="2" style="--i: 2; --c: var(--p2);"><g class="hd-wing-mount" transform="rotate(-40 223 86)"><ellipse class="hd-wing" cx="223" cy="86" rx="27" ry="13"></ellipse></g><g class="hd-wing-mount" transform="rotate(40 289 86)"><ellipse class="hd-wing" cx="289" cy="86" rx="27" ry="13"></ellipse></g><ellipse class="hd-body" cx="256" cy="104" rx="34" ry="31"></ellipse><circle class="hd-head" cx="256" cy="85" r="13"></circle><rect class="hd-stripe" x="225" y="92" width="62" height="9" rx="4.5"></rect><rect class="hd-stripe" x="229" y="112" width="54" height="9" rx="4.5"></rect></g></g><g class="hd-slot" style="--i: 3; --step: 51.42857142857143deg;"><g class="hd-dot hd-bee" data-i="3" style="--i: 3; --c: var(--p3);"><g class="hd-wing-mount" transform="rotate(-40 223 86)"><ellipse class="hd-wing" cx="223" cy="86" rx="27" ry="13"></ellipse></g><g class="hd-wing-mount" transform="rotate(40 289 86)"><ellipse class="hd-wing" cx="289" cy="86" rx="27" ry="13"></ellipse></g><ellipse class="hd-body" cx="256" cy="104" rx="34" ry="31"></ellipse><circle class="hd-head" cx="256" cy="85" r="13"></circle><rect class="hd-stripe" x="225" y="92" width="62" height="9" rx="4.5"></rect><rect class="hd-stripe" x="229" y="112" width="54" height="9" rx="4.5"></rect></g></g><g class="hd-slot" style="--i: 4; --step: 51.42857142857143deg;"><g class="hd-dot hd-bee" data-i="4" style="--i: 4; --c: var(--p4);"><g class="hd-wing-mount" transform="rotate(-40 223 86)"><ellipse class="hd-wing" cx="223" cy="86" rx="27" ry="13"></ellipse></g><g class="hd-wing-mount" transform="rotate(40 289 86)"><ellipse class="hd-wing" cx="289" cy="86" rx="27" ry="13"></ellipse></g><ellipse class="hd-body" cx="256" cy="104" rx="34" ry="31"></ellipse><circle class="hd-head" cx="256" cy="85" r="13"></circle><rect class="hd-stripe" x="225" y="92" width="62" height="9" rx="4.5"></rect><rect class="hd-stripe" x="229" y="112" width="54" height="9" rx="4.5"></rect></g></g><g class="hd-slot" style="--i: 5; --step: 51.42857142857143deg;"><g class="hd-dot hd-bee" data-i="5" style="--i: 5; --c: var(--p5);"><g class="hd-wing-mount" transform="rotate(-40 223 86)"><ellipse class="hd-wing" cx="223" cy="86" rx="27" ry="13"></ellipse></g><g class="hd-wing-mount" transform="rotate(40 289 86)"><ellipse class="hd-wing" cx="289" cy="86" rx="27" ry="13"></ellipse></g><ellipse class="hd-body" cx="256" cy="104" rx="34" ry="31"></ellipse><circle class="hd-head" cx="256" cy="85" r="13"></circle><rect class="hd-stripe" x="225" y="92" width="62" height="9" rx="4.5"></rect><rect class="hd-stripe" x="229" y="112" width="54" height="9" rx="4.5"></rect></g></g><g class="hd-slot" style="--i: 6; --step: 51.42857142857143deg;"><g class="hd-dot hd-bee" data-i="6" style="--i: 6; --c: var(--p6);"><g class="hd-wing-mount" transform="rotate(-40 223 86)"><ellipse class="hd-wing" cx="223" cy="86" rx="27" ry="13"></ellipse></g><g class="hd-wing-mount" transform="rotate(40 289 86)"><ellipse class="hd-wing" cx="289" cy="86" rx="27" ry="13"></ellipse></g><ellipse class="hd-body" cx="256" cy="104" rx="34" ry="31"></ellipse><circle class="hd-head" cx="256" cy="85" r="13"></circle><rect class="hd-stripe" x="225" y="92" width="62" height="9" rx="4.5"></rect><rect class="hd-stripe" x="229" y="112" width="54" height="9" rx="4.5"></rect></g></g></g><path class="hd-core" d="M332.00,256.00L294.00,321.82L218.00,321.82L180.00,256.00L218.00,190.18L294.00,190.18Z"></path><path class="hd-facet" d="M308.00,256.00L282.00,301.03L230.00,301.03L204.00,256.00L230.00,210.97L282.00,210.97Z"></path><g class="hd-word"><path class="hd-word-lit" transform="translate(1.6 1.6) translate(256 256) scale(0.03178) translate(-2090.0 355.5)" d="M76 0V-686H281L389 -304Q398 -273 407.0 -234.5Q416 -196 421 -171H429Q432 -193 439.5 -230.5Q447 -268 457 -305L565 -686H768V0H638V-347Q638 -393 639.0 -439.0Q640 -485 641.5 -518.0Q643 -551 643 -557H635Q633 -548 625.0 -518.0Q617 -488 608.0 -453.0Q599 -418 592 -393L479 0H359L246 -392Q240 -413 232.5 -442.5Q225 -472 217.5 -503.0Q210 -534 204 -557H196Q197 -530 198.0 -492.5Q199 -455 200.0 -416.5Q201 -378 201 -347V0Z M920 0V-686H1294Q1349 -686 1392.5 -665.0Q1436 -644 1461.0 -606.0Q1486 -568 1486 -517Q1486 -458 1453.5 -417.0Q1421 -376 1373 -360V-356Q1430 -344 1467.5 -300.0Q1505 -256 1505 -189Q1505 -125 1476.5 -83.0Q1448 -41 1400.5 -20.5Q1353 0 1294 0ZM1050 -406H1260Q1304 -406 1328.0 -430.0Q1352 -454 1352 -489Q1352 -533 1328.5 -554.0Q1305 -575 1267 -575H1050ZM1050 -111H1277Q1318 -111 1344.5 -133.5Q1371 -156 1371 -204Q1371 -246 1346.0 -271.5Q1321 -297 1269 -297H1050Z M1561 0 1808 -360 1584 -686H1743L1895 -457H1900L2052 -686H2201L1977 -361L2225 0H2067L1891 -265H1885L1711 0Z M2312 0V-686H2442V-407H2762V-686H2892V0H2762V-295H2442V0Z M3200 12Q3124 12 3076.5 -29.5Q3029 -71 3029 -171V-526H3151V-193Q3151 -138 3177.0 -116.5Q3203 -95 3247 -95Q3297 -95 3330.5 -130.0Q3364 -165 3364 -220V-526H3486V0H3385L3375 -70H3368Q3341 -34 3299.0 -11.0Q3257 12 3200 12Z M3895 12Q3844 12 3802.0 -8.5Q3760 -29 3734 -70H3727L3717 0H3616V-723H3738V-465H3744Q3793 -538 3902 -538Q3961 -538 4006.5 -509.0Q4052 -480 4078.0 -419.5Q4104 -359 4104 -264Q4104 -120 4048.0 -54.0Q3992 12 3895 12ZM3857 -93Q3924 -93 3951.0 -133.0Q3978 -173 3978 -255V-269Q3978 -353 3951.0 -393.0Q3924 -433 3857 -433Q3795 -433 3766.5 -390.0Q3738 -347 3738 -268V-255Q3738 -177 3766.5 -135.0Q3795 -93 3857 -93Z"></path><path class="hd-word-ink" transform="translate(256 256) scale(0.03178) translate(-2090.0 355.5)" d="M76 0V-686H281L389 -304Q398 -273 407.0 -234.5Q416 -196 421 -171H429Q432 -193 439.5 -230.5Q447 -268 457 -305L565 -686H768V0H638V-347Q638 -393 639.0 -439.0Q640 -485 641.5 -518.0Q643 -551 643 -557H635Q633 -548 625.0 -518.0Q617 -488 608.0 -453.0Q599 -418 592 -393L479 0H359L246 -392Q240 -413 232.5 -442.5Q225 -472 217.5 -503.0Q210 -534 204 -557H196Q197 -530 198.0 -492.5Q199 -455 200.0 -416.5Q201 -378 201 -347V0Z M920 0V-686H1294Q1349 -686 1392.5 -665.0Q1436 -644 1461.0 -606.0Q1486 -568 1486 -517Q1486 -458 1453.5 -417.0Q1421 -376 1373 -360V-356Q1430 -344 1467.5 -300.0Q1505 -256 1505 -189Q1505 -125 1476.5 -83.0Q1448 -41 1400.5 -20.5Q1353 0 1294 0ZM1050 -406H1260Q1304 -406 1328.0 -430.0Q1352 -454 1352 -489Q1352 -533 1328.5 -554.0Q1305 -575 1267 -575H1050ZM1050 -111H1277Q1318 -111 1344.5 -133.5Q1371 -156 1371 -204Q1371 -246 1346.0 -271.5Q1321 -297 1269 -297H1050Z M1561 0 1808 -360 1584 -686H1743L1895 -457H1900L2052 -686H2201L1977 -361L2225 0H2067L1891 -265H1885L1711 0Z M2312 0V-686H2442V-407H2762V-686H2892V0H2762V-295H2442V0Z M3200 12Q3124 12 3076.5 -29.5Q3029 -71 3029 -171V-526H3151V-193Q3151 -138 3177.0 -116.5Q3203 -95 3247 -95Q3297 -95 3330.5 -130.0Q3364 -165 3364 -220V-526H3486V0H3385L3375 -70H3368Q3341 -34 3299.0 -11.0Q3257 12 3200 12Z M3895 12Q3844 12 3802.0 -8.5Q3760 -29 3734 -70H3727L3717 0H3616V-723H3738V-465H3744Q3793 -538 3902 -538Q3961 -538 4006.5 -509.0Q4052 -480 4078.0 -419.5Q4104 -359 4104 -264Q4104 -120 4048.0 -54.0Q3992 12 3895 12ZM3857 -93Q3924 -93 3951.0 -133.0Q3978 -173 3978 -255V-269Q3978 -353 3951.0 -393.0Q3924 -433 3857 -433Q3795 -433 3766.5 -390.0Q3738 -347 3738 -268V-255Q3738 -177 3766.5 -135.0Q3795 -93 3857 -93Z"></path></g></svg>

@@ -69,6 +69,8 @@ h1 span{color:var(--cyan)}
 .badge-perm{color:#ff8a52;border-color:rgba(167,139,250,.4);background:rgba(167,139,250,.07)}
 .badge-prop{color:var(--gold);border-color:rgba(255,217,107,.4);background:rgba(255,217,107,.07)}
 .credit-body p{margin:8px 0;font-size:14px}
+.credit-id{display:flex;align-items:center;gap:14px;min-width:0}
+.credit-logo{width:48px;height:48px;flex:none;display:block}
 .scene-list{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .scene-tag{font:600 11px var(--mono);letter-spacing:.08em;color:var(--ink);background:rgba(255,255,255,.04);
   border:1px solid var(--line);border-radius:999px;padding:5px 12px}
@@ -458,9 +460,12 @@ footer.ftr a{text-decoration:none}
 
       <div class="credit-card" style="--stripe: #f0b429;">
         <div class="credit-top">
-          <div>
-            <div class="credit-name">MusicBee + MBXHub</div>
-            <div class="credit-author"><a href="https://getmusicbee.com/" target="_blank" rel="noopener">MusicBee</a> by Steven Mayall &middot; <a href="https://mbxhub.com/" target="_blank" rel="noopener">MBXHub</a> by <a href="https://halrad.com" target="_blank" rel="noopener">Halrad LLC</a></div>
+          <div class="credit-id">
+            <img class="credit-logo" src="assets/partners/mbxhub.svg" alt="" width="48" height="48" loading="lazy" decoding="async">
+            <div>
+              <div class="credit-name">MusicBee + MBXHub</div>
+              <div class="credit-author"><a href="https://getmusicbee.com/" target="_blank" rel="noopener">MusicBee</a> by Steven Mayall &middot; <a href="https://mbxhub.com/" target="_blank" rel="noopener">MBXHub</a> by <a href="https://halrad.com" target="_blank" rel="noopener">Halrad LLC</a></div>
+            </div>
           </div>
           <span class="license-badge badge-prop">User-installed plugin</span>
         </div>
