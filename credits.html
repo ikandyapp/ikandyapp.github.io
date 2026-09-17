@@ -70,7 +70,17 @@ h1 span{color:var(--cyan)}
 .badge-prop{color:var(--gold);border-color:rgba(255,217,107,.4);background:rgba(255,217,107,.07)}
 .credit-body p{margin:8px 0;font-size:14px}
 .credit-id{display:flex;align-items:center;gap:14px;min-width:0}
+.credit-id>div{min-width:0;overflow-wrap:anywhere}
 .credit-logo{width:48px;height:48px;flex:none;display:block}
+.credit-logo-tile{padding:10px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.03)}
+.credit-mark{--m:var(--mark,var(--stripe,var(--cyan)));width:48px;height:48px;flex:none;display:grid;place-items:center;border-radius:12px;color:var(--m);
+  background:rgba(255,255,255,.035);background:color-mix(in srgb,var(--m) 11%,transparent);border:1px solid var(--line);border-color:color-mix(in srgb,var(--m) 40%,transparent)}
+.credit-mark svg{width:26px;height:26px;display:block;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.credit-mono{font:700 24px/1 var(--disp);letter-spacing:.02em;padding-bottom:2px}
+.credit-id-sec{margin:0 0 6px}
+.credit-id-sec .credit-title{margin:0}
+.credit-id-para{margin:0 0 20px;flex-wrap:wrap}
+.credit-id-para>p{margin:0!important;flex:1 1 240px}
 .scene-list{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .scene-tag{font:600 11px var(--mono);letter-spacing:.08em;color:var(--ink);background:rgba(255,255,255,.04);
   border:1px solid var(--line);border-radius:999px;padding:5px 12px}
@@ -142,9 +152,12 @@ footer.ftr a{text-decoration:none}
 
       <div class="credit-card" style="--stripe: #46d96b;">
         <div class="credit-top">
-          <div>
+          <div class="credit-id">
+            <span class="credit-mark" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 12a1.5 1.5 0 0 1 3 0a3 3 0 0 1-6 0a4.5 4.5 0 0 1 9 0a6 6 0 0 1-12 0a7.5 7.5 0 0 1 15 0"/></svg></span>
+            <div>
             <div class="credit-name">WARPCORE</div>
             <div class="credit-author">IKANDY's MilkDrop engine</div>
+          </div>
           </div>
           <span class="license-badge badge-comm">Proprietary</span>
         </div>
@@ -155,9 +168,12 @@ footer.ftr a{text-decoration:none}
 
       <div class="credit-card" style="--stripe: #46d96b;">
         <div class="credit-top">
-          <div>
+          <div class="credit-id">
+            <span class="credit-mark" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M3 9c2.2-2.4 4.3-2.4 6.5 0s4.3 2.4 6.5 0 3.3-2.4 5 0"/><path d="M3 15c2.2-2.4 4.3-2.4 6.5 0s4.3 2.4 6.5 0 3.3-2.4 5 0"/></svg></span>
+            <div>
             <div class="credit-name">Butterchurn</div>
             <div class="credit-author">by <a href="https://github.com/jberg/butterchurn" target="_blank" rel="noopener">Jordan Berg</a> &nbsp;·&nbsp; v3.0.0-beta.5</div>
+          </div>
           </div>
           <span class="license-badge badge-mit">MIT License</span>
         </div>
@@ -169,9 +185,12 @@ footer.ftr a{text-decoration:none}
 
       <div class="credit-card" style="--stripe: #46d96b;">
         <div class="credit-top">
-          <div>
+          <div class="credit-id">
+            <span class="credit-mark" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M9 4.5c-1.8 0-2.5.8-2.5 2.6v2.3c0 1.4-.8 2.4-2.5 2.6 1.7.2 2.5 1.2 2.5 2.6v2.3c0 1.8.7 2.6 2.5 2.6M15 4.5c1.8 0 2.5.8 2.5 2.6v2.3c0 1.4.8 2.4 2.5 2.6-1.7.2-2.5 1.2-2.5 2.6v2.3c0 1.8-.7 2.6-2.5 2.6"/></svg></span>
+            <div>
             <div class="credit-name">eel-wasm</div>
             <div class="credit-author">by <a href="https://github.com/captbaritone/eel-wasm" target="_blank" rel="noopener">Jordan Eldredge</a> &nbsp;·&nbsp; v0.0.17</div>
+          </div>
           </div>
           <span class="license-badge badge-mit">MIT License</span>
         </div>
@@ -183,9 +202,12 @@ footer.ftr a{text-decoration:none}
 
       <div class="credit-card" style="--stripe: #ff5a1f;">
         <div class="credit-top">
-          <div>
+          <div class="credit-id">
+            <span class="credit-mark" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 3.5c3.6 4.3 6 7.7 6 10.6a6 6 0 0 1-12 0c0-2.9 2.4-6.3 6-10.6z"/><path d="M9.3 14.6a2.8 2.8 0 0 0 2.4 2.6"/></svg></span>
+            <div>
             <div class="credit-name">MilkDrop</div>
             <div class="credit-author">by Ryan Geiss &nbsp;·&nbsp; Nullsoft, Inc. &nbsp;·&nbsp; 2001</div>
+          </div>
           </div>
           <span class="license-badge badge-mit">BSD 3-Clause</span>
         </div>
@@ -196,9 +218,12 @@ footer.ftr a{text-decoration:none}
 
       <div class="credit-card" style="--stripe: #46d96b;">
         <div class="credit-top">
-          <div>
+          <div class="credit-id">
+            <span class="credit-mark" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg></span>
+            <div>
             <div class="credit-name">Butterchurn Presets</div>
             <div class="credit-author">by <a href="https://github.com/jberg/butterchurn-presets" target="_blank" rel="noopener">Jordan Berg</a> &nbsp;·&nbsp; v3.0.0-beta.4</div>
+          </div>
           </div>
           <span class="license-badge badge-mit">MIT License</span>
         </div>
@@ -210,9 +235,12 @@ footer.ftr a{text-decoration:none}
 
       <div class="credit-card" style="--stripe: #ff5a1f;">
         <div class="credit-top">
-          <div>
+          <div class="credit-id">
+            <span class="credit-mark" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 4l8.5 4.3L12 12.6 3.5 8.3z"/><path d="M3.5 12.2L12 16.5l8.5-4.3M3.5 16.1L12 20.4l8.5-4.3"/></svg></span>
+            <div>
             <div class="credit-name">MilkDrop Preset Library</div>
             <div class="credit-author">Ryan Geiss &amp; the MilkDrop community &nbsp;·&nbsp; 2001–present</div>
+          </div>
           </div>
           <span class="license-badge badge-comm">Attribution review</span>
         </div>
@@ -231,9 +259,12 @@ footer.ftr a{text-decoration:none}
 
       <div class="credit-card" style="--stripe: #ff5a1f;">
         <div class="credit-top">
-          <div>
+          <div class="credit-id">
+            <span class="credit-mark credit-mono" aria-hidden="true">m</span>
+            <div>
             <div class="credit-name">mrange</div>
             <div class="credit-author"><a href="https://github.com/mrange" target="_blank" rel="noopener">github.com/mrange</a></div>
+          </div>
           </div>
           <span class="license-badge badge-cc0">CC0 Public Domain</span>
         </div>
@@ -251,9 +282,12 @@ footer.ftr a{text-decoration:none}
 
       <div class="credit-card" style="--stripe: #ff5a1f;">
         <div class="credit-top">
-          <div>
+          <div class="credit-id">
+            <span class="credit-mark credit-mono" aria-hidden="true">B</span>
+            <div>
             <div class="credit-name">Blackle Mori</div>
             <div class="credit-author"><a href="https://github.com/blackle" target="_blank" rel="noopener">github.com/blackle</a></div>
+          </div>
           </div>
           <span class="license-badge badge-cc0">CC0 Public Domain</span>
         </div>
@@ -267,11 +301,14 @@ footer.ftr a{text-decoration:none}
 
       <div class="credit-card" style="--stripe: #ff5a1f;">
         <div class="credit-top">
-          <div>
+          <div class="credit-id">
+            <span class="credit-mark credit-mono" aria-hidden="true">S</span>
+            <div>
             <div class="credit-name">Sabo Sugi</div>
             <div class="credit-author">
               <a href="https://x.com/sabosugi" target="_blank" rel="noopener">x.com/sabosugi</a>
             </div>
+          </div>
           </div>
           <span class="license-badge badge-perm">Used with Permission</span>
         </div>
@@ -300,9 +337,12 @@ footer.ftr a{text-decoration:none}
 
       <div class="credit-card" style="--stripe: var(--gold);">
         <div class="credit-top">
-          <div>
+          <div class="credit-id">
+            <span class="credit-mark" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M5 19v-6M9.67 19V7M14.33 19v-9M19 19V4.5"/></svg></span>
+            <div>
             <div class="credit-name">2D Audio-Reactive Scenes</div>
             <div class="credit-author">© 2026 L&amp;R Entertainment LLC</div>
+          </div>
           </div>
           <span class="license-badge badge-prop">IKANDY Original</span>
         </div>
@@ -323,9 +363,12 @@ footer.ftr a{text-decoration:none}
 
       <div class="credit-card" style="--stripe: var(--gold);">
         <div class="credit-top">
-          <div>
+          <div class="credit-id">
+            <span class="credit-mark" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 3.2l7.6 4.4v8.8L12 20.8l-7.6-4.4V7.6z"/><path d="M4.4 7.6L12 12l7.6-4.4M12 12v8.8"/></svg></span>
+            <div>
             <div class="credit-name">WebGPU Scenes</div>
             <div class="credit-author">© 2026 L&amp;R Entertainment LLC</div>
+          </div>
           </div>
           <span class="license-badge badge-prop">IKANDY Original</span>
         </div>
@@ -341,9 +384,12 @@ footer.ftr a{text-decoration:none}
 
       <div class="credit-card" style="--stripe: var(--gold);">
         <div class="credit-top">
-          <div>
+          <div class="credit-id">
+            <span class="credit-mark" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><rect x="3.5" y="5" width="17" height="14" rx="2.2"/><path d="M3.5 15.5l4.8-4.6 4 3.9 2.6-2.4 5.6 5.1"/><circle cx="15.8" cy="9.2" r="1.4"/></svg></span>
+            <div>
             <div class="credit-name">Image FX Shaders</div>
             <div class="credit-author">© 2026 L&amp;R Entertainment LLC</div>
+          </div>
           </div>
           <span class="license-badge badge-prop">IKANDY Original</span>
         </div>
@@ -373,9 +419,12 @@ footer.ftr a{text-decoration:none}
 
       <div class="credit-card" style="--stripe: #ff8a52;">
         <div class="credit-top">
-          <div>
+          <div class="credit-id">
+            <span class="credit-mark" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.2"/><path d="M3 9h18"/><path d="M6.2 6.8h.01M8.7 6.8h.01"/></svg></span>
+            <div>
             <div class="credit-name">Electron</div>
             <div class="credit-author">OpenJS Foundation &nbsp;·&nbsp; v42</div>
+          </div>
           </div>
           <span class="license-badge badge-mit">MIT License</span>
         </div>
@@ -387,9 +436,12 @@ footer.ftr a{text-decoration:none}
 
       <div class="credit-card" style="--stripe: #ff8a52;">
         <div class="credit-top">
-          <div>
+          <div class="credit-id">
+            <span class="credit-mark" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17"/><path d="M12 3.5c2.3 2.4 3.5 5.2 3.5 8.5s-1.2 6.1-3.5 8.5c-2.3-2.4-3.5-5.2-3.5-8.5s1.2-6.1 3.5-8.5z"/></svg></span>
+            <div>
             <div class="credit-name">Chromium</div>
             <div class="credit-author">The Chromium Authors &amp; Google</div>
+          </div>
           </div>
           <span class="license-badge badge-bsd">BSD-style</span>
         </div>
@@ -401,9 +453,12 @@ footer.ftr a{text-decoration:none}
 
       <div class="credit-card" style="--stripe: #46d96b;">
         <div class="credit-top">
-          <div>
+          <div class="credit-id">
+            <span class="credit-mark" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.2"/><path d="M7 9.5l3 2.5-3 2.5M12.5 15h4.5"/></svg></span>
+            <div>
             <div class="credit-name">Node.js</div>
             <div class="credit-author">OpenJS Foundation</div>
+          </div>
           </div>
           <span class="license-badge badge-mit">MIT License</span>
         </div>
@@ -415,9 +470,12 @@ footer.ftr a{text-decoration:none}
 
       <div class="credit-card" style="--stripe: #ff8a52;">
         <div class="credit-top">
-          <div>
+          <div class="credit-id">
+            <span class="credit-mark" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 12.5V3.8M12 12.5l7.5 4.4M12 12.5l-7.5 4.4"/><circle cx="12" cy="12.5" r="1.6"/></svg></span>
+            <div>
             <div class="credit-name">Three.js</div>
             <div class="credit-author">mrdoob &nbsp;·&nbsp; v0.184.0</div>
+          </div>
           </div>
           <span class="license-badge badge-mit">MIT License</span>
         </div>
@@ -429,9 +487,12 @@ footer.ftr a{text-decoration:none}
 
       <div class="credit-card" style="--stripe: #ff5a1f;">
         <div class="credit-top">
-          <div>
+          <div class="credit-id">
+            <span class="credit-mark" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M4 9.5h3.2L11.5 6v12l-4.3-3.5H4z"/><path d="M15 9.2a4 4 0 0 1 0 5.6M17.8 6.6a7.6 7.6 0 0 1 0 10.8"/></svg></span>
+            <div>
             <div class="credit-name">WASAPI — Windows Audio Session API</div>
             <div class="credit-author">Microsoft Corporation</div>
+          </div>
           </div>
           <span class="license-badge badge-prop">Windows SDK</span>
         </div>
@@ -447,9 +508,12 @@ footer.ftr a{text-decoration:none}
 
       <div class="credit-card" style="--stripe: #ff5a1f;">
         <div class="credit-top">
-          <div>
+          <div class="credit-id">
+            <span class="credit-mark" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 6.6C10 5.1 7.2 4.6 3.8 5v12.8c3.4-.4 6.2.1 8.2 1.6 2-1.5 4.8-2 8.2-1.6V5c-3.4-.4-6.2.1-8.2 1.6z"/><path d="M12 6.6v12.8"/></svg></span>
+            <div>
             <div class="credit-name">Artist Bio data</div>
             <div class="credit-author">Wikipedia &middot; Wikimedia Commons</div>
+          </div>
           </div>
           <span class="license-badge badge-comm">Open data</span>
         </div>
@@ -476,9 +540,12 @@ footer.ftr a{text-decoration:none}
 
       <div class="credit-card" style="--stripe: #ff5a1f;">
         <div class="credit-top">
-          <div>
+          <div class="credit-id">
+            <img class="credit-logo credit-logo-tile" src="assets/credits/supabase-logo-icon.svg" alt="" width="48" height="48" loading="lazy" decoding="async">
+            <div>
             <div class="credit-name">Supabase</div>
             <div class="credit-author"><a href="https://supabase.com" target="_blank" rel="noopener">supabase.com</a></div>
+          </div>
           </div>
           <span class="license-badge badge-prop">Commercial SaaS</span>
         </div>
@@ -494,7 +561,7 @@ footer.ftr a{text-decoration:none}
 
       <div class="credit-card" style="--stripe: var(--border);">
         <div class="credit-body">
-          <p style="margin-bottom:20px;">The following npm packages are used in IKANDY's main process or are bundled with the application. All are used under their respective open-source licenses.</p>
+          <div class="credit-id credit-id-para"><span class="credit-mark" style="--mark:var(--cyan)" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 3.3l8 4.2v9L12 20.7l-8-4.2v-9z"/><path d="M4 7.5l8 4.2 8-4.2M12 11.7v9M8 5.4l8 4.2"/></svg></span><p style="margin-bottom:20px;">The following npm packages are used in IKANDY's main process or are bundled with the application. All are used under their respective open-source licenses.</p></div>
           <table class="npm-table">
             <thead>
               <tr>
@@ -620,9 +687,12 @@ footer.ftr a{text-decoration:none}
 
       <div class="credit-card" style="--stripe: var(--gold);">
         <div class="credit-top">
-          <div>
+          <div class="credit-id">
+            <span class="credit-mark credit-mono" aria-hidden="true">B</span>
+            <div>
             <div class="credit-name">Bats586</div>
             <div class="credit-author">Beta tester &amp; QA</div>
+          </div>
           </div>
         </div>
         <div class="credit-body">
@@ -639,28 +709,28 @@ footer.ftr a{text-decoration:none}
         <div class="credit-body">
           <section class="credit-section">
 <p class="section-tag">NATIVE OUTPUT</p>
-<h3 class="credit-title">Spout2 / SpoutDX</h3>
-<p class="credit-meta">leadedge &middot; v2.007.017 &middot; <a href="https://github.com/leadedge/Spout2" target="_blank" rel="noopener" class="inline-link">github.com/leadedge/Spout2</a> &middot; BSD-style license</p>
+<div class="credit-id credit-id-sec"><span class="credit-mark" style="--mark:var(--cyan)" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><rect x="3.5" y="3.5" width="11.5" height="11.5" rx="2.2"/><rect x="9" y="9" width="11.5" height="11.5" rx="2.2"/></svg></span><div><h3 class="credit-title">Spout2 / SpoutDX</h3>
+<p class="credit-meta">leadedge &middot; v2.007.017 &middot; <a href="https://github.com/leadedge/Spout2" target="_blank" rel="noopener" class="inline-link">github.com/leadedge/Spout2</a> &middot; BSD-style license</p></div></div>
 <p>Spout is a Windows GPU texture sharing framework used by OBS, TouchDesigner, Resolume, MadMapper, and vMix. IKANDY uses SpoutDX to publish its primary window as a real-time Spout sender. The Spout2 SDK is vendored and statically linked &mdash; no runtime DLL required.</p>
 </section>
 
 <section class="credit-section">
 <p class="section-tag">TEMPO SYNC</p>
-<h3 class="credit-title">Ableton Link</h3>
-<p class="credit-meta">Ableton AG &middot; <a href="https://github.com/Ableton/link" target="_blank" rel="noopener" class="inline-link">github.com/Ableton/link</a> &middot; under license from Ableton</p>
+<div class="credit-id credit-id-sec"><span class="credit-mark" style="--mark:var(--cyan)" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M9.2 3.5h5.6l4.2 17H5z"/><path d="M12 16.5l4.6-9"/><path d="M6.6 14h10.8"/></svg></span><div><h3 class="credit-title">Ableton Link</h3>
+<p class="credit-meta">Ableton AG &middot; <a href="https://github.com/Ableton/link" target="_blank" rel="noopener" class="inline-link">github.com/Ableton/link</a> &middot; under license from Ableton</p></div></div>
 <p>Ableton Link keeps musical tempo and beat phase in sync across applications on a local network. IKANDY works with Ableton Link so its tempo can lock to other Link-enabled software and hardware. Ableton and Link are trademarks of Ableton AG. IKANDY is not affiliated with, sponsored by, or endorsed by Ableton AG.</p>
 </section>
 
 <section class="credit-section">
 <p class="section-tag">BUILD TOOLING</p>
-<h3 class="credit-title">cmake-js</h3>
-<p class="credit-meta">cmake-js contributors &middot; <a href="https://github.com/cmake-js/cmake-js" target="_blank" rel="noopener" class="inline-link">github.com/cmake-js/cmake-js</a> &middot; MIT license</p>
+<div class="credit-id credit-id-sec"><span class="credit-mark" style="--mark:var(--cyan)" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M14.7 6.3a3.9 3.9 0 0 0-5.2 4.9l-5 5a1.7 1.7 0 0 0 2.4 2.4l5-5a3.9 3.9 0 0 0 4.9-5.2l-2.4 2.4-2.1-.4-.4-2.1z"/></svg></span><div><h3 class="credit-title">cmake-js</h3>
+<p class="credit-meta">cmake-js contributors &middot; <a href="https://github.com/cmake-js/cmake-js" target="_blank" rel="noopener" class="inline-link">github.com/cmake-js/cmake-js</a> &middot; MIT license</p></div></div>
 <p>cmake-js builds IKANDY&rsquo;s native C++ addons (audio loopback capture and Spout output) against the correct Electron ABI using CMake and node-addon-api.</p>
 </section>
 
 <section class="credit-section" id="shader-artists">
 <p class="section-tag">SHADER ARTISTS</p>
-<h3 class="credit-title">Imported &amp; featured shader artists</h3>
+<div class="credit-id credit-id-sec"><span class="credit-mark" style="--mark:var(--cyan)" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M4.5 19.5l1.1-4.4L15.8 4.9a2.1 2.1 0 0 1 3 3L8.6 18.1z"/><path d="M13.9 6.8l3 3"/></svg></span><div><h3 class="credit-title">Imported &amp; featured shader artists</h3></div></div>
 <p>Shaders brought into IKANDY stay credited to the people who made them. Artists whose work ships with or is featured in IKANDY are listed here, each with a link back to where you can find them. If your work appears in IKANDY and you&rsquo;re not listed &mdash; or you want your link changed &mdash; reach out below.</p>
 <!-- ARTIST ENTRY TEMPLATE — append one line per artist (the link is applied when the
      artist provides it; entries originate from the app's Artist field on save):
@@ -670,12 +740,12 @@ footer.ftr a{text-decoration:none}
 
 <section class="credit-section">
 <p class="section-tag">TEXTURES</p>
-<h3 class="credit-title">Moon texture</h3>
-<p class="credit-meta">Solar System Scope &middot; <a href="https://www.solarsystemscope.com/textures/" target="_blank" rel="noopener" class="inline-link">solarsystemscope.com/textures</a> &middot; <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener" class="inline-link">CC BY 4.0</a></p>
+<div class="credit-id credit-id-sec"><span class="credit-mark" style="--mark:var(--cyan)" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M15.5 3.9a8.4 8.4 0 1 0 4.6 11.2A7 7 0 0 1 15.5 3.9z"/></svg></span><div><h3 class="credit-title">Moon texture</h3>
+<p class="credit-meta">Solar System Scope &middot; <a href="https://www.solarsystemscope.com/textures/" target="_blank" rel="noopener" class="inline-link">solarsystemscope.com/textures</a> &middot; <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener" class="inline-link">CC BY 4.0</a></p></div></div>
 <p>The moon in IKANDY's erosion sky uses a Solar System Scope texture (modified: downscaled and resampled).</p>
 </section>
 
-<p>IKANDY and the ikandy.app website use the following typefaces under the <a href="https://scripts.sil.org/OFL" target="_blank" rel="noopener">SIL Open Font License</a>. The website self-hosts all font files &mdash; no visitor data is sent to a font CDN:</p>
+<div class="credit-id credit-id-para"><span class="credit-mark credit-mono" style="--mark:var(--cyan)" aria-hidden="true">Aa</span><p>IKANDY and the ikandy.app website use the following typefaces under the <a href="https://scripts.sil.org/OFL" target="_blank" rel="noopener">SIL Open Font License</a>. The website self-hosts all font files &mdash; no visitor data is sent to a font CDN:</p></div>
           <div class="scene-list" style="margin-top:16px;">
             <span class="scene-tag">Big Shoulders — Patric King</span>
             <span class="scene-tag">Archivo — Omnibus-Type</span>
@@ -699,18 +769,18 @@ footer.ftr a{text-decoration:none}
       <div class="credit-card" style="--stripe: #46d96b;">
         <div class="credit-body">
           <section class="credit-section">
-            <h3 class="credit-title">Webamp</h3>
-            <p class="credit-meta">Jordan Eldredge &middot; <a href="https://github.com/captbaritone/webamp" target="_blank" rel="noopener" class="inline-link">github.com/captbaritone/webamp</a> &middot; MIT license</p>
+            <div class="credit-id credit-id-sec"><span class="credit-mark" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M10 9.3v5.4l4.6-2.7z"/></svg></span><div><h3 class="credit-title">Webamp</h3>
+            <p class="credit-meta">Jordan Eldredge &middot; <a href="https://github.com/captbaritone/webamp" target="_blank" rel="noopener" class="inline-link">github.com/captbaritone/webamp</a> &middot; MIT license</p></div></div>
             <p>The arcade's IKAMP music player is built on Webamp, a browser re-implementation of a classic skinnable audio player. IKANDY ships the pinned library locally with its own original skin. The <a href="arcade/LICENSE-webamp.txt" class="inline-link">full MIT notice</a> is retained alongside the bundle.</p>
           </section>
           <section class="credit-section">
-            <h3 class="credit-title">skifree.js</h3>
-            <p class="credit-meta">Dan Hough (@basicallydan) &middot; <a href="https://github.com/basicallydan/skifree.js" target="_blank" rel="noopener" class="inline-link">github.com/basicallydan/skifree.js</a> &middot; MIT license (&copy; 2013 Daniel Hough)</p>
+            <div class="credit-id credit-id-sec"><span class="credit-mark" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M3 19.5l6.3-10.8 3.9 6.2 2.4-3.4 5.4 8z"/><path d="M7.4 12l1.9 1.3 1.6-1.1"/></svg></span><div><h3 class="credit-title">skifree.js</h3>
+            <p class="credit-meta">Dan Hough (@basicallydan) &middot; <a href="https://github.com/basicallydan/skifree.js" target="_blank" rel="noopener" class="inline-link">github.com/basicallydan/skifree.js</a> &middot; MIT license (&copy; 2013 Daniel Hough)</p></div></div>
             <p>The arcade's Powder ski game is a patched port of skifree.js. The bundle includes <strong>Hammer.JS</strong> (&copy; 2011&ndash;2017 Jorik Tangelder, MIT license) and <strong>Mousetrap</strong> (Craig Campbell, Apache License 2.0). The full skifree.js, Hammer.js, and Mousetrap license texts ship alongside the game.</p>
           </section>
           <section class="credit-section">
-            <h3 class="credit-title">IKAMP Synthwave Playlist</h3>
-            <p class="credit-meta">Five CC0 tracks from OpenGameArt.org</p>
+            <div class="credit-id credit-id-sec"><span class="credit-mark" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M9 17.5V6l10.5-2v11.5"/><circle cx="6.5" cy="17.5" r="2.5"/><circle cx="17" cy="15.5" r="2.5"/></svg></span><div><h3 class="credit-title">IKAMP Synthwave Playlist</h3>
+            <p class="credit-meta">Five CC0 tracks from OpenGameArt.org</p></div></div>
             <p>“Synth Type” by <a href="https://opengameart.org/content/synthwavetype" target="_blank" rel="noopener" class="inline-link">G_P</a>; “Space Adventure” by <a href="https://opengameart.org/content/space-adventure" target="_blank" rel="noopener" class="inline-link">MintoDog</a>; “Space City” by <a href="https://opengameart.org/content/space-city" target="_blank" rel="noopener" class="inline-link">MintoDog</a>; “DJ Synth Wave / Funk” by <a href="https://opengameart.org/content/dj-synth-wave-funk" target="_blank" rel="noopener" class="inline-link">Pro Sensory / Alex McCulloch</a>; and “Calm Ambient 2 (Synthwave 15k)” by <a href="https://opengameart.org/content/calm-ambient-2-synthwave-15k" target="_blank" rel="noopener" class="inline-link">The Cynic Project</a>. Each source is published under CC0; these credits are included with appreciation. The <a href="arcade/music/LICENSES.md" class="inline-link">verification record</a> includes verified source and shipped-file SHA-256 hashes.</p>
           </section>
         </div>
