@@ -102,7 +102,7 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
       <div class="tr-body">
         <p>Windows treats system audio capture the same as microphone access for privacy purposes.</p>
         <p><strong>Fix:</strong> <strong>Settings → Privacy &amp; security → Microphone</strong> → toggle <strong>Let desktop apps access your microphone</strong> on. Restart IKANDY.</p>
-        <p>If that doesn&rsquo;t help, click <strong>🎤 Reconnect Audio</strong> in <strong>Settings (⚙) → SOURCE tab</strong>.</p>
+        <p>If that doesn&rsquo;t help, click <strong>🎤 Reconnect Audio</strong> in <strong>Settings (⚙) → AUDIO tab</strong>.</p>
       </div>
     </details>
 
@@ -151,7 +151,7 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
       <summary>Why doesn't IKANDY react only to Spotify or MusicBee when I'm playing a game?</summary>
       <div class="tr-body">
         <p>By default IKANDY captures the entire system audio mix: game sound effects, Discord calls, notification pings, and music all go in together. The visualizer reacts to whichever is loudest at any given moment, which is often the game.</p>
-        <p><strong>Fix: use Per-Process Capture.</strong> Open <strong>Settings (⚙) &rarr; SOURCE tab &rarr; Per-Process Capture</strong>, click <strong>Scan</strong>, then click <strong>Capture</strong> next to Spotify or MusicBee. IKANDY will focus on that app's audio stream while the game keeps running normally.</p>
+        <p><strong>Fix: use Per-Process Capture.</strong> Open <strong>Settings (⚙) &rarr; AUDIO tab &rarr; Per-Process Capture</strong>, click <strong>Scan</strong>, then click <strong>Capture</strong> next to Spotify or MusicBee. IKANDY will focus on that app's audio stream while the game keeps running normally.</p>
       </div>
     </details>
 
@@ -159,7 +159,7 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
       <summary>Visuals don't react to my music</summary>
       <div class="tr-body">
         <p>Confirm the source is connected: the console bar's Now Playing zone should show the track name and source.</p>
-        <p>Visuals react to <strong>system audio</strong> regardless of which source you&rsquo;ve picked for track info. If the visualizer is static while music plays, audio isn&rsquo;t reaching IKANDY. Click <strong>🎤 Reconnect Audio</strong> in <strong>Settings (⚙) → SOURCE tab</strong>, and check Windows microphone permissions.</p>
+        <p>Visuals react to <strong>system audio</strong> regardless of which source you&rsquo;ve picked for track info. If the visualizer is static while music plays, audio isn&rsquo;t reaching IKANDY. Click <strong>🎤 Reconnect Audio</strong> in <strong>Settings (⚙) → AUDIO tab</strong>, and check Windows microphone permissions.</p>
       </div>
     </details>
 
@@ -172,7 +172,7 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
           <li>Right-click speaker icon → <strong>Sounds → Playback</strong> tab.</li>
           <li>Right-click your active output → <strong>Configure Speakers</strong> → choose <strong>Stereo</strong>.</li>
           <li>Right-click again → <strong>Properties → Advanced</strong> → pick a 2-channel format from <strong>Default Format</strong>.</li>
-          <li>Apply, then in IKANDY hit <strong>🎤 Reconnect Audio</strong> in <strong>Settings (⚙) → SOURCE tab</strong>.</li>
+          <li>Apply, then in IKANDY hit <strong>🎤 Reconnect Audio</strong> in <strong>Settings (⚙) → AUDIO tab</strong>.</li>
         </ol>
       </div>
     </details>
@@ -189,7 +189,7 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
       <summary>Performance is choppy or stuttering</summary>
       <div class="tr-body">
         <p>IKANDY is GPU-bound. If your GPU is busy with another task, frame rate will suffer.</p>
-        <p>Try: lower <strong>Reactivity</strong> in the master audio popover, drop the MilkDrop <strong>opacity</strong> in its settings popover, or step the <strong>Quality tier</strong> down; pick a simpler scene (Spectrum or Aurora instead of Starfield); or open the <strong>IMAGE tab</strong> and disable FX shaders to remove a full-frame post-process pass.</p>
+        <p>Try: step <strong>Visual Quality</strong> down (Settings, OUTPUT tab); pick a simpler scene (Spectrum or Aurora instead of Starfield); or turn off extras that each add a full-frame pass, such as <strong>God Rays</strong> or a Look (set it to <strong>Original</strong> in the Motion window).</p>
         <p>On laptops, make sure IKANDY is using the discrete GPU: <strong>Settings → System → Display → Graphics</strong>.</p>
       </div>
     </details>

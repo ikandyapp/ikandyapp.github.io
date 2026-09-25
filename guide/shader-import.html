@@ -105,9 +105,9 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
 <p class="lead">Open the Console. These act on whatever is on screen right now, imported shaders included, with no editing and no reload.</p>
 
 <div class="si-knobs">
-  <div><div class="nm">Bass</div><div class="rg">0 &ndash; 2 &middot; starts at 1</div><div class="ds">Multiplies the low band before your shader sees it.</div></div>
-  <div><div class="nm">Mid</div><div class="rg">0 &ndash; 2 &middot; starts at 1</div><div class="ds">Same, for the middle band.</div></div>
-  <div><div class="nm">Treble</div><div class="rg">0 &ndash; 2 &middot; starts at 1</div><div class="ds">Same, for the top band.</div></div>
+  <div><div class="nm">Bass</div><div class="rg">0 &ndash; 2 &middot; starts at 1</div><div class="ds">Multiplies the low band before your shader sees it. With a Look on, it also lights the picture.</div></div>
+  <div><div class="nm">Mid</div><div class="rg">0 &ndash; 2 &middot; starts at 1</div><div class="ds">Same, for the middle band. With a Look on, it also colours the picture.</div></div>
+  <div><div class="nm">Treble</div><div class="rg">0 &ndash; 2 &middot; starts at 1</div><div class="ds">Same, for the top band. With a Look on, it also makes the picture sparkle.</div></div>
   <div><div class="nm">Smooth</div><div class="rg">0.30 &ndash; 0.98 &middot; starts at 0.40</div><div class="ds">Higher glides, lower twitches. One global analyser setting.</div></div>
   <div><div class="nm">Intensity</div><div class="rg">1 &ndash; 11 &middot; starts at 8</div><div class="ds">The big fader. Multiplies all three bands on top of the knobs above.</div></div>
   <div><div class="nm">Speed</div><div class="rg">0.1 &ndash; 2 &middot; starts at 1</div><div class="ds">Scales the scene clock for imported GLSL. Never touches the music.</div></div>
@@ -127,11 +127,11 @@ u_bass = rawBass &times; Bass knob (0&ndash;2) &times; Intensity (0&ndash;2)</di
 </ul>
 
 <h3>The Reactivity section</h3>
-<p>Two of its four knobs act on an imported shader:</p>
+<p>All three of its knobs act on an imported shader, and <strong>MOTION</strong> beside them opens the <a href="motion.html">Motion window</a>:</p>
 <ul class="include-list">
 <li><strong>Light-Sync</strong> (starts at 85%) lets the beat drive brightness and glow in the post chain.</li>
 <li><strong>FX Pulse</strong> (starts at 50%) lets hits pump the bloom, chromatic aberration and vignette for a moment.</li>
-<li><strong>Motion Warp</strong> and <strong>Transform</strong> start at zero and stay inert on GLSL and WebGPU by design. See <a href="#motion">Colour, zoom, and the motion rule</a>.</li>
+<li><strong>Motion Warp</strong> starts at zero; turned up, it speeds or slows your shader&rsquo;s own clock with the music. See <a href="#motion">Colour, zoom, and the motion rule</a>.</li>
 </ul>
 </section>
 
@@ -229,6 +229,7 @@ value = knob position &times; (1 + band &times; gain)</div>
 <tr><td><code>u_bassHit</code> <code>u_midHit</code> <code>u_trebHit</code></td><td>Raw onset envelopes per band.</td></tr>
 <tr><td><code>u_buildup</code> <code>u_peak</code> <code>u_calm</code> <code>u_release</code> <code>u_sustain</code> <code>u_arc</code></td><td>Song shape. These rise and fall over seconds, not beats. Stage the drop with them.</td></tr>
 <tr><td><code>u_beat</code> <code>u_beatPhase</code> <code>u_barPhase</code> <code>u_bpm</code></td><td>The live beat clock.</td></tr>
+<tr><td><code>u_mcImpact</code> <code>u_mcDrop</code> <code>u_mcRecoil</code> <code>u_mcFollow</code> <code>u_mcTurn</code> and more</td><td>The Motion Conductor: twenty channels, from hits on the predicted beat to builds and drops. Movement belongs on the small recoil, follow and turn channels; the rest drive light and staging.</td></tr>
 <tr><td><code>u_drive</code></td><td>The Intensity fader itself, 0&ndash;2. Multiply your reactivity by it so your shader goes fully still at zero.</td></tr>
 <tr><td><code>u_volume</code> <code>u_intensity</code></td><td>Overall loudness. <code>u_volume</code> is the RMS of the bands, <code>u_intensity</code> is their mean.</td></tr>
 <tr><td><code>spectrumAt(x)</code> <code>waveformAt(x)</code></td><td>Helper functions. Sample the full spectrum or waveform; <code>x</code> and the result are both 0&ndash;1.</td></tr>
@@ -244,11 +245,13 @@ value = knob position &times; (1 + band &times; gain)</div>
 <section id="motion">
 <h2>Colour, zoom, and the motion rule</h2>
 <p class="lead">Colour, brightness, glow, sparkle, saturation and contrast are open season. Drive any of it from any signal, as hard as you like.</p>
-<p>Zoom, camera and whole-frame motion are different. Your hand-written shader can do it, because a fresh paste renders exactly as written and nothing rewrites your code. But IKANDY's own automatic tools will not wire audio into motion for you, and that is a decision rather than an oversight:</p>
+<p>Zoom, camera and whole-frame motion are different. Your hand-written shader can do it, because a fresh paste renders exactly as written and nothing rewrites your code. IKANDY&rsquo;s own tools keep music-driven movement small and on the beat, and that is a decision rather than an oversight:</p>
 <ul class="include-list">
-<li><strong>Motion Warp</strong> and <strong>Transform</strong> on the Console ship at zero, and Transform is inert on GLSL and WebGPU entirely.</li>
+<li><strong>Motion on the beat</strong> lives in the <a href="motion.html">Motion window</a>: Swell, Bounce, Punch, Drift and Speaker move the finished picture on every scene, imports included, within set limits, and Intensity 0 stops them.</li>
+<li><strong>Motion Warp</strong> on the Console ships at zero; turned up, it only changes your shader&rsquo;s clock speed.</li>
 <li>The <strong>Basic</strong> button injects brightness, warmth and glow only. It used to warp time; that was removed.</li>
-<li><strong>IGNITE</strong>, the AI path, refuses to propose audio-driven camera, zoom or geometry bindings.</li>
+<li><strong>IGNITE</strong>, the AI path for imports, never ties a band level to camera, zoom or geometry.</li>
+<li><strong>AI Create</strong> may use only the Motion Conductor&rsquo;s small, capped moves (a short recoil, follow or turn on a hit), and every scene it makes is checked for that before it is accepted.</li>
 </ul>
 <p>The reason is motion comfort. Repetitive whole-field movement in roughly the 0.08 to 0.5 Hz band is what makes people queasy, and music sitting at 100 to 140 BPM puts a bass-driven zoom uncomfortably close to it. If you want breathing zoom, write it yourself, keep the amplitude small, and watch it on a big screen for a few minutes before you put it in front of a room.</p>
 </section>
@@ -261,7 +264,7 @@ value = knob position &times; (1 + band &times; gain)</div>
 <h3>Can I build .milk presets in IKANDY?</h3>
 <p>Not today. IKANDY reads them very well: drop a folder of <code>.milk</code> files and they convert in the app, get security-screened, and land in rotation, tested with ten thousand presets at once. But nothing in the app writes a <code>.milk</code> file, so authoring still needs MilkDrop itself or a preset editor. See <a href="visualizers.html">Visualizers + presets</a>.</p>
 
-<div class="wiki-note">Shader import ships in the Pro tier, alongside the AI shader studio. See <a href="../pricing/index.html">pricing</a>; the Steam page is authoritative. Accurate as of IKANDY 1.6.5.</div>
+<div class="wiki-note">Shader import ships in the Pro tier, alongside the AI shader studio. See <a href="../pricing/index.html">pricing</a>; the Steam page is authoritative. Accurate as of IKANDY 1.6.23.</div>
 </section>
 
   <div class="pn"><a href="remote-control.html" style="--hue:#d24dff"><span class="lbl">&larr; Previous</span><span class="ttl" style="display:block">MIDI, phone remote, gamepad</span></a><a class="nxt" href="ai-generation.html" style="--hue:#33e0ff"><span class="lbl">Next &rarr;</span><span class="ttl" style="display:block">AI scene generation</span></a></div>
