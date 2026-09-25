@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self'; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://*.google-analytics.com https://*.googletagmanager.com; media-src 'self' blob:; frame-src https://www.youtube-nocookie.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Motion on the beat : IKANDY user guide</title>
+<link rel="canonical" href="https://ikandy.app/guide/motion.html">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"IKANDY","item":"https://ikandy.app/"},{"@type":"ListItem","position":2,"name":"User guide","item":"https://ikandy.app/guide.html"},{"@type":"ListItem","position":3,"name":"Motion on the beat : IKANDY user guide","item":"https://ikandy.app/guide/motion.html"}]}</script>
+<meta name="description" content="Swell, Bounce, Punch, Drift and Speaker, the Look, and Bass, Mid and Treble as a lighting desk. One Motion window, every visual.">
+<link rel="icon" href="../icon.ico">
+<!-- Consent-based website analytics are managed by analytics.js; Google Analytics is not loaded before opt-in. -->
+<script src="../assets/analytics-bootstrap.js"></script>
+<link rel="stylesheet" href="../assets/fonts.css">
+<link rel="stylesheet" href="../assets/ik.css">
+<link rel="stylesheet" href="../assets/guide.css">
+<style>
+body{padding-top:var(--nav-h)}
+nav.rail{position:fixed!important;top:0!important;left:0!important;right:0!important;
+  display:block!important;padding:0!important;height:var(--nav-h)!important;
+  background:linear-gradient(180deg,#191920,var(--rail))!important;
+  border-bottom:1px solid #000!important;max-width:none!important}
+nav.rail .rail-in{max-width:var(--maxw);margin:0 auto;height:100%;padding:0 24px;
+  display:flex;align-items:center;gap:22px}
+footer.ftr{display:block!important;text-align:left!important;padding:0!important;margin:0!important;
+  background:var(--chassis-deep)!important;border-top:1px solid #000!important;max-width:none!important}
+.wiki-wrap{max-width:880px;margin:0 auto;padding:56px 24px 80px}
+.crumb{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink-3);margin-bottom:22px;display:flex;gap:10px;align-items:center}
+.crumb a{color:var(--ink-3)} .crumb a:hover{color:var(--vu-amber)}
+.crumb .hueled{width:7px;height:7px;border-radius:50%;background:var(--hue);
+  box-shadow:0 0 8px var(--hue)}
+.wiki-wrap h1{font-family:var(--display);font-weight:800;text-transform:uppercase;
+  font-size:clamp(34px,6vw,54px);line-height:1;margin:0 0 14px;letter-spacing:.01em}
+.wiki-lead{color:var(--ink-2);font-size:16.5px;max-width:640px;margin:0 0 34px}
+.wiki-wrap section{padding:34px 0 6px}
+.pn{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:56px}
+.pn a{border:1px solid var(--rule);border-radius:5px;padding:16px 18px;display:block;
+  background:var(--panel);transition:border-color .18s,transform .18s}
+.pn a:hover{text-decoration:none;border-color:var(--hue,#8f3512);transform:translateY(-2px)}
+.pn .lbl{font-family:var(--mono);font-size:9px;letter-spacing:.2em;color:var(--ink-3);
+  text-transform:uppercase}
+.pn .ttl{color:var(--ink);font-weight:600;margin-top:4px}
+.pn .nxt{text-align:right}
+@media(max-width:640px){.pn{grid-template-columns:1fr}}
+.wiki-note{border:1px solid var(--rule);border-left:3px solid var(--vu-amber);
+  border-radius:3px;background:var(--panel);padding:14px 18px;color:var(--ink-2);
+  font-size:14px;margin:26px 0}
+/* page-local: the five-up cells (looks, bands, moves) and the screenshot. Cells follow the
+   shader-import knob grid so the two pages read as one family. */
+.mo-cells{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;
+  background:var(--rule);border:1px solid var(--rule);border-radius:var(--radius);
+  overflow:hidden;margin:20px 0}
+.mo-cells>div{background:var(--panel);padding:13px 15px 15px}
+.mo-cells .nm{font-family:var(--mono);font-size:10px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--vu-amber)}
+.mo-cells .rg{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);margin:4px 0 7px}
+.mo-cells .ds{font-size:13.5px;line-height:1.5;color:var(--ink-2)}
+.mo-cells .new{color:var(--hue)}
+.mo-cells.five{grid-template-columns:repeat(4,minmax(0,1fr))}
+.mo-cells.five>div:last-child{grid-column:1/-1}
+@media(max-width:720px){.mo-cells.five{grid-template-columns:repeat(2,minmax(0,1fr))}.mo-cells.three{grid-template-columns:1fr}}
+@media(max-width:460px){.mo-cells.five{grid-template-columns:1fr}}
+.mo-shot{margin:26px 0 8px}
+.mo-shot img{height:auto;min-height:0;opacity:1}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<nav class="rail" aria-label="Main">
+  <div class="rail-in">
+    <a class="rail-logo" href="../index.html"><span class="rail-led" aria-hidden="true"></span>IKANDY</a>
+    <button class="rail-toggle" aria-label="Menu">MENU</button>
+    <div class="rail-links">
+      <a href="../index.html#rooms">Who it's for</a>
+      <a href="../index.html#spec">Engine</a>
+      <a href="../pricing/index.html">Pricing</a>
+      <a href="../guide.html" class="active">Guide</a>
+      <a href="../artists.html">Artists</a>
+    </div>
+    <div class="rail-cta-group"><a class="btn-steam rail-cta" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Get IKANDY on Steam</a><span class="rail-beta-note">Free to play</span></div>
+  </div>
+</nav>
+<main id="main-content" class="wiki-wrap" style="--hue:#ff9a3c">
+  <div class="crumb"><a href="../guide.html">User guide</a><span>/</span><span class="hueled" aria-hidden="true"></span><span style="color:var(--ink-2)">Motion on the beat</span></div>
+  <h1>Motion on the beat</h1>
+  <p class="wiki-lead">IKANDY moves every visual with your music. One Motion window holds all of it: the Look every scene gets, and your moves on the beat. It works the same way on every kind of visual, from the built-in worlds to MilkDrop presets and the shaders you import. No move ever shows past the edge of the picture, and Intensity 0 stops all of it.</p>
+
+<div class="wiki-note"><strong>New in 1.6.23:</strong> Speaker, a fifth move that pumps the whole screen toward you on each kick; the Motion window, where one MOTION button opens the Look and your moves together; and Bass, Mid and Treble lighting the Look.</div>
+
+<figure class="mo-shot">
+  <img class="guide-screenshot" src="../assets/product/ikandy-motion-window.png" width="1430" height="780" loading="lazy" alt="The Motion window open over the Disco Ball: the Look set to Warp at 65 percent, then the moves, Swell at 30 percent and Bounce at 72 percent in the wild range with its orange readout and note. In the console behind it, the MOTION button reads 2 on, Warp 65%.">
+  <figcaption class="guide-screenshot-caption">Console, Reactivity panel, MOTION: the Motion window over the Disco Ball</figcaption>
+</figure>
+
+<section id="open">
+<h2>Open the Motion window</h2>
+<ol class="steps">
+<li>Open the DJ Console and find the Reactivity panel. <strong>MOTION</strong> sits beside the Light-Sync, FX Pulse and Motion Warp knobs and shows what is on: your moves (a name like Swell, a count like 2 on, or Off) and your Look (like Warp 65%). It lights up while either is on.</li>
+<li>Click MOTION, or Tab to it and press Enter. The window opens at the right edge of the screen, so you can watch the picture while you tune it.</li>
+<li>The Look is at the top and your moves are below it. Every change applies right away and carries to every scene. Press <strong>Done</strong> or Escape, or click outside the window, to close it.</li>
+</ol>
+</section>
+
+<section id="look">
+<h2>The Look</h2>
+<p class="lead">The musical treatment every scene gets. Pick one and set its Strength, from a whisper to the full effect; it starts at 65 percent.</p>
+<div class="mo-cells five">
+  <div><div class="nm">Original</div><div class="rg">the off switch</div><div class="ds">Each scene exactly as its author made it.</div></div>
+  <div><div class="nm">Subtle</div><div class="ds">A gentle breath. Bright shapes swell softly with the bass and warm a little on detail.</div></div>
+  <div><div class="nm">Flow</div><div class="ds">Bands of colour travel across the picture with the music&rsquo;s swell. Colour moves; brightness stays put.</div></div>
+  <div><div class="nm">Impact</div><div class="ds">A ring of light bursts out from every kick and snare, tinted by the picture&rsquo;s own colour.</div></div>
+  <div><div class="nm">Warp</div><div class="rg">the default on Pro</div><div class="ds">Every kick and snare sends a ripple through the picture itself, which lights up along the wave and shimmers. Nothing is drawn on top, so dark scenes stay dark.</div></div>
+</div>
+<p>Pictures, videos and games have no Look, and the window says so.</p>
+</section>
+
+<section id="lighting-desk">
+<h2>Bass, Mid and Treble: a lighting desk</h2>
+<p class="lead">With a Look on, the three Audio knobs light the Look on every scene that takes one, compute, WebGPU and MilkDrop scenes included.</p>
+<div class="mo-cells three">
+  <div><div class="nm">Bass</div><div class="rg">lights the picture</div><div class="ds">The Look&rsquo;s light and its rings follow the kick and the sub.</div></div>
+  <div><div class="nm">Mid</div><div class="rg">colours it</div><div class="ds">The Look&rsquo;s colour follows voices and most instruments.</div></div>
+  <div><div class="nm">Treble</div><div class="rg">makes it sparkle</div><div class="ds">The colour fringes on the hats and cymbals, and the shimmer on each ring.</div></div>
+</div>
+<p>At 0 the Look drops that part of its light, and 1 is full. Above 1 the visual itself reacts harder, while the Look&rsquo;s light, colour and sparkle stay at their full 1. The moves follow the beat itself, so these knobs never stop them.</p>
+</section>
+
+<section id="moves">
+<h2>The five moves</h2>
+<p class="lead">Each move has one Amount. Up to 50 percent is the standard range; above it is the wild range, up to twice as much.</p>
+<div class="mo-cells five">
+  <div><div class="nm">Swell</div><div class="rg">on from the start &middot; 30%</div><div class="ds">The centre object grows on each beat and settles, in 2D and 3D scenes alike.</div></div>
+  <div><div class="nm">Bounce</div><div class="rg">starts at 30%</div><div class="ds">The subject stretches as the beat comes, squashes on it and hops on the rebound.</div></div>
+  <div><div class="nm">Punch</div><div class="rg">starts at 25%</div><div class="ds">The whole picture pushes toward you on each hit.</div></div>
+  <div><div class="nm">Drift</div><div class="rg">starts at 25%</div><div class="ds">A slow glide and zoom that follows the song.</div></div>
+  <div><div class="nm new">Speaker &middot; new</div><div class="rg">starts at 30%</div><div class="ds">The whole screen pumps toward you on each kick and springs back past rest, like a speaker cone. It zooms the picture in a little to leave room for the spring back. The strongest move, so start it low.</div></div>
+</div>
+<p>Swell and Bounce look for a subject, such as a fractal, a disco ball or a logo, and move only that part while the rest of the frame holds still. A picture that fills the screen, like most MilkDrop presets, has no subject to swell: Bounce pulses it as a whole instead, and Swell leaves it still.</p>
+</section>
+
+<section id="stack">
+<h2>Add, stack, tune and remove</h2>
+<ul class="include-list">
+<li>Choose <strong>Add motion</strong> below your moves (it reads Add more motion once a move is on). Hover a move&rsquo;s name to see what it does.</li>
+<li>You can stack all five. Moves that move the same thing share one budget, so stacking changes the character of the motion rather than piling it higher. Speaker keeps its own.</li>
+<li>Up to 50 percent, the tick on the Amount track, is the standard range. Above it is the wild range: up to twice as much motion, with an orange readout and a note, because it can be too much for some people. It is never a default.</li>
+<li>Open <strong>Tune</strong> under Bounce for Squash (how much it flattens on the beat), Hop (how high it jumps on the rebound) and Focus (Auto finds the subject, Centre object always moves the middle, Whole screen pulses the full frame).</li>
+<li><strong>Remove</strong> takes a move out. The <strong>On</strong> switch at the top of the moves turns them all off and back on without losing your settings.</li>
+</ul>
+</section>
+
+<section id="beat">
+<h2>On the beat</h2>
+<ul class="include-list">
+<li>Motion follows the beat IKANDY predicts, so each hit lands on the music instead of chasing it. A build gathers, and a drop lands big.</li>
+<li>On slow songs, where a bar long rhythm could sway the whole picture, Motion holds itself back.</li>
+<li>Wireless headphones or a TV that plays the sound late? Open Settings, <strong>AUDIO</strong>, <strong>Picture timing</strong> and slide the picture later until the dot pulses with the beat you hear, or tap along and IKANDY sets it for you.</li>
+</ul>
+</section>
+
+<section id="off">
+<h2>Turning it down or off</h2>
+<ul class="include-list">
+<li>The On switch in the Motion window turns the moves off and keeps your settings.</li>
+<li>Intensity 0 stops all of it: every move, and the Look&rsquo;s reaction to the music.</li>
+<li>Settings, <strong>AUDIO</strong> has the same controls outside the console: <strong>Motion for every scene</strong> (its Motion on switch) and <strong>Look for every scene</strong> (Original turns the Look off).</li>
+</ul>
+<p>The Motion window works from the keyboard (Tab moves through it and Escape closes it), and a screen reader hears what MOTION has on. The full guide is also in the app: Help (F1), Field Guide, Motion on the beat.</p>
+
+<div class="wiki-note">Free includes the Swell and its On switch. Pro adds Bounce, Punch, Drift and Speaker, stacking, Tune and every Amount, plus every Look; on Free, every scene plays as its author made it (Original). See <a href="../pricing/index.html">pricing</a>; the Steam page is authoritative. Accurate as of IKANDY 1.6.23.</div>
+</section>
+
+  <div class="pn"><a href="fx.html" style="--hue:#8f6bff"><span class="lbl">&larr; Previous</span><span class="ttl" style="display:block">FX shaders</span></a><a class="nxt" href="capture-fx.html" style="--hue:#46d96b"><span class="lbl">Next &rarr;</span><span class="ttl" style="display:block">Capture FX</span></a></div>
+</main>
+<footer class="ftr">
+  <div class="ftr-in">
+    <div class="ftr-grid">
+      <div>
+        <p class="ftr-brand">IKANDY</p>
+        <p class="ftr-note">Audio-reactive visualizer and VJ instrument for Windows 10 / 11. Core visual playback runs locally; optional online features require an internet connection.</p>
+        <p style="margin-top:18px"><a class="btn-steam" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Get IKANDY on Steam</a></p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="../guide.html">User guide</a></li>
+          <li><a href="../pricing/index.html">Pricing</a></li>
+          <li><a href="../artists.html">Artist program</a></li>
+          <li><a href="../arcade/index.html">Arcade</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Technical disclosures</h4>
+        <ul>
+          <li><a href="../ikandy-smart-auto-prior-art.html">Smart Auto prior art</a></li>
+          <li><a href="../ikandy-ai-error-sandbox.html">AI error sandbox</a></li>
+          <li><a href="../ikandy-vis-format.html">.vis format</a></li>
+          <li><a href="../scene-contract.html">Scene contract</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal + contact</h4>
+        <ul>
+          <li><a href="../privacy.html">Privacy policy</a></li>
+          <li><a href="../security.html">Security</a></li>
+          <li><a href="../license.html">License</a></li>
+          <li><a href="../eula.html">EULA</a></li>
+          <li><a href="../credits.html">Credits</a></li>
+          <li><a href="mailto:support@ikandy.app">support@ikandy.app</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ftr-plate">
+      <span>MODEL IKANDY &middot; REV 2026.2 &middot; <span class="amber">OUT NOW ON STEAM</span></span>
+      <span>Made by a human who likes loud music. &copy; 2026 L&amp;R Entertainment LLC &middot; IKANDY&trade;</span>
+    </div>
+  </div>
+</footer>
+<script src="../analytics.js" defer></script>
+<script src="../assets/site-shell.js" defer></script>
+</body>
+</html>
