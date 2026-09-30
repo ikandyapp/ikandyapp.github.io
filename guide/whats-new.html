@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self'; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://*.google-analytics.com https://*.googletagmanager.com; media-src 'self' blob:; frame-src https://www.youtube-nocookie.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>What's new in 1.7: Alive : IKANDY user guide</title>
+<link rel="canonical" href="https://ikandy.app/guide/whats-new.html">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"IKANDY","item":"https://ikandy.app/"},{"@type":"ListItem","position":2,"name":"User guide","item":"https://ikandy.app/guide.html"},{"@type":"ListItem","position":3,"name":"What's new in 1.7: Alive : IKANDY user guide","item":"https://ikandy.app/guide/whats-new.html"}]}</script>
+<meta name="description" content="IKANDY 1.7: every console knob is one setting for every scene, Bass, Mid and Treble are color knobs, Motion lands on the beat&#39;s hit, and Comfort mode holds fast flashing back.">
+<link rel="icon" href="../icon.ico">
+<!-- Consent-based website analytics are managed by analytics.js; Google Analytics is not loaded before opt-in. -->
+<script src="../assets/analytics-bootstrap.js"></script>
+<link rel="stylesheet" href="../assets/fonts.css">
+<link rel="stylesheet" href="../assets/ik.css">
+<link rel="stylesheet" href="../assets/guide.css">
+<style>
+body{padding-top:var(--nav-h)}
+nav.rail{position:fixed!important;top:0!important;left:0!important;right:0!important;
+  display:block!important;padding:0!important;height:var(--nav-h)!important;
+  background:linear-gradient(180deg,#191920,var(--rail))!important;
+  border-bottom:1px solid #000!important;max-width:none!important}
+nav.rail .rail-in{max-width:var(--maxw);margin:0 auto;height:100%;padding:0 24px;
+  display:flex;align-items:center;gap:22px}
+footer.ftr{display:block!important;text-align:left!important;padding:0!important;margin:0!important;
+  background:var(--chassis-deep)!important;border-top:1px solid #000!important;max-width:none!important}
+.wiki-wrap{max-width:880px;margin:0 auto;padding:56px 24px 80px}
+.crumb{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink-3);margin-bottom:22px;display:flex;gap:10px;align-items:center}
+.crumb a{color:var(--ink-3)} .crumb a:hover{color:var(--vu-amber)}
+.crumb .hueled{width:7px;height:7px;border-radius:50%;background:var(--hue);
+  box-shadow:0 0 8px var(--hue)}
+.wiki-wrap h1{font-family:var(--display);font-weight:800;text-transform:uppercase;
+  font-size:clamp(34px,6vw,54px);line-height:1;margin:0 0 14px;letter-spacing:.01em}
+.wiki-lead{color:var(--ink-2);font-size:16.5px;max-width:640px;margin:0 0 34px}
+.wiki-wrap section{padding:34px 0 6px}
+.pn{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:56px}
+.pn a{border:1px solid var(--rule);border-radius:5px;padding:16px 18px;display:block;
+  background:var(--panel);transition:border-color .18s,transform .18s}
+.pn a:hover{text-decoration:none;border-color:var(--hue,#8f3512);transform:translateY(-2px)}
+.pn .lbl{font-family:var(--mono);font-size:9px;letter-spacing:.2em;color:var(--ink-3);
+  text-transform:uppercase}
+.pn .ttl{color:var(--ink);font-weight:600;margin-top:4px}
+.pn .nxt{text-align:right}
+@media(max-width:640px){.pn{grid-template-columns:1fr}}
+.wiki-note{border:1px solid var(--rule);border-left:3px solid var(--vu-amber);
+  border-radius:3px;background:var(--panel);padding:14px 18px;color:var(--ink-2);
+  font-size:14px;margin:26px 0}
+/* page-local: the five-up cells (looks, bands, moves) and the screenshot. Cells follow the
+   shader-import knob grid so the two pages read as one family. */
+.mo-cells{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;
+  background:var(--rule);border:1px solid var(--rule);border-radius:var(--radius);
+  overflow:hidden;margin:20px 0}
+.mo-cells>div{background:var(--panel);padding:13px 15px 15px}
+.mo-cells .nm{font-family:var(--mono);font-size:10px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--vu-amber)}
+.mo-cells .rg{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);margin:4px 0 7px}
+.mo-cells .ds{font-size:13.5px;line-height:1.5;color:var(--ink-2)}
+.mo-cells .new{color:var(--hue)}
+.mo-cells.five{grid-template-columns:repeat(4,minmax(0,1fr))}
+.mo-cells.five>div:last-child{grid-column:1/-1}
+@media(max-width:720px){.mo-cells.five{grid-template-columns:repeat(2,minmax(0,1fr))}.mo-cells.three{grid-template-columns:1fr}}
+@media(max-width:460px){.mo-cells.five{grid-template-columns:1fr}}
+.mo-shot{margin:26px 0 8px}
+.mo-shot img{height:auto;min-height:0;opacity:1}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<nav class="rail" aria-label="Main">
+  <div class="rail-in">
+    <a class="rail-logo" href="../index.html"><span class="rail-led" aria-hidden="true"></span>IKANDY</a>
+    <button class="rail-toggle" aria-label="Menu">MENU</button>
+    <div class="rail-links">
+      <a href="../index.html#rooms">Who it's for</a>
+      <a href="../index.html#spec">Engine</a>
+      <a href="../pricing/index.html">Pricing</a>
+      <a href="../guide.html" class="active">Guide</a>
+      <a href="../artists.html">Artists</a>
+    </div>
+    <div class="rail-cta-group"><a class="btn-steam rail-cta" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Get IKANDY on Steam</a><span class="rail-beta-note">Free to play</span></div>
+  </div>
+</nav>
+<main id="main-content" class="wiki-wrap" style="--hue:#ff5ab4">
+  <div class="crumb"><a href="../guide.html">User guide</a><span>/</span><span class="hueled" aria-hidden="true"></span><span style="color:var(--ink-2)">What&rsquo;s new in 1.7</span></div>
+  <h1>What&rsquo;s new in 1.7: Alive</h1>
+  <p class="wiki-lead">IKANDY 1.7 makes every knob on the console one setting for every scene and gives presets a fresh start, turns Bass, Mid and Treble into color knobs for every scene, puts Motion on the beat&rsquo;s hit, and adds Comfort mode, which holds fast flashing back for anyone who wants it.</p>
+
+<section id="one-setting">
+<h2>One setting, every scene</h2>
+<ul class="include-list">
+<li>Every knob on the console is one setting for every scene: set Bass, Speed or Bloom once and it stays as you move between scenes.</li>
+<li>God Rays and LUT work the same way: one setting for every scene, off until you turn it on, and on Auto the first time you do. An adjustment carries to the next scene until you click Auto again.</li>
+<li>Presets have been wiped, because your old ones were tuned for IKANDY as it was. The preset you pick or save on a scene opens with that scene from then on, until you pick another; a small dot marks it. Scenes without a preset play your own settings. <a href="controls.html#presets">How presets work</a>.</li>
+<li>The Lock and Pin are gone: every knob now works the way the Lock did. If you had the Lock on, its values are now your settings for every scene.</li>
+<li>A preset never raises Intensity when it is all the way down, where nothing reacts, whatever you load.</li>
+<li>To start over, open Setup, <strong>AUDIO</strong>, Console settings and press <strong>Reset console settings</strong>. Right click a knob to reset just that one.</li>
+</ul>
+</section>
+
+<section id="color">
+<h2>Color on every scene</h2>
+<ul class="include-list">
+<li>Bass, Mid and Treble are color knobs: Bass warms the body of the picture, Mid shifts its colors like oil on water and Treble lights the edges, on every scene, with or without a Look. They add color and never change how a scene moves. <a href="motion.html#lighting-desk">More on the color knobs</a>.</li>
+<li>0 turns that color off, 1 is the gentle default and 2 is the full effect. A color knob reads alike on dark and light scenes, on MilkDrop, WarpField and HDR pictures too, and it never turns a color into red.</li>
+<li>The color knobs are Pro. On the Free plan every scene plays with them at their gentle default, and Intensity is the knob you turn.</li>
+</ul>
+</section>
+
+<section id="motion">
+<h2>Motion on the hit</h2>
+<ul class="include-list">
+<li>Motion starts with two moves on every plan: Swell on the hit and a slow Drift between hits, so a quiet passage still breathes.</li>
+<li>Swell lands once on each main hit of the beat, never on every kick or hi-hat. On a scene with no centre object it gives the whole picture a small push that springs straight back. It no longer moves WarpField scenes: like MilkDrop, they move themselves.</li>
+<li>Imported shaders no longer speed up and slow down with every bass note: their pace follows the song, quicker in a drop and slower in a breakdown.</li>
+<li>With a Look on, the rings of light it sends out on the beat are born at least a third of a second apart.</li>
+<li>When the picture goes to an audience (Span, the Output window or mirror, Spout and NDI, the wallpaper, or recordings and replay), Motion stays inside its standard range.</li>
+</ul>
+</section>
+
+<section id="scenes">
+<h2>Scenes</h2>
+<ul class="include-list">
+<li>With no Look on, the beat&rsquo;s brightness punch lands on the main hits instead of on every bass note and hi-hat, so many of the scenes that come with IKANDY flash far less on Free, and on Pro with the Look set to Original.</li>
+<li>Seventeen IKANDY scenes now light up on the beat&rsquo;s hit instead of flickering with every note, so they flash far less at the default settings: Techno Flow, Psytrance Iridescent Current, Synthwave Breathing Current, Prism Cells, Mercury Pool, Chrome Chaotic Flow, Cyberpunk Nebula Flow, Molten Crust Veins, Chrome Metaball, Cyberpunk Chase Wireframe, Synthwave Breathing Flow, Face in Clouds, Organic Flow, Strobe Monoliths, Vibe Lab Hyperbolic Bloom, Synthwave Ember Flow and Industrial Ember Flow.</li>
+<li>Rave Tunnel has left the library: it still flashed too often to keep.</li>
+<li>The Ensemble is back in PILOT, and Cathedral of Bars, Attractor and Luminous Attractor have new card art with nothing drawn over the scene.</li>
+</ul>
+</section>
+
+<section id="comfort">
+<h2>Comfort and flashing</h2>
+<ul class="include-list">
+<li>New: <a href="comfort.html">Comfort mode</a>, in Setup on the KEYS page under Comfort and flashing. While it is on, IKANDY holds back fast flashing, measured against WCAG 2.3.1 and ITU-R BT.1702, keeps Intensity at 6 or lower and turns every Motion move off. It turns on by itself when Windows is set to reduce animation.</li>
+<li>With Comfort mode off, scenes play as they were made: IKANDY measures their flashing but does not hold it back.</li>
+<li>MilkDrop and WarpField presets play as their authors made them, and some flash or move fast. Comfort mode holds them back.</li>
+<li>The photosensitivity warning at first start names Comfort mode and has a Continue with Comfort mode on button.</li>
+<li>On the Stage, FLASH, STROBE and the return from BLACKOUT share one limit of three flashes a second, for everyone.</li>
+<li>The Now Playing announcement&rsquo;s full-screen flash fires at most once a second, so skipping quickly through tracks no longer strobes the screen.</li>
+</ul>
+</section>
+
+<section id="more">
+<h2>HDR, sound and privacy</h2>
+<ul class="include-list">
+<li>On an HDR display, built-in scenes no longer look darker than on a standard screen: the shadows and midtones now match it, and only the highlights rise into HDR.</li>
+<li>When Smart Auto moves from your whole system&rsquo;s sound to the one app playing music, the visuals keep hearing the music through the switch instead of dropping out for a moment.</li>
+<li>Crash reports no longer include the title, artist or album of the song you are playing.</li>
+</ul>
+</section>
+
+<section id="limits">
+<h2>Known limits</h2>
+<ul class="include-list">
+<li>Psytrance Flow Prime, Psytrance Current and Vibe Lab Hyperbolic Bloom still flash at the default settings on their own, Synthwave Waveform can when the Look is set to Original, and the One Small Step moon can on its first view after you start IKANDY. Comfort mode holds them back.</li>
+<li>Comfort mode dims blocks of the picture where it holds a flash back, which shows most on bright scenes, and it lowers the frame rate. It is off unless you turn it on or Windows is set to reduce animation effects; click the COMFORT chip to turn it off.</li>
+<li>Speed: the color effect adds about one millisecond a frame at 4K on an RTX 2080 Ti class card. Measured against 1.6.23 on the same machine, every engine runs level except MilkDrop presets, which can run one step slower on very high refresh displays.</li>
+<li>This release was tested on NVIDIA graphics cards only; AMD and Intel graphics cards were not tested.</li>
+</ul>
+<div class="wiki-note">The full notes, with how to use Comfort mode, are in the What&rsquo;s New page when you start IKANDY. See <a href="../pricing/index.html">pricing</a> for what each plan includes; the Steam page is authoritative.</div>
+</section>
+
+  <div class="pn"><a href="../guide.html" style="--hue:#ff5ab4"><span class="lbl">&larr; Previous</span><span class="ttl" style="display:block">User guide</span></a><a class="nxt" href="getting-started.html" style="--hue:#33e0ff"><span class="lbl">Next &rarr;</span><span class="ttl" style="display:block">Getting started</span></a></div>
+</main>
+<footer class="ftr">
+  <div class="ftr-in">
+    <div class="ftr-grid">
+      <div>
+        <p class="ftr-brand">IKANDY</p>
+        <p class="ftr-note">Audio-reactive visualizer and VJ instrument for Windows 10 / 11. Core visual playback runs locally; optional online features require an internet connection.</p>
+        <p style="margin-top:18px"><a class="btn-steam" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Get IKANDY on Steam</a></p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="../guide.html">User guide</a></li>
+          <li><a href="../pricing/index.html">Pricing</a></li>
+          <li><a href="../artists.html">Artist program</a></li>
+          <li><a href="../arcade/index.html">Arcade</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Technical disclosures</h4>
+        <ul>
+          <li><a href="../ikandy-smart-auto-prior-art.html">Smart Auto prior art</a></li>
+          <li><a href="../ikandy-ai-error-sandbox.html">AI error sandbox</a></li>
+          <li><a href="../ikandy-vis-format.html">.vis format</a></li>
+          <li><a href="../scene-contract.html">Scene contract</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal + contact</h4>
+        <ul>
+          <li><a href="../privacy.html">Privacy policy</a></li>
+          <li><a href="../security.html">Security</a></li>
+          <li><a href="../license.html">License</a></li>
+          <li><a href="../eula.html">EULA</a></li>
+          <li><a href="../credits.html">Credits</a></li>
+          <li><a href="mailto:support@ikandy.app">support@ikandy.app</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ftr-plate">
+      <span>MODEL IKANDY &middot; REV 2026.2 &middot; <span class="amber">OUT NOW ON STEAM</span></span>
+      <span>Made by a human who likes loud music. &copy; 2026 L&amp;R Entertainment LLC &middot; IKANDY&trade;</span>
+    </div>
+  </div>
+</footer>
+<script src="../analytics.js" defer></script>
+<script src="../assets/site-shell.js" defer></script>
+</body>
+</html>

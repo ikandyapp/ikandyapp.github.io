@@ -191,6 +191,23 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
         <p>IKANDY is GPU-bound. If your GPU is busy with another task, frame rate will suffer.</p>
         <p>Try: step <strong>Visual Quality</strong> down (Settings, OUTPUT tab); pick a simpler scene (Spectrum or Aurora instead of Starfield); or turn off extras that each add a full-frame pass, such as <strong>God Rays</strong> or a Look (set it to <strong>Original</strong> in the Motion window).</p>
         <p>On laptops, make sure IKANDY is using the discrete GPU: <strong>Settings → System → Display → Graphics</strong>.</p>
+        <p>If the <strong>COMFORT</strong> chip shows in the bottom left corner, <a href="comfort.html">Comfort mode</a> is on, and it lowers the frame rate. Click the chip to turn it off.</p>
+      </div>
+    </details>
+
+    <details class="tr" id="comfort-blocks">
+      <summary>Parts of the picture dim in blocks, or a moving light leaves a dark trail</summary>
+      <div class="tr-body">
+        <p>That is <a href="comfort.html">Comfort mode</a> holding a flash back. It shows most on bright scenes. Comfort mode turns on by itself when Windows is set to reduce animation, and the <strong>COMFORT</strong> chip in the bottom left corner shows it is on.</p>
+        <p>To turn it off, click the chip, or choose <strong>Off</strong> in Setup, <strong>KEYS</strong>, Comfort and flashing.</p>
+      </div>
+    </details>
+
+    <details class="tr" id="too-much-flashing">
+      <summary>A scene or preset flashes too much for me</summary>
+      <div class="tr-body">
+        <p>Turn on <a href="comfort.html">Comfort mode</a> in Setup, <strong>KEYS</strong>, Comfort and flashing. It holds back fast flashing, keeps Intensity at 6 or lower and turns every Motion move off. MilkDrop and WarpField presets play as their authors made them, and some flash or move fast; Comfort mode holds them back too.</p>
+        <p>Intensity all the way down stops every reaction to the music.</p>
       </div>
     </details>
 
@@ -198,7 +215,7 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
       <summary>The app won't launch / crashes on startup</summary>
       <div class="tr-body">
         <p>Try a clean reinstall: uninstall via Settings → Apps, delete <code>%APPDATA%\IKANDY</code>, then reinstall the latest build.</p>
-        <p>If it still crashes, email <a href="mailto:support@ikandy.app" style="color:var(--ice);">support@ikandy.app</a> with your Windows version, GPU, and any error message shown.</p>
+        <p>If it still crashes, email <a href="mailto:support@ikandy.app" style="color:var(--ice);">support@ikandy.app</a> with your Windows version, GPU, and any error message shown. IKANDY 1.7 was tested on NVIDIA graphics cards only; AMD and Intel graphics cards were not tested.</p>
       </div>
     </details>
 
