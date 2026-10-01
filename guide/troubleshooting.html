@@ -102,7 +102,7 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
       <div class="tr-body">
         <p>Windows treats system audio capture the same as microphone access for privacy purposes.</p>
         <p><strong>Fix:</strong> <strong>Settings → Privacy &amp; security → Microphone</strong> → toggle <strong>Let desktop apps access your microphone</strong> on. Restart IKANDY.</p>
-        <p>If that doesn&rsquo;t help, click <strong>🎤 Reconnect Audio</strong> in <strong>Settings (⚙) → AUDIO tab</strong>.</p>
+        <p>If that doesn&rsquo;t help, click <strong>🎤 Reconnect Audio</strong> in <strong>Setup (⚙) → AUDIO tab</strong>.</p>
       </div>
     </details>
 
@@ -151,7 +151,7 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
       <summary>Why doesn't IKANDY react only to Spotify or MusicBee when I'm playing a game?</summary>
       <div class="tr-body">
         <p>By default IKANDY captures the entire system audio mix: game sound effects, Discord calls, notification pings, and music all go in together. The visualizer reacts to whichever is loudest at any given moment, which is often the game.</p>
-        <p><strong>Fix: use Per-Process Capture.</strong> Open <strong>Settings (⚙) &rarr; AUDIO tab &rarr; Per-Process Capture</strong>, click <strong>Scan</strong>, then click <strong>Capture</strong> next to Spotify or MusicBee. IKANDY will focus on that app's audio stream while the game keeps running normally.</p>
+        <p><strong>Fix: use Per-Process Capture.</strong> Open <strong>Setup (⚙) &rarr; AUDIO tab &rarr; What to visualize</strong>, click <strong>Scan for apps</strong>, then pick Spotify or MusicBee in the list. IKANDY will focus on that app's audio stream while the game keeps running normally.</p>
       </div>
     </details>
 
@@ -159,7 +159,7 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
       <summary>Visuals don't react to my music</summary>
       <div class="tr-body">
         <p>Confirm the source is connected: the console bar's Now Playing zone should show the track name and source.</p>
-        <p>Visuals react to <strong>system audio</strong> regardless of which source you&rsquo;ve picked for track info. If the visualizer is static while music plays, audio isn&rsquo;t reaching IKANDY. Click <strong>🎤 Reconnect Audio</strong> in <strong>Settings (⚙) → AUDIO tab</strong>, and check Windows microphone permissions.</p>
+        <p>Visuals react to <strong>system audio</strong> regardless of which source you&rsquo;ve picked for track info. If the visualizer is static while music plays, audio isn&rsquo;t reaching IKANDY. Click <strong>🎤 Reconnect Audio</strong> in <strong>Setup (⚙) → AUDIO tab</strong>, and check Windows microphone permissions.</p>
       </div>
     </details>
 
@@ -172,7 +172,7 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
           <li>Right-click speaker icon → <strong>Sounds → Playback</strong> tab.</li>
           <li>Right-click your active output → <strong>Configure Speakers</strong> → choose <strong>Stereo</strong>.</li>
           <li>Right-click again → <strong>Properties → Advanced</strong> → pick a 2-channel format from <strong>Default Format</strong>.</li>
-          <li>Apply, then in IKANDY hit <strong>🎤 Reconnect Audio</strong> in <strong>Settings (⚙) → AUDIO tab</strong>.</li>
+          <li>Apply, then in IKANDY hit <strong>🎤 Reconnect Audio</strong> in <strong>Setup (⚙) → AUDIO tab</strong>.</li>
         </ol>
       </div>
     </details>
@@ -189,8 +189,8 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
       <summary>Performance is choppy or stuttering</summary>
       <div class="tr-body">
         <p>IKANDY is GPU-bound. If your GPU is busy with another task, frame rate will suffer.</p>
-        <p>Try: step <strong>Visual Quality</strong> down (Settings, OUTPUT tab); pick a simpler scene (Spectrum or Aurora instead of Starfield); or turn off extras that each add a full-frame pass, such as <strong>God Rays</strong> or a Look (set it to <strong>Original</strong> in the Motion window).</p>
-        <p>On laptops, make sure IKANDY is using the discrete GPU: <strong>Settings → System → Display → Graphics</strong>.</p>
+        <p>Try: step <strong>Visual Quality</strong> down (Setup, PICTURE tab); pick a simpler scene (Spectrum or Aurora instead of Starfield); or turn off extras that each add a full-frame pass, such as <strong>God Rays</strong> or a Look (set it to <strong>Original</strong> in the Motion window).</p>
+        <p>On laptops, make sure IKANDY is using the discrete GPU: in Windows, <strong>Settings → System → Display → Graphics</strong>.</p>
         <p>If the <strong>COMFORT</strong> chip shows in the bottom left corner, <a href="comfort.html">Comfort mode</a> is on, and it lowers the frame rate. Click the chip to turn it off.</p>
       </div>
     </details>
@@ -199,14 +199,14 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
       <summary>Parts of the picture dim in blocks, or a moving light leaves a dark trail</summary>
       <div class="tr-body">
         <p>That is <a href="comfort.html">Comfort mode</a> holding a flash back. It shows most on bright scenes. Comfort mode turns on by itself when Windows is set to reduce animation, and the <strong>COMFORT</strong> chip in the bottom left corner shows it is on.</p>
-        <p>To turn it off, click the chip, or choose <strong>Off</strong> in Setup, <strong>KEYS</strong>, Comfort and flashing.</p>
+        <p>To turn it off, click the chip, or choose <strong>Off</strong> in Setup, <strong>COMFORT</strong>, Comfort and flashing.</p>
       </div>
     </details>
 
     <details class="tr" id="too-much-flashing">
       <summary>A scene or preset flashes too much for me</summary>
       <div class="tr-body">
-        <p>Turn on <a href="comfort.html">Comfort mode</a> in Setup, <strong>KEYS</strong>, Comfort and flashing. It holds back fast flashing, keeps Intensity at 6 or lower and turns every Motion move off. MilkDrop and WarpField presets play as their authors made them, and some flash or move fast; Comfort mode holds them back too.</p>
+        <p>Turn on <a href="comfort.html">Comfort mode</a> in Setup, <strong>COMFORT</strong>, Comfort and flashing. It holds back fast flashing, keeps Intensity at 6 or lower and turns every Motion move off. MilkDrop and WarpField presets play as their authors made them, and some flash or move fast; Comfort mode holds them back too.</p>
         <p>Intensity all the way down stops every reaction to the music.</p>
       </div>
     </details>
@@ -214,8 +214,9 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
     <details class="tr">
       <summary>The app won't launch / crashes on startup</summary>
       <div class="tr-body">
-        <p>Try a clean reinstall: uninstall via Settings → Apps, delete <code>%APPDATA%\IKANDY</code>, then reinstall the latest build.</p>
-        <p>If it still crashes, email <a href="mailto:support@ikandy.app" style="color:var(--ice);">support@ikandy.app</a> with your Windows version, GPU, and any error message shown. IKANDY 1.7 was tested on NVIDIA graphics cards only; AMD and Intel graphics cards were not tested.</p>
+        <p>On a new install, IKANDY opens about two seconds after you accept the license. On that first launch only, Now Playing, logos, pets and lyrics can arrive a little later; every later launch has them at once.</p>
+        <p>Try a clean reinstall: uninstall via Windows Settings → Apps, delete <code>%APPDATA%\IKANDY</code>, then reinstall the latest build.</p>
+        <p>If it still crashes, email <a href="mailto:support@ikandy.app" style="color:var(--ice);">support@ikandy.app</a> with your Windows version, GPU, and any error message shown. If IKANDY opens, press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>D</kbd> to save a diagnostic file for support and attach it. IKANDY 1.7 was tested on NVIDIA graphics cards only; AMD and Intel graphics cards were not tested.</p>
       </div>
     </details>
 

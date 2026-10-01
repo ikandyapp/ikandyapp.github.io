@@ -78,10 +78,10 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
   <h3>Set it up</h3>
   <ol class="steps">
     <li>In Windows, open <strong>Settings, System, Display</strong>, pick the HDR monitor and turn on <strong>Use HDR</strong>. Without this, Windows hands IKANDY a standard screen.</li>
-    <li>In IKANDY, open <strong>Settings</strong> and the <strong>About</strong> tab. <strong>HDR output</strong> is on by default when an HDR display is detected. Read the status line under the switch: it names exactly why the current frame is or is not in HDR, and which destinations are receiving it.</li>
+    <li>In IKANDY, open <strong>Setup</strong> and the <strong>PICTURE</strong> tab. <strong>HDR output</strong> is on by default when an HDR display is detected. Read the status line under the switch: it names exactly why the current frame is or is not in HDR, and which destinations are receiving it.</li>
     <li><strong>HDR headroom</strong> sets how far highlights may rise above white: 1.5x, 2x, 3x or 4x. 2x suits most displays. Try 3x or 4x on a bright panel and step back down if it feels like too much. The cap is 4x for viewing comfort.</li>
     <li><strong>Wide gamut output</strong> turns on by itself when the display reports Display P3. Leave it on: the SDR show presents in P3, colors stay exact on every display, and feeds and recordings stay sRGB.</li>
-    <li>On a 4K display, open the <strong>Output</strong> tab and set <strong>Visual Quality</strong> to HIGH or ULTRA so the GPU worlds render at the panel's native size. AUTO picks a tier from your GPU.</li>
+    <li>On a 4K display, set <strong>Visual Quality</strong>, on the same <strong>PICTURE</strong> tab, to HIGH or ULTRA so the GPU worlds render at the panel's native size. AUTO picks a tier from your GPU.</li>
     <li>HDR output and headroom apply on the next frame. Turning HDR output on or off also changes the canvas format, and that part takes effect on the next launch.</li>
   </ol>
 
@@ -95,7 +95,7 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
   </ul>
 
   <h3>Record in 10 bit</h3>
-  <p>In the <strong>Output</strong> tab, under Rolling replay, pick a <strong>Recording dynamic range</strong>: SDR, SDR 10 BIT, HDR PQ or HDR HLG. SDR 10 bit writes 10 bit WebM with BT.709 color from the full precision show frame, so smooth gradients keep 1024 levels instead of 256. The HDR options write 10 bit WebM with BT.2020 color: PQ for HDR mastering, HLG for broadcast workflows. Changing the range restarts the replay buffer. If the encoder cannot do HDR, IKANDY says so instead of silently writing SDR.</p>
+  <p>In Setup, on the <strong>OUTPUT</strong> tab, under Rolling replay, pick a <strong>Recording dynamic range</strong>: SDR, SDR 10 BIT, HDR PQ or HDR HLG. SDR 10 bit writes 10 bit WebM with BT.709 color from the full precision show frame, so smooth gradients keep 1024 levels instead of 256. The HDR options write 10 bit WebM with BT.2020 color: PQ for HDR mastering, HLG for broadcast workflows. Changing the range restarts the replay buffer. If the encoder cannot do HDR, IKANDY says so instead of silently writing SDR.</p>
 
   <div class="callout tip">
     <span class="callout-label">Comfort</span>

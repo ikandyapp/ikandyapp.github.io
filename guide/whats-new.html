@@ -93,9 +93,11 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
 <li>Every knob on the console is one setting for every scene: set Bass, Speed or Bloom once and it stays as you move between scenes.</li>
 <li>God Rays and LUT work the same way: one setting for every scene, off until you turn it on, and on Auto the first time you do. An adjustment carries to the next scene until you click Auto again.</li>
 <li>Presets have been wiped, because your old ones were tuned for IKANDY as it was. The preset you pick or save on a scene opens with that scene from then on, until you pick another; a small dot marks it. Scenes without a preset play your own settings. <a href="controls.html#presets">How presets work</a>.</li>
+<li>A preset saves every knob, Intensity, God Rays, LUT, the Look and Motion, but not the MilkDrop and WarpField scene knobs, which are one setting per engine. Particles, Emitter, Coupling and Persist are one setting shared by both.</li>
+<li>Switch presets Off with the switch beside the Presets label and every scene opens on your own settings; your saved presets are kept for when you switch them back On.</li>
 <li>The Lock and Pin are gone: every knob now works the way the Lock did. If you had the Lock on, its values are now your settings for every scene.</li>
 <li>A preset never raises Intensity when it is all the way down, where nothing reacts, whatever you load.</li>
-<li>To start over, open Setup, <strong>AUDIO</strong>, Console settings and press <strong>Reset console settings</strong>. Right click a knob to reset just that one.</li>
+<li>To start over, press <strong>MOTION</strong> on the console and, under <strong>Console knobs</strong>, press <strong>Reset console settings</strong>: every knob goes back to IKANDY&rsquo;s defaults, and Intensity, God Rays, LUT, the Look, Motion and your presets stay as they are. Right click a knob to reset just that one.</li>
 </ul>
 </section>
 
@@ -116,6 +118,7 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
 <li>Imported shaders no longer speed up and slow down with every bass note: their pace follows the song, quicker in a drop and slower in a breakdown.</li>
 <li>With a Look on, the rings of light it sends out on the beat are born at least a third of a second apart.</li>
 <li>When the picture goes to an audience (Span, the Output window or mirror, Spout and NDI, the wallpaper, or recordings and replay), Motion stays inside its standard range.</li>
+<li>The <a href="motion.html">Motion window</a> opens from MOTION on the console and is Pro and Studio. Every plan can switch the moves off: Setup, <strong>COMFORT</strong>, <strong>Motion moves</strong> turns Swell, Drift and any moves you added off and back on.</li>
 </ul>
 </section>
 
@@ -129,10 +132,29 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
 </ul>
 </section>
 
+<section id="pilot">
+<h2>PILOT</h2>
+<ul class="include-list">
+<li>PILOT no longer plays games or 3D worlds: Slingshot, One Small Step, the 3D Worlds, the LUMINAL realm showcases and the flown 3D fractals on the AI shelf stay out of its show on every plan, and so do your own saved scenes built on them. A pool you build yourself, such as Favorites, still plays exactly what you put in it. Everything is still one click away in the library.</li>
+<li>The back arrow in PILOT takes you to what PILOT showed before, step by step. Next and R pick the way PILOT&rsquo;s own switch does, so they no longer bring back something you saw a few minutes ago.</li>
+<li>A cleared LUMINAL realm&rsquo;s showcase joins your library.</li>
+</ul>
+</section>
+
+<section id="setup">
+<h2>Setup, the keys and the first launch</h2>
+<ul class="include-list">
+<li>The workspace is called Setup, and its pages are AUDIO, PICTURE, COMFORT, OUTPUT, KEYS, PROFILE, PRIVACY, ABOUT and DEBUG.</li>
+<li>Visual Quality, Highlights, the FPS Counter, HDR and wide gamut are together on PICTURE. Comfort mode, Who is watching each output, Motion moves and Screen readers are on COMFORT, free on every plan. UI Size is on OUTPUT.</li>
+<li>The KEYS page shows PRO or STUDIO beside the keys that open a feature above your plan, and lists <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>D</kbd>, which saves a diagnostic file for support. <kbd>Esc</kbd> closes menus and leaves span.</li>
+<li>On a new install, IKANDY opens about two seconds after you accept the license. On that first launch only, Now Playing, logos, pets and lyrics can arrive a little later; every later launch has them at once.</li>
+</ul>
+</section>
+
 <section id="comfort">
 <h2>Comfort and flashing</h2>
 <ul class="include-list">
-<li>New: <a href="comfort.html">Comfort mode</a>, in Setup on the KEYS page under Comfort and flashing. While it is on, IKANDY holds back fast flashing, measured against WCAG 2.3.1 and ITU-R BT.1702, keeps Intensity at 6 or lower and turns every Motion move off. It turns on by itself when Windows is set to reduce animation.</li>
+<li>New: <a href="comfort.html">Comfort mode</a>, in Setup on the COMFORT page under Comfort and flashing. While it is on, IKANDY holds back fast flashing, measured against WCAG 2.3.1 and ITU-R BT.1702, keeps Intensity at 6 or lower and turns every Motion move off. It turns on by itself when Windows is set to reduce animation.</li>
 <li>With Comfort mode off, scenes play as they were made: IKANDY measures their flashing but does not hold it back.</li>
 <li>MilkDrop and WarpField presets play as their authors made them, and some flash or move fast. Comfort mode holds them back.</li>
 <li>The photosensitivity warning at first start names Comfort mode and has a Continue with Comfort mode on button.</li>
@@ -144,6 +166,7 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
 <section id="more">
 <h2>HDR, sound and privacy</h2>
 <ul class="include-list">
+<li>Picture settings live together in Setup, <strong>PICTURE</strong>: Visual Quality, Highlights, FPS Counter, HDR output and headroom, Wide gamut output and MilkDrop per-pixel warp. <a href="hdr.html">HDR and 4K</a>.</li>
 <li>On an HDR display, built-in scenes no longer look darker than on a standard screen: the shadows and midtones now match it, and only the highlights rise into HDR.</li>
 <li>When Smart Auto moves from your whole system&rsquo;s sound to the one app playing music, the visuals keep hearing the music through the switch instead of dropping out for a moment.</li>
 <li>Crash reports no longer include the title, artist or album of the song you are playing.</li>
