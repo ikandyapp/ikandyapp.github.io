@@ -87,6 +87,18 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
   <h1>What&rsquo;s new in 1.7: Alive</h1>
   <p class="wiki-lead">IKANDY 1.7 makes every knob on the console one setting for every scene and gives presets a fresh start, turns Bass, Mid and Treble into color knobs for every scene, puts Motion on the beat&rsquo;s hit, and adds Comfort mode, which holds fast flashing back for anyone who wants it.</p>
 
+  <section id="v171">
+  <h2>1.7.1: pick your own name</h2>
+  <ul class="include-list">
+  <li>Pick your own name on the welcome card, or later in Setup, <strong>PROFILE</strong>, <strong>Change name</strong>. Your number and Author ID never change. <a href="getting-started.html#your-name">The name rules</a>.</li>
+  <li>Comfort mode is now off unless you turn it on, in Setup, <strong>COMFORT</strong> or with <strong>Continue with Comfort mode on</strong> at the first start. It no longer follows the Windows animation setting.</li>
+  <li>MilkDrop .milk files import again.</li>
+  <li>Imported shaders lower their detail by themselves to stay smooth, and keep your own Detail setting when you set one. They stay sharp in span.</li>
+  <li>IKANDY&rsquo;s compute scenes and WarpField scenes no longer draw a black live wallpaper on PCs whose wallpaper runs in standard 8-bit color, as some AMD graphics cards do.</li>
+  <li>A crash fixed: IKANDY no longer closes when listening to one app&rsquo;s audio fails to start. The app&rsquo;s engine is updated to Electron 42.11.10 for stability and security fixes.</li>
+  </ul>
+  </section>
+
 <section id="one-setting">
 <h2>One setting, every scene</h2>
 <ul class="include-list">
@@ -154,7 +166,7 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
 <section id="comfort">
 <h2>Comfort and flashing</h2>
 <ul class="include-list">
-<li>New: <a href="comfort.html">Comfort mode</a>, in Setup on the COMFORT page under Comfort and flashing. While it is on, IKANDY holds back fast flashing, measured against WCAG 2.3.1 and ITU-R BT.1702, keeps Intensity at 6 or lower and turns every Motion move off. It turns on by itself when Windows is set to reduce animation.</li>
+<li>New: <a href="comfort.html">Comfort mode</a>, in Setup on the COMFORT page under Comfort and flashing. While it is on, IKANDY holds back fast flashing, measured against WCAG 2.3.1 and ITU-R BT.1702, keeps Intensity at 6 or lower and turns every Motion move off. It is off until you turn it on (since 1.7.1 it no longer follows the Windows animation setting).</li>
 <li>With Comfort mode off, scenes play as they were made: IKANDY measures their flashing but does not hold it back.</li>
 <li>MilkDrop and WarpField presets play as their authors made them, and some flash or move fast. Comfort mode holds them back.</li>
 <li>The photosensitivity warning at first start names Comfort mode and has a Continue with Comfort mode on button.</li>
@@ -177,7 +189,7 @@ footer.ftr{display:block!important;text-align:left!important;padding:0!important
 <h2>Known limits</h2>
 <ul class="include-list">
 <li>Psytrance Flow Prime, Psytrance Current and Vibe Lab Hyperbolic Bloom still flash at the default settings on their own, Synthwave Waveform can when the Look is set to Original, and the One Small Step moon can on its first view after you start IKANDY. Comfort mode holds them back.</li>
-<li>Comfort mode dims blocks of the picture where it holds a flash back, which shows most on bright scenes, and it lowers the frame rate. It is off unless you turn it on or Windows is set to reduce animation effects; click the COMFORT chip to turn it off.</li>
+<li>Comfort mode dims blocks of the picture where it holds a flash back, which shows most on bright scenes, and it lowers the frame rate. It is off unless you turn it on; click the COMFORT chip to turn it off.</li>
 <li>Speed: the color effect adds about one millisecond a frame at 4K on an RTX 2080 Ti class card. Measured against 1.6.23 on the same machine, every engine runs level except MilkDrop presets, which can run one step slower on very high refresh displays.</li>
 <li>This release was tested on NVIDIA graphics cards only; AMD and Intel graphics cards were not tested.</li>
 </ul>
