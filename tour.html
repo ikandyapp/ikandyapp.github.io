@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self'; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://*.google-analytics.com https://*.googletagmanager.com; media-src 'self' blob:; frame-src https://www.youtube-nocookie.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+<!-- Consent-based website analytics are managed by analytics.js; Google Analytics is not loaded before opt-in. -->
+<script src="assets/analytics-bootstrap.js"></script>
+<script defer src="analytics.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>IKANDY 1.8.13 Tour</title>
+<link rel="canonical" href="https://ikandy.app/tour">
+<meta name="description" content="What changed in IKANDY 1.8.13: clearer controls, a crisper picture, and Motion on Free and Pro.">
+<meta name="robots" content="noindex,follow">
+<link rel="stylesheet" href="assets/fonts.css">
+<link rel="stylesheet" href="assets/ik.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #ff5a1f;
+    --neon: #ff5a1f;
+    --green: #46d96b;
+    --ice: #ff8a52;
+    --bg: #0e0e11;
+    --bg2: #17171b;
+    --txt: #eae5d9;
+    --dim: rgba(255,255,255,.45);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--txt);
+    font-family: 'Archivo', sans-serif;
+    overflow-x: hidden;
+    cursor: crosshair;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: .4;
+  }
+
+
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 48px;
+    background: rgba(0,0,0,.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    flex-wrap: wrap;
+  }
+
+  .nav-logo {
+    font-family: 'Big Shoulders', sans-serif;
+    font-size: 28px;
+    letter-spacing: .15em;
+    color: var(--gold);
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 36px; height: 36px;
+    background: none; border: none;
+    cursor: pointer; padding: 4px; flex-shrink: 0;
+  }
+  .nav-toggle span {
+    display: block; width: 22px; height: 2px;
+    background: var(--gold); border-radius: 2px;
+    transition: transform .25s, opacity .25s;
+    transform-origin: center;
+  }
+  .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2) { opacity: 0; }
+  .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
+  .nav-links a {
+    font-family: 'Martian Mono', monospace;
+    font-size: 11px; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--dim, rgba(255,255,255,.45));
+    text-decoration: none; transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-links a.active { color: var(--cyan, #ff5a1f); }
+
+  @media (max-width: 860px) {
+    nav { padding: 16px 24px; }
+    .nav-toggle { display: flex; }
+    .nav-links {
+      display: none; flex-direction: column; align-items: flex-start;
+      gap: 0; width: 100%; padding: 12px 0 16px;
+      border-top: 1px solid rgba(255,255,255,.06); margin-top: 12px;
+    }
+    .nav-links.open { display: flex; }
+    .nav-links li { width: 100%; }
+    .nav-links a {
+      display: block; padding: 10px 4px; font-size: 13px;
+      border-bottom: 1px solid rgba(255,255,255,.04);
+    }
+    .nav-links li:last-child a { border-bottom: none; }
+  }
+
+  main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 130px 48px 80px;
+  }
+
+  .rejoin-card {
+    width: 100%;
+    max-width: 560px;
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.02);
+    padding: 56px 48px;
+  }
+
+  .card-tag {
+    font-family: 'Martian Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 18px;
+  }
+
+  .card-title {
+    font-family: 'Big Shoulders', sans-serif;
+    font-size: clamp(48px, 7vw, 72px);
+    line-height: .9;
+    letter-spacing: .04em;
+    background: linear-gradient(135deg, #eae5d9 0%, var(--gold) 50%, var(--ice) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 24px;
+  }
+
+  .card-lead {
+    font-size: 15px;
+    color: rgba(255,255,255,.7);
+    line-height: 1.65;
+    margin-bottom: 36px;
+  }
+
+  .field-label {
+    display: block;
+    font-family: 'Martian Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+
+  .field-input {
+    width: 100%;
+    background: rgba(0,0,0,.5);
+    border: 1px solid rgba(255,255,255,.1);
+    color: var(--txt);
+    font-family: 'Martian Mono', monospace;
+    font-size: 13px;
+    padding: 14px 16px;
+    border-radius: 4px;
+    margin-bottom: 24px;
+    transition: border-color .2s, background .2s;
+    letter-spacing: .02em;
+  }
+  .field-input:focus {
+    outline: none;
+    border-color: var(--gold);
+    background: rgba(0,0,0,.7);
+  }
+  .field-input::placeholder { color: rgba(255,255,255,.25); }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 16px 32px;
+    background: var(--gold);
+    color: var(--bg);
+    font-family: 'Martian Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background .2s, transform .15s, opacity .2s;
+  }
+  .btn-primary:hover:not(:disabled) {
+    background: #ff8a52;
+    transform: translateY(-1px);
+  }
+  .btn-primary:disabled {
+    opacity: .35;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .status-line {
+    margin-top: 20px;
+    font-family: 'Martian Mono', monospace;
+    font-size: 12px;
+    color: var(--dim);
+    text-align: center;
+    min-height: 18px;
+    transition: color .2s;
+    line-height: 1.6;
+  }
+  .status-line.success { color: var(--green); }
+  .status-line.error { color: var(--neon); }
+  .status-line.busy { color: var(--ice); }
+
+  .result-box {
+    margin-top: 36px;
+    padding: 28px;
+    border: 1px solid rgba(29,185,84,.3);
+    background: rgba(29,185,84,.05);
+    display: none;
+  }
+  .result-box.error {
+    border-color: rgba(255,45,138,.3);
+    background: rgba(255,45,138,.05);
+  }
+  .result-box.visible { display: block; }
+
+  .result-title {
+    font-family: 'Big Shoulders', sans-serif;
+    font-size: 22px;
+    letter-spacing: .08em;
+    color: var(--green);
+    margin-bottom: 10px;
+  }
+  .result-box.error .result-title { color: var(--neon); }
+
+  .result-body {
+    font-size: 14px;
+    color: rgba(255,255,255,.75);
+    line-height: 1.6;
+  }
+  .result-body code {
+    background: rgba(0,0,0,.4);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 12px;
+  }
+
+  .help-link {
+    display: block;
+    margin-top: 32px;
+    text-align: center;
+    font-family: 'Martian Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--dim);
+    text-decoration: none;
+    transition: color .2s;
+  }
+  .help-link:hover { color: var(--gold); }
+
+  footer {
+    border-top: 1px solid rgba(255,255,255,.06);
+    padding: 32px 48px;
+    text-align: center;
+  }
+  .footer-copy {
+    font-family: 'Martian Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .15em;
+    color: var(--dim);
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 600px) {
+    nav { padding: 16px 24px; }
+    .nav-links { gap: 18px; }
+    main { padding: 110px 20px 40px; }
+    .rejoin-card { padding: 40px 28px; }
+  }
+</style>
+
+<style>
+/* THE RIG reskin overrides (appended after page styles) */
+body{background:var(--chassis)!important;color:var(--ink);padding-top:var(--nav-h)!important}
+h1,h2{font-weight:800!important}
+h3{font-weight:700!important}
+code,pre,kbd{font-family:var(--mono)}
+/* neutralize legacy element-level nav/footer rules leaking into the shell */
+nav.rail{position:fixed!important;top:0!important;left:0!important;right:0!important;
+  display:block!important;padding:0!important;margin:0!important;height:var(--nav-h)!important;
+  background:linear-gradient(180deg,#191920,var(--rail))!important;
+  border-bottom:1px solid #000!important;backdrop-filter:none!important;max-width:none!important}
+nav.rail .rail-in{max-width:var(--maxw);margin:0 auto;height:100%;padding:0 24px;
+  display:flex;align-items:center;gap:22px}
+footer.ftr{display:block!important;text-align:left!important;padding:0!important;margin:0!important;
+  background:var(--chassis-deep)!important;border-top:1px solid #000!important;max-width:none!important}
+footer.ftr a{text-decoration:none}
+.tour-list{list-style:none;display:flex;flex-direction:column;gap:14px;margin:8px 0 28px;text-align:left;line-height:1.6}
+.tour-list li{padding-left:16px;border-left:2px solid var(--gold)}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<nav class="rail" aria-label="Main">
+  <div class="rail-in">
+    <a class="rail-logo" href="index.html"><span class="rail-led" aria-hidden="true"></span>IKANDY</a>
+    <button class="rail-toggle" aria-label="Menu">MENU</button>
+    <div class="rail-links">
+      <a href="index.html#rooms">Who it's for</a>
+      <a href="index.html#spec">Engine</a>
+      <a href="pricing/index.html">Pricing</a>
+      <a href="guide.html">Guide</a>
+      <a href="artists.html">Artists</a>
+    </div>
+    <div class="rail-cta-group"><a class="btn-steam rail-cta" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Get IKANDY on Steam</a><span class="rail-beta-note">Free to play</span></div>
+  </div>
+</nav>
+
+<main id="main-content">
+
+  <div class="rejoin-card">
+    <p class="card-tag">IKANDY 1.8.13</p>
+    <h1 class="card-title">The 1.8.13 tour</h1>
+    <p class="card-lead">A 90 second video tour is on its way. Until it lands, here is what changed.</p>
+
+    <ul class="tour-list">
+      <li><b>Every knob does one thing.</b> Bass, Mid and Treble set how strongly a scene reacts to each band and how big the moves on that band are: 0 off, 1 normal, 2 double. Speed sets how fast every scene moves, MilkDrop included.</li>
+      <li><b>Smooth is now Response.</b> It sets how the picture follows the music, from snappy to flowing, and now reaches MilkDrop presets too.</li>
+      <li><b>Sensitivity moved to Setup, under Audio.</b> It sets how loud the music is before IKANDY listens and never changes what you hear. Your setting came with it.</li>
+      <li><b>Motion.</b> Press Motion in the console. Free plays Swell, Swirl and Warp. Pro adds Punch, Bounce, Drift, Speaker, Water Ripple, Palette Shift and Embers, with your choice of knob and amount for each.</li>
+      <li><b>Light-Sync works on every scene,</b> with or without a Look.</li>
+      <li><b>A crisper picture.</b> WarpField looks like Geiss HDR again, full size frames stay sharp, and no bloom, vignette, colour fringing or light trails appear unless you or a Look ask for them.</li>
+    </ul>
+
+    <p class="card-lead">In IKANDY, press F1 any time for the full guide.</p>
+
+    <a class="btn-primary" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">IKANDY on Steam</a>
+
+    <a href="mailto:support@ikandy.app?subject=IKANDY 1.8.13" class="help-link">Questions? Email support &rarr;</a>
+  </div>
+
+</main>
+
+<footer class="ftr">
+  <div class="ftr-in">
+    <div class="ftr-grid">
+      <div>
+        <p class="ftr-brand">IKANDY</p>
+        <p class="ftr-note">Audio-reactive visualizer and VJ instrument for Windows 10 / 11. Core visual playback runs locally; optional online features require an internet connection.</p>
+        <p style="margin-top:18px"><a class="btn-steam" href="https://store.steampowered.com/app/4813240/IKANDY/" target="_blank" rel="noopener">Get IKANDY on Steam</a></p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="guide.html">User guide</a></li>
+          <li><a href="pricing/index.html">Pricing</a></li>
+          <li><a href="artists.html">Artist program</a></li>
+          <li><a href="arcade/index.html">Arcade</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Technical disclosures</h4>
+        <ul>
+          <li><a href="ikandy-smart-auto-prior-art.html">Smart Auto prior art</a></li>
+          <li><a href="ikandy-ai-error-sandbox.html">AI error sandbox</a></li>
+          <li><a href="ikandy-vis-format.html">.vis format</a></li>
+          <li><a href="scene-contract.html">Scene contract</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal + contact</h4>
+        <ul>
+          <li><a href="privacy.html">Privacy policy</a></li>
+          <li><a href="security.html">Security</a></li>
+          <li><a href="license.html">License</a></li>
+          <li><a href="eula.html">EULA</a></li>
+          <li><a href="credits.html">Credits</a></li>
+          <li><a href="mailto:support@ikandy.app">support@ikandy.app</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ftr-plate">
+      <span>MODEL IKANDY &middot; REV 2026.2 &middot; <span class="amber">OUT NOW ON STEAM</span></span>
+      <span>Made by a human who likes loud music. &copy; 2026 L&amp;R Entertainment LLC &middot; IKANDY&trade;</span>
+    </div>
+  </div>
+</footer>
+<script src="assets/site-shell.js" defer></script>
+
+
+
+</body>
+</html>
