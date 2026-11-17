@@ -1,7 +1,6 @@
-# AI crawlers, AI training and AI answer engines: not allowed anywhere on this site.
+# AI training crawlers and AI answer engines: not allowed anywhere on this site.
+# ChatGPT search and browsing (OAI-SearchBot, ChatGPT-User) are allowed: they send visitors here.
 User-agent: GPTBot
-User-agent: OAI-SearchBot
-User-agent: ChatGPT-User
 User-agent: ClaudeBot
 User-agent: Claude-User
 User-agent: Claude-SearchBot
